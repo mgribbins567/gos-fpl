@@ -1,0 +1,83 @@
+.headingLg {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.headingMd {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.subtitle {
+  color: rgb(245, 245, 245);
+  font-size: 1.2rem;
+  padding: 0 0 4rem;
+}
+
+.padding1px {
+  padding-top: 1px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  padding: 0.5rem 4rem 0.5rem;
+  margin: 2rem 0 2rem;
+  border-style: groove;
+  width: 32rem;
+  border-color: rgb(218, 171, 45);
+  background-color: rgb(40, 40, 40);
+}
+
+.lightText {
+  color: rgb(245, 245, 245);
+  font-size: 0.9rem;
+}
+
+.lightTextDate {
+  padding: 0 2rem 0;
+  color: rgb(245, 245, 245);
+  font-size: 0.9rem;
+}
+
+.lightTextItalics {
+  color: rgb(245, 245, 245);
+  font-style: italic;
+}
+
+.about {
+  padding: 0 15rem 2rem;
+  text-align: center;
+}
+
+.posts {
+  padding: 1rem 6rem 1rem;
+  margin-right: 15%;
+}
+
+.postsHeader {
+  padding: 0 6rem 0;
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
+}
+
+.postsDate {
+  padding: 0 6rem;
+  color: rgb(245, 245, 245);
+  font-size: 0.9rem;
+}
+
+.postsPanel {
+  position: fixed;
+  top: 12rem;
+  right: 2rem;
+  border: 1px solid;
+  padding: 1rem 1rem 1rem;
+}

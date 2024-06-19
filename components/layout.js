@@ -1,0 +1,28 @@
+import styles from "./layout.module.css";
+import Head from "next/head";
+import Link from "next/link";
+
+export const siteTitle = "Game of Stones";
+
+export default function Layout({ children, home }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <link rel="icon" href="/images/soccer_ball.jpg" />
+        <meta name="description" content="Game of Stones website" />
+        <meta name="og:title" content={siteTitle} />
+      </Head>
+      <header className={styles.topnav}>
+        <Link href="/">Home</Link>
+        <Link href="/blog">Blogs</Link>
+        <Link href="/about">About</Link>
+      </header>
+      <main className={styles.main}>{children}</main>
+      {!home && (
+        <div className={styles.backToHome}>
+          <Link href="/">← Back to Home</Link>
+        </div>
+      )}
+    </div>
+  );
+}

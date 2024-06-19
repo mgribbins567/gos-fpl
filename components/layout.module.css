@@ -1,0 +1,42 @@
+.container {
+  max-width: auto;
+  margin: 0 auto 6rem;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backToHome {
+  text-align: center;
+  padding: 3rem;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  display: flex;
+  align-items: center;
+  background-color: rgb(218, 171, 45);
+  padding: 0 2rem;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: black;
+  padding: 0 1rem;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: rgb(198, 151, 25);
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #04aa6d;
+  color: white;
+}
