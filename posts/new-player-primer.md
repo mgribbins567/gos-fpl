@@ -31,25 +31,28 @@ img {
 .sidenav a {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   text-decoration: none;
-  font-size: 1rem;
   color: #FFFFFF;
   display: block;
 }
 .sidenav b {
   padding: 0.5rem 0.5rem 0.5rem 1rem;
   text-decoration: none;
-  font-size: 1rem;
   display: block;
   border-bottom: 1px solid;
 }
 .sidenav a:hover {
   color: #B3B3B3;
 }
+@media only screen and (max-width: 530px) {
+    #sidenav {
+        display: none;
+    }
+}
 </style>
 
 ---
 
-<div class="sidenav">
+<div class="sidenav" id="sidenav">
 <b>Quick Access</b>
 <a href="#table-of-contents">Table of Contents</a>
 <a href="#the-basics">The Basics</a>
