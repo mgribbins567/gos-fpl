@@ -36,7 +36,6 @@ export default function Post({ postData }) {
           className={utilStyles.posts}
           dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
         />
-        {/* <div className={utilStyles.postsPanel}> words words words </div> */}
       </article>
     </Layout>
   );

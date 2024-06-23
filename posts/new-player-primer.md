@@ -5,6 +5,9 @@ summary: "Guide to all things Fantasy Premier League and Game of Stones!"
 ---
 
 <style>
+body {
+    margin-right: 15%; 
+}
 table, th, td {
     table-layout: fixed;
     border-collapse: collapse;
@@ -43,7 +46,7 @@ img {
 .sidenav a:hover {
   color: #B3B3B3;
 }
-@media only screen and (max-width: 530px) {
+@media only screen and (max-width: 1100px) {
     #sidenav {
         display: none;
     }
