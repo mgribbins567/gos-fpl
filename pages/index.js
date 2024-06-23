@@ -7,7 +7,7 @@ import Date from "../components/date";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
-  var post = 0;
+  var post = allPostsData.length - 4;
   const featuredPost = allPostsData.slice(post, post + 1);
   allPostsData.length = 3;
   return {
