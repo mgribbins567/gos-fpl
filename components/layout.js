@@ -15,6 +15,7 @@ export default function Layout({ children, home }) {
       <header className={styles.topnav}>
         <Link href="/">Home</Link>
         <Link href="/blog">Blogs</Link>
+        {/* <Link href="/history">History</Link> */}
         <Link href="/about">About</Link>
       </header>
       <main className={styles.main}>{children}</main>

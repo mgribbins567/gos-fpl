@@ -81,3 +81,12 @@
   border: 1px solid;
   padding: 1rem 1rem 1rem;
 }
+
+.historyTable {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid;
+  padding: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
