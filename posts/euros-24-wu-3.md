@@ -48,13 +48,13 @@ In terms of our league, Zach keeps his top spot with the highest point tally of 
 | Position | Manager  | Points | MD1 | MD2 | MD3 |
 | :------- | :------- | :----- | :-- | :-- | :-- |
 | 1        | Zach     | 175    | 71  | 53  | 51  |
-| 3        | MatthewR | 165    | 67  | 48  | 50  |
-| 2        | Matthew  | 154    | 56  | 66  | 32  |
-| 7        | Darryan  | 151    | 51  | 51  | 49  |
+| 2        | MatthewR | 165    | 67  | 48  | 50  |
+| 3        | Matthew  | 154    | 56  | 66  | 32  |
+| 4        | Darryan  | 151    | 51  | 51  | 49  |
 | 5        | Kevin    | 150    | 41  | 69  | 40  |
 | 6        | Matt     | 149    | 53  | 57  | 43  |
-| 8        | Dylan    | 148    | 57  | 44  | 47  |
-| 4        | Luke     | 147    | 46  | 72  | 33  |
+| 7        | Dylan    | 148    | 57  | 44  | 47  |
+| 8        | Luke     | 147    | 46  | 72  | 33  |
 | 9        | Coop     | 135    | 44  | 55  | 36  |
 | 10       | Emily    | 106    | 43  | 30  | 33  |
 
