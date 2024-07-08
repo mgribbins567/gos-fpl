@@ -53,7 +53,7 @@ Quarterfinals
 - Netherlands vs Turkey
 - England vs Switzerland
 
-The quarterfinal matchups have played out (mostly) as expected, with my tournament favorite Spain taking on host country Germany and the winner squaring off against the victor between France and Portugal. Meanwhile, Netherlands looked good in their win against Romania and is rewarded with what will surely be a chaotic match against Turkey and a solid Switzerland side takes on a limping, confused England team.
+The round of 16 matchups have played out (mostly) as expected, with my tournament favorite Spain taking on host country Germany and the winner squaring off against the victor between France and Portugal. Meanwhile, Netherlands looked good in their win against Romania and is rewarded with what will surely be a chaotic match against Turkey and a solid Switzerland side takes on a limping, confused England team.
 
 In terms of our league, Zach continues his pace with an 84 point week and extends his lead to 15 points, led by Man of the Match performances from Gakpo and Rodri and a solid 18 points from his captain Musiala. I have jumped up to 2nd off a league-high 90 point haul led by Gakpo as well and a Man of the Match performance from Jules Kounde. My captain Nico Williams also picked up 20 points as I bounce back from a 32 point week. I sit just 11 points over Matt, who has put up an impressive 84 points in a bid to enter the mix.
 
