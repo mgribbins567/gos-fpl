@@ -69,17 +69,17 @@ This looks to be a great matchup between a side that's good on paper and a side 
 
 In terms of our league, Zach retains the lead after faultering slightly this week. He now sits at a total of 342 points after a 31 point performance this matchweek, keeping a distance of 11 points above myself on 331. I had a league-high 43 points off the back of a 10 pointer from captain Mbappe, 8 points from 'arry Kane, and 7 points off the back of the flip-flop goal from Dani Olmo. Further down, MatthewR holds onto his spot in 3rd, with Luke sitting just 5 points behind after his 41 pointer.
 
-| Position | Manager  | Points | MD1 | MD2 | MD3 | MD4 | MD5 | MD 6 |
-| :------- | :------- | :----- | :-- | :-- | :-- | :-- | :-- | :--- |
-| 1        | Zach     | 342    | 71  | 53  | 51  | 84  | 52  | 31   |
-| 2        | Matthew  | 331    | 56  | 66  | 32  | 90  | 44  | 43   |
-| 3        | MatthewR | 302    | 67  | 48  | 50  | 59  | 40  | 38   |
-| 4        | Luke     | 297    | 46  | 72  | 33  | 65  | 44  | 41   |
-| 5        | Matt     | 296    | 53  | 57  | 43  | 84  | 26  | 37   |
-| 6        | Darryan  | 282    | 51  | 51  | 49  | 73  | 34  | 24   |
-| 7        | Coop     | 273    | 44  | 55  | 36  | 75  | 44  | 35   |
-| 8        | Dylan    | 251    | 57  | 44  | 47  | 58  | 36  | 9    |
-| 9        | Kevin    | 230    | 41  | 69  | 40  | 44  | 25  | 11   |
-| 10       | Emily    | 212    | 43  | 30  | 33  | 48  | 44  | 14   |
+| Position | Manager  | Points | MD1 | MD2 | MD3 | MD4 | MD5 | MD6 |
+| :------- | :------- | :----- | :-- | :-- | :-- | :-- | :-- | :-- |
+| 1        | Zach     | 342    | 71  | 53  | 51  | 84  | 52  | 31  |
+| 2        | Matthew  | 331    | 56  | 66  | 32  | 90  | 44  | 43  |
+| 3        | MatthewR | 302    | 67  | 48  | 50  | 59  | 40  | 38  |
+| 4        | Luke     | 297    | 46  | 72  | 33  | 65  | 44  | 41  |
+| 5        | Matt     | 296    | 53  | 57  | 43  | 84  | 26  | 37  |
+| 6        | Darryan  | 282    | 51  | 51  | 49  | 73  | 34  | 24  |
+| 7        | Coop     | 273    | 44  | 55  | 36  | 75  | 44  | 35  |
+| 8        | Dylan    | 251    | 57  | 44  | 47  | 58  | 36  | 9   |
+| 9        | Kevin    | 230    | 41  | 69  | 40  | 44  | 25  | 11  |
+| 10       | Emily    | 212    | 43  | 30  | 33  | 48  | 44  | 14  |
 
 Good luck and I hope you enjoy the final match!
