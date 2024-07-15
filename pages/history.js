@@ -1,66 +1,51 @@
+import React from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
+import Link from "next/link";
 import utilStyles from "../styles/utils.module.css";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
-
-const rows = [1, 2, 3, 4];
-const columns = ["a", "b", "c", "d"];
 
 export default function History({}) {
   return (
     <Layout history>
-      <Head>
-        <title>History - Game of Stones</title>
-      </Head>
-      <h1>History of the Game of Stones</h1>
-      <small className={utilStyles.subtitle}>
-        Historical data and stats of all past seasons!
-      </small>
-      <Table aria-label="Example table with dynamic content">
-        <TableHeader>
-          <TableColumn>Place</TableColumn>
-          <TableColumn>Manager</TableColumn>
-          <TableColumn>W</TableColumn>
-          <TableColumn>D</TableColumn>
-          <TableColumn>L</TableColumn>
-          <TableColumn>PF</TableColumn>
-          <TableColumn>PA</TableColumn>
-          <TableColumn>PD</TableColumn>
-          <TableColumn>P</TableColumn>
-        </TableHeader>
-        <TableBody>
-          <TableRow key="1">
-            <TableCell>1</TableCell>
-            <TableCell>Darryan</TableCell>
-            <TableCell>28</TableCell>
-            <TableCell>4</TableCell>
-            <TableCell>6</TableCell>
-            <TableCell>1589</TableCell>
-            <TableCell>1276</TableCell>
-            <TableCell>+313</TableCell>
-            <TableCell>88</TableCell>
-          </TableRow>
-          <TableRow key="2">
-            <TableCell>2</TableCell>
-            <TableCell>Matthew</TableCell>
-            <TableCell>26</TableCell>
-            <TableCell>1</TableCell>
-            <TableCell>11</TableCell>
-            <TableCell>1621</TableCell>
-            <TableCell>1272</TableCell>
-            <TableCell>+349</TableCell>
-            <TableCell>79</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <div className={utilStyles.main}>
+        <Head>
+          <title>History - Game of Stones</title>
+        </Head>
+        <h1>History of the Game of Stones</h1>
+        <ul className={utilStyles.list}>
+          <li className={utilStyles.listItem}>
+            <Link href={`/history/accolades`}>Accolades</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              Manager achievements and awards from every season.
+            </small>
+          </li>
+          <li className={utilStyles.listItem}>
+            <Link href={`/history/all_seasons`}>All Seasons</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              Compilation of all Game of Stones seasons!
+            </small>
+          </li>
+          <li className={utilStyles.listItem}>
+            <Link href={`/history/season_23_24`}>2023/2024 Season</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              Season 2 of the Game of Stones!
+            </small>
+          </li>
+          <li className={utilStyles.listItem}>
+            <Link href={`/history/season_22_23`}>2022/2023 Season</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              Season 1 of the Game of Stones!
+            </small>
+          </li>
+        </ul>
+        {/* <div>
+        <JsonDataDisplay />
+      </div> */}
+      </div>
     </Layout>
   );
 }
