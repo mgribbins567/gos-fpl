@@ -8,7 +8,7 @@ import { getSortedPostsData } from "../lib/posts";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
-  var post = allPostsData.length - 4;
+  var post = allPostsData.length - 11;
   const featuredPost = allPostsData.slice(post, post + 1);
   allPostsData.length = 3;
   return {
