@@ -214,22 +214,24 @@ Note: The Bonus Points System is a score that determines the number of Bonus Poi
 
 | Action                                          | Points | Action                                        | Points |
 | :---------------------------------------------- | :----- | :-------------------------------------------- | :----- |
-| Playing 1 to 60 minutes                         | 3      | Scoring the game winning goal                 | 3      |
-| Playing over 60 minutes                         | 6      | 70-79% pass completion (30+ passes attempted) | 2      |
-| Goalkeeper / Defender scoring a goal            | 12     | 80-89% pass completion (30+ passes attempted) | 4      |
-| Midfielder scoring a goal                       | 18     | 90%+ pass completion (30+ passes attempted)   | 6      |
-| Forward scoring a goal                          | 24     | Conceding a penalty                           | -3     |
-| Assist                                          | 9      | Missing a penalty                             | -6     |
-| Goalkeeper / Defender keeping a clean sheet     | 12     | Yellow card                                   | -3     |
-| Saving a penalty                                | 15     | Red card                                      | -9     |
-| Save                                            | 2      | Own goal                                      | -6     |
-| Successful open play cross                      | 1      | Missing a big chance                          | -3     |
-| Creating a big chance                           | 3      | Error that leads to a goal                    | -3     |
-| 2 clearances, blocks, and interceptions (total) | 1      | Error that leads to an attempt at goal        | -1     |
-| 3 recoveries                                    | 1      | Being tackled                                 | -1     |
-| Key pass                                        | 1      | Conceding a foul                              | -1     |
-| Successful tackle (net)                         | 2      | Caught offside                                | -1     |
-| Successful dribble                              | 1      | Shot off target                               | -1     |
+| Playing 1 to 60 minutes                         | 3      | Foul won                                      | 1      |
+| Playing over 60 minutes                         | 6      | Shot on target                                | 3      |
+| Goalkeeper / Defender scoring a goal            | 12     | 70-79% pass completion (30+ passes attempted) | 2      |
+| Midfielder scoring a goal                       | 18     | 80-89% pass completion (30+ passes attempted) | 4      |
+| Forward scoring a goal                          | 24     | 90%+ pass completion (30+ passes attempted)   | 6      |
+| Assist                                          | 9      | Conceding a penalty                           | -3     |
+| Goalkeeper / Defender keeping a clean sheet     | 12     | Missing a penalty                             | -6     |
+| Saving a penalty                                | 9      | Yellow card                                   | -3     |
+| Save                                            | 2      | Red card                                      | -9     |
+| Successful open play cross                      | 1      | Own goal                                      | -6     |
+| Creating a big chance                           | 3      | Missing a big chance                          | -3     |
+| 2 clearances, blocks, and interceptions (total) | 1      | Error that leads to a goal                    | -3     |
+| 3 recoveries                                    | 1      | Error that leads to an attempt at goal        | -1     |
+| Key pass                                        | 1      | Being tackled                                 | -1     |
+| Successful tackle (net)                         | 2      | Conceding a foul                              | -1     |
+| Successful dribble                              | 1      | Caught offside                                | -1     |
+| Scoring the game winning goal                   | 3      | Shot off target                               | -1     |
+| Goal Line Clearance                             | 3      |                                               |        |
 
 ### Transactions <a name="transactions"></a>
 
