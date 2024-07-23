@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
+import Link from "next/link";
 import data from "../../data/league_table_23_24.json";
 
 function GetExtendedLeagueTable() {
@@ -9,7 +10,11 @@ function GetExtendedLeagueTable() {
     return (
       <tr>
         <td>{info.place}</td>
-        <td>{info.manager}</td>
+        <td>
+          <Link href={`/history/manager/${info.manager.toLowerCase()}`}>
+            {info.manager}
+          </Link>
+        </td>
         <td>{info.w}</td>
         <td>{info.d}</td>
         <td>{info.l}</td>

@@ -1,20 +1,19 @@
 import React from "react";
 import Head from "next/head";
-import utilStyles from "../../styles/utils.module.css";
-import Layout from "../../components/layout";
-import Link from "next/link";
-import data from "../../data/league_table_22_23.json";
+import utilStyles from "../../../styles/utils.module.css";
+import Layout from "../../../components/layout";
+import managers from "../../../data/managers.json";
+
+var manager = "Jake";
 
 function GetExtendedLeagueTable() {
-  const DisplayData = data.map((info) => {
+  let filteredContents = managers.filter((info) => info.manager === manager);
+  console.log(filteredContents);
+  const DisplayData = filteredContents.map((info) => {
     return (
       <tr>
+        <td>{info.s}</td>
         <td>{info.place}</td>
-        <td>
-          <Link href={`/history/manager/${info.manager.toLowerCase()}`}>
-            {info.manager}
-          </Link>
-        </td>
         <td>{info.w}</td>
         <td>{info.d}</td>
         <td>{info.l}</td>
@@ -33,8 +32,8 @@ function GetExtendedLeagueTable() {
       <table className={utilStyles.extendedHistoryTable}>
         <thead>
           <tr>
+            <th>Season</th>
             <th>Pos</th>
-            <th>Manager</th>
             <th>W</th>
             <th>D</th>
             <th>L</th>
@@ -52,23 +51,17 @@ function GetExtendedLeagueTable() {
   );
 }
 
-export default function Season_22_23({}) {
+export default function Jake({}) {
   return (
-    <Layout history>
+    <Layout jake>
       <div className={utilStyles.main}>
         <Head>
-          <title>Season 1 - Game of Stones</title>
+          <title>{manager} - Game of Stones</title>
         </Head>
-        <h1>Season 1 - 2022/2023</h1>
-        <h2>League Table</h2>
+        <h1>{manager}'s History</h1>
         <div>
           <GetExtendedLeagueTable />
         </div>
-        <p>
-          PPW (Points Per Week) is calculated by dividing PF (Points For) by the
-          number of gameweeks played. PPG (Points Per Game) is calculated by
-          dividing P (Points) by the number of gameweeks played.
-        </p>
       </div>
     </Layout>
   );
