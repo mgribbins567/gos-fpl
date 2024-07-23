@@ -8,7 +8,6 @@ var manager = "Jesse";
 
 function GetExtendedLeagueTable() {
   let filteredContents = managers.filter((info) => info.manager === manager);
-  console.log(filteredContents);
   const DisplayData = filteredContents.map((info) => {
     return (
       <tr>
