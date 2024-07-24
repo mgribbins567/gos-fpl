@@ -2,6 +2,8 @@ import React from "react";
 import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
+import Link from "next/link";
+import { GetSeasonLink } from "./manager_util";
 import managers from "../../../data/managers.json";
 
 var manager = "Scott";
@@ -11,7 +13,9 @@ function GetExtendedLeagueTable() {
   const DisplayData = filteredContents.map((info) => {
     return (
       <tr>
-        <td>{info.s}</td>
+        <td>
+          <Link href={GetSeasonLink(info.s)}>{info.s}</Link>
+        </td>
         <td>{info.place}</td>
         <td>{info.w}</td>
         <td>{info.d}</td>
