@@ -3,7 +3,7 @@ import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
 import Link from "next/link";
-import { GetSeasonLink } from "./manager_util";
+import { GetSeasonLink } from "../../../lib/manager_util";
 import managers from "../../../data/managers.json";
 
 var manager = "Jesse";
