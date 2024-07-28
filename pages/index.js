@@ -3,6 +3,7 @@ import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 import Date from "../components/date";
+import Tags from "../components/tags";
 import { Analytics } from "@vercel/analytics/react";
 import { getSortedPostsData } from "../lib/posts";
 
@@ -36,12 +37,16 @@ export default function Home({ allPostsData, featuredPost }) {
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Featured Post</h2>
           <ul className={utilStyles.list}>
-            {featuredPost.map(({ id, date, title, summary }) => (
+            {featuredPost.map(({ id, date, title, summary, tags }) => (
               <li className={utilStyles.listItem} key={id}>
                 <Link href={`/posts/${id}`}>{title}</Link>
                 <br />
                 <small className={utilStyles.lightText}>
                   <Date dateString={date} />
+                </small>
+                <br />
+                <small className={utilStyles.tagsLightText}>
+                  <Tags tagList={tags} />
                 </small>
                 <small className={utilStyles.lightTextItalics}>
                   <p>{summary}</p>
@@ -53,12 +58,16 @@ export default function Home({ allPostsData, featuredPost }) {
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Recent Blog Posts</h2>
           <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title, summary }) => (
+            {allPostsData.map(({ id, date, title, summary, tags }) => (
               <li className={utilStyles.listItem} key={id}>
                 <Link href={`/posts/${id}`}>{title}</Link>
                 <br />
                 <small className={utilStyles.lightText}>
                   <Date dateString={date} />
+                </small>
+                <br />
+                <small className={utilStyles.tagsLightText}>
+                  <Tags tagList={tags} />
                 </small>
                 <small className={utilStyles.lightTextItalics}>
                   <p>{summary}</p>

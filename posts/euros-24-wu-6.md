@@ -2,6 +2,7 @@
 title: "Euros 2024 Weekly Update 6"
 date: "2024-07-10"
 summary: ""
+tags: ["euros", "weekly update"]
 ---
 
 <style>

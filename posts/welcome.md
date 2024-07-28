@@ -2,6 +2,7 @@
 title: "Welcome to the Game of Stones FPL Blog!"
 date: "2024-06-19"
 summary: ""
+tags: ["announcement"]
 ---
 
 Welcome to the Game of Stones FPL Blog!

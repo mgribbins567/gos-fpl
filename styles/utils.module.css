@@ -38,6 +38,14 @@
   font-size: 0.9rem;
 }
 
+.tagsLightText {
+  color: rgba(245, 245, 245, 0.74);
+  font-size: 0.9rem;
+  border: 1px;
+  border-color: white;
+  border-radius: 10px;
+}
+
 .lightTextDate {
   padding: 0 2rem 0;
   color: rgb(245, 245, 245);
@@ -55,7 +63,7 @@
 }
 
 .posts {
-  padding: 1rem 6rem 1rem;
+  padding: 1rem 3rem 1rem;
   /* margin-right: 15%; */
 }
 

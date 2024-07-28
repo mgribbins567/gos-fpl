@@ -2,6 +2,7 @@
 title: "Fantasy Premier League Primer"
 date: "2024-05-23"
 summary: "Guide to all things Fantasy Premier League and Game of Stones!"
+tags: ["guide"]
 ---
 
 <style>

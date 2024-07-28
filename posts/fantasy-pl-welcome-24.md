@@ -1,7 +1,8 @@
 ---
 title: "Welcome to the Game of Stones Season 3!"
 date: "2024-07-17"
-summary: "Season 3 announcement, including info on the prize pool, mid-season tournaments, and more!"
+summary: "Welcome to Season 3! This post includes info on the prize pool, mid-season tournaments, and more!"
+tags: ["season 3", "announcement"]
 ---
 
 ---

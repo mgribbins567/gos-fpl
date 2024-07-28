@@ -2,6 +2,7 @@
 title: "Promotion / Relegation System"
 date: "2024-06-17"
 summary: "Discussing the promotion / relegation system in the Game of Stones."
+tags: ["announcement"]
 ---
 
 ---

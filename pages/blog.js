@@ -4,6 +4,7 @@ import utilStyles from "../styles/utils.module.css";
 import Link from "next/link";
 import { getSortedPostsData } from "../lib/posts";
 import Date from "../components/date";
+import Tags from "../components/tags";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -26,12 +27,16 @@ export default function Blog({ allPostsData }) {
         </h1>
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title }) => (
+            {allPostsData.map(({ id, date, title, tags }) => (
               <li className={utilStyles.listItem} key={id}>
                 <Link href={`/posts/${id}`}>{title}</Link>
                 <br />
                 <small className={utilStyles.lightText}>
                   <Date dateString={date} />
+                </small>
+                <br />
+                <small className={utilStyles.tagsLightText}>
+                  <Tags tagList={tags} />
                 </small>
               </li>
             ))}
