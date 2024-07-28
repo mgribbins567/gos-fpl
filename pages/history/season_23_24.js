@@ -4,53 +4,7 @@ import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Link from "next/link";
 import data from "../../data/league_table_23_24.json";
-
-function GetExtendedLeagueTable() {
-  const DisplayData = data.map((info) => {
-    return (
-      <tr>
-        <td>{info.place}</td>
-        <td>
-          <Link href={`/history/manager/${info.manager.toLowerCase()}`}>
-            {info.manager}
-          </Link>
-        </td>
-        <td>{info.w}</td>
-        <td>{info.d}</td>
-        <td>{info.l}</td>
-        <td>{info.pf}</td>
-        <td>{info.pa}</td>
-        <td>{info.pd}</td>
-        <td>{info.p}</td>
-        <td>{info.ppw}</td>
-        <td>{info.ppg}</td>
-      </tr>
-    );
-  });
-
-  return (
-    <div>
-      <table className={utilStyles.extendedHistoryTable}>
-        <thead>
-          <tr>
-            <th>Pos</th>
-            <th>Manager</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>PF</th>
-            <th>PA</th>
-            <th>PD</th>
-            <th>P</th>
-            <th>PPW</th>
-            <th>PPG</th>
-          </tr>
-        </thead>
-        <tbody>{DisplayData}</tbody>
-      </table>
-    </div>
-  );
-}
+import { GetExtendedLeagueTable } from "../../lib/history_util";
 
 export default function Season_23_24({}) {
   return (
@@ -66,7 +20,7 @@ export default function Season_23_24({}) {
         <br></br>
         <h2>League Table</h2>
         <div>
-          <GetExtendedLeagueTable />
+          <GetExtendedLeagueTable data={data} />
         </div>
         <p>
           PPW (Points Per Week) is calculated by dividing PF (Points For) by the

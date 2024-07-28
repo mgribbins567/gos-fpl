@@ -2,101 +2,9 @@ import React from "react";
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
-import Link from "next/link";
 import league_table from "../../data/league_table_all_seasons.json";
 import league_table_expanded from "../../data/league_table_all_seasons_expanded.json";
-
-function GetExtendedLeagueTable() {
-  const DisplayData = league_table.map((info) => {
-    return (
-      <tr>
-        <td>{info.place}</td>
-        <td>
-          <Link href={`/history/manager/${info.manager.toLowerCase()}`}>
-            {info.manager}
-          </Link>
-        </td>
-        <td>{info.mp}</td>
-        <td>{info.w}</td>
-        <td>{info.d}</td>
-        <td>{info.l}</td>
-        <td>{info.pf}</td>
-        <td>{info.pa}</td>
-        <td>{info.pd}</td>
-        <td>{info.p}</td>
-        <td>{info.ppw}</td>
-        <td>{info.ppg}</td>
-      </tr>
-    );
-  });
-
-  return (
-    <div>
-      <table className={utilStyles.extendedHistoryTable}>
-        <thead>
-          <tr>
-            <th>Pos</th>
-            <th>Manager</th>
-            <th>MP</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>PF</th>
-            <th>PA</th>
-            <th>PD</th>
-            <th>P</th>
-            <th>PPW</th>
-            <th>PPG</th>
-          </tr>
-        </thead>
-        <tbody>{DisplayData}</tbody>
-      </table>
-    </div>
-  );
-}
-
-function GetExtendedLeagueTableExpanded() {
-  const DisplayData = league_table_expanded.map((info) => {
-    return (
-      <tr>
-        <td>{info.place}</td>
-        <td>{info.manager}</td>
-        <td>{info.w}</td>
-        <td>{info.d}</td>
-        <td>{info.l}</td>
-        <td>{info.pf}</td>
-        <td>{info.pa}</td>
-        <td>{info.pd}</td>
-        <td>{info.p}</td>
-        <td>{info.ppw}</td>
-        <td>{info.ppg}</td>
-      </tr>
-    );
-  });
-
-  return (
-    <div>
-      <table className={utilStyles.extendedHistoryTable}>
-        <thead>
-          <tr>
-            <th>Pos</th>
-            <th>Manager</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>PF</th>
-            <th>PA</th>
-            <th>PD</th>
-            <th>P</th>
-            <th>PPW</th>
-            <th>PPG</th>
-          </tr>
-        </thead>
-        <tbody>{DisplayData}</tbody>
-      </table>
-    </div>
-  );
-}
+import { GetExtendedLeagueTable } from "../../lib/history_util";
 
 export default function AllSeasons({}) {
   return (
@@ -108,7 +16,7 @@ export default function AllSeasons({}) {
         <h1>Combined Season Stats</h1>
         <h2>League Table (by Points)</h2>
         <div>
-          <GetExtendedLeagueTable />
+          <GetExtendedLeagueTable data={league_table} />
         </div>
         <p>
           PPW (Points Per Week) is calculated by dividing PF (Points For) by the
@@ -118,7 +26,7 @@ export default function AllSeasons({}) {
         <br></br>
         <h2>League Table Expanded</h2>
         <div>
-          <GetExtendedLeagueTableExpanded />
+          <GetExtendedLeagueTable data={league_table_expanded} />
         </div>
       </div>
     </Layout>
