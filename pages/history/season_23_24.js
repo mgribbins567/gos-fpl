@@ -15,7 +15,7 @@ export default function Season_23_24({}) {
         </Head>
         <h1>Season 2 - 2023/2024</h1>
         <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
-        <br></br>
+        <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
         <Link href={`/history/all_seasons`}>All Seasons</Link>
         <br></br>
         <h2>League Table</h2>

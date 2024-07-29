@@ -34,6 +34,15 @@ export default function Home({ allPostsData, featuredPost }) {
         <small className={utilStyles.subtitle}>
           A Fantasy Premier League Blog
         </small>
+        <ul className={utilStyles.list}>
+          <li className={utilStyles.listItem}>
+            <Link href="/history/season_24_25">Game of Stones Season 3</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              Quick link to the current season!
+            </small>
+          </li>
+        </ul>
         <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
           <h2 className={utilStyles.headingLg}>Featured Post</h2>
           <ul className={utilStyles.list}>
