@@ -370,7 +370,7 @@ The main app page is broken down into a couple of different options. The top wil
 
 Once in Fantasy Draft, you will see the Status page. _If mid-season, sometimes the app will open to the [Fixtures tab](#more--fixtures), which will be covered later._ This is the main hub of the app, and contains some important information.
 
-<img src="/images/new-player-primer/home_status_0.jpg" width="1056" height="476">
+<img src="/images/new-player-primer/home_status_0.jpg" width="1000vh" height="auto">
 
 The top section of this page (image 1) will be different depending on the time of the week, but generally, it will contain your score for the current (or most recent) gameweek along with the upcoming Waiver Deadline and Gameweek Deadline.
 
@@ -384,7 +384,7 @@ The final information on this page (image 4) are the players of each week, and t
 
 The points page is fairly self-explanatory: it contains the points scored for the most recent (or current) gameweek. If you scroll further down the page, you’ll be able to find information on the current gameweek’s matches and scores, along with additional information regarding your own team. This includes transaction history, team and league details, and more!
 
-<img src="/images/new-player-primer/points_0.jpg" width="792" height="476">
+<img src="/images/new-player-primer/points_0.jpg" width="792vh" height="auto">
 
 If you’d like more information on a player’s points and stats, you can also click/tap a player and you will receive a breakdown of their points for the gameweek. Click ‘View Information’ and you’ll receive a breakdown of their season stats.
 
@@ -418,7 +418,7 @@ If you would like to sign a free agent or initiate a trade with another player, 
 
 Perhaps the most important tab, the League page contains information regarding the Game of Stones league, including the League Table, upcoming fixtures, and past results.
 
-<img src="/images/new-player-primer/league_0.jpg" width="792" height="476">
+<img src="/images/new-player-primer/league_0.jpg" width="792vh" height="auto">
 
 Important to note on these pages, if you click on a manager it will take you to either their most recent or current gameweek Points page, or the corresponding Points page if on the Results tab. The Fixtures and Results tab will also let you filter by team, so you can see upcoming fixtures or recent results for a specific team.
 
