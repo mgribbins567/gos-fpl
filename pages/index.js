@@ -5,6 +5,7 @@ import Link from "next/link";
 import Date from "../components/date";
 import Tags from "../components/tags";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSortedPostsData } from "../lib/posts";
 
 export async function getStaticProps() {
@@ -25,6 +26,7 @@ export default function Home({ allPostsData, featuredPost }) {
     <Layout home>
       <div className={utilStyles.main}>
         <Analytics />
+        <SpeedInsights />
         <Head>
           <title>{siteTitle}</title>
         </Head>
