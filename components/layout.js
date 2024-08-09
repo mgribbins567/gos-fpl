@@ -8,7 +8,7 @@ export default function Layout({ children, home }) {
   return (
     <div className={styles.container}>
       <Head>
-        <link rel="icon" href="/images/soccer_ball.jpg" />
+        <link rel="icon" href="/images/logo.png" />
         <meta name="description" content="Game of Stones website" />
         <meta name="og:title" content={siteTitle} />
       </Head>
