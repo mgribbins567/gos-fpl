@@ -11,14 +11,10 @@ import {
 } from "../../lib/history_util";
 
 function GetKickoffTournamentGroups() {
-  var groupA = [];
-  var groupB = [];
-  var groupC = [];
-  var groupD = [];
-  //   var groupA = ["Matthew", "Darryan", "Jesse", "Soph"];
-  //   var groupB = ["Gavin", "Kevin", "Andrew", "Coop"];
-  //   var groupC = ["Dylan", "Scott", "Zach", "Rebecca"];
-  //   var groupD = ["Luke", "MatthewR", "Emily", "Matt"];
+  var groupA = ["Matthew", "Darryan", "Jesse", "Soph"];
+  var groupB = ["Gavin", "Kevin", "Andrew", "Coop"];
+  var groupC = ["Dylan", "Scott", "Zach", "Rebecca"];
+  var groupD = ["Luke", "MatthewR", "Emily", "Matt"];
   return (
     <div>
       <h3 className={utilStyles.main}>Group A</h3>
