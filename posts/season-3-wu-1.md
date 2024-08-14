@@ -18,13 +18,15 @@ img {
 
 Hello everybody and happy Gameweek 1! The Premier League kickoff match is this Friday at noon (Pacific) / 3 (Eastern), so waivers are due on Thursday at like 10:30am PDT / 1:30pm EDT or something. If you are new to the league and would like to learn more about waivers, check out the <u>[New Player Primer section on waivers](/posts/new-player-primer#waivers)</u>! Roster lock has actually been moved from 1 hour before gametime to 1.5 hour, so for old-heads who make last minute changes, take that into account. Anyway, usually I'd use this forum to talk about results of the week, upcoming matches, stats, copium, whatever, but this time, we have a draft to review! I've received a couple of requests for this, so why not?
 
-Also, I really hope to not offend anybody- I understand that everyone has different levels of ~seriousness~ that they are drafting at, so I'm going to do my best to take that into account! That said, I do think it'll be fun to share my thoughts on everyone's draft. Plus, if you feel you didn't do well in the draft, you can always find and waiver in the next Cole Palmer (or recreate him in the aggregate).
+Also, I really hope to not offend anybody(_narrator_)- I understand that everyone has different levels of ~seriousness~ that they are drafting at, so I'm going to do my best to take that into account! That said, I do think it'll be fun to share my thoughts on everyone's draft. Plus, if you feel you didn't do well in the draft, you can always find and waiver in the next Cole Palmer (or recreate him in the aggregate).
+
+<br/>
 
 ---
 
-~ 12 hours later ~
+~ a long time later ~
 
-So, at the time of writing this, I've spent about 2 hours furiously typing and have gotten through... 10 managers. I've once again written a damn novel. Anyway, there are other things I want to include in this update so I've offloaded the ramblings of a mad man <u>[to its own blog post](/posts/season-3-draft-review)</u>. I've also added a table of contents, so that you can skip to whoever you want to read about. Again, they are in varying levels of tongue-in-cheek and I really do think that everyone has upside to their drafts (in a serious way). In a non-serious way, some drafts have _way_ more upside.
+So, at the time of writing this, I've spent about 2 hours furiously typing and have gotten through... 10 managers. I've once again written a damn novel. Anyway, there are other things I want to include in this update so I've offloaded the ramblings of a mad man <u>[to its own blog post](/posts/season-3-draft-review)</u>. I've also added a table of contents, so that you can skip to whoever you want to read about. I also chatted with about half the league and thought, why not make this a roast? I've gone through and added a roast to everyone's draft (sorry picks 11-16, you get nothing nice, only roast). It is still very long. Enjoy!
 
 ### Gameweek 1 Matchups
 
