@@ -49,7 +49,16 @@ export default function Season_23_24({}) {
         <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
         <Link href={`/history/all_seasons`}>All Seasons</Link>
         <br />
-        <h2>Draft Date August 11th at 11:00am PDT / 2:00pm EDT</h2>
+        <h2>League Table</h2>
+        <div>
+          <GetExtendedLeagueTable data={league_table} />
+        </div>
+        <br />
+        <h2>Kickoff Tournament</h2>
+        <div>
+          <GetKickoffTournamentGroups />
+        </div>
+        <br />
         <h2>Prize Pool</h2>
         <p>Total Pot - $534.13</p>
         <ul>
@@ -61,15 +70,6 @@ export default function Season_23_24({}) {
           <li>Manager of the Month - $10</li>
           <li>Mid-Season Tournament - $30 + Mystery Kit</li>
         </ul>
-        <h2>League Table</h2>
-        <div>
-          <GetExtendedLeagueTable data={league_table} />
-        </div>
-        <br />
-        <h2>Kickoff Tournament</h2>
-        <div>
-          <GetKickoffTournamentGroups />
-        </div>
       </div>
     </Layout>
   );
