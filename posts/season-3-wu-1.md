@@ -65,8 +65,8 @@ Group D
 - Luke vs Matt
 - MatthewR vs Emily
 
-<img src="/images/season-3/season-3-wu/season-3-wu-1-groups.png" width="792vh" height="auto">
+<img src="/images/season-3/season-3-wu/1/season-3-wu-1-groups.png" width="792vh" height="auto">
 <br/>
-<img src="/images/season-3/season-3-wu/season-3-wu-1-bracket.png" width="1400vh" height="auto">
+<img src="/images/season-3/season-3-wu/1/season-3-wu-1-bracket.png" width="1400vh" height="auto">
 
 And with that, our first week is set! Everyone will be playing in 2 competitions for the first 5 weeks so enjoy the matches and good luck!

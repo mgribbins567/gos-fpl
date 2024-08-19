@@ -148,3 +148,81 @@
   flex-direction: column;
   align-items: center;
 }
+
+.bracket {
+  border: 1px solid white;
+  width: 100vh;
+  /* max-width: 22vh; */
+  margin: 0 auto;
+  display: block;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.roundOneDiv {
+  /* border: 1px solid red; */
+  width: 22vh;
+}
+
+.roundOne {
+  float: left;
+  width: 22vh;
+}
+
+.roundOne li {
+  /* display: inline; */
+  border: 1px solid white;
+  list-style-type: none;
+  margin: 1vh;
+  padding: 0.5vh 0 0.5vh 1vh;
+}
+
+.roundTwoDiv {
+  float: left;
+  overflow: hidden;
+  /* border: 1px solid blue; */
+  width: 22vh;
+  position: relative;
+  height: auto;
+  vertical-align: middle;
+}
+
+.roundTwo {
+  /* float: left; */
+  width: 22vh;
+  /* overflow: hidden; */
+}
+
+.roundTwo li {
+  /* display: inline; */
+  border: 1px solid white;
+  list-style-type: none;
+  margin: 1vh;
+  padding: 0.5vh 0 0.5vh 1vh;
+}
+
+.score {
+  text-align: right;
+  float: right;
+  padding: 0 1vh 0 1vh;
+  border-left: 1px solid white;
+  display: block;
+}
+
+.wrapper {
+  width: 100vh;
+  border: 1px solid white;
+  overflow: hidden;
+}
+
+.r1 {
+  width: 22vh;
+  /* border: 1px solid blue; */
+  float: left;
+}
+
+.r2 {
+  /* border: 1px solid red; */
+  overflow: hidden;
+  padding: 2vh 6vh;
+}
