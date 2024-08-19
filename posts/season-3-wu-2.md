@@ -39,8 +39,6 @@ Full results are as follows:
 <img src="/images/season-3/season-3-wu/2/gameweek.png" width="1200vh" height="auto">
 <br/>
 
-For those used to seeing these weekly updates, a bit of housekeeping here is that all pictures will be moved to the bottom (on email/Discord- website will remain the usual format) just for simplicity of copy/pasting. Jump down to see the league table/gameweek stats!
-
 This week sees Andrew take the top spot in the league after Gameweek 1! He is closely followed by Matt and Luke. Not much to say about the table this early in the season, there will be a _ton_ of movement from week to week!
 
 So I've been thinking a bit about how to make these updates a little more personal, a little less 'I scored 42 and lost,' and I've come up with this section! This is what I'm going to call the _Game Changers of the Week_ (name pending). Basically, which player 'won' each manager the week. For now I'll keep it fairly brief (since these things are so damn long), but let me know if you have any suggestions for improvements in the future!
