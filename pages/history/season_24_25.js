@@ -60,12 +60,12 @@ export default function Season_23_24({}) {
         </div>
         <br />
         <h2>Prize Pool</h2>
-        <p>Total Pot - $534.13</p>
+        <p>Total Pot - $600</p>
         <ul>
-          <li>1st - $267.07 + Jersey</li>
-          <li>2nd - $133.53</li>
-          <li>3rd - $80.12</li>
-          <li>4th - $53.41</li>
+          <li>1st - $300 + Jersey</li>
+          <li>2nd - $150</li>
+          <li>3rd - $90</li>
+          <li>4th - $60</li>
           <br />
           <li>Manager of the Month - $10</li>
           <li>Mid-Season Tournament - $30 + Mystery Kit</li>
