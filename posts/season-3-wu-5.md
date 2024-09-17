@@ -20,7 +20,7 @@ img {
 
 ---
 
-Happy gameweek 5! This week waiver's are due Friday at 3am PDT / 6am EDT so get them in! This week had some great matchups, including the first draw of the season (and almost 2 more!), so let's get into it. Starting with high flying Matt, whose winning streak has been broken by Darryan in a 40-all draw. Other close matchups include Luke's narrow 36-35 victory over Gavin, who is still searching for his first win of the season, and Coop's 23-22 win over Emily. Soph put up the highest score of the week with an impressive 61 points to pick up 3 points off of Andrew, who scored 19.
+Happy gameweek 5! This week's waiver's are due Friday at 3am PDT / 6am EDT so get them in! This week had some great matchups, including the first draw of the season (and almost 2 more!), so let's get into it. Starting with high flying Matt, whose winning streak has been broken by Darryan in a 40-all draw. Other close matchups include Luke's narrow 36-35 victory over Gavin, who is still searching for his first win of the season, and Coop's 23-22 win over Emily. Soph put up the highest score of the week with an impressive 61 points to pick up 3 points off of Andrew, who scored 19.
 
 Full results are as follows:
 

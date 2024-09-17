@@ -138,7 +138,7 @@ Welcome to the elimination stage! Over the next 7 gameweeks, teams will be elimi
 - Matt vs Jesse
 - Andrew vs Zach
 
-**Left Side**
+**Right Side**
 
 - Scott vs Coop
 - Darryan vs Luke
