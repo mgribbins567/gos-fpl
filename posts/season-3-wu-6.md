@@ -20,7 +20,7 @@ img {
 
 ---
 
-Happy gameweek 5! This week's waivers are due Friday at 3am PDT / 6am EDT once again! This week saw some great matchups, headlined by our closest matchup of the week: a 32-29 win by Dylan over Zach! Elsewhere, I took a narrow 34-29 victory against Coop, Jesse continued his winstreak (somehow) with a 24-20 win against Rebecca, MatthewR picked up a 5th win in a 43-36 match against Luke, and Matt once again has put up the weekly high in a 54-31 performance against Kevin.
+Happy gameweek 6! This week's waivers are due Friday at 3am PDT / 6am EDT once again! This week saw some great matchups, headlined by our closest matchup of the week: a 32-29 win by Dylan over Zach! Elsewhere, I took a narrow 34-29 victory against Coop, Jesse continued his winstreak (somehow) with a 24-20 win against Rebecca, MatthewR picked up a 5th win in a 43-36 match against Luke, and Matt once again has put up the weekly high in a 54-31 performance against Kevin.
 
 Full results are as follows:
 
