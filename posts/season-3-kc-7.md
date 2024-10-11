@@ -20,7 +20,7 @@ img {
 
 ---
 
-Happy gameweek 6 of the kickoff cup and welcome to the mid-way point of the quarter finals! This first leg has seen 3/4 of the matchups with just 4 points or less separating them. Scott takes the largest lead so far as he has put together a 16 point deficit for Darryan to overcome.
+Happy gameweek 7 of the kickoff cup and welcome to the mid-way point of the quarter finals! This first leg has seen 3/4 of the matchups with just 4 points or less separating them. Scott takes the largest lead so far as he has put together a 16 point deficit for Darryan to overcome.
 
 Now, here is the current state of the bracket. The winners of these two legs will stamp their ticket to the semi final!
 
