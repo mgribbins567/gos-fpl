@@ -20,7 +20,7 @@ img {
 
 ---
 
-Happy gameweek 9! Welcome back from the October international break! I hope you didn't have to deal with your 1st round pick getting injured over the past couple of weeks (thanks England). Anyway, this week saw some great matches including 2 draws! A 23-all tie between Jesse and Kevin, and a 25-all draw between Soph and Darryan, taking Darryan up to 2(!!) draws already. Other notable results this week included Coop's 46-33 upset over Scott and MatthewR taking the Matt(hew) derby 31-21.
+Happy gameweek 9! Welcome back from the October international break! Waivers are due on Thursday at 10:30 PDT / 1:30 EDT, because there is a game on Friday! I hope you didn't have to deal with your 1st round pick getting injured over the past couple of weeks (thanks England). Anyway, this week saw some great matches including 2 draws! A 23-all tie between Jesse and Kevin, and a 25-all draw between Soph and Darryan, taking Darryan up to 2(!!) draws already. Other notable results this week included Coop's 46-33 upset over Scott and MatthewR taking the Matt(hew) derby 31-21.
 
 Full results are as follows:
 
