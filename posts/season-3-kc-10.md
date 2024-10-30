@@ -22,7 +22,7 @@ img {
 
 Welcome to the final gameweek of the Kickoff Cup! Since the final is **not** two legged, the winner between these two managers this week will get a cash prize plus mystery kit! But first, let's recap!
 
-Last week we saw Zach look to overcome an 11 point deficit against me, which he ultimately did not do successfully, losing on aggregate 76-55. On the other side of the bracket, Kevin had to overcome his own 10-point definicit in the second leg. While he did win, he unfortunately fell just short, losing to Scott on aggregate 58-57. Absolutely heartbreaking to come so close to a finals appearance for Kevin.
+Last week we saw Zach look to overcome an 11 point deficit against me, which he ultimately did not do successfully, losing on aggregate 76-55. On the other side of the bracket, Kevin had to overcome his own 10-point deficit in the second leg. While he did win, he unfortunately fell just short, losing to Scott on aggregate 58-57. Absolutely heartbreaking to come so close to a finals appearance for Kevin.
 
 So that means, yes, we will be having a Gribbins derby in the final: Me vs Scott!
 
