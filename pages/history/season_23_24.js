@@ -439,6 +439,66 @@ function GetWinterBracket() {
       </div>
       <div className={utilStyles.r1}>Round 1</div>
       <div className={utilStyles.r2}>Round 2</div>
+      <div className={utilStyles.bracket}>
+        <div className={utilStyles.roundOneDiv}>
+          <ul className={utilStyles.roundOne}>
+            <li>
+              Gavin<span className={utilStyles.score}>31</span>
+            </li>
+            <li>
+              Andrew<span className={utilStyles.score}>50</span>
+              <ul className={utilStyles.roundOne}>
+                <li>
+                  Andrew<span className={utilStyles.score}>41</span>
+                </li>
+                <li>
+                  Luke<span className={utilStyles.score}>24</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul className={utilStyles.roundOne}>
+            <li>
+              Kevin<span className={utilStyles.score}>23</span>
+            </li>
+            <li>
+              Luke<span className={utilStyles.score}>30</span>
+            </li>
+          </ul>
+          <ul className={utilStyles.final}>
+            <li classname={utilStyles.final}>
+              Andrew<span className={utilStyles.score}>19</span>
+            </li>
+            <li classname={utilStyles.final}>
+              Matthew<span className={utilStyles.score}>33</span>
+            </li>
+          </ul>
+          <ul className={utilStyles.roundOne}>
+            <li>
+              Dylan<span className={utilStyles.score}>34</span>
+            </li>
+            <li>
+              Darryan<span className={utilStyles.score}>42</span>
+              <ul className={utilStyles.roundOne}>
+                <li>
+                  Darryan<span className={utilStyles.score}>19</span>
+                </li>
+                <li>
+                  Matthew<span className={utilStyles.score}>33</span>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul className={utilStyles.roundOne}>
+            <li>
+              Matthew<span className={utilStyles.score}>70</span>
+            </li>
+            <li>
+              Zach<span className={utilStyles.score}>30</span>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }
@@ -474,9 +534,7 @@ export default function Season_23_24({}) {
           </div>
           <br />
         </div>
-        <div>
-          <GetWinterBracket />
-        </div>
+        <div>{/* <GetWinterBracket /> */}</div>
       </div>
     </Layout>
   );

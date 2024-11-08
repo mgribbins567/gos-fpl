@@ -177,6 +177,36 @@
   padding: 0.5vh 0 0.5vh 1vh;
 }
 
+.roundOne ul {
+  /* display: inline; */
+  list-style-type: none;
+  margin-top: 3vh;
+  margin-left: 18vh;
+  padding: 0.5vh 0 0.5vh 1vh;
+}
+
+.final {
+  float: left;
+  width: 22vh;
+}
+
+.final li {
+  /* display: inline; */
+  border: 1px solid blue;
+  list-style-type: none;
+  margin: 1vh;
+  padding: 0.5vh 0 0.5vh 1vh;
+}
+
+.final ul {
+  /* display: inline; */
+  border: 1px solid red;
+  list-style-type: none;
+  margin-top: 3vh;
+  margin-left: 50vh;
+  padding: 0.5vh 0 0.5vh 1vh;
+}
+
 .roundTwoDiv {
   float: left;
   overflow: hidden;

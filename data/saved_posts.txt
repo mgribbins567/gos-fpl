@@ -1,0 +1,125 @@
+fantasy-pl-spreadsheet-tour.md
+
+---
+title: "Fantasy PL Spreadsheet Tour"
+date: "2024-08-19"
+summary: ""
+tags: ["guide"]
+---
+
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid;
+}
+</style>
+
+---
+
+So, with Season 3 starting and my having basically finalized the spreadsheet for this season, I figured I'd write a little post giving a tour!
+
+Follow along here! https://docs.google.com/spreadsheets/d/1EQy-Ln_ZJCwgTkUhAVd8kd_8rctbKMSSwlSfGQ4A53I/edit?usp=sharing
+
+And I think, instead of going in order, we should start at the backing sheet for the entire file:
+
+# Gameweeks
+
+This is the Gameweeks tab, where each gameweek's scores are entered. This sheet also contains some fun things, such as:
+
+- High and Low scores of the week, including grabbing the manager(s) who achieved those scores (hence the 2 columns for names)
+- At-a-glance high/low/average and gameweek start date
+- Reference to the gameweek's month based on left column color
+- Player of the week, their owner, and how many points they each got
+
+This is the most manually updated location in the spreadsheet, which I don't really mind since it familiarizes me with each manager's score for weekly updates! Perhaps in the future it'll be easier to have this automatically import from the FPL API or something, but for now I don't mind doing a little typing. In the past, this tab also contained a bunch of backend tables and other miscellaneous tables that were hardly used for anything, but this iteration has cleaned that up.
+
+<img src="/images/fantasy-pl-spreadsheet-tour/gameweeks.png" width="1200vh" height="auto">
+
+# Table
+
+Moving back to the first tab of the sheet: Table! This tab actually contains many tables, so the name is a little misleading. Generally, anything on the right half will be backend (usually hidden/ignored) and everything on the left will appear in Weekly Updates!
+
+**League Table**
+
+- The same table as on the Draft page!
+- Also has extras such as Points Against, Point Differential, Points per Week, and Points per Game.
+- Attached some overall league stats such as highest single gameweek score, overall points for and points against, and averages!
+
+<img src="/images/fantasy-pl-spreadsheet-tour/table-1.png" width="1200vh" height="auto">
+
+**Performance table**
+
+- League Table sorted by Points For
+- If we weren't playing head to head matches, this is what the league would look like
+- First of the set of "Copium" tables
+- Contains a 'Differential' column, meaning the difference between your performance rank and regular league rank. Positive you are overperforming your expected, negative you are 'unlucky' to have not won more.
+
+<img src="/images/fantasy-pl-spreadsheet-tour/table-2.png" width="1200vh" height="auto">
+
+**Luck Table**
+
+- League Table sorted by Points Against
+- The higher on the table, the less points other managers have put up against you (lucky)
+- And inversely, the lower on the table you are, the more points other managers have scored against you (unlucky)
+
+<img src="/images/fantasy-pl-spreadsheet-tour/table-3.png" width="1200vh" height="auto">
+
+**Form Table**
+
+- League table filtered by the last 5 weeks
+- This table is manually edited (read: I change 2 cells) every week
+
+<img src="/images/fantasy-pl-spreadsheet-tour/table-4.png" width="1200vh" height="auto">
+
+**xP Table**
+
+- League table if everyone's opponent was the average score of the week
+- Perhaps the ultimate Copium table
+- Does a great job of displaying 'what could've been' especially later in the season
+
+<img src="/images/fantasy-pl-spreadsheet-tour/table-5.png" width="1200vh" height="auto">
+
+# Manager of the Month
+
+The next tab over handles the Manager of the Month tables! These are pretty self explanatory, they are just the league table broken down by when the gameweek _started_. This sheet is fully automated (after I manually set the ranges for each month :)) so not too much to talk about.
+
+<img src="/images/fantasy-pl-spreadsheet-tour/manager-of-the-month.png" width="1200vh" height="auto">
+
+# Gameweek Breakdown
+
+Last season, this table had its formulas manually updated _every week_. This year, I did it in advance! Shoutout the advanced ctrl-f features of Google Sheets for making this a lot easier. The idea behind this tab is to breakdown each week by the numbers:
+
+- High, Low, and Average Score of each week
+- Number of scores each week in each multiple of 10
+- Percentage breakdown and total numbers of the above
+
+<img src="/images/fantasy-pl-spreadsheet-tour/gameweek-breakdown.png" width="1200vh" height="auto">
+
+Fun tab to look at as the season progresses!
+
+# Manager Breakdown
+
+Zooming into each _manager_ rather than each week, is the Manager Breakdown tab! This is another fully automated table that includes a lot of data on each individual manager over the course of the season. It's a bit boring on week 1, but it gets better! Some info on this tab:
+
+- High, Low, and Average of each manager
+- Points per Week and Points per Game over the last 5 gameweeks (from the Form table)
+- Total Points For
+- Number of scores in multiples of 10, per manager
+
+<img src="/images/fantasy-pl-spreadsheet-tour/manager-breakdown.png" width="1200vh" height="auto">
+
+# Timelines
+
+Perhaps the fan favorite set of data alongside the Copium tables, this number-dense tab contains a few fun things:
+
+**Points for Timeline**
+
+- Weekly points total each manager
+- Fun fact: this table used to be completely manual. Every week I would go through and set everyone's weekly score based on the Gameweeks tab. It took _forever_ and was one of the biggest time sinks for Weekly Updates.
+
+**Cumulative Points for Timeline**
+
+- This was a timeline I threw together at the end of last season and I thought it was neat, so here it is!
+-
