@@ -18,6 +18,12 @@ table, th, td {
     text-align: center;
     font-weight: bold;
 }
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid;
+}
 </style>
 
 ---
