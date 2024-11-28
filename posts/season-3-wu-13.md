@@ -1,6 +1,6 @@
 ---
 title: "Season 3 Weekly Update 13"
-date: "2024-11-25"
+date: "2024-11-27"
 summary: ""
 tags: ["season 3", "weekly update"]
 ---
