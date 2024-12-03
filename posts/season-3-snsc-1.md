@@ -1,6 +1,6 @@
 ---
 title: "Season 3 Short n' Sweet Cup Update 1"
-date: "2024-08-19"
+date: "2024-12-03"
 summary: ""
 tags: ["season 3", "weekly update", "tournament update"]
 ---
