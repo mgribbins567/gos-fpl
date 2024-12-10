@@ -61,7 +61,7 @@ The December Manager of the Month race sees Kevin expand his lead on PF to 21! O
 In terms of the form table, MatthewR takes his place back at the top with 15/15 points earned! He's followed by Kevin, me, and Zach with 12/15.
 
 <p class="center-bold">Form Table</p>
-<img src="/images/season-3/season-3-wu/65/form-table.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/16/form-table.png" width="1200vh" height="auto">
 <br/>
 
 Next week will see some great matchups, headlined by the two teams at the top of the form table: Kevin vs MatthewR! Elsewhere, we will have a Gribbins derby in which I will look to take revenge for GW1, and midtable matchups in Zach vs Gavin and Rebecca vs Dylan.
