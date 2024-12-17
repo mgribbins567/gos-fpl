@@ -67,4 +67,4 @@ As a reminder, the 1st place finishers all get byes from the Round of 12! This m
 <img src="/images/season-3/season-3-wu/17/group-stage.png" width="1200vh" height="auto">
 <br />
 
-Good luck this week and next week we will have our first round of knockouts!
+Good luck this week to those in the Round of 12!
