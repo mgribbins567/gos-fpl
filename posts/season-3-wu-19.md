@@ -20,7 +20,7 @@ img {
 
 ---
 
-Happy gameweek 19 and happy New Year gameweek! Waivers this week are due tomorrow at 5am PST / 8am EST with games starting on Sunday! This week saw a set of fairly standard results, but close matchups. STarting with the closest was Coop's 28-27 win against Andrew, Matt's 33-31 victory over Gavin, and MatthewR's narrow 44-41 win over Dylan. The highest scoring matchup of the week saw Emily take 3 points over Scott in her 55-44 win.
+Happy gameweek 19 and happy New Year gameweek! Waivers this week are due tomorrow at 5am PST / 8am EST with games starting on Sunday! This week saw a set of fairly standard results, but close matchups. Starting with the closest was Coop's 28-27 win against Andrew, Matt's 33-31 victory over Gavin, and MatthewR's narrow 44-41 win over Dylan. The highest scoring matchup of the week saw Emily take 3 points over Scott in her 55-44 win.
 
 Full results are as follows:
 
@@ -32,7 +32,6 @@ Full results are as follows:
 - Rebecca 26-41 Luke
 - Kevin 45-26 Zach
 - MatthewR 44-41 Dylan
-
 
 <p class="center-bold">League Table</p>
 <img src="/images/season-3/season-3-wu/19/league-table.png" width="1200vh" height="auto">
