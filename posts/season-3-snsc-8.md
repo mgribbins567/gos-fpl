@@ -39,7 +39,7 @@ Knockouts:
 Thank you everyone for participating and I hope you enjoyed our second cup of the season! Keep an eye out for more information regarding the Champions Cup, which will be our closing tournament this year!
 
 <p class="center-bold">Short n' Sweet Cup: Group Stage</p>
-<img src="/images/season-3/season-3-wu/21/knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/21/group-stage.png" width="1200vh" height="auto">
 <br />
 
 <p class="center-bold">Short n' Sweet Cup: Knockout Stage</p>
