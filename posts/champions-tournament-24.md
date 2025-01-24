@@ -1,6 +1,6 @@
 ---
 title: "Game of Stones Season 3 Champions Tournament"
-date: "2025-01-21"
+date: "2025-01-23"
 summary: ""
 tags: ["season 3", "announcement"]
 ---
