@@ -2,7 +2,7 @@
 title: "Game of Stones Season 3 Mid-Season Blog 1"
 date: "2025-02-13"
 summary: ""
-tags: ["season 3", "weekly update", "tournament update"]
+tags: ["season 3", "blog"]
 ---
 
 <style>
