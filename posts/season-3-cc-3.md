@@ -107,6 +107,6 @@ And here's some pictures, including what **Group Stage 2** would look like if _n
 
 <br />
 <p class="center-bold">Champions Cup Group Stage 2</p>
-<img src="/images/season-3/season-3-wu/28/group-stage-2.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/28/group-stage-2.png" width="400vh" height="auto">
 
 Good luck and see you in the second group stage!
