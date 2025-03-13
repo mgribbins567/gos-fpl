@@ -120,7 +120,7 @@ These groups were sorted in their own tables for seeding, then matched up as usu
 
 Anyway, congrats to those in Group E! They now battle it out to determine who gets priority when picking their opponent in the Round of 16! And everyone else gets to battle it out to _not_ be able to be picked, plus getting a higher seed in the knockouts!
 
-Obviously the Group E and G matchups will always be interesting, but Soph and Darryan have had _extremely_ similar form, so that could be a good one as well!
+Obviously the Group E and F matchups will always be interesting, but Soph and Darryan have had _extremely_ similar form, so that could be a good one as well!
 
 Here's an image!
 
