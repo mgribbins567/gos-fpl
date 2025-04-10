@@ -122,26 +122,26 @@ Shoutout this week to Luke for 5 wins in a row! Also shoutouts to Matt for 4 und
 ### Copium Tables
 
 <p class="center-bold">Performance Table</p>
-<img src="/images/season-3/season-3-wu/31/performance-table.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/performance-table.png" width="1200vh" height="auto">
 <p class="center-bold">Luck Table</p>
-<img src="/images/season-3/season-3-wu/31/luck-table.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/luck-table.png" width="1200vh" height="auto">
 <p class="center-bold">xP Table (manager vs average)</p>
-<img src="/images/season-3/season-3-wu/31/xp-table.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/xp-table.png" width="1200vh" height="auto">
 
 ### Statistical Breakdowns
 
 <p class="center-bold">Gameweek Breakdown</p>
-<img src="/images/season-3/season-3-wu/31/gameweek-breakdown.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/gameweek-breakdown.png" width="1200vh" height="auto">
 <p class="center-bold">Manager Breakdown</p>
-<img src="/images/season-3/season-3-wu/31/manager-breakdown.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/manager-breakdown.png" width="1200vh" height="auto">
 
 ### Timelines
 
 <p class="center-bold">Position Timeline</p>
-<img src="/images/season-3/season-3-wu/31/position-timeline.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/position-timeline.png" width="1200vh" height="auto">
 <p class="center-bold">Points Timeline</p>
-<img src="/images/season-3/season-3-wu/31/points-timeline.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/points-timeline.png" width="1200vh" height="auto">
 <p class="center-bold">Points For Timeline</p>
-<img src="/images/season-3/season-3-wu/31/points-for-timeline.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/32/points-for-timeline.png" width="1200vh" height="auto">
 
 Good luck!
