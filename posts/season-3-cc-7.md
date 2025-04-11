@@ -87,6 +87,8 @@ That puts us in the Round of 16! This round is a best of 1, while the rest of th
 - Zach vs Jesse
 - Gavin vs MatthewR
 
+<br />
+
 - Rebecca vs Scott
 - Luke vs Soph
 
@@ -94,6 +96,8 @@ That puts us in the Round of 16! This round is a best of 1, while the rest of th
 
 - Dylan vs Coop
 - Darryan vs Emily
+
+<br />
 
 - Matt vs Andrew
 - Matthew vs Kevin
