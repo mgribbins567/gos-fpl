@@ -90,11 +90,11 @@ I wasn't doneso!! I'm not fuckin leavin!
 
 <br />
 <p class="center-bold">Champions Cup Knockouts - 9th-12th</p>
-<img src="/images/season-3/season-3-wu/35/consolation-round-1.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/35/consolation-round-2.png" width="1200vh" height="auto">
 <br />
 
 <br />
 <p class="center-bold">Champions Cup Knockouts - 13th-16th</p>
-<img src="/images/season-3/season-3-wu/35/consolation-round-1.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/35/consolation-round-3.png" width="1200vh" height="auto">
 
 Good luck in the second leg!
