@@ -37,6 +37,10 @@ Semi Final
 
 - MatthewR vs Luke
 
+Consolation Semi Final
+
+- Zach vs Rebecca
+
 **Bottom Half**
 
 - Coop 52-73 Darryan
@@ -45,6 +49,10 @@ Semi Final
 Semi Final
 
 - Darryan vs Kevin
+
+Consolation Semi Final
+
+- Coop vs Andrew
 
 ---
 
