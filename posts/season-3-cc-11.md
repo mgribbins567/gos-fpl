@@ -1,6 +1,6 @@
 ---
-title: "Season 3 Champions Cup Update 10"
-date: "2025-05-01"
+title: "Season 3 Champions Cup Update 11"
+date: "2025-05-08"
 summary: ""
 tags: ["season 3", "weekly update", "tournament update"]
 ---
