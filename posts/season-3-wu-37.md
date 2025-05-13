@@ -1,6 +1,6 @@
 ---
 title: "Season 3 Weekly Update 37"
-date: "2025-05-11"
+date: "2025-05-12"
 summary: ""
 tags: ["season 3", "weekly update"]
 ---
