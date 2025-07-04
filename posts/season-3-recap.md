@@ -117,7 +117,7 @@ And now, to introduce: the new xP table! Which consists of Manager vs **Everyone
 In short, this table calculates how many wins, draws, and losses someone would have in any given week if they were to play all 15 other managers, then averages that out! So the highest scorer would get 3 points, second highest would get 3 \* 14/15 and so on.
 
 <p class="center-bold">New xP Table (manager vs everyone)</p>
-<img src="/images/season-3/season-3-wu/recap/xp-table.png" width="1200vh" height="auto">
+<img src="/images/season-3/season-3-wu/recap/new-xp-table.png" width="1200vh" height="auto">
 
 Now, this table has some interesting similarities with the old table, such as (in old xp vs new xp format):
 
