@@ -2,8 +2,8 @@ import React from "react";
 import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
-import managers from "../../../data/managers.json";
-import { GetManagerLeagueTable } from "../../../lib/history_util";
+import { GetManagerTable } from "../../../lib/history_util";
+import { EmilyAccolades } from "../accolades";
 
 var manager = "Emily";
 
@@ -16,8 +16,9 @@ export default function Emily({}) {
         </Head>
         <h1>{manager}'s History</h1>
         <div>
-          <GetManagerLeagueTable data={managers} manager={manager} />
+          <GetManagerTable manager={manager} />
         </div>
+        <EmilyAccolades />
       </div>
     </Layout>
   );

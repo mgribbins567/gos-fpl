@@ -3,7 +3,6 @@ import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Link from "next/link";
-import data from "../../data/league_table_22_23.json";
 import { GetExtendedLeagueTable } from "../../lib/history_util";
 
 export default function Season_22_23({}) {
@@ -20,7 +19,7 @@ export default function Season_22_23({}) {
         <br></br>
         <h2>League Table</h2>
         <div>
-          <GetExtendedLeagueTable data={data} />
+          <GetExtendedLeagueTable range="'League Tables'!A1:K17" />
         </div>
         <p>
           PPW (Points Per Week) is calculated by dividing PF (Points For) by the

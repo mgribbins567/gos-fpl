@@ -3,7 +3,6 @@ import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Link from "next/link";
-import data from "../../data/league_table_23_24.json";
 import { GetExtendedLeagueTable } from "../../lib/history_util";
 
 function GetWinterGroups() {
@@ -517,7 +516,7 @@ export default function Season_23_24({}) {
         <br></br>
         <h2>League Table</h2>
         <div>
-          <GetExtendedLeagueTable data={data} />
+          <GetExtendedLeagueTable range="'League Tables'!L1:V13" />
         </div>
         <p>
           PPW (Points Per Week) is calculated by dividing PF (Points For) by the
@@ -528,10 +527,8 @@ export default function Season_23_24({}) {
       <div>
         <div className={utilStyles.main}>
           <br />
-          <h2>December Cup</h2>
-          <div>
-            <GetWinterGroups />
-          </div>
+          {/* <h2>December Cup</h2> */}
+          <div>{/* <GetWinterGroups /> */}</div>
           <br />
         </div>
         <div>{/* <GetWinterBracket /> */}</div>

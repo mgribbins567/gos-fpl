@@ -2,8 +2,8 @@ import React from "react";
 import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
-import managers from "../../../data/managers.json";
-import { GetManagerLeagueTable } from "../../../lib/history_util";
+import { GetManagerTable } from "../../../lib/history_util";
+import { DylanAccolades } from "../accolades";
 
 var manager = "Dylan";
 
@@ -16,9 +16,9 @@ export default function Dylan({}) {
         </Head>
         <h1>{manager}'s History</h1>
         <div>
-          <GetManagerLeagueTable data={managers} manager={manager} />
+          <GetManagerTable manager={manager} />
         </div>
-        <p>Cups not included in total league standings!</p>
+        <DylanAccolades />
       </div>
     </Layout>
   );

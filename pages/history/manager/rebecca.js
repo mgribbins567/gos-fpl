@@ -3,12 +3,13 @@ import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
 import { GetManagerTable } from "../../../lib/history_util";
+import { RebeccaAccolades } from "../accolades";
 
-var manager = "Jake";
+var manager = "Rebecca";
 
-export default function Jake({}) {
+export default function Rebecca({}) {
   return (
-    <Layout jake>
+    <Layout rebecca>
       <div className={utilStyles.main}>
         <Head>
           <title>{manager} - Game of Stones</title>
@@ -17,6 +18,7 @@ export default function Jake({}) {
         <div>
           <GetManagerTable manager={manager} />
         </div>
+        <RebeccaAccolades />
       </div>
     </Layout>
   );

@@ -3,12 +3,13 @@ import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
 import { GetManagerTable } from "../../../lib/history_util";
+import { SophAccolades } from "../accolades";
 
-var manager = "Jake";
+var manager = "Soph";
 
-export default function Jake({}) {
+export default function Soph({}) {
   return (
-    <Layout jake>
+    <Layout soph>
       <div className={utilStyles.main}>
         <Head>
           <title>{manager} - Game of Stones</title>
@@ -17,6 +18,7 @@ export default function Jake({}) {
         <div>
           <GetManagerTable manager={manager} />
         </div>
+        <SophAccolades />
       </div>
     </Layout>
   );

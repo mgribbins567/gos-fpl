@@ -3,12 +3,13 @@ import Head from "next/head";
 import utilStyles from "../../../styles/utils.module.css";
 import Layout from "../../../components/layout";
 import { GetManagerTable } from "../../../lib/history_util";
+import { CoopAccolades } from "../accolades";
 
-var manager = "Jake";
+var manager = "Coop";
 
-export default function Jake({}) {
+export default function Coop({}) {
   return (
-    <Layout jake>
+    <Layout coop>
       <div className={utilStyles.main}>
         <Head>
           <title>{manager} - Game of Stones</title>
@@ -17,6 +18,7 @@ export default function Jake({}) {
         <div>
           <GetManagerTable manager={manager} />
         </div>
+        <CoopAccolades />
       </div>
     </Layout>
   );

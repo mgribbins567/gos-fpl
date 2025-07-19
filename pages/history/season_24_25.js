@@ -1,9 +1,7 @@
-import React from "react";
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Link from "next/link";
-import league_table from "../../data/league_table_24_25.json";
 import group_stage_table from "../../data/tournament_1_24_25.json";
 import {
   GetExtendedLeagueTable,
@@ -37,7 +35,7 @@ function GetKickoffTournamentGroups() {
   );
 }
 
-export default function Season_23_24({}) {
+export default function Season_24_25({}) {
   return (
     <Layout history>
       <div className={utilStyles.main}>
@@ -51,13 +49,11 @@ export default function Season_23_24({}) {
         <br />
         <h2>League Table</h2>
         <div>
-          <GetExtendedLeagueTable data={league_table} />
+          <GetExtendedLeagueTable range="'League Tables'!W1:AG17" />
         </div>
         <br />
-        <h2>Kickoff Tournament</h2>
-        <div>
-          <GetKickoffTournamentGroups />
-        </div>
+        {/* <h2>Kickoff Tournament</h2> */}
+        <div>{/* <GetKickoffTournamentGroups /> */}</div>
         <br />
         <h2>Prize Pool</h2>
         <p>Total Pot - $610</p>
