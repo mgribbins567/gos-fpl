@@ -65,6 +65,8 @@ img {
 
 </div>
 
+Last Updated: 7/19/2025
+
 **Table of Contents** <a name="table-of-contents"></a>
 
 1. [The Basics](#the-basics)
@@ -80,8 +82,9 @@ img {
       1. [Season 1](#season-1)
       2. [Season 2](#season-2)
       3. [Season 3](#season-3)
+      4. [Season 4](#season-4)
          1. [Promotion / Relegation](#promotion--relegation)
-      4. [Game of Stones Hub](#game-of-stones-hub)
+      5. [Game of Stones Hub](#game-of-stones-hub)
    3. [League Perks](#league-perks)
       1. [Stats](#stats)
       2. [Weekly Updates](#weekly-updates)
@@ -150,7 +153,20 @@ As you can see, you’ll need to change your team based on injuries, form, or ma
 
 ### Scoring <a name="scoring"></a>
 
-In order to pick the right team, you will first have to predict who on your team will score the most points. Scoring in Fantasy Premier League is, in ways, more and less complicated than scoring in NFL Fantasy Football. Instead of scoring every action, Fantasy Premier League breaks down scoring specific actions. These actions are scored differently for each position. The positional breakdown for scoring is as follows:
+In order to pick the right team, you will first have to predict who on your team will score the most points. Scoring in Fantasy Premier League is, in ways, more and less complicated than scoring in NFL Fantasy Football. Instead of scoring every action, Fantasy Premier League breaks down scoring specific actions. These actions are scored differently for each position.
+
+As of the 2025/2026 season, two changes have been made:
+
+1. Defensive Contributions have been added, based on the number of clearances, blocks, interceptions, and tackles an outfield player has made.
+
+2. Assist awarding is even more lenient, with intended destination no longer being considered if:
+
+- The goalscorer receives the ball in the box, and does not lose and regain possession
+- There is only one defensive touch before the ball reaches the goalscorer, and that touch is **not** a pass
+
+That means if the goalscorer receives the ball _outside_ the box, the old "intended destination" rule applies.
+
+The positional breakdown for scoring is as follows:
 
 Goalkeepers
 
@@ -171,6 +187,8 @@ Defenders
   - 6 points
 - Clean Sheet
   - 4 points
+- 10+ Defensive Contributions
+  - 2 points
 
 Midfielders
 
@@ -178,11 +196,15 @@ Midfielders
   - 5 points
 - Clean Sheet
   - 1 point
+- 12+ Defensive Contributions
+  - 2 points
 
 Forwards
 
 - Goal Scored
   - 4 points
+- 12+ Defensive Contributions
+  - 2 points
 
 All Positions
 
@@ -213,6 +235,14 @@ The Bonus Points System is an archaic, complicated system that uses a range of s
 
 Note: The Bonus Points System is a score that determines the number of Bonus Points a player wins. A BPS score will be in the 10s/100s, while any player will only receive up to 3 bonus points. The following table contains BPS scores for various statistics that are taken into account (taken from the [Fantasy Draft Help page](https://draft.premierleague.com/help)).
 
+For the 2025/2026 season, the following changes have been made:
+
+- Save from shot in the box 2 -> 3 (save from shot outside the box remains 2)
+- Saving a penalty 9 -> 8
+- Goal Line Clearance 3 -> 9
+- Penalty Goal 12
+- Successful tackle (net) 2 -> Tackles won 2
+
 | Action                                          | Points | Action                                        | Points |
 | :---------------------------------------------- | :----- | :-------------------------------------------- | :----- |
 | Playing 1 to 60 minutes                         | 3      | Foul won                                      | 1      |
@@ -220,19 +250,20 @@ Note: The Bonus Points System is a score that determines the number of Bonus Poi
 | Goalkeeper / Defender scoring a goal            | 12     | 70-79% pass completion (30+ passes attempted) | 2      |
 | Midfielder scoring a goal                       | 18     | 80-89% pass completion (30+ passes attempted) | 4      |
 | Forward scoring a goal                          | 24     | 90%+ pass completion (30+ passes attempted)   | 6      |
+| Scoring a penalty                               | 12     | Goal Line Clearance                           | 9      |
 | Assist                                          | 9      | Conceding a penalty                           | -3     |
 | Goalkeeper / Defender keeping a clean sheet     | 12     | Missing a penalty                             | -6     |
-| Saving a penalty                                | 9      | Yellow card                                   | -3     |
-| Save                                            | 2      | Red card                                      | -9     |
-| Successful open play cross                      | 1      | Own goal                                      | -6     |
-| Creating a big chance                           | 3      | Missing a big chance                          | -3     |
-| 2 clearances, blocks, and interceptions (total) | 1      | Error that leads to a goal                    | -3     |
-| 3 recoveries                                    | 1      | Error that leads to an attempt at goal        | -1     |
-| Key pass                                        | 1      | Being tackled                                 | -1     |
-| Successful tackle (net)                         | 2      | Conceding a foul                              | -1     |
-| Successful dribble                              | 1      | Caught offside                                | -1     |
-| Scoring the game winning goal                   | 3      | Shot off target                               | -1     |
-| Goal Line Clearance                             | 3      |                                               |        |
+| Saving a penalty                                | 8      | Yellow card                                   | -3     |
+| Save on shot in the box                         | 3      | Red card                                      | -9     |
+| Save on shot outside the box                    | 2      | Own goal                                      | -6     |
+| Successful open play cross                      | 1      | Missing a big chance                          | -3     |
+| Creating a big chance                           | 3      | Error that leads to a goal                    | -3     |
+| 2 clearances, blocks, and interceptions (total) | 1      | Error that leads to an attempt at goal        | -1     |
+| 3 recoveries                                    | 1      | Being tackled                                 | -1     |
+| Key pass                                        | 1      | Conceding a foul                              | -1     |
+| Tackles won                                     | 2      | Caught offside                                | -1     |
+| Successful dribble                              | 1      | Shot off target                               | -1     |
+| Scoring the game winning goal                   | 3      |                                               |        |
 
 ### Transactions <a name="transactions"></a>
 
@@ -286,11 +317,8 @@ We also have a few different non-official tournaments and cups throughout the se
 
 The first season of the Game of Stones was a 16 team brawl. **Darryan** was crowned champion with 88 points and a record of 28-4-6, consistently matching up well against **Matthew’s** team, who finished on 79 points, with a record of 26-1-11. **Dylan** and **Jesse** rounded out the top 4, during a hard fought final day in which they triumphed against **Andrew**, **MatthewR**, and **Scott**, who finished in our Europa and Conference League slots.
 
-<Image
-src="/images/new-player-primer/season_1.jpg"
-height={144}
-width={144}
-/>
+<img src="/images/new-player-primer/season_1.jpg" width="1200vh" height="auto">
+<br />
 
 #### Season 2 <a name="season-2"></a>
 
@@ -298,15 +326,25 @@ Game of Stones Season 2 saw 8 returning managers of the 16 alongside 4 brand new
 
 This season saw the introduction of [mid-season tournaments](#mid-season-tournaments). These are unofficial tournaments run by hand, with a small prize given to the winner. The first of which was the **December Cup**. This cup ran for the 7 gameweeks in December 2023, and consisted of a group stage - 3 groups of 4 - and a single elimination knockout stage. **Matthew** picked up the win in the two-legged final over **Andrew**. The second tournament of this season was the **Champions Cup**, a tournament that ran for 11 gameweeks to close out the season. Unlike the December Cup, the Champions Cup group stage consisted of only 2 groups of 6, which seeded a two-legged, single elimination bracket to crown the winner. **Matthew** defeated **Luke** to take home the trophy of the Champions Cup and a treble on the season.
 
-<Image
-src="/images/new-player-primer/season_2.jpg"
-height={144}
-width={144}
-/>
+<img src="/images/new-player-primer/season_2.jpg" width="1200vh" height="auto">
+<br />
 
 #### Season 3 <a name="season-3"></a>
 
-This is where you come in! Season 3 will see a yet again expanded Game of Stones as we increase player count back up to 16. New players this season include **Matt**, **Coop**, **Rebecca**, and _a mystery manager_. Once again, this season will have [mid-season tournaments](#mid-season-tournaments), [prizes](#prizing), and lots of fun(and stats)!
+Game of Stones Season 3 saw an expanded field as the player count increased back to 16 managers. The new managers including **Matt**, **Coop**, **Rebecca**, and **Soph**. This season, **MatthewR** ran away with it, collecting 89 points from a record of 29-2-7. **Kevin** pulled away in the race for 2nd, with **Luke**, and newcomer **Matt** completing the top 4. **Matthew**, **Gavin**, and **Rebecca** finished close behind in our 'European qualification' spots.
+
+Season 3 saw 3 mid-season tournaments, starting with the **Kick-Off Cup**. This tournament consisted of 4 groups of 4 that spilled into a 16-team, two-legged bracket that led to a single-leg final in which **Scott** won over **Matthew**. The next tournament was the **Short n' Sweet Cup**, which was the annual December cup for this year. It lasted 7 weeks as well, consisting of a short 4 group group stage, with the group winners receiving first round byes and the last place finishers eliminated. This led to a single-leg bracket that started with 12 teams and saw Matt defeat Darryan in the final. The final tournament of the season was the annual **Champions Cup**, which ran for a daunting 13 weeks this year. It consisted of two group stages, which lead to a single-leg round of 16 in which the winners of Group Stage 1 got to decide their opponent. The winners of that round went into a two-legged bracket, which saw Luke defeat Kevin in the final to take home the trophy.
+
+<img src="/images/season-3/season-3-wu/recap/league-table.png" width="1200vh" height="auto">
+<br />
+
+#### Season 4 <a name="season-4"></a>
+
+Game of Stones Season 4 sees the league take a new turn with promotion / relegation! Game of Stones A will consist of _12 experienced managers_ - managers who have had at least 1 season under their belts and are raring at the chance for the title. Game of Stones B, however, will see only 2 old names and _10 brand new managers_ join the fray.
+
+After gameweek 38, the bottom 2 managers in Game of Stones A will swap places with the top 2 of Game of Stones B for Season 5. And, tentatively, I think we will have a play-off between 10th in Game of Stones A and 3rd in Game of Stones B for a 3rd possible promotion / relegation place between the leagues.
+
+And to add a note here on how this will work: I (Matthew) will have a team in each league, because OFPL does not allow for an administrator to run a league without having a team in it. It's stupid, I know. That said, **I will not be eligible for prizes, promotion, etc.**, but I _will_ play the game as if I am trying to win, in order to keep up competitive integrity.
 
 ##### Promotion / Relegation <a name="promotion--relegation"></a>
 
@@ -332,25 +370,28 @@ Every gameweek, a Weekly Update is released that covers a number of details on w
 
 #### Manager of the Month <a name="manager-of-the-month"></a>
 
-Every month, we give a small award to the manager who has won the most points. This is generally a percentage of the total prize pool, plus a starter value (more on prizing later). The first tiebreaker after points is points for. This award incentivizes both contributions to the prize pool along with a mini-competition for all managers every month.
+Every month, we give a small award to the manager who has won the most points. This is generally a percentage of the total prize pool plus a starter value, or a flat value (more on prizing later). The first tiebreaker after points is points for. This award incentivizes both contributions to the prize pool along with a mini-competition for all managers every month.
 
 #### Mid-Season Tournaments <a name="mid--season-tournaments"></a>
 
-Occasionally, a mid-season tournament will be thrown together. Usually, these will have more modest prizes than the entire campaign, but provide another outlet of competition for those who may be having trouble in the league. The scoring remains the same as in the regular Fantasy League, but matchups will be changed, giving managers two matches in a week rather than just one.
+Occasionally, a mid-season tournament will be thrown together. Usually, these will have more modest prizes than the entire campaign, but provide another outlet of competition for those who may be having trouble in the league. The scoring remains the same as in the regular Fantasy League, but matchups will be changed, giving managers two matches in a week rather than just one. This competition comes with a flat cash prize and a mystery kit!
 
 #### Prizing <a name="prizing"></a>
 
-End of season prizes consist of each player in the top X, league size dependent, winning a percentage of the total pot. Then, the leftovers will go into the manager of the month pot, which is aggregated with a starter value and given to each winner of the award. The winner of the league also gets a Premier League jersey of their choice (highly recommended to be a player from their fantasy team). An example prizing breakdown for a $100 total prize pool is as follows:
+End of season prizes consist of each player in the top X, league size dependent, winning a percentage of the total pot. The winner of the league also gets a Premier League jersey of their choice (highly recommended to be a player from their fantasy team). An example prizing breakdown for a $100 total prize pool is as follows:
 
 - 1st
   - Jersey
   - $50
 - 2nd
-  - $25
+  - $30
 - 3rd
-  - $15
+  - $20
 - Manager of the Month
-  - $1 ($10 / 10 months) + $5 = $5.83
+  - $10
+- Mid-season Tournament winner
+  - $20
+  - Mystery Kit (such as from https://awaydaysfootball.com/)
 
 ---
 
