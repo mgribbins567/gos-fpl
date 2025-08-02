@@ -2,7 +2,7 @@
 title: "Welcome to the Game of Stones Season 4 - League A Edition!"
 date: "2025-07-31"
 summary: ""
-tags: ["season 3", "weekly update"]
+tags: ["season 4", "announcement"]
 ---
 
 <style>
