@@ -57,5 +57,5 @@ Anyway, welcome to gameweek 1! For those of you who are new here, usually these 
 And unfortunately, I don't have a kickoff cup announcement just yet, so stay tuned! There is a section on mid-season tournaments in the New Player Primer, but the tldr is that I will use your scores in the league in my own, spreadsheetized tournament! These will be different matchups than the league (e.g. Divya could play against me and Andrew in the same week), so everyone has a bit more to play for!
 
 <p class="center-bold">Draft Board</p>
-<img src="/images/season-4/season-4-a-wu/1/draft-board.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-b-wu/1/draft-board.png" width="1200vh" height="auto">
 <br/>
