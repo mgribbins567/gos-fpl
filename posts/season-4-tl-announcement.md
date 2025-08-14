@@ -28,8 +28,9 @@ Hello everyone and welcome to The League! This is the first of our 3 mid-season 
 
 ### Announcements (sorry)
 
-1. If you are in the B League, please be careful when placing waivers this week. Due to some issues with drafting, players drafted offline are currently seen as available on the site. **Do not take these players. Please confirm players on your waiver list are not on the draft board or the banned players list.**
-2. The banned players list (meaning you **cannot** add these players to your team in **any** capacity), is still active! The player list has not changed, but I will put it here regardless:
+1 - If you are in the B League, please be careful when placing waivers this week. Due to some issues with drafting, players drafted offline are currently seen as available on the site. **Do not take these players. Please confirm players on your waiver list are not on the draft board or the banned players list.**
+
+2 - The banned players list (meaning you **cannot** add these players to your team in **any** capacity), is still active! The player list has not changed, but I will put it here regardless:
 
 - Sesko
 - Diakite
@@ -41,7 +42,7 @@ Hello everyone and welcome to The League! This is the first of our 3 mid-season 
 - Wolfe
 - Alderete
 
-3. Don't forget to click **Save Team** if you make any changes to your lineup! It doesn't automatically save so let me save you the trouble of realizing it yourself.
+3 - Don't forget to click **Save Team** if you make any changes to your lineup! It doesn't automatically save so let me save you the trouble of realizing it yourself.
 
 ---
 
@@ -86,16 +87,25 @@ If you're curious about the full fixtures for all 8 group stage weeks, here they
 
 And, in case you thought I forgot, I totally did. But then I was reminded! So here are your Gameweek 1, slightly based on vibes and slightly based on fact power rankings (with 5 from each league, which won't always happen):
 
-10. ZachA - League B - This spot was really difficult for me, since there are so many teams in and around this 10 position I was choosing between. I think ZachA's team has a lot of upside, João Pedro is in form, Mbeumo/Mitoma/Sarr are a very solid midfield core, and he picked up some of the best defenders on the board in Cucurella and Ait-Nouri. Solid draft (apart from the lack of FWD depth).
-11. Andrew - League B - This draft looked a lot like Darryan's draft, but Andrew spent his early rounds grabbing high value MIDs such as Cunha and Gibbs-White to put behind Haaland. Havertz will get minutes, Frimpong and Branthwaite are both very highly sought after defenders. A very good draft behind the obvious Haaland pick.
-12. Cara - League B - Somehow, Cara's auto-draft actually kinda went off. After picking Ekitike first (who is quite valuable as of writing this due to the Isak transfer stalling), she got a great suite of MIDs. Marmoush, Gakpo, Gordon, Schade, and Johnson all have very solid goalscoring records, even if they don't always get consistent minutes. She was still able to pick up a starting FWD in Welbeck and solid DEF picks in Hall, Nunes, and Robinson.
-13. Mack - League B - I flipped back and forth between putting Mack at 7 vs 6 because these two teams are just very close in my mind. But Mack has a lot going for her team: Gyokeres seems to be first choice currently, Strand Larsen had a surprising goalscoring record last season (especially when Cunha was off the field), Eze, Elanga, and Semenyo are 3 very solid attacking midfielders, and she was even able to pick up some valuable defenders in Kerkez, Collins, and Guehi.
-14. Darryan - League A - Just barely inching this position was the Haaland draft of the first round. Taking 3 FWDs in the first 3 rounds is brave, but it sets Darryan up really well, especially early in the season when _anyone_ can find form. After his triple forward play, he followed it up with 2 of the best defenders in the game in Saliba and Frimpong. Where his team falters is in midfield, where McNeil and Bruno G are the highlights. But that means _way_ less when you have a front 3 of Haaland, Evanilson, and Raul Jimenez.
-15. Kevin - League A - Honestly, really liked Kevin's draft here. Gyokeres and Pedro are a great FWD pairing for this moment, Gibbs-White, Tielemans, and Tonali are a solid attacking midfield trio along with defensive contribution beats Caicedo, and he made smart picks on defense too, with Kerkez, Ait-Nouri, and Konate forming his core. Solid draft that balanced consistent points and punts in my opinion.
-16. Matthew - League A - Unfortunately I think I'm just on the cusp of being in the top 3 but just don't make it. I think Mateta and Solanke are a very solid FWD pairing, especially with Semenyo and Mitoma in the midfield. Paqueta and Damsgaard have been pretty consistent scoring in recent years and I think everyone knows what Foden _could_ do. I also think my defenders are quite solid, Munoz was one of the highest scorers last season, along with Robinson and N.Williams who made a number of offensive contributions.
-17. Luke - League A - 3 and 2 were another couple of drafts that I went back and forth on, since they are both very similar and honestly solid picks from both. The issue I have with Luke's draft has to be the FWD position, though. His MIDs are incredible, with Palmer, Marmoush, Gakpo, Ndiaye, and Georginio he really might not have to waiver a MID all season if they stay healthy. His defense is also very solid, with Murillo and Branthwaite as the core and Agbadou and Kilman as defensive contribution monsters he put together a good team.
-18. Zach - League A - If you could guess it, the FWDs are what tipped Zach into 2nd. Ekitike, Piroe, and Beto all should start (for now), and even though the midfield is a bit weaker I still think he edges out Luke. Saka, Rogers, and Elanga are all very good players and I don't mind the punt on Tel and Zubimendi as the Caicedo-like player. His defense is also solid, with Gvardiol, Guehi, and Konsa all being high scoring players in past seasons.
-19. Matthew2 - League B - I mean, I'm not sure if there is a little bit of bias playing into this, but I'll just list the players and see what you think. FWDs of Evanilson, Wood, and Guiu; MIDs of Salah, Rogers, Kudus, Georginio, and Savinho; DEFs of Murillo, Munoz, Schar, Richards, and O'Brien. And Richards is going out on waivers this week :wave:.
+10 - ZachA - League B - This spot was really difficult for me, since there are so many teams in and around this 10 position I was choosing between. I think ZachA's team has a lot of upside, João Pedro is in form, Mbeumo/Mitoma/Sarr are a very solid midfield core, and he picked up some of the best defenders on the board in Cucurella and Ait-Nouri. Solid draft (apart from the lack of FWD depth).
+
+9 - Andrew - League B - This draft looked a lot like Darryan's draft, but Andrew spent his early rounds grabbing high value MIDs such as Cunha and Gibbs-White to put behind Haaland. Havertz will get minutes, Frimpong and Branthwaite are both very highly sought after defenders. A very good draft behind the obvious Haaland pick.
+
+8 - Cara - League B - Somehow, Cara's auto-draft actually kinda went off. After picking Ekitike first (who is quite valuable as of writing this due to the Isak transfer stalling), she got a great suite of MIDs. Marmoush, Gakpo, Gordon, Schade, and Johnson all have very solid goalscoring records, even if they don't always get consistent minutes. She was still able to pick up a starting FWD in Welbeck and solid DEF picks in Hall, Nunes, and Robinson.
+
+7 - Mack - League B - I flipped back and forth between putting Mack at 7 vs 6 because these two teams are just very close in my mind. But Mack has a lot going for her team: Gyokeres seems to be first choice currently, Strand Larsen had a surprising goalscoring record last season (especially when Cunha was off the field), Eze, Elanga, and Semenyo are 3 very solid attacking midfielders, and she was even able to pick up some valuable defenders in Kerkez, Collins, and Guehi.
+
+6 - Darryan - League A - Just barely inching this position was the Haaland draft of the first round. Taking 3 FWDs in the first 3 rounds is brave, but it sets Darryan up really well, especially early in the season when _anyone_ can find form. After his triple forward play, he followed it up with 2 of the best defenders in the game in Saliba and Frimpong. Where his team falters is in midfield, where McNeil and Bruno G are the highlights. But that means _way_ less when you have a front 3 of Haaland, Evanilson, and Raul Jimenez.
+
+5 - Kevin - League A - Honestly, really liked Kevin's draft here. Gyokeres and Pedro are a great FWD pairing for this moment, Gibbs-White, Tielemans, and Tonali are a solid attacking midfield trio along with defensive contribution beats Caicedo, and he made smart picks on defense too, with Kerkez, Ait-Nouri, and Konate forming his core. Solid draft that balanced consistent points and punts in my opinion.
+
+4 - Matthew - League A - Unfortunately I think I'm just on the cusp of being in the top 3 but just don't make it. I think Mateta and Solanke are a very solid FWD pairing, especially with Semenyo and Mitoma in the midfield. Paqueta and Damsgaard have been pretty consistent scoring in recent years and I think everyone knows what Foden _could_ do. I also think my defenders are quite solid, Munoz was one of the highest scorers last season, along with Robinson and N.Williams who made a number of offensive contributions.
+
+3 - Luke - League A - 3 and 2 were another couple of drafts that I went back and forth on, since they are both very similar and honestly solid picks from both. The issue I have with Luke's draft has to be the FWD position, though. His MIDs are incredible, with Palmer, Marmoush, Gakpo, Ndiaye, and Georginio he really might not have to waiver a MID all season if they stay healthy. His defense is also very solid, with Murillo and Branthwaite as the core and Agbadou and Kilman as defensive contribution monsters he put together a good team.
+
+2 - Zach - League A - If you could guess it, the FWDs are what tipped Zach into 2nd. Ekitike, Piroe, and Beto all should start (for now), and even though the midfield is a bit weaker I still think he edges out Luke. Saka, Rogers, and Elanga are all very good players and I don't mind the punt on Tel and Zubimendi as the Caicedo-like player. His defense is also solid, with Gvardiol, Guehi, and Konsa all being high scoring players in past seasons.
+
+1 - Matthew2 - League B - I mean, I'm not sure if there is a little bit of bias playing into this, but I'll just list the players and see what you think. FWDs of Evanilson, Wood, and Guiu; MIDs of Salah, Rogers, Kudus, Georginio, and Savinho; DEFs of Murillo, Munoz, Schar, Richards, and O'Brien. And Richards is going out on waivers this week :wave:.
 
 Feel free to fight me on these rankings or make your own and share or whatever, I'll keep these going in the regular weekly updates and they'll have more factual information rather than just vibes as the season goes on!
 
