@@ -2,7 +2,7 @@
 title: "Season 4 League A Predictions"
 date: "2025-08-02"
 summary: ""
-tags: ["season 4", "blog"]
+tags: ["season 4", "blog", "a league"]
 ---
 
 <style>
