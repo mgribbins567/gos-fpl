@@ -17,6 +17,10 @@ export default function Layout({ children, home }) {
         <Link href="/blog">Blogs</Link>
         <Link href="/history">History</Link>
         <Link href="/about">About</Link>
+        <Link href="https://www.fpl-dashboard.com/">
+          {" "}
+          FPL Dashboard by Kevin{" "}
+        </Link>
       </header>
       <main>{children}</main>
       {!home && (
