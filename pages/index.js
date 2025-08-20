@@ -38,7 +38,7 @@ export default function Home({ allPostsData, featuredPost }) {
         </small>
         <ul className={utilStyles.list}>
           <li className={utilStyles.listItem}>
-            <Link href="/history/season_24_25">Game of Stones Season 3</Link>
+            <Link href="/history/season_25_26">Game of Stones Season 4</Link>
             <br />
             <small className={utilStyles.lightText}>
               Quick link to the current season!

@@ -16,6 +16,7 @@ export default function AllSeasons({}) {
         <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
         <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
         <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
+        <Link href={`/history/season_25_26`}>Season 4 - 2025/2026</Link>
         <h2>League Table (by Points)</h2>
         <div>
           <GetExtendedLeagueTable range="Table!A1:L25" />
