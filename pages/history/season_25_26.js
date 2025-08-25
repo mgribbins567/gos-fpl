@@ -6,6 +6,11 @@ import { GetExtendedLeagueTable } from "../../lib/history_util";
 import { Matchups, calculateDraftManagerScore } from "../../lib/matchups";
 import * as managers from "../../data/managers.json";
 
+function Player(points, web_name) {
+  this.points = points;
+  this.web_name = web_name;
+}
+
 export async function getServerSideProps() {
   const LEAGUE_A_ID = 157;
   const LEAGUE_B_ID = 461;
@@ -29,7 +34,15 @@ export async function getServerSideProps() {
   const liveData = await liveRes.json();
   const playerScoreMap = new Map();
   liveData.elements.forEach((player) => {
-    playerScoreMap.set(player.id, player.stats.total_points);
+    playerScoreMap.set(
+      player.id,
+      new Player(
+        player.stats.total_points,
+        bootstrapData.elements.find(
+          (element) => element.id === player.id
+        ).web_name
+      )
+    );
   });
 
   const matchupsARes = await fetch(
@@ -56,6 +69,10 @@ export async function getServerSideProps() {
       const manager1Id = match.league_entry_1;
       const manager2Id = match.league_entry_2;
 
+      console.log("--------------------");
+      console.log(
+        managers[manager1Id].name + " vs " + managers[manager2Id].name
+      );
       const score1 = await calculateDraftManagerScore(
         managers[manager1Id].entry_id,
         gameweekId,
