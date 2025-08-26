@@ -31,12 +31,12 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
       const manager1Id = match.league_entry_1;
       const manager2Id = match.league_entry_2;
 
-      const score1 = await calculateDraftManagerScore(
+      const team1Data = await calculateDraftManagerScore(
         managers[manager1Id].entry_id,
         gameweekId,
         playerScoreMap
       );
-      const score2 = await calculateDraftManagerScore(
+      const team2Data = await calculateDraftManagerScore(
         managers[manager2Id].entry_id,
         gameweekId,
         playerScoreMap
@@ -49,12 +49,14 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
         manager1: {
           id: manager1Id,
           managerName: managers[manager1Id].name,
-          liveScore: score1,
+          liveScore: team1Data.totalScore,
+          team: team1Data.team,
         },
         manager2: {
           id: manager2Id,
           managerName: managers[manager2Id].name,
-          liveScore: score2,
+          liveScore: team2Data.totalScore,
+          team: team2Data.team,
         },
       };
     })
