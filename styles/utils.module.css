@@ -320,6 +320,7 @@
 
 .team {
   flex: 1;
+  min-width: 0;
 }
 
 .teamRight {
@@ -345,6 +346,9 @@
   font-size: 2rem;
   font-weight: bold;
   color: #37003c;
+  display: inline-block;
+  width: 4ch;
+  text-align: center;
 }
 
 .versus {
@@ -357,7 +361,7 @@
 .summaryRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 100%;
 }
 
