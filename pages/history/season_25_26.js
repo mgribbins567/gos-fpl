@@ -2,9 +2,13 @@ import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Layout from "../../components/layout";
 import Link from "next/link";
-import { GetExtendedLeagueTable } from "../../lib/history_util";
+import {
+  GetExtendedLeagueTable,
+  GetChampionsLeagueTable,
+} from "../../lib/history_util";
 import { Matchups, calculateDraftManagerScore } from "../../lib/matchups";
 import * as managers from "../../data/managers.json";
+import * as kickoffCupMatches from "../../data/tournament_1_25_26.json";
 
 function Player(points, web_name) {
   this.points = points;
@@ -115,6 +119,10 @@ export async function getServerSideProps() {
     (match) => match.event === gameweekId
   );
 
+  const currentCupMatchups = kickoffCupMatches.matches.filter(
+    (match) => match.event === gameweekId
+  );
+
   const processedAMatchups = await getProcessedMatchups(
     currentWeekAMatches,
     playerScoreMap,
@@ -126,10 +134,17 @@ export async function getServerSideProps() {
     gameweekId
   );
 
+  const processedCupMatchups = await getProcessedMatchups(
+    currentCupMatchups,
+    playerScoreMap,
+    gameweekId
+  );
+
   return {
     props: {
       processedAMatchups: processedAMatchups,
       processedBMatchups: processedBMatchups,
+      processedCupMatchups: processedCupMatchups,
       gameweekId: gameweekId,
     },
   };
@@ -138,6 +153,7 @@ export async function getServerSideProps() {
 export default function Season_25_26({
   processedAMatchups,
   processedBMatchups,
+  processedCupMatchups,
   gameweekId,
 }) {
   return (
@@ -152,6 +168,7 @@ export default function Season_25_26({
         <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
         <Link href={`/history/all_seasons`}>All Seasons</Link>
         <br />
+        <hr style={{ width: "90%" }} />
         <h2>League A Table</h2>
         <div>
           <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
@@ -170,6 +187,18 @@ export default function Season_25_26({
           processedMatchups={processedBMatchups}
           gameweekId={gameweekId}
         />
+        <hr style={{ width: "90%" }} />
+        <br />
+        <h2>The League</h2>
+        {/* <div>
+          <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
+        </div> */}
+        <Matchups
+          processedMatchups={processedCupMatchups}
+          gameweekId={gameweekId}
+        />
+        <hr style={{ width: "90%" }} />
+        <br />
         <h2>League A Prize Pool</h2>
         <p>Total Pot - $668</p>
         <ul>
