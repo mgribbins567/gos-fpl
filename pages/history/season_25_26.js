@@ -11,68 +11,26 @@ function Player(points, web_name) {
   this.web_name = web_name;
 }
 
-export async function getServerSideProps() {
-  const LEAGUE_A_ID = 157;
-  const LEAGUE_B_ID = 461;
-
+async function getBootstrapData() {
   const boostrapRes = await fetch(
     "https://fantasy.premierleague.com/api/bootstrap-static/"
   );
-  const bootstrapData = await boostrapRes.json();
+  return await boostrapRes.json();
+}
 
-  const currentGameweekObject = bootstrapData.events.find(
-    (event) => event.is_current === true
-  );
-
-  const gameweekId = currentGameweekObject
-    ? currentGameweekObject.id
-    : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
-
+async function getLiveData(gameweek) {
   const liveRes = await fetch(
-    `https://fantasy.premierleague.com/api/event/${gameweekId}/live/`
+    `https://fantasy.premierleague.com/api/event/${gameweek}/live/`
   );
-  const liveData = await liveRes.json();
-  const playerScoreMap = new Map();
-  liveData.elements.forEach((player) => {
-    playerScoreMap.set(
-      player.id,
-      new Player(
-        player.stats.total_points,
-        bootstrapData.elements.find(
-          (element) => element.id === player.id
-        ).web_name
-      )
-    );
-  });
+  return await liveRes.json();
+}
 
-  const matchupsARes = await fetch(
-    `https://draft.premierleague.com/api/league/${LEAGUE_A_ID}/details`
-  );
-  const matchupsAData = await matchupsARes.json();
-  const matchupsBRes = await fetch(
-    `https://draft.premierleague.com/api/league/${LEAGUE_B_ID}/details`
-  );
-  const matchupsBData = await matchupsBRes.json();
-
-  const currentWeekAMatches = matchupsAData.matches.filter(
-    (match) => match.event === gameweekId
-  );
-
-  const currentWeekBMatches = matchupsBData.matches.filter(
-    (match) => match.event === gameweekId
-  );
-
-  var final = currentWeekAMatches.concat(currentWeekBMatches);
-
+async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   const processedMatchups = await Promise.all(
-    final.map(async (match) => {
+    matchups.map(async (match) => {
       const manager1Id = match.league_entry_1;
       const manager2Id = match.league_entry_2;
 
-      console.log("--------------------");
-      console.log(
-        managers[manager1Id].name + " vs " + managers[manager2Id].name
-      );
       const score1 = await calculateDraftManagerScore(
         managers[manager1Id].entry_id,
         gameweekId,
@@ -101,16 +59,85 @@ export async function getServerSideProps() {
       };
     })
   );
+  return processedMatchups;
+}
+
+async function getLeagueDetails(league) {
+  const leagueDetailsRes = await fetch(
+    `https://draft.premierleague.com/api/league/${league}/details`
+  );
+  return await leagueDetailsRes.json();
+}
+
+function getPlayerScoreMap(liveData, bootstrapData) {
+  const playerScoreMap = new Map();
+  liveData.elements.forEach((player) => {
+    playerScoreMap.set(
+      player.id,
+      new Player(
+        player.stats.total_points,
+        bootstrapData.elements.find(
+          (element) => element.id === player.id
+        ).web_name
+      )
+    );
+  });
+  return playerScoreMap;
+}
+
+export async function getServerSideProps() {
+  const LEAGUE_A_ID = 157;
+  const LEAGUE_B_ID = 461;
+
+  const bootstrapData = await getBootstrapData();
+
+  const currentGameweekObject = bootstrapData.events.find(
+    (event) => event.is_current === true
+  );
+
+  const gameweekId = currentGameweekObject
+    ? currentGameweekObject.id
+    : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
+
+  const liveData = await getLiveData(gameweekId);
+  const playerScoreMap = getPlayerScoreMap(liveData, bootstrapData);
+
+  const matchupsAData = await getLeagueDetails(LEAGUE_A_ID);
+  const matchupsBData = await getLeagueDetails(LEAGUE_B_ID);
+
+  const currentWeekAMatches = matchupsAData.matches.filter(
+    (match) => match.event === gameweekId
+  );
+
+  const currentWeekBMatches = matchupsBData.matches.filter(
+    (match) => match.event === gameweekId
+  );
+
+  const processedAMatchups = await getProcessedMatchups(
+    currentWeekAMatches,
+    playerScoreMap,
+    gameweekId
+  );
+  const processedBMatchups = await getProcessedMatchups(
+    currentWeekBMatches,
+    playerScoreMap,
+    gameweekId
+  );
 
   return {
     props: {
-      processedMatchups: processedMatchups,
+      processedAMatchups: processedAMatchups,
+      processedBMatchups: processedBMatchups,
       gameweekId: gameweekId,
     },
   };
 }
 
-export default function Season_25_26({ processedMatchups, gameweekId }) {
+export default function Season_25_26({
+  processedAMatchups,
+  processedBMatchups,
+  gameweekId,
+}) {
   return (
     <Layout history>
       <div className={utilStyles.main}>
@@ -128,10 +155,8 @@ export default function Season_25_26({ processedMatchups, gameweekId }) {
           <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
         </div>
         <br />
-        <br />
-        <br />
         <Matchups
-          processedMatchups={processedMatchups}
+          processedMatchups={processedAMatchups}
           gameweekId={gameweekId}
         />
         <h2>League B Table</h2>
@@ -139,6 +164,10 @@ export default function Season_25_26({ processedMatchups, gameweekId }) {
           <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
         </div>
         <br />
+        <Matchups
+          processedMatchups={processedBMatchups}
+          gameweekId={gameweekId}
+        />
         <h2>League A Prize Pool</h2>
         <p>Total Pot - $668</p>
         <ul>
