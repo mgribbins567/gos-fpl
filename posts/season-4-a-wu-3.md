@@ -195,7 +195,7 @@ Fell off: Cara, Jesse
 
 2 - Darryan (+2) - League A - A huge week from Darryan's team as his defenders put up 6/24/13/6. The rest of his team didn't do anything but 57 points is 57 points. On one hand, he has quite the weak midfield, on the other, midfielders are aplenty. And if his defenders and Haaland continue as they are, he'll be fine.
 
-1 - Matthew2 (-) - League B - Definitely an off weak for this team with so many attacking players blanking, but I do still think it's the best option to put here _for the moment_. Another off week and it is banished though.
+1 - Matthew2 (-) - League B - Definitely an off week for this team with so many attacking players blanking, but I do still think it's the best option to put here _for the moment_. Another off week and it is banished though.
 
 Also, there is a sense of momentum with these rankings i.e. it will take some time for managers to rise and fall, just because I've looked at these teams a lot and have my own personal opinions and predictions of how players will perform in the future. I also tend to not give up on players super easily, especially if they've shown that they can come up with points consistently.
 
