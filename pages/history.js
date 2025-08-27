@@ -28,7 +28,7 @@ export default function History({}) {
             </small>
           </li>
           <li className={utilStyles.listItem}>
-            <Link href={`/history/season_25_26`}>2025/2026 Season</Link>
+            <Link href={`/season-4`}>2025/2026 Season</Link>
             <br />
             <small className={utilStyles.lightText}>
               Season 4 of the Game of Stones!

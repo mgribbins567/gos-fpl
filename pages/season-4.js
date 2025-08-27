@@ -1,19 +1,84 @@
 import Head from "next/head";
-import utilStyles from "../../styles/utils.module.css";
-import Layout from "../../components/layout";
+import utilStyles from "../styles/utils.module.css";
+import Layout from "../components/layout";
 import Link from "next/link";
 import {
   GetExtendedLeagueTable,
   GetChampionsLeagueTable,
-} from "../../lib/history_util";
-import { Matchups, calculateDraftManagerScore } from "../../lib/matchups";
-import * as managers from "../../data/managers.json";
-import * as kickoffCupMatches from "../../data/tournament_1_25_26.json";
+} from "../lib/history_util";
+import { Matchups } from "../lib/matchups";
+import * as managers from "../data/managers.json";
+import * as kickoffCupMatches from "../data/tournament_1_25_26.json";
 
 function Player(points, web_name) {
   this.points = points;
   this.web_name = web_name;
 }
+
+// https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}
+// "picks":
+// [ {"element", "position"} ]
+// picks.element: Player ID
+// picks.position: Player position in lineup
+
+async function calculateDraftManagerScore(
+  managerId,
+  gameweekId,
+  playerScoreMap
+) {
+  const teamRes = await fetch(
+    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}`
+  );
+  const teamData = await teamRes.json();
+
+  if (!teamData || !teamData.picks) {
+    return { totalScore: 0, team: [] };
+  }
+
+  let totalScore = 0;
+  const team = teamData.picks.map((pick) => {
+    const score = playerScoreMap.get(pick.element).points || 0;
+    if (pick.position < 12) {
+      totalScore += score;
+    }
+    return {
+      id: pick.element,
+      name: playerScoreMap.get(pick.element).web_name,
+      score: score,
+    };
+  });
+  return { totalScore, team };
+}
+
+// https://fantasy.premierleague.com/api/bootstrap-static/
+//
+// "element_types":
+// [{"id", "singular_name", "singular_name_short"}]
+// element_types.id: Position ID
+// element_types.singular_name: Position name (e.g. Forward)
+// element_types.singular_name_short: Position name abbreviated (e.g. FWD)
+//
+// "elements":
+// [{"code", "element_type", "id", "first_name", "second_name", "web_name", "team", "team_code"}]
+// elements.code:
+// elements.id:
+// elements.element_type: Position ID, eq to element_types.id
+// elements.team: Eq to teams.id
+// elements.team_code: Eq to teams.code
+// * elements also has season data, including goals, assist, etc. *
+//
+// "teams":
+// [{"code", "id", "name"}]
+// teams.code: Eq to elements.code
+// teams.id: Eq to elements.id, alphabetical ID
+// ------------------------------------------------------------------------ //
+// https://fantasy.premierleague.com/api/event/${gameweek}/live/
+//
+// "elements":
+// [{"id", "stats", "explain"}]
+// elements.id: Eq to elements.id (I believe)
+// elements.stats: Object containing data such as minutes, goals, assists, etc.
+// elements.explain: elements.explain.stats is an array of objects that contain what the player earned points for. E.g. 2 points for minutes
 
 async function getBootstrapData() {
   const boostrapRes = await fetch(
@@ -67,6 +132,20 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   );
   return processedMatchups;
 }
+
+// https://draft.premierleague.com/api/league/${league}/details
+//
+// "league_entries":
+// [{"entry_id","id"}]
+// league_entries.entry_id: Used for API call ${managerId}
+// league_entries.id: Used as a key and to craft match IDs
+//
+// "matches":
+// [{"event", "finished", "league_entry_1", "league_entry_2"}]
+// matches.event: Gameweek of the matchup (gameweekId)
+// matches.finished: Boolean if the gameweek has ended
+// matches.league_entry_1 and matches.league_entry_2: Manager entry_id
+// *matches also contains finalized point values*
 
 async function getLeagueDetails(league) {
   const leagueDetailsRes = await fetch(
@@ -150,7 +229,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Season_25_26({
+export default function Season_4({
   processedAMatchups,
   processedBMatchups,
   processedCupMatchups,
