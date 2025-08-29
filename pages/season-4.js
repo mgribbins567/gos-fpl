@@ -7,12 +7,23 @@ import {
   GetChampionsLeagueTable,
 } from "../lib/history_util";
 import { Matchups } from "../lib/matchups";
-import * as managers from "../data/managers.json";
-import * as kickoffCupMatches from "../data/tournament_1_25_26.json";
+import managers from "../data/managers.json";
+import kickoffCupMatches from "../data/tournament_1_25_26.json";
 
 function Player(points, web_name) {
   this.points = points;
   this.web_name = web_name;
+}
+
+function checkElementId(pick) {
+  switch (pick.element) {
+    case 666:
+      return 661;
+    case 661:
+      return 666;
+    default:
+      return pick.element;
+  }
 }
 
 // https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}
@@ -37,13 +48,14 @@ async function calculateDraftManagerScore(
 
   let totalScore = 0;
   const team = teamData.picks.map((pick) => {
-    const score = playerScoreMap.get(pick.element).points || 0;
+    const elementId = checkElementId(pick);
+    const score = playerScoreMap.get(elementId).points || 0;
     if (pick.position < 12) {
       totalScore += score;
     }
     return {
-      id: pick.element,
-      name: playerScoreMap.get(pick.element).web_name,
+      id: elementId,
+      name: playerScoreMap.get(elementId).web_name,
       score: score,
     };
   });
@@ -166,6 +178,13 @@ function getPlayerScoreMap(liveData, bootstrapData) {
         ).web_name
       )
     );
+    // if (player.id === 661 || player.id === 666) {
+    //   console.log(player);
+    //   console.log(
+    //     bootstrapData.elements.find((element) => element.id === player.id)
+    //       .web_name
+    //   );
+    // }
   });
   return playerScoreMap;
 }
