@@ -15,8 +15,8 @@ function Player(points, web_name) {
   this.web_name = web_name;
 }
 
-function checkElementId(pick) {
-  switch (pick.element) {
+export function checkElementId(element) {
+  switch (element) {
     case 666:
       return 661;
     case 661:
@@ -26,7 +26,7 @@ function checkElementId(pick) {
     case 674:
       return 673;
     default:
-      return pick.element;
+      return element;
   }
 }
 
@@ -52,7 +52,7 @@ async function calculateDraftManagerScore(
 
   let totalScore = 0;
   const team = teamData.picks.map((pick) => {
-    const elementId = checkElementId(pick);
+    const elementId = checkElementId(pick.element);
     const score = playerScoreMap.get(elementId).points || 0;
     if (pick.position < 12) {
       totalScore += score;

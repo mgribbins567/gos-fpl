@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import managers from "../data/managers.json";
 import utilStyles from "../styles/utils.module.css";
-import { getBootstrapData, getLeagueDetails } from "./season-4";
+import { getBootstrapData, checkElementId } from "./season-4";
 
 const getManagerName = (ownerId) => {
   if (!ownerId) {
@@ -138,7 +138,7 @@ export async function getServerSideProps() {
 
     const ownershipMapA = elementStatusDataA.element_status.reduce(
       (acc, status) => {
-        acc[status.element] = status.owner;
+        acc[checkElementId(status.element)] = status.owner;
         return acc;
       },
       {}
@@ -146,7 +146,7 @@ export async function getServerSideProps() {
 
     const ownershipMapB = elementStatusDataB.element_status.reduce(
       (acc, status) => {
-        acc[status.element] = status.owner;
+        acc[checkElementId(status.element)] = status.owner;
         return acc;
       },
       {}
