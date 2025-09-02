@@ -21,6 +21,10 @@ function checkElementId(pick) {
       return 661;
     case 661:
       return 666;
+    case 673:
+      return 674;
+    case 674:
+      return 673;
     default:
       return pick.element;
   }
@@ -92,7 +96,7 @@ async function calculateDraftManagerScore(
 // elements.stats: Object containing data such as minutes, goals, assists, etc.
 // elements.explain: elements.explain.stats is an array of objects that contain what the player earned points for. E.g. 2 points for minutes
 
-async function getBootstrapData() {
+export async function getBootstrapData() {
   const boostrapRes = await fetch(
     "https://fantasy.premierleague.com/api/bootstrap-static/"
   );
@@ -159,7 +163,7 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
 // matches.league_entry_1 and matches.league_entry_2: Manager entry_id
 // *matches also contains finalized point values*
 
-async function getLeagueDetails(league) {
+export async function getLeagueDetails(league) {
   const leagueDetailsRes = await fetch(
     `https://draft.premierleague.com/api/league/${league}/details`
   );

@@ -16,6 +16,7 @@ export default function Layout({ children, home }) {
         <Link href="/">Home</Link>
         <Link href="/blog">Blogs</Link>
         <Link href="/history">History</Link>
+        <Link href="/player-search">Player Search</Link>
         <Link href="/about">About</Link>
         <Link href="https://www.fpl-dashboard.com/" target="_blank">
           {" "}

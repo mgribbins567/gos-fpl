@@ -396,7 +396,7 @@
 .benchSeparator {
   height: 1px;
   width: 100%;
-  background-color: #e0e0e0;
+  background-color: rgb(40, 40, 40);
   margin: 0.5rem 0;
 }
 
@@ -409,4 +409,45 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.filterInput {
+  padding: 0.5rem;
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 4px;
+}
+
+.playerTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: rgb(40, 40, 40);
+  text-align: left;
+}
+
+.tableRow:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+.headerCell,
+.dataCell {
+  padding: 0.75rem;
+}
+
+.ownerOwned {
+  color: red;
+  font-weight: bold;
+}
+
+.ownerFree {
+  color: green;
 }
