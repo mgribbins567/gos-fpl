@@ -427,11 +427,12 @@
 .playerTable {
   width: 100%;
   border-collapse: collapse;
+  text-align: center;
 }
 
 .tableHeader {
   background-color: rgb(40, 40, 40);
-  text-align: left;
+  text-align: center;
 }
 
 .tableRow:not(:last-child) {
@@ -440,14 +441,15 @@
 
 .headerCell,
 .dataCell {
+  padding: 0.5rem;
+}
+
+.sortableHeader {
   padding: 0.75rem;
+  cursor: pointer;
+  user-select: none;
 }
 
-.ownerOwned {
-  color: red;
-  font-weight: bold;
-}
-
-.ownerFree {
-  color: green;
+.sortableHeader:hover {
+  background-color: rgb(60, 60, 60);
 }
