@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import managers from "../data/managers.json";
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "../styles/PlayerList.module.css";
 import { getBootstrapData, checkElementId } from "./season-4";
 import Layout from "../components/layout";
 
@@ -113,95 +113,111 @@ export default function PlayerSearchPage({ players }) {
             <option value="free-b">Available - B</option>
           </select>
         </div>
-        <table className={utilStyles.playerTable}>
-          <thead>
-            <tr className={utilStyles.tableHeader}>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("web_name")}
-              >
-                Player {getSortIndicator("web_name")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("team_name")}
-              >
-                Team {getSortIndicator("team_name")}
-              </th>
-              <th className={utilStyles.headerCell}>League A Owner</th>
-              <th className={utilStyles.headerCell}>League B Owner</th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("position")}
-              >
-                Position {getSortIndicator("position")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("total_points")}
-              >
-                Total Points {getSortIndicator("total_points")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("minutes")}
-              >
-                Minutes {getSortIndicator("minutes")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("goals_scored")}
-              >
-                Goals {getSortIndicator("goals_scored")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("assists")}
-              >
-                Assists {getSortIndicator("assists")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("expected_goal_involvements")}
-              >
-                xGI {getSortIndicator("expected_goal_involvements")}
-              </th>
-              <th
-                className={utilStyles.sortableHeader}
-                onClick={() => requestSort("clean_sheets")}
-              >
-                Clean Sheets {getSortIndicator("clean_sheets")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedAndFilteredPlayers.map((player) => (
-              <tr key={player.id} className={utilStyles.tableRow}>
-                <td className={utilStyles.dataCell}>{player.web_name}</td>
-                <td className={utilStyles.dataCell}>{player.team_name}</td>
-                <td className={utilStyles.dataCell}>
-                  {getManagerName(player.ownerA)}
-                </td>
-                <td className={utilStyles.dataCell}>
-                  {getManagerName(player.ownerB)}
-                </td>
-                <td className={utilStyles.dataCell}>{player.position}</td>
-                <td className={utilStyles.dataCell}>{player.total_points}</td>
-                <td className={utilStyles.dataCell}>{player.minutes}</td>
-                <td className={utilStyles.dataCell}>
-                  {player.goals_scored} ({player.expected_goals})
-                </td>
-                <td className={utilStyles.dataCell}>
-                  {player.assists} ({player.expected_assists})
-                </td>
-                <td className={utilStyles.dataCell}>
-                  {player.expected_goal_involvements}
-                </td>
-                <td className={utilStyles.dataCell}>{player.clean_sheets}</td>
+        <div className={utilStyles.tableContainer}>
+          <table className={utilStyles.playerTable}>
+            <thead>
+              <tr className={utilStyles.tableHeader}>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("web_name")}
+                >
+                  Player {getSortIndicator("web_name")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("team_name")}
+                >
+                  Team {getSortIndicator("team_name")}
+                </th>
+                <th className={utilStyles.headerCell}>League A Owner</th>
+                <th className={utilStyles.headerCell}>League B Owner</th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("position")}
+                >
+                  Pos {getSortIndicator("position")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("total_points")}
+                >
+                  Total Pts {getSortIndicator("total_points")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("minutes")}
+                >
+                  Mins {getSortIndicator("minutes")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("goals_scored")}
+                >
+                  Goals {getSortIndicator("goals_scored")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("expected_goals")}
+                >
+                  xG {getSortIndicator("expected_goals")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("assists")}
+                >
+                  Assists {getSortIndicator("assists")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("expected_assists")}
+                >
+                  xA {getSortIndicator("expected_assists")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("expected_goal_involvements")}
+                >
+                  xGI {getSortIndicator("expected_goal_involvements")}
+                </th>
+                <th
+                  className={utilStyles.sortableHeader}
+                  onClick={() => requestSort("clean_sheets")}
+                >
+                  Clean Sheets {getSortIndicator("clean_sheets")}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sortedAndFilteredPlayers.map((player) => (
+                <tr key={player.id} className={utilStyles.tableRow}>
+                  <td className={utilStyles.dataCell}>{player.web_name}</td>
+                  <td className={utilStyles.dataCell}>{player.team_name}</td>
+                  <td className={utilStyles.dataCell}>
+                    {getManagerName(player.ownerA)}
+                  </td>
+                  <td className={utilStyles.dataCell}>
+                    {getManagerName(player.ownerB)}
+                  </td>
+                  <td className={utilStyles.dataCell}>{player.position}</td>
+                  <td className={utilStyles.dataCell}>{player.total_points}</td>
+                  <td className={utilStyles.dataCell}>{player.minutes}</td>
+                  <td className={utilStyles.dataCell}>{player.goals_scored}</td>
+                  <td className={utilStyles.dataCell}>
+                    ({player.expected_goals})
+                  </td>
+                  <td className={utilStyles.dataCell}>{player.assists}</td>
+                  <td className={utilStyles.dataCell}>
+                    ({player.expected_assists})
+                  </td>
+                  <td className={utilStyles.dataCell}>
+                    {player.expected_goal_involvements}
+                  </td>
+                  <td className={utilStyles.dataCell}>{player.clean_sheets}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );

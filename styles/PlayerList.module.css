@@ -1,0 +1,60 @@
+.tableContainer {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.container {
+  padding: 2rem;
+  background-color: rgb(18, 18, 18);
+  min-height: 100vh;
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.filterInput {
+  padding: 0.5rem;
+  border: 1px solid rgb(40, 40, 40);
+  border-radius: 4px;
+}
+
+.playerTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.tableHeader {
+  background-color: rgb(40, 40, 40);
+  text-align: center;
+}
+
+.tableRow:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+.headerCell,
+.dataCell {
+  padding: 0.5rem;
+}
+
+.sortableHeader {
+  padding: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortableHeader:hover {
+  background-color: rgb(60, 60, 60);
+}
