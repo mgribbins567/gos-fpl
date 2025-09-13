@@ -17,14 +17,26 @@ function Player(points, web_name) {
 
 export function checkElementId(element) {
   switch (element) {
-    case 666:
-      return 661;
-    case 661:
-      return 666;
-    case 673:
-      return 674;
-    case 674:
-      return 673;
+    case 666: // Gyokeres
+      return 661; // Ekitike
+    case 661: // Ekitike
+      return 666; // Gyokeres
+    case 673: // Palhinha
+      return 674; // Ramsdale
+    case 674: // Ramsdale
+      return 673; // Palhinha
+    case 715: // John
+      return 714; // Woltemade
+    case 679: // Hermansen
+      return 681; // Sesko
+    case 729: // Cuiabano
+      return 733; // Lammens
+    case 718: // Magassa
+      return 717; // Xavi
+    case 728: // Röhl
+      return 736; // Donnarumma
+    case 733: // Lammens
+      return 730;
     default:
       return element;
   }
@@ -182,13 +194,6 @@ function getPlayerScoreMap(liveData, bootstrapData) {
         ).web_name
       )
     );
-    // if (player.id === 661 || player.id === 666) {
-    //   console.log(player);
-    //   console.log(
-    //     bootstrapData.elements.find((element) => element.id === player.id)
-    //       .web_name
-    //   );
-    // }
   });
   return playerScoreMap;
 }
