@@ -273,7 +273,7 @@ export default function Season_4({
   return (
     <div className={homeStyles.home}>
       <Head>
-        <meta name="viewport" content="width=device-width, width=1000" />
+        <meta name="viewport" content="width=device-width" />
         <title>Season 4 - Game of Stones</title>
       </Head>
       <h1>Game of Stones Season 4</h1>
