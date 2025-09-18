@@ -117,7 +117,7 @@
   border: 1px solid;
   margin-left: auto;
   margin-right: auto;
-  width: 70%;
+  width: 100%;
   text-align: center;
 }
 
@@ -283,14 +283,17 @@
 
 .container {
   padding: 2rem;
-  background-color: rgb(18, 18, 18);
+  background-color: var(--color-bg);
   min-height: 100vh;
 }
 
 .container h1 {
   text-align: center;
-  color: #333;
   margin-bottom: 2rem;
+}
+
+.container h3 {
+  text-align: center;
 }
 
 .scoreboard {
@@ -302,17 +305,24 @@
 }
 
 .matchupCard {
-  display: flex;
+  display: block;
   align-items: stretch;
   justify-content: space-between;
-  background-color: rgb(40, 40, 40);
-  padding: 1.5rem;
+  background-color: var(--color-card);
+  /* padding: 1.5rem; */
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease-in-out;
-  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  /* cursor: pointer; */
   flex-direction: column;
   margin: 0.5rem;
+}
+
+.matchupHeader {
+  cursor: pointer;
+  width: 100%;
+  padding: 1.5rem;
+  /* background-color: red; */
 }
 
 .matchupCard:hover {
@@ -372,6 +382,7 @@
   border-top: 1px solid #f0f0f0;
   margin-top: 1rem;
   padding-top: 1rem;
+  padding: 1.5rem;
   gap: 1.5rem;
   animation: fadeIn 0.4s ease;
 }
@@ -384,19 +395,30 @@
 }
 
 .playerRow {
+  position: relative;
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
+}
+
+.playerStats {
+  /*Nothing needed here */
 }
 
 .playerScore {
   font-weight: 600;
 }
 
+.playerMinutes {
+  font-size: 0.85rem;
+  color: #666;
+}
+
 .benchSeparator {
   height: 1px;
   width: 100%;
-  background-color: rgb(40, 40, 40);
+  border-bottom: 1px solid rgb(255, 255, 255);
   margin: 0.5rem 0;
 }
 
@@ -409,4 +431,60 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.playerCard {
+  position: relative;
+  cursor: pointer;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.playerCard:hover {
+  /* background: rgb(20, 20, 20); */
+}
+
+.pointsBreakdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  background: #2a2f37;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  z-index: 100;
+  cursor: default;
+}
+
+.pointsBreakdown h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+.pointsBreakdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pointsBreakdown li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  padding: 4px 0;
+}
+
+.closePopout {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
 }

@@ -7,10 +7,11 @@ import { Matchups } from "../lib/matchups";
 import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 
-function Player(points, web_name, minutes) {
+function Player(points, web_name, minutes, stats) {
   this.points = points;
   this.web_name = web_name;
   this.minutes = minutes;
+  this.stats = stats;
 }
 
 export function checkElementId(element) {
@@ -76,6 +77,7 @@ async function calculateDraftManagerScore(
       name: playerScoreMap.get(elementId).web_name,
       score: score,
       minutes: playerScoreMap.get(elementId).minutes,
+      stats: playerScoreMap.get(elementId).stats,
     };
   });
   return { totalScore, team };
@@ -195,7 +197,8 @@ function getPlayerScoreMap(liveData, bootstrapData) {
         bootstrapData.elements.find(
           (element) => element.id === player.id
         ).web_name,
-        player.stats.minutes
+        player.stats.minutes,
+        player.explain[0].stats
       )
     );
   });
@@ -206,63 +209,59 @@ export async function getServerSideProps() {
   const LEAGUE_A_ID = 157;
   const LEAGUE_B_ID = 461;
 
-  try {
-    const bootstrapData = await getBootstrapData();
+  const bootstrapData = await getBootstrapData();
 
-    const currentGameweekObject = bootstrapData.events.find(
-      (event) => event.is_current === true
-    );
+  const currentGameweekObject = bootstrapData.events.find(
+    (event) => event.is_current === true
+  );
 
-    const gameweekId = currentGameweekObject
-      ? currentGameweekObject.id
-      : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
+  const gameweekId = currentGameweekObject
+    ? currentGameweekObject.id
+    : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
 
-    const liveData = await getLiveData(gameweekId);
-    const playerScoreMap = getPlayerScoreMap(liveData, bootstrapData);
+  const liveData = await getLiveData(gameweekId);
+  const playerScoreMap = getPlayerScoreMap(liveData, bootstrapData);
 
-    const matchupsAData = await getLeagueDetails(LEAGUE_A_ID);
-    const matchupsBData = await getLeagueDetails(LEAGUE_B_ID);
+  const matchupsAData = await getLeagueDetails(LEAGUE_A_ID);
+  const matchupsBData = await getLeagueDetails(LEAGUE_B_ID);
 
-    const currentWeekAMatches = matchupsAData.matches.filter(
-      (match) => match.event === gameweekId
-    );
+  const currentWeekAMatches = matchupsAData.matches.filter(
+    (match) => match.event === gameweekId
+  );
 
-    const currentWeekBMatches = matchupsBData.matches.filter(
-      (match) => match.event === gameweekId
-    );
+  const currentWeekBMatches = matchupsBData.matches.filter(
+    (match) => match.event === gameweekId
+  );
 
-    const currentCupMatchups = kickoffCupMatches.matches.filter(
-      (match) => match.event === gameweekId
-    );
+  const currentCupMatchups = kickoffCupMatches.matches.filter(
+    (match) => match.event === gameweekId
+  );
 
-    const processedAMatchups = await getProcessedMatchups(
-      currentWeekAMatches,
-      playerScoreMap,
-      gameweekId
-    );
-    const processedBMatchups = await getProcessedMatchups(
-      currentWeekBMatches,
-      playerScoreMap,
-      gameweekId
-    );
+  const processedAMatchups = await getProcessedMatchups(
+    currentWeekAMatches,
+    playerScoreMap,
+    gameweekId
+  );
+  const processedBMatchups = await getProcessedMatchups(
+    currentWeekBMatches,
+    playerScoreMap,
+    gameweekId
+  );
 
-    const processedCupMatchups = await getProcessedMatchups(
-      currentCupMatchups,
-      playerScoreMap,
-      gameweekId
-    );
+  const processedCupMatchups = await getProcessedMatchups(
+    currentCupMatchups,
+    playerScoreMap,
+    gameweekId
+  );
 
-    return {
-      props: {
-        processedAMatchups: processedAMatchups,
-        processedBMatchups: processedBMatchups,
-        processedCupMatchups: processedCupMatchups,
-        gameweekId: gameweekId,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching data for Season 4:", error);
-  }
+  return {
+    props: {
+      processedAMatchups: processedAMatchups,
+      processedBMatchups: processedBMatchups,
+      processedCupMatchups: processedCupMatchups,
+      gameweekId: gameweekId,
+    },
+  };
 }
 
 export default function Season_4({
@@ -274,6 +273,7 @@ export default function Season_4({
   return (
     <div className={homeStyles.home}>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Season 4 - Game of Stones</title>
       </Head>
       <h1>Game of Stones Season 4</h1>
@@ -311,11 +311,11 @@ export default function Season_4({
       <hr style={{ width: "100%" }} />
       <br />
       <h2>League A Prize Pool</h2>
-      <p>Total Pot - $668</p>
+      <p>Total Pot - $728</p>
       <ul>
-        <li>1st - $334 + Jersey</li>
-        <li>2nd - $200.40</li>
-        <li>3rd - $133.60</li>
+        <li>1st - $364 + Jersey</li>
+        <li>2nd - $218.40</li>
+        <li>3rd - $145.60</li>
         <br />
         <li>Manager of the Month - $10</li>
         <li>Mid-Season Tournament - $30 + Mystery Kit</li>

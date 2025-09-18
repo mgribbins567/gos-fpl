@@ -1,0 +1,169 @@
+/* Basic page container */
+.page-container {
+  width: 100%;
+  padding: 0 16px;
+
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Header for gameweek display */
+.gameweek-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  padding: 24px 0;
+
+  position: sticky;
+  top: 0;
+  background-color: #1a1a2e;
+  z-index: 10;
+}
+
+/* Reusable Card */
+
+.card {
+  background-color: var(--color-card);
+  border-radius: 12px;
+  padding: 16px;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* Live Matchups */
+
+.matchup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #4a4a6e;
+}
+.matchup:last-child {
+  border-bottom: none;
+}
+
+.matchup-team .manager-name {
+  display: block;
+  font-weight: 600;
+  color: #fff;
+}
+
+.matchup-score {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  padding-left: 12px;
+}
+
+/* Bottom Nav */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+
+  height: 70px;
+
+  background-color: var(--color-card);
+  border-top: 1px solid #4a4a6e;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-decoration: none;
+  color: #b0b0b0;
+  font-size: 0.75rem;
+}
+
+.nav-item .icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.nav-item.active {
+  color: #3399ff;
+}
+
+/* Table Styling */
+
+.tableContainer {
+  width: 100%;
+
+  overflow-x: auto;
+
+  background-color: var(--color-card);
+  border: 1px solid #30363d;
+  border-radius: 8px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tableContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tableContainer table {
+  width: 100%;
+  /* min-width: 700px; */
+
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+
+  color: var(--color-text);
+}
+
+.tableContainer th {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+
+  padding: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.tableContainer td {
+  padding: 6px 5px;
+  border-bottom: 1px solid #30363d;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  min-width: 7vw;
+  text-align: center;
+}
+
+.tableContainer tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.tableContainer tbody tr:hover {
+  background-color: #2a2f37;
+}
+.tableContainer tbody tr:last-child td {
+  border-bottom: none;
+}

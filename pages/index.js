@@ -1,6 +1,7 @@
 import Head from "next/head";
-import Layout, { siteTitle } from "../components/layout";
+import { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
+import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import Date from "../components/date";
 import Tags from "../components/tags";
@@ -23,71 +24,60 @@ export async function getStaticProps() {
 
 export default function Home({ allPostsData, featuredPost }) {
   return (
-    <Layout home>
-      <div className={utilStyles.main}>
-        <Analytics />
-        <SpeedInsights />
-        <Head>
-          <title>{siteTitle}</title>
-        </Head>
-        <section className={utilStyles.headingLg}>
-          <h1>Game of Stones</h1>
-        </section>
-        <small className={utilStyles.subtitle}>
-          A Fantasy Premier League Blog
-        </small>
-        <ul className={utilStyles.list}>
-          <li className={utilStyles.listItem}>
-            <Link href="/season-4">Game of Stones Season 4</Link>
+    <div className={homeStyles.home}>
+      <Analytics />
+      <SpeedInsights />
+      <Head>
+        <title>{siteTitle}</title>
+      </Head>
+      <h1>Game of Stones</h1>
+      <ul className={homeStyles.postList}>
+        <li className={homeStyles.postListItem}>
+          <Link href="/season-4">Game of Stones Season 4</Link>
+          <br />
+          <small className={utilStyles.lightText}>
+            Quick link to the current season!
+          </small>
+        </li>
+      </ul>
+      <h2>Featured Post</h2>
+      <ul className={homeStyles.postList}>
+        {featuredPost.map(({ id, date, title, summary, tags }) => (
+          <li className={homeStyles.postListItem} key={id}>
+            <Link href={`/blog/${id}`}>{title}</Link>
             <br />
             <small className={utilStyles.lightText}>
-              Quick link to the current season!
+              <Date dateString={date} />
+            </small>
+            <br />
+            <small className={utilStyles.tagsLightText}>
+              <Tags tagList={tags} />
+            </small>
+            <small className={utilStyles.lightTextItalics}>
+              <p>{summary}</p>
             </small>
           </li>
-        </ul>
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Featured Post</h2>
-          <ul className={utilStyles.list}>
-            {featuredPost.map(({ id, date, title, summary, tags }) => (
-              <li className={utilStyles.listItem} key={id}>
-                <Link href={`/posts/${id}`}>{title}</Link>
-                <br />
-                <small className={utilStyles.lightText}>
-                  <Date dateString={date} />
-                </small>
-                <br />
-                <small className={utilStyles.tagsLightText}>
-                  <Tags tagList={tags} />
-                </small>
-                <small className={utilStyles.lightTextItalics}>
-                  <p>{summary}</p>
-                </small>
-              </li>
-            ))}
-          </ul>
-        </section>
-        <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Recent Blog Posts</h2>
-          <ul className={utilStyles.list}>
-            {allPostsData.map(({ id, date, title, summary, tags }) => (
-              <li className={utilStyles.listItem} key={id}>
-                <Link href={`/posts/${id}`}>{title}</Link>
-                <br />
-                <small className={utilStyles.lightText}>
-                  <Date dateString={date} />
-                </small>
-                <br />
-                <small className={utilStyles.tagsLightText}>
-                  <Tags tagList={tags} />
-                </small>
-                <small className={utilStyles.lightTextItalics}>
-                  <p>{summary}</p>
-                </small>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
-    </Layout>
+        ))}
+      </ul>
+      <h2>Recent Blog Posts</h2>
+      <ul className={homeStyles.postList}>
+        {allPostsData.map(({ id, date, title, summary, tags }) => (
+          <li className={homeStyles.postListItem} key={id}>
+            <Link href={`/blog/${id}`}>{title}</Link>
+            <br />
+            <small className={utilStyles.lightText}>
+              <Date dateString={date} />
+            </small>
+            <br />
+            <small className={utilStyles.tagsLightText}>
+              <Tags tagList={tags} />
+            </small>
+            <small className={utilStyles.lightTextItalics}>
+              <p>{summary}</p>
+            </small>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

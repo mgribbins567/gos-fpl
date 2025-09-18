@@ -5,17 +5,6 @@
   border-radius: 8px;
 }
 
-.container {
-  padding: 2rem;
-  background-color: rgb(18, 18, 18);
-  min-height: 100vh;
-}
-
-.container h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
 .filters {
   display: flex;
   gap: 1rem;
@@ -25,7 +14,7 @@
 
 .filterInput {
   padding: 0.5rem;
-  border: 1px solid rgb(40, 40, 40);
+  border: 1px solid;
   border-radius: 4px;
 }
 
@@ -36,8 +25,9 @@
 }
 
 .tableHeader {
-  background-color: rgb(40, 40, 40);
+  background-color: var(--color-primary);
   text-align: center;
+  border-bottom: 1px solid;
 }
 
 .tableRow:not(:last-child) {
