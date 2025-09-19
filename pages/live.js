@@ -319,6 +319,7 @@ export default function Live({
             processedMatchups={processedAMatchups}
             gameweekId={gameweekId}
           />
+          <hr style={{ width: "100%" }} />
           <br />
           <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
         </>
@@ -329,6 +330,7 @@ export default function Live({
             processedMatchups={processedBMatchups}
             gameweekId={gameweekId}
           />
+          <hr style={{ width: "100%" }} />
           <br />
           <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
         </>
