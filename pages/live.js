@@ -1,11 +1,15 @@
+"use client";
+
 import Head from "next/head";
-import utilStyles from "../styles/utils.module.css";
+import styles from "./LivePage.module.css";
 import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { GetExtendedLeagueTable } from "../lib/history_util";
 import { Matchups } from "../lib/matchups";
 import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
+import { useState } from "react";
+import clsx from "clsx";
 
 function Player(points, web_name, minutes, stats) {
   this.points = points;
@@ -270,6 +274,8 @@ export default function Live({
   processedCupMatchups,
   gameweekId,
 }) {
+  const [activeLeague, setActiveLeague] = useState("leagueA");
+
   return (
     <div className={homeStyles.home}>
       <Head>
@@ -281,36 +287,61 @@ export default function Live({
       </Head>
       <h2>Game of Stones Season 4</h2>
       <hr style={{ width: "100%" }} />
-      <h3>League A</h3>
-      <div>
-        <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
+      <div className={styles.tabContainer}>
+        <button
+          className={clsx(styles.tabButton, {
+            [styles.active]: activeLeague === "leagueA",
+          })}
+          onClick={() => setActiveLeague("leagueA")}
+        >
+          League A
+        </button>
+        <button
+          className={clsx(styles.tabButton, {
+            [styles.active]: activeLeague === "leagueB",
+          })}
+          onClick={() => setActiveLeague("leagueB")}
+        >
+          League B
+        </button>
+        <button
+          className={clsx(styles.tabButton, {
+            [styles.active]: activeLeague === "cup",
+          })}
+          onClick={() => setActiveLeague("cup")}
+        >
+          Cup
+        </button>
       </div>
+      {activeLeague === "leagueA" && (
+        <>
+          <Matchups
+            processedMatchups={processedAMatchups}
+            gameweekId={gameweekId}
+          />
+          <br />
+          <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
+        </>
+      )}
+      {activeLeague === "leagueB" && (
+        <>
+          <Matchups
+            processedMatchups={processedBMatchups}
+            gameweekId={gameweekId}
+          />
+          <br />
+          <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
+        </>
+      )}
+      {activeLeague === "cup" && (
+        <>
+          <Matchups
+            processedMatchups={processedCupMatchups}
+            gameweekId={gameweekId}
+          />
+        </>
+      )}
       <br />
-      <Matchups
-        processedMatchups={processedAMatchups}
-        gameweekId={gameweekId}
-      />
-      <hr style={{ width: "100%" }} />
-      <br />
-      <h3>League B</h3>
-      <div>
-        <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
-      </div>
-      <br />
-      <Matchups
-        processedMatchups={processedBMatchups}
-        gameweekId={gameweekId}
-      />
-      <hr style={{ width: "100%" }} />
-      <br />
-      <h3>The League</h3>
-      {/* <div>
-          <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
-        </div> */}
-      <Matchups
-        processedMatchups={processedCupMatchups}
-        gameweekId={gameweekId}
-      />
       <hr style={{ width: "100%" }} />
       <br />
       <h2>League A Prize Pool</h2>
