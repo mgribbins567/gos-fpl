@@ -6,16 +6,25 @@
 }
 
 .filters {
-  display: flex;
+  /* display: flex; */
   gap: 1rem;
   margin-bottom: 2rem;
   align-items: center;
 }
 
 .filterInput {
+  width: 100%;
   padding: 0.5rem;
   border: 1px solid;
   border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.filterInputDrop {
+  padding: 0.5rem;
+  border: 1px solid;
+  border-radius: 4px;
+  margin-right: 0.5rem;
 }
 
 .playerTable {
@@ -40,11 +49,21 @@
 }
 
 .sortableHeader {
-  padding: 0.75rem;
   cursor: pointer;
   user-select: none;
 }
 
 .sortableHeader:hover {
-  background-color: rgb(60, 60, 60);
+  background-color: #3399ff;
+}
+
+@media screen and (min-width: 769px) {
+  .filterInput {
+    /* display: block; */
+    margin-right: 0.5rem;
+    width: 25%;
+    padding: 0.5rem;
+    border: 1px solid;
+    border-radius: 4px;
+  }
 }

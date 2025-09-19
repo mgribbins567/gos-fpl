@@ -8,6 +8,10 @@ export default function History({}) {
   return (
     <div className={utilStyles.main}>
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <title>History - Game of Stones</title>
       </Head>
       <h1>History of the Game of Stones</h1>
@@ -27,7 +31,7 @@ export default function History({}) {
           </small>
         </li>
         <li className={homeStyles.postListItem}>
-          <Link href={`/season-4`}>2025/2026 Season</Link>
+          <Link href={`/live`}>2025/2026 Season</Link>
           <br />
           <small className={utilStyles.lightText}>
             Season 4 of the Game of Stones!

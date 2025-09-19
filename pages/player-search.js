@@ -1,7 +1,8 @@
+import Head from "next/head";
 import React, { useState, useMemo } from "react";
 import managers from "../data/managers.json";
 import utilStyles from "../styles/PlayerList.module.css";
-import { getBootstrapData, checkElementId } from "./season-4";
+import { getBootstrapData, checkElementId } from "./live";
 
 const getManagerName = (ownerId) => {
   if (!ownerId) {
@@ -79,7 +80,14 @@ export default function PlayerSearchPage({ players }) {
 
   return (
     <div className="content-wrapper">
-      <h1>Player List</h1>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Season 4 - Game of Stones</title>
+      </Head>
+      <h1 style={{ textAlign: "center" }}>Players</h1>
       <div className={utilStyles.filters}>
         <input
           type="text"
@@ -91,7 +99,7 @@ export default function PlayerSearchPage({ players }) {
         <select
           value={positionFilter}
           onChange={(e) => setPositionFilter(e.target.value)}
-          className={utilStyles.filterInput}
+          className={utilStyles.filterInputDrop}
         >
           <option value="all">All Positions</option>
           <option value="GKP">Goalkeepers</option>
@@ -102,7 +110,7 @@ export default function PlayerSearchPage({ players }) {
         <select
           value={availabilityFilter}
           onChange={(e) => setAvailabilityFilter(e.target.value)}
-          className={utilStyles.filterInput}
+          className={utilStyles.filterInputDrop}
         >
           <option value="all">All Players</option>
           <option value="owned-a">Owned - A</option>

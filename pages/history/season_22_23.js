@@ -10,6 +10,10 @@ export default function Season_22_23({}) {
     <Layout history>
       <div className={utilStyles.main}>
         <Head>
+          <meta
+            name="viewport"
+            content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
           <title>Season 1 - Game of Stones</title>
         </Head>
         <h1>Season 1 - 2022/2023</h1>

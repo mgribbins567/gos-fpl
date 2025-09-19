@@ -167,3 +167,26 @@
 .tableContainer tbody tr:last-child td {
   border-bottom: none;
 }
+
+@media screen and (min-width: 769px) {
+  .tableContainer th {
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+
+    padding: 1rem 1.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .tableContainer td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #30363d;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    min-width: 1vw;
+    text-align: center;
+  }
+}

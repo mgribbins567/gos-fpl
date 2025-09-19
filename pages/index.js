@@ -28,12 +28,16 @@ export default function Home({ allPostsData, featuredPost }) {
       <Analytics />
       <SpeedInsights />
       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <title>{siteTitle}</title>
       </Head>
       <h1>Game of Stones</h1>
       <ul className={homeStyles.postList}>
         <li className={homeStyles.postListItem}>
-          <Link href="/season-4">Game of Stones Season 4</Link>
+          <Link href="/live">Game of Stones Season 4</Link>
           <br />
           <small className={utilStyles.lightText}>
             Quick link to the current season!

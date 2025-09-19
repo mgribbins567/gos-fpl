@@ -20,14 +20,14 @@ const navLinks = [
   { name: "Home", path: "/", icon: <HiOutlineHome /> },
   { name: "Blog", path: "/blog", icon: <HiOutlineNewspaper /> },
   { name: "History", path: "/history", icon: <HiOutlineTrophy /> },
-  { name: "Season 4", path: "/season-4", icon: <VscJersey /> },
+  { name: "Live", path: "/live", icon: <VscJersey /> },
   {
-    name: "Player Search",
+    name: "Players",
     path: "/player-search",
     icon: <HiOutlineUserGroup />,
   },
   {
-    name: "FPL Dashboard",
+    name: "Kevin",
     path: "https://www.fpl-dashboard.com/",
     icon: <HiOutlineCog />,
   },

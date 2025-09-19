@@ -264,7 +264,7 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Season_4({
+export default function Live({
   processedAMatchups,
   processedBMatchups,
   processedCupMatchups,
@@ -279,9 +279,9 @@ export default function Season_4({
         />
         <title>Season 4 - Game of Stones</title>
       </Head>
-      <h1>Game of Stones Season 4</h1>
+      <h2>Game of Stones Season 4</h2>
       <hr style={{ width: "100%" }} />
-      <h2>League A</h2>
+      <h3>League A</h3>
       <div>
         <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
       </div>
@@ -292,7 +292,7 @@ export default function Season_4({
       />
       <hr style={{ width: "100%" }} />
       <br />
-      <h2>League B</h2>
+      <h3>League B</h3>
       <div>
         <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
       </div>
@@ -303,7 +303,7 @@ export default function Season_4({
       />
       <hr style={{ width: "100%" }} />
       <br />
-      <h2>The League</h2>
+      <h3>The League</h3>
       {/* <div>
           <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
         </div> */}

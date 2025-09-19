@@ -283,9 +283,29 @@
 
 .container {
   max-width: 100%;
-  /* padding: 2rem; */
   background-color: var(--color-bg);
-  min-height: 100vh;
+}
+
+@media screen and (min-width: 769px) {
+  .container {
+    max-width: 500px;
+  }
+
+  .scoreBox {
+    display: flex;
+    align-items: center;
+    margin: 0 3rem !important;
+    background-color: #f0f2f5;
+    padding: 0.2rem;
+    border-radius: 8px;
+  }
+
+  .versus {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #888;
+    margin: 0 2rem !important;
+  }
 }
 
 .container h1 {
@@ -322,7 +342,7 @@
 .matchupHeader {
   cursor: pointer;
   width: 100%;
-  padding: 1.5rem;
+  padding: 1rem;
   /* background-color: red; */
 }
 

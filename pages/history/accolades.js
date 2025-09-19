@@ -163,6 +163,10 @@ export default function Accolades({}) {
     <Layout accolades>
       <div className={utilStyles.accolades}>
         <Head>
+          <meta
+            name="viewport"
+            content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
           <title>Accolades - Game of Stones</title>
         </Head>
         <h1>The Trophy Cabinet</h1>
