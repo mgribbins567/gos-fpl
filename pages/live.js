@@ -44,6 +44,8 @@ export function checkElementId(element) {
       return 726; // Kolo Muani
     case 682: // Wolfe
       return 685; // Diakite
+    case 736: // Donnarumma
+      return 720; // Tolu
     default:
       return element;
   }
