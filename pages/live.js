@@ -243,18 +243,18 @@ export async function getServerSideProps() {
     (match) => match.event === gameweekId
   );
 
-  const processedAMatchups = await getProcessedMatchups(
+  const liveAMatchups = await getProcessedMatchups(
     currentWeekAMatches,
     playerScoreMap,
     gameweekId
   );
-  const processedBMatchups = await getProcessedMatchups(
+  const liveBMatchups = await getProcessedMatchups(
     currentWeekBMatches,
     playerScoreMap,
     gameweekId
   );
 
-  const processedCupMatchups = await getProcessedMatchups(
+  const liveCupMatchups = await getProcessedMatchups(
     currentCupMatchups,
     playerScoreMap,
     gameweekId
@@ -262,18 +262,24 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      processedAMatchups: processedAMatchups,
-      processedBMatchups: processedBMatchups,
-      processedCupMatchups: processedCupMatchups,
+      allAMatchups: matchupsAData,
+      liveAMatchups: liveAMatchups,
+      allBMatchups: matchupsBData,
+      liveBMatchups: liveBMatchups,
+      allCupMatchups: kickoffCupMatches,
+      liveCupMatchups: liveCupMatchups,
       gameweekId: gameweekId,
     },
   };
 }
 
 export default function Live({
-  processedAMatchups,
-  processedBMatchups,
-  processedCupMatchups,
+  allAMatchups,
+  liveAMatchups,
+  allBMatchups,
+  liveBMatchups,
+  allCupMatchups,
+  liveCupMatchups,
   gameweekId,
 }) {
   const [activeLeague, setActiveLeague] = useState("leagueA");
@@ -318,7 +324,8 @@ export default function Live({
       {activeLeague === "leagueA" && (
         <>
           <Matchups
-            processedMatchups={processedAMatchups}
+            allMatchups={allAMatchups}
+            processedMatchups={liveAMatchups}
             gameweekId={gameweekId}
           />
           <hr style={{ width: "100%" }} />
@@ -329,7 +336,8 @@ export default function Live({
       {activeLeague === "leagueB" && (
         <>
           <Matchups
-            processedMatchups={processedBMatchups}
+            allMatchups={allBMatchups}
+            processedMatchups={liveBMatchups}
             gameweekId={gameweekId}
           />
           <hr style={{ width: "100%" }} />
@@ -340,7 +348,8 @@ export default function Live({
       {activeLeague === "cup" && (
         <>
           <Matchups
-            processedMatchups={processedCupMatchups}
+            allMatchups={allCupMatchups}
+            processedMatchups={liveCupMatchups}
             gameweekId={gameweekId}
           />
         </>
