@@ -8,7 +8,7 @@ import { GetExtendedLeagueTable } from "../lib/history_util";
 import { Matchups } from "../lib/matchups";
 import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 
 function Player(points, web_name, minutes, stats) {
@@ -46,6 +46,10 @@ export function checkElementId(element) {
       return 685; // Diakite
     case 736: // Donnarumma
       return 720; // Tolu
+    case 667: // Aznou
+      return 668;
+    case 664: // Lecomte
+      return 660; // Stach
     default:
       return element;
   }
@@ -283,6 +287,24 @@ export default function Live({
   gameweekId,
 }) {
   const [activeLeague, setActiveLeague] = useState("leagueA");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const savedLeague = localStorage.getItem("activeLeague");
+    if (savedLeague) {
+      setActiveLeague(savedLeague);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("activeLeague", activeLeague);
+  }, [activeLeague]);
+
+  const handleRefresh = useCallback(async () => {
+    setIsLoading(true);
+    await new Promise((res) => setTimeout(res, 1000));
+    setIsLoading(false);
+  }, [activeLeague]);
 
   return (
     <div className={homeStyles.home}>
@@ -321,6 +343,13 @@ export default function Live({
           Cup
         </button>
       </div>
+      <button
+        onClick={handleRefresh}
+        disabled={isLoading}
+        className={styles.refreshButton}
+      >
+        {isLoading ? "..." : "⟳"}
+      </button>
       {activeLeague === "leagueA" && (
         <>
           <Matchups
