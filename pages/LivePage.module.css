@@ -35,13 +35,17 @@
 
 .refreshButton {
   background: none;
+  display: flex;
   border: 1px solid var(--color-card);
   color: var(--color-text-secondary);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   font-size: 1.25rem;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .refreshButton:disabled {

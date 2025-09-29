@@ -348,7 +348,7 @@ export default function Live({
         disabled={isLoading}
         className={styles.refreshButton}
       >
-        {isLoading ? "..." : "⟳"}
+        {isLoading ? "..." : " ⟳"}
       </button>
       {activeLeague === "leagueA" && (
         <>
