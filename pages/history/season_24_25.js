@@ -1,6 +1,5 @@
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
-import Layout from "../../components/layout";
 import Link from "next/link";
 import group_stage_table from "../../data/tournament_1_24_25.json";
 import {
@@ -37,41 +36,39 @@ function GetKickoffTournamentGroups() {
 
 export default function Season_24_25({}) {
   return (
-    <Layout history>
-      <div className={utilStyles.main}>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          />
-          <title>Season 3 - Game of Stones</title>
-        </Head>
-        <h1>Season 3 - 2024/2025</h1>
-        <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
-        <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
-        <Link href={`/season-4`}>Season 4 - 2025/2026</Link>
-        <Link href={`/history/all_seasons`}>All Seasons</Link>
-        <br />
-        <h2>League Table</h2>
-        <div>
-          <GetExtendedLeagueTable range="'League Tables'!W1:AG17" />
-        </div>
-        <br />
-        {/* <h2>Kickoff Tournament</h2> */}
-        <div>{/* <GetKickoffTournamentGroups /> */}</div>
-        <br />
-        <h2>Prize Pool</h2>
-        <p>Total Pot - $610</p>
-        <ul>
-          <li>1st - $305 + Jersey</li>
-          <li>2nd - $152.50</li>
-          <li>3rd - $91.50</li>
-          <li>4th - $61.00</li>
-          <br />
-          <li>Manager of the Month - $10</li>
-          <li>Mid-Season Tournament - $30 + Mystery Kit</li>
-        </ul>
+    <div className={utilStyles.main}>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Season 3 - Game of Stones</title>
+      </Head>
+      <h1>Season 3 - 2024/2025</h1>
+      <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
+      <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
+      <Link href={`/season-4`}>Season 4 - 2025/2026</Link>
+      <Link href={`/history/all_seasons`}>All Seasons</Link>
+      <br />
+      <h2>League Table</h2>
+      <div>
+        <GetExtendedLeagueTable range="'League Tables'!W1:AG17" />
       </div>
-    </Layout>
+      <br />
+      {/* <h2>Kickoff Tournament</h2> */}
+      <div>{/* <GetKickoffTournamentGroups /> */}</div>
+      <br />
+      <h2>Prize Pool</h2>
+      <p>Total Pot - $610</p>
+      <ul>
+        <li>1st - $305 + Jersey</li>
+        <li>2nd - $152.50</li>
+        <li>3rd - $91.50</li>
+        <li>4th - $61.00</li>
+        <br />
+        <li>Manager of the Month - $10</li>
+        <li>Mid-Season Tournament - $30 + Mystery Kit</li>
+      </ul>
+    </div>
   );
 }

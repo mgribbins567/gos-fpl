@@ -1,7 +1,6 @@
 import React from "react";
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
-import Layout from "../../components/layout";
 import Link from "next/link";
 import { GetExtendedLeagueTable } from "../../lib/history_util";
 
@@ -504,7 +503,7 @@ function GetWinterBracket() {
 
 export default function Season_23_24({}) {
   return (
-    <Layout history>
+    <div>
       <div className={utilStyles.main}>
         <Head>
           <meta
@@ -538,6 +537,6 @@ export default function Season_23_24({}) {
         </div>
         <div>{/* <GetWinterBracket /> */}</div>
       </div>
-    </Layout>
+    </div>
   );
 }

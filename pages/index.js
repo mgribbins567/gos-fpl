@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
@@ -32,7 +31,7 @@ export default function Home({ allPostsData, featuredPost }) {
           name="viewport"
           content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
-        <title>{siteTitle}</title>
+        <title>Game of Stones</title>
       </Head>
       <h1>Game of Stones</h1>
       <ul className={homeStyles.postList}>

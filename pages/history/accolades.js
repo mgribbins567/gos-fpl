@@ -1,6 +1,5 @@
 import React from "react";
 import Head from "next/head";
-import Layout from "../../components/layout";
 import Link from "next/link";
 import utilStyles from "../../styles/utils.module.css";
 
@@ -160,92 +159,90 @@ export function SophAccolades() {
 
 export default function Accolades({}) {
   return (
-    <Layout accolades>
-      <div className={utilStyles.accolades}>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          />
-          <title>Accolades - Game of Stones</title>
-        </Head>
-        <h1>The Trophy Cabinet</h1>
-        <div className={utilStyles.accoladesBody}>
-          <strong>
-            <Link href={`/history/manager/matthew`}>Matthew</Link>
-          </strong>
-          <MatthewAccolades />
-          <strong>
-            <Link href={`/history/manager/matthewr`}>MatthewR</Link>
-          </strong>
-          <MatthewRAccolades />
-          <strong>
-            <Link href={`/history/manager/darryan`}>Darryan</Link>
-          </strong>
-          <DarryanAccolades />
-          <strong>
-            <Link href={`/history/manager/luke`}>Luke</Link>
-          </strong>
-          <LukeAccolades />
-          <strong>
-            <Link href={`/history/manager/gavin`}>Gavin</Link>
-          </strong>
-          <GavinAccolades />
-          <strong>
-            <Link href={`/history/manager/kevin`}>Kevin</Link>
-          </strong>
-          <KevinAccolades />
-          <strong>
-            <Link href={`/history/manager/dylan`}>Dylan</Link>
-          </strong>
-          <DylanAccolades />
-          <strong>
-            <Link href={`/history/manager/matt`}>Matt</Link>
-          </strong>
-          <MattAccolades />
-          <strong>
-            <Link href={`/history/manager/zach`}>Zach</Link>
-          </strong>
-          <ZachAccolades />
-          <strong>
-            <Link href={`/history/manager/scott`}>Scott</Link>
-          </strong>
-          <ScottAccolades />
-          <strong>
-            <Link href={`/history/manager/jesse`}>Jesse</Link>
-          </strong>
-          <JesseAccolades />
-          <strong>
-            <Link href={`/history/manager/andrew`}>Andrew</Link>
-          </strong>
-          <AndrewAccolades />
-          <strong>
-            <Link href={`/history/manager/rebecca`}>Rebecca</Link>
-          </strong>
-          <RebeccaAccolades />
-          <strong>
-            <Link href={`/history/manager/emily`}>Emily</Link>
-          </strong>
-          <EmilyAccolades />
-          <strong>
-            <Link href={`/history/manager/coop`}>Coop</Link>
-          </strong>
-          <CoopAccolades />
-          <strong>
-            <Link href={`/history/manager/soph`}>Soph</Link>
-          </strong>
-          <SophAccolades />
-          <br></br>
-          <br></br>
-          <p>
-            *CL = Champions League EL = Europa League ECL = Europa Conference
-            League
-          </p>
-          <p>**Season 1 and 3: CL top 4, EL 5-6, ECL 7</p>
-          <p>***Season 2: CL top 3, EL 4-5, ECL 6</p>
-          <p>****There were no MotM awards or mid-season tournaments in S1</p>
-        </div>
+    <div className={utilStyles.accolades}>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Accolades - Game of Stones</title>
+      </Head>
+      <h1>The Trophy Cabinet</h1>
+      <div className={utilStyles.accoladesBody}>
+        <strong>
+          <Link href={`/history/manager/matthew`}>Matthew</Link>
+        </strong>
+        <MatthewAccolades />
+        <strong>
+          <Link href={`/history/manager/matthewr`}>MatthewR</Link>
+        </strong>
+        <MatthewRAccolades />
+        <strong>
+          <Link href={`/history/manager/darryan`}>Darryan</Link>
+        </strong>
+        <DarryanAccolades />
+        <strong>
+          <Link href={`/history/manager/luke`}>Luke</Link>
+        </strong>
+        <LukeAccolades />
+        <strong>
+          <Link href={`/history/manager/gavin`}>Gavin</Link>
+        </strong>
+        <GavinAccolades />
+        <strong>
+          <Link href={`/history/manager/kevin`}>Kevin</Link>
+        </strong>
+        <KevinAccolades />
+        <strong>
+          <Link href={`/history/manager/dylan`}>Dylan</Link>
+        </strong>
+        <DylanAccolades />
+        <strong>
+          <Link href={`/history/manager/matt`}>Matt</Link>
+        </strong>
+        <MattAccolades />
+        <strong>
+          <Link href={`/history/manager/zach`}>Zach</Link>
+        </strong>
+        <ZachAccolades />
+        <strong>
+          <Link href={`/history/manager/scott`}>Scott</Link>
+        </strong>
+        <ScottAccolades />
+        <strong>
+          <Link href={`/history/manager/jesse`}>Jesse</Link>
+        </strong>
+        <JesseAccolades />
+        <strong>
+          <Link href={`/history/manager/andrew`}>Andrew</Link>
+        </strong>
+        <AndrewAccolades />
+        <strong>
+          <Link href={`/history/manager/rebecca`}>Rebecca</Link>
+        </strong>
+        <RebeccaAccolades />
+        <strong>
+          <Link href={`/history/manager/emily`}>Emily</Link>
+        </strong>
+        <EmilyAccolades />
+        <strong>
+          <Link href={`/history/manager/coop`}>Coop</Link>
+        </strong>
+        <CoopAccolades />
+        <strong>
+          <Link href={`/history/manager/soph`}>Soph</Link>
+        </strong>
+        <SophAccolades />
+        <br></br>
+        <br></br>
+        <p>
+          *CL = Champions League EL = Europa League ECL = Europa Conference
+          League
+        </p>
+        <p>**Season 1 and 3: CL top 4, EL 5-6, ECL 7</p>
+        <p>***Season 2: CL top 3, EL 4-5, ECL 6</p>
+        <p>****There were no MotM awards or mid-season tournaments in S1</p>
       </div>
-    </Layout>
+    </div>
   );
 }
