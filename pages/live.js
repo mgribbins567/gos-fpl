@@ -4,7 +4,6 @@ import Head from "next/head";
 import styles from "./LivePage.module.css";
 import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
-import { GetExtendedLeagueTable } from "../lib/history_util";
 import { Matchups } from "../lib/matchups";
 import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
@@ -15,7 +14,8 @@ import {
   getLeagueDetails,
 } from "../api/draftService";
 import { getLiveData, getBootstrapData } from "../api/fantasyService";
-import { Player } from "../lib/player_util";
+import { getPlayerScoreMap } from "../lib/player_util";
+import { LiveLeagueTable } from "../components/LiveLeagueTable";
 
 async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   const processedMatchups = await Promise.all(
@@ -38,6 +38,7 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
 
       return {
         id: matchId,
+        gameweek: gameweekId,
         manager1: {
           id: manager1Id,
           managerName: managers[manager1Id].name,
@@ -54,24 +55,6 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
     })
   );
   return processedMatchups;
-}
-
-function getPlayerScoreMap(liveData, bootstrapData) {
-  const playerScoreMap = new Map();
-  liveData.elements.forEach((player) => {
-    playerScoreMap.set(
-      player.id,
-      new Player(
-        player.stats.total_points,
-        bootstrapData.elements.find(
-          (element) => element.id === player.id
-        ).web_name,
-        player.stats.minutes,
-        player.explain[0].stats
-      )
-    );
-  });
-  return playerScoreMap;
 }
 
 export async function getServerSideProps() {
@@ -218,7 +201,11 @@ export default function Live({
           />
           <hr style={{ width: "100%" }} />
           <br />
-          <GetExtendedLeagueTable range="'League Tables'!AH1:AR13" />
+          <LiveLeagueTable
+            currentGameweek={gameweekId}
+            allScores={allAMatchups}
+            liveScores={liveAMatchups}
+          />
         </>
       )}
       {activeLeague === "leagueB" && (
@@ -230,7 +217,11 @@ export default function Live({
           />
           <hr style={{ width: "100%" }} />
           <br />
-          <GetExtendedLeagueTable range="'League Tables'!AH14:AR26" />
+          <LiveLeagueTable
+            currentGameweek={gameweekId}
+            allScores={allBMatchups}
+            liveScores={liveBMatchups}
+          />
         </>
       )}
       {activeLeague === "cup" && (

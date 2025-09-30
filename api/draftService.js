@@ -58,10 +58,3 @@ export async function getLeagueDetails(league) {
   );
   return await leagueDetailsRes.json();
 }
-
-export async function getPicks({ managerId, gameweek }) {
-  const leagueDetailsRes = await fetch(
-    `https://draft.premierleague.com/api/league/${league}/details`
-  );
-  return await leagueDetailsRes.json();
-}
