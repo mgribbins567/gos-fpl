@@ -3,8 +3,8 @@ import utilStyles from "../styles/utils.module.css";
 import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { getSortedPostsData } from "../lib/posts";
-import Date from "../components/date";
-import Tags from "../components/tags";
+import Date from "../lib/date";
+import Tags from "../lib/tags";
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();

@@ -10,132 +10,12 @@ import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
-
-function Player(points, web_name, minutes, stats) {
-  this.points = points;
-  this.web_name = web_name;
-  this.minutes = minutes;
-  this.stats = stats;
-}
-
-export function checkElementId(element) {
-  switch (element) {
-    case 666: // Gyokeres
-      return 661; // Ekitike
-    case 661: // Ekitike
-      return 666; // Gyokeres
-    case 673: // Palhinha
-      return 674; // Ramsdale
-    case 674: // Ramsdale
-      return 673; // Palhinha
-    case 715: // John
-      return 714; // Woltemade
-    case 679: // Hermansen
-      return 681; // Sesko
-    case 729: // Cuiabano
-      return 733; // Lammens
-    case 718: // Magassa
-      return 717; // Xavi
-    case 728: // Röhl
-      return 736; // Donnarumma
-    case 733: // Lammens
-      return 730;
-    case 735: // Traoré
-      return 726; // Kolo Muani
-    case 682: // Wolfe
-      return 685; // Diakite
-    case 736: // Donnarumma
-      return 720; // Tolu
-    case 667: // Aznou
-      return 668;
-    case 664: // Lecomte
-      return 660; // Stach
-    default:
-      return element;
-  }
-}
-
-// https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}
-// "picks":
-// [ {"element", "position"} ]
-// picks.element: Player ID
-// picks.position: Player position in lineup
-
-async function calculateDraftManagerScore(
-  managerId,
-  gameweekId,
-  playerScoreMap
-) {
-  const teamRes = await fetch(
-    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}`
-  );
-  const teamData = await teamRes.json();
-
-  if (!teamData || !teamData.picks) {
-    return { totalScore: 0, team: [] };
-  }
-
-  let totalScore = 0;
-  const team = teamData.picks.map((pick) => {
-    const elementId = checkElementId(pick.element);
-    const score = playerScoreMap.get(elementId).points || 0;
-    if (pick.position < 12) {
-      totalScore += score;
-    }
-    return {
-      id: elementId,
-      name: playerScoreMap.get(elementId).web_name,
-      score: score,
-      minutes: playerScoreMap.get(elementId).minutes,
-      stats: playerScoreMap.get(elementId).stats,
-    };
-  });
-  return { totalScore, team };
-}
-
-// https://fantasy.premierleague.com/api/bootstrap-static/
-//
-// "element_types":
-// [{"id", "singular_name", "singular_name_short"}]
-// element_types.id: Position ID
-// element_types.singular_name: Position name (e.g. Forward)
-// element_types.singular_name_short: Position name abbreviated (e.g. FWD)
-//
-// "elements":
-// [{"code", "element_type", "id", "first_name", "second_name", "web_name", "team", "team_code"}]
-// elements.code:
-// elements.id:
-// elements.element_type: Position ID, eq to element_types.id
-// elements.team: Eq to teams.id
-// elements.team_code: Eq to teams.code
-// * elements also has season data, including goals, assist, etc. *
-//
-// "teams":
-// [{"code", "id", "name"}]
-// teams.code: Eq to elements.code
-// teams.id: Eq to elements.id, alphabetical ID
-// ------------------------------------------------------------------------ //
-// https://fantasy.premierleague.com/api/event/${gameweek}/live/
-//
-// "elements":
-// [{"id", "stats", "explain"}]
-// elements.id: Eq to elements.id (I believe)
-// elements.stats: Object containing data such as minutes, goals, assists, etc.
-// elements.explain: elements.explain.stats is an array of objects that contain what the player earned points for. E.g. 2 points for minutes
-
-export async function getBootstrapData() {
-  const boostrapRes = await fetch(
-    "https://fantasy.premierleague.com/api/bootstrap-static/"
-  );
-  return await boostrapRes.json();
-}
-
-async function getLiveData(gameweek) {
-  const liveRes = await fetch(
-    `https://fantasy.premierleague.com/api/event/${gameweek}/live/`
-  );
-  return await liveRes.json();
-}
+import {
+  calculateDraftManagerScore,
+  getLeagueDetails,
+} from "../api/draftService";
+import { getLiveData, getBootstrapData } from "../api/fantasyService";
+import { Player } from "../lib/player_util";
 
 async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   const processedMatchups = await Promise.all(
@@ -174,27 +54,6 @@ async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
     })
   );
   return processedMatchups;
-}
-
-// https://draft.premierleague.com/api/league/${league}/details
-//
-// "league_entries":
-// [{"entry_id","id"}]
-// league_entries.entry_id: Used for API call ${managerId}
-// league_entries.id: Used as a key and to craft match IDs
-//
-// "matches":
-// [{"event", "finished", "league_entry_1", "league_entry_2"}]
-// matches.event: Gameweek of the matchup (gameweekId)
-// matches.finished: Boolean if the gameweek has ended
-// matches.league_entry_1 and matches.league_entry_2: Manager entry_id
-// *matches also contains finalized point values*
-
-export async function getLeagueDetails(league) {
-  const leagueDetailsRes = await fetch(
-    `https://draft.premierleague.com/api/league/${league}/details`
-  );
-  return await leagueDetailsRes.json();
 }
 
 function getPlayerScoreMap(liveData, bootstrapData) {

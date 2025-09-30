@@ -1,6 +1,6 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
-import Date from "../../components/date";
+import Date from "../../lib/date";
 
 export async function getStaticProps({ params }) {
   const postData = await getPostData(params.id);

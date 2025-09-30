@@ -1,8 +1,6 @@
-import styles from "../styles/Navbar.module.css";
-import Head from "next/head";
+import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 
 import {
   HiOutlineHome,
