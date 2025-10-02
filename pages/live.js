@@ -16,6 +16,7 @@ import {
 import { getLiveData, getBootstrapData } from "../api/fantasyService";
 import { getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
+import { GetChampionsLeagueTable } from "../lib/history_util";
 
 async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   const processedMatchups = await Promise.all(
@@ -231,6 +232,9 @@ export default function Live({
             processedMatchups={liveCupMatchups}
             gameweekId={gameweekId}
           />
+          <hr style={{ width: "100%" }} />
+          <br />
+          <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
         </>
       )}
       <br />
