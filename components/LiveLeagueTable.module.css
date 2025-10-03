@@ -1,0 +1,48 @@
+.rank {
+  text-align: left;
+  width: 2ch;
+}
+
+.positionCell {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  text-align: left;
+  gap: 1px;
+}
+
+.rankMovement {
+  font-size: 0.75em;
+  font-weight: bold;
+  padding: 2px;
+  border-radius: 15px;
+  color: #fff;
+  width: 2.75ch;
+}
+
+.up {
+  background-color: #28a745;
+}
+
+.down {
+  background-color: #dc3545;
+}
+
+.noMovement {
+  background-color: #a0a0a0;
+}
+
+@media screen and (min-width: 769px) {
+  .rank {
+    text-align: left;
+  }
+  .positionCell {
+    text-align: left;
+    margin-left: 1rem;
+    gap: 8px;
+  }
+  .rankMovement {
+    width: 4ch;
+    border-radius: 20px;
+  }
+}

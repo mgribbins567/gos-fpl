@@ -18,6 +18,32 @@ import { getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 
+async function getLiveScores(matchups, playerScoreMap, gameweekId) {
+  const liveScores = await Promise.all(
+    matchups.map(async (match) => {
+      const manager1Id = match.league_entry_1;
+      const manager2Id = match.league_entry_2;
+
+      const team1Data = await calculateDraftManagerScore(
+        managers[manager1Id].entry_id,
+        gameweekId,
+        playerScoreMap
+      );
+      const team2Data = await calculateDraftManagerScore(
+        managers[manager2Id].entry_id,
+        gameweekId,
+        playerScoreMap
+      );
+
+      return {
+        id: manager1Id,
+        liveScore: team1Data.totalScore,
+      };
+    })
+  );
+  return liveScores;
+}
+
 async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
   const processedMatchups = await Promise.all(
     matchups.map(async (match) => {
@@ -106,6 +132,13 @@ export async function getServerSideProps() {
     playerScoreMap,
     gameweekId
   );
+
+  // const liveScores = await getLiveScores(
+  //   currentWeekAMatches,
+  //   // { ...currentWeekAMatches, ...currentWeekBMatches },
+  //   playerScoreMap,
+  //   gameweekId
+  // );
 
   return {
     props: {

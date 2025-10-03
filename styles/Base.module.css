@@ -111,7 +111,7 @@
 .tableContainer {
   max-width: 100%;
 
-  overflow-x: auto;
+  overflow-x: hidden;
 
   background-color: var(--color-card);
   border: 1px solid #30363d;

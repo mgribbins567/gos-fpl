@@ -1,8 +1,9 @@
 import Head from "next/head";
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import managers from "../data/managers.json";
 import utilStyles from "../styles/PlayerList.module.css";
-import { getBootstrapData, checkElementId } from "./live";
+import { checkElementId } from "../lib/player_util";
+import { getBootstrapData } from "../api/fantasyService";
 
 const getManagerName = (ownerId) => {
   if (!ownerId) {
