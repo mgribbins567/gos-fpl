@@ -5,162 +5,75 @@ import styles from "./LivePage.module.css";
 import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { Matchups } from "../lib/matchups";
-import managers from "../data/managers.json";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
-import {
-  calculateDraftManagerScore,
-  getLeagueDetails,
-} from "../api/draftService";
-import { getLiveData, getBootstrapData } from "../api/fantasyService";
-import { getPlayerScoreMap } from "../lib/player_util";
+import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 
-async function getLiveScores(matchups, playerScoreMap, gameweekId) {
-  const liveScores = await Promise.all(
-    matchups.map(async (match) => {
-      const manager1Id = match.league_entry_1;
-      const manager2Id = match.league_entry_2;
+async function getLivePageStartData() {
+  const urls = [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://draft.premierleague.com/api/league/157/details",
+    "https://draft.premierleague.com/api/league/461/details",
+  ];
 
-      const team1Data = await calculateDraftManagerScore(
-        managers[manager1Id].entry_id,
-        gameweekId,
-        playerScoreMap
-      );
-      const team2Data = await calculateDraftManagerScore(
-        managers[manager2Id].entry_id,
-        gameweekId,
-        playerScoreMap
-      );
+  const fetchPromises = urls.map((url) => fetch(url));
 
-      return {
-        id: manager1Id,
-        liveScore: team1Data.totalScore,
-      };
+  return await Promise.all(fetchPromises)
+    .then((responses) => {
+      return Promise.all(responses.map((response) => response.json()));
     })
-  );
-  return liveScores;
-}
-
-async function getProcessedMatchups(matchups, playerScoreMap, gameweekId) {
-  const processedMatchups = await Promise.all(
-    matchups.map(async (match) => {
-      const manager1Id = match.league_entry_1;
-      const manager2Id = match.league_entry_2;
-
-      const team1Data = await calculateDraftManagerScore(
-        managers[manager1Id].entry_id,
-        gameweekId,
-        playerScoreMap
-      );
-      const team2Data = await calculateDraftManagerScore(
-        managers[manager2Id].entry_id,
-        gameweekId,
-        playerScoreMap
-      );
-
-      const matchId = gameweekId + "-" + manager1Id + "-" + manager2Id;
-
-      return {
-        id: matchId,
-        gameweek: gameweekId,
-        manager1: {
-          id: manager1Id,
-          managerName: managers[manager1Id].name,
-          liveScore: team1Data.totalScore,
-          team: team1Data.team,
-        },
-        manager2: {
-          id: manager2Id,
-          managerName: managers[manager2Id].name,
-          liveScore: team2Data.totalScore,
-          team: team2Data.team,
-        },
-      };
-    })
-  );
-  return processedMatchups;
+    .catch((error) => {
+      console.error("Error fetching bootstrap data or league details:", error);
+    });
 }
 
 export async function getServerSideProps() {
-  const LEAGUE_A_ID = 157;
-  const LEAGUE_B_ID = 461;
+  console.time("Full Live load time");
 
-  const bootstrapData = await getBootstrapData();
+  console.time("Start data");
+  const [bootstrapData, matchupsAData, matchupsBData] =
+    await getLivePageStartData();
+  console.timeEnd("Start data");
 
   const currentGameweekObject = bootstrapData.events.find(
     (event) => event.is_current === true
   );
 
-  const gameweekId = currentGameweekObject
+  const gameweek = currentGameweekObject
     ? currentGameweekObject.id
     : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
 
-  const liveData = await getLiveData(gameweekId);
-  const playerScoreMap = getPlayerScoreMap(liveData, bootstrapData);
+  console.time("new player score map");
+  const newPlayerScoreMap = await getPlayerScoreMap(gameweek, bootstrapData);
+  console.timeEnd("new player score map");
+  console.time("manager player map");
+  const managerPlayerMap = await getManagerPlayerMap(gameweek);
+  console.timeEnd("manager player map");
 
-  const matchupsAData = await getLeagueDetails(LEAGUE_A_ID);
-  const matchupsBData = await getLeagueDetails(LEAGUE_B_ID);
-
-  const currentWeekAMatches = matchupsAData.matches.filter(
-    (match) => match.event === gameweekId
-  );
-
-  const currentWeekBMatches = matchupsBData.matches.filter(
-    (match) => match.event === gameweekId
-  );
-
-  const currentCupMatchups = kickoffCupMatches.matches.filter(
-    (match) => match.event === gameweekId
-  );
-
-  const liveAMatchups = await getProcessedMatchups(
-    currentWeekAMatches,
-    playerScoreMap,
-    gameweekId
-  );
-  const liveBMatchups = await getProcessedMatchups(
-    currentWeekBMatches,
-    playerScoreMap,
-    gameweekId
-  );
-
-  const liveCupMatchups = await getProcessedMatchups(
-    currentCupMatchups,
-    playerScoreMap,
-    gameweekId
-  );
-
-  // const liveScores = await getLiveScores(
-  //   currentWeekAMatches,
-  //   // { ...currentWeekAMatches, ...currentWeekBMatches },
-  //   playerScoreMap,
-  //   gameweekId
-  // );
+  console.timeEnd("Full Live load time");
 
   return {
     props: {
+      gameweek: gameweek,
       allAMatchups: matchupsAData,
-      liveAMatchups: liveAMatchups,
       allBMatchups: matchupsBData,
-      liveBMatchups: liveBMatchups,
       allCupMatchups: kickoffCupMatches,
-      liveCupMatchups: liveCupMatchups,
-      gameweekId: gameweekId,
+      playerScoreMap: newPlayerScoreMap,
+      managerPlayerMap: managerPlayerMap,
     },
   };
 }
 
 export default function Live({
+  gameweek,
   allAMatchups,
-  liveAMatchups,
   allBMatchups,
-  liveBMatchups,
   allCupMatchups,
-  liveCupMatchups,
-  gameweekId,
+  playerScoreMap,
+  managerPlayerMap,
 }) {
   const [activeLeague, setActiveLeague] = useState("leagueA");
   const [isLoading, setIsLoading] = useState(false);
@@ -178,7 +91,6 @@ export default function Live({
 
   const handleRefresh = useCallback(async () => {
     setIsLoading(true);
-    await new Promise((res) => setTimeout(res, 1000));
     setIsLoading(false);
   }, [activeLeague]);
 
@@ -229,41 +141,49 @@ export default function Live({
       {activeLeague === "leagueA" && (
         <>
           <Matchups
+            gameweek={gameweek}
             allMatchups={allAMatchups}
-            processedMatchups={liveAMatchups}
-            gameweekId={gameweekId}
+            playerScoreMap={playerScoreMap}
+            managerPlayerMap={managerPlayerMap}
+            isCup={false}
           />
           <hr style={{ width: "100%" }} />
           <br />
           <LiveLeagueTable
-            currentGameweek={gameweekId}
-            allScores={allAMatchups}
-            liveScores={liveAMatchups}
+            gameweek={gameweek}
+            allMatchups={allAMatchups}
+            playerScoreMap={playerScoreMap}
+            managerPlayerMap={managerPlayerMap}
           />
         </>
       )}
       {activeLeague === "leagueB" && (
         <>
           <Matchups
+            gameweek={gameweek}
             allMatchups={allBMatchups}
-            processedMatchups={liveBMatchups}
-            gameweekId={gameweekId}
+            playerScoreMap={playerScoreMap}
+            managerPlayerMap={managerPlayerMap}
+            isCup={false}
           />
           <hr style={{ width: "100%" }} />
           <br />
           <LiveLeagueTable
-            currentGameweek={gameweekId}
-            allScores={allBMatchups}
-            liveScores={liveBMatchups}
+            gameweek={gameweek}
+            allMatchups={allBMatchups}
+            playerScoreMap={playerScoreMap}
+            managerPlayerMap={managerPlayerMap}
           />
         </>
       )}
       {activeLeague === "cup" && (
         <>
           <Matchups
+            gameweek={gameweek}
             allMatchups={allCupMatchups}
-            processedMatchups={liveCupMatchups}
-            gameweekId={gameweekId}
+            playerScoreMap={playerScoreMap}
+            managerPlayerMap={managerPlayerMap}
+            isCup={true}
           />
           <hr style={{ width: "100%" }} />
           <br />

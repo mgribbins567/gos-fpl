@@ -1,59 +1,94 @@
 import managers from "../data/managers.json";
+import { checkElementId } from "../lib/player_util";
 import utilStyles from "../styles/utils.module.css";
 
 function PastGameweek(match) {
-  return [
-    managers[match.league_entry_1].name,
-    match.league_entry_1_points,
-    managers[match.league_entry_2].name,
-    match.league_entry_2_points,
-  ];
+  let score1, score2;
+  if (match.league_entry_1_points) {
+    score1 = match.league_entry_1_points;
+    score2 = match.league_entry_2_points;
+  }
+  return { score1, score2 };
 }
 
-function CurrentGameweek(match) {
-  return [
-    match.manager1.managerName,
-    match.manager1.liveScore,
-    match.manager2.managerName,
-    match.manager2.liveScore,
-  ];
+export function getTotalScore(
+  gameweek,
+  entry,
+  playerScoreMap,
+  managerPlayerMap
+) {
+  let totalScore = 0;
+  managerPlayerMap[entry].gameweeks[gameweek].forEach((player) => {
+    const elementId = checkElementId(player.element);
+    let score;
+    try {
+      score =
+        playerScoreMap[elementId].gameweeks[gameweek].stats.total_points || 0;
+    } catch (error) {
+      console.log("Error retrieving player: ", elementId, error);
+      score = 0;
+    }
+    if (player.position < 12) {
+      totalScore += score;
+    }
+  });
+  return totalScore;
 }
 
-function FutureGameweek(match) {
-  return [
-    managers[match.league_entry_1].name,
-    null,
-    managers[match.league_entry_2].name,
-    null,
-  ];
+function CurrentGameweek(match, playerScoreMap, managerPlayerMap) {
+  const score1 = getTotalScore(
+    match.event,
+    match.league_entry_1,
+    playerScoreMap,
+    managerPlayerMap
+  );
+  const score2 = getTotalScore(
+    match.event,
+    match.league_entry_2,
+    playerScoreMap,
+    managerPlayerMap
+  );
+
+  return { score1, score2 };
 }
 
-export function Scorebox({ match }) {
+function FutureGameweek() {
+  const score1 = null;
+  const score2 = null;
+  return { score1, score2 };
+}
+
+export function Scorebox({
+  isCurrentGameweek,
+  match,
+  playerScoreMap,
+  managerPlayerMap,
+}) {
   let matchup;
-  if (match.finished) {
+  if (playerScoreMap === null) {
+    matchup = FutureGameweek();
+  } else if (!isCurrentGameweek) {
     matchup = PastGameweek(match);
-  } else if (match.id) {
-    matchup = CurrentGameweek(match);
   } else {
-    matchup = FutureGameweek(match);
+    matchup = CurrentGameweek(match, playerScoreMap, managerPlayerMap);
   }
 
   return (
     <div className={utilStyles.summaryRow}>
       <div className={utilStyles.team}>
-        <span className={utilStyles.managerName}>{matchup[0]}</span>
+        <span className={utilStyles.managerName}>
+          {managers[match.league_entry_1].name}
+        </span>
       </div>
       <div className={utilStyles.scoreBox}>
-        <span className={utilStyles.score}>
-          {matchup[1] && `${matchup[1]}`}
-        </span>
+        <span className={utilStyles.score}>{matchup.score1}</span>
         <span className={utilStyles.versus}>-</span>
-        <span className={utilStyles.score}>
-          {matchup[3] && `${matchup[3]}`}
-        </span>
+        <span className={utilStyles.score}>{matchup.score2}</span>
       </div>
       <div className={`${utilStyles.team} ${utilStyles.teamRight}`}>
-        <span className={utilStyles.managerName}>{matchup[2]}</span>
+        <span className={utilStyles.managerName}>
+          {managers[match.league_entry_2].name}
+        </span>
       </div>
     </div>
   );

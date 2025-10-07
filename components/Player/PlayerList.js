@@ -2,8 +2,19 @@ import React, { useState, useEffect } from "react";
 import { PlayerCard } from "./PlayerCard";
 import utilStyles from "../../styles/utils.module.css";
 
-export function PlayerList({ player, index }) {
+export function PlayerList({ gameweek, player, index }) {
   const [openPlayerId, setOpenPlayerId] = useState(null);
+  console.log(player);
+  const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${player.details.teamCode}-66.png`;
+  const newPlayer = {
+    id: player.details.id,
+    name: player.details.webName,
+    position: player.details.position,
+    teamJersey: jerseyUrl,
+    score: player.gameweeks[gameweek].stats.total_points,
+    minutes: player.gameweeks[gameweek].stats.minutes,
+    stats: player.gameweeks[gameweek].explain[0].stats,
+  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -21,7 +32,7 @@ export function PlayerList({ player, index }) {
     <div>
       <React.Fragment key={player.id}>
         <PlayerCard
-          player={player}
+          player={newPlayer}
           isOpen={openPlayerId === player.id}
           index={index}
           onCardClick={() => {

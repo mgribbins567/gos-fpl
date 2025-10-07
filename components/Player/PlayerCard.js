@@ -9,7 +9,11 @@ export function PlayerCard({ player, isOpen, onCardClick, index }) {
     <div className={utilStyles.playerCard} onClick={onCardClick}>
       <div key={player.id} className={utilStyles.playerRow}>
         <div className={utilStyles.playerStats}>
-          <span>{player.name} </span>
+          <img src={player.teamJersey} />
+          <span className={utilStyles.playerPosition}>
+            {player.position[0]}
+          </span>
+          <span>{player.name}</span>
           <span className={utilStyles.playerMinutes}>({player.minutes}')</span>
         </div>
         <span className={utilStyles.playerScore}>{player.score}</span>

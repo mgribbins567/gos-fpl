@@ -1,18 +1,18 @@
 import { checkElementId } from "../lib/player_util";
 
-// https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}
+// https://draft.premierleague.com/api/entry/${managerId}/event/${gameweek}
 // "picks":
 // [ {"element", "position"} ]
 // picks.element: Player ID
 // picks.position: Player position in lineup
 
 export async function calculateDraftManagerScore(
+  gameweek,
   managerId,
-  gameweekId,
   playerScoreMap
 ) {
   const teamRes = await fetch(
-    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweekId}`
+    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweek}`
   );
   const teamData = await teamRes.json();
 
@@ -47,7 +47,7 @@ export async function calculateDraftManagerScore(
 //
 // "matches":
 // [{"event", "finished", "league_entry_1", "league_entry_2"}]
-// matches.event: Gameweek of the matchup (gameweekId)
+// matches.event: Gameweek of the matchup (gameweek)
 // matches.finished: Boolean if the gameweek has ended
 // matches.league_entry_1 and matches.league_entry_2: Manager entry_id
 // *matches also contains finalized point values*

@@ -356,7 +356,7 @@
 
 .teamRight {
   text-align: right;
-  min-width: 8ch;
+  min-width: 9ch;
 }
 
 .managerName {
@@ -403,8 +403,8 @@
   border-top: 1px solid #f0f0f0;
   margin-top: 1rem;
   padding-top: 1rem;
-  padding: 1.5rem;
-  gap: 1.5rem;
+  padding: 0.75rem;
+  gap: 0.75rem;
   animation: fadeIn 0.4s ease;
 }
 
@@ -421,10 +421,20 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
+  text-wrap: nowrap;
 }
 
 .playerStats {
   /*Nothing needed here */
+  display: flex;
+  align-items: center;
+  /* vertical-align: bottom; */
+  gap: 0.75ch;
+}
+
+.playerStats img {
+  max-width: 0.9rem;
+  height: auto;
 }
 
 .playerScore {
@@ -432,8 +442,12 @@
 }
 
 .playerMinutes {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: #666;
+}
+
+.playerPosition {
+  /* font-size: 0.85rem; */
 }
 
 .benchSeparator {

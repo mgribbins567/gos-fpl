@@ -2,19 +2,35 @@ import { useState, useEffect } from "react";
 import managers from "../data/managers.json";
 import baseStyles from "../styles/Base.module.css";
 import styles from "../components/LiveLeagueTable.module.css";
+import { getTotalScore } from "./Scorebox";
 
-function getScores(leagueTable, match, isCurrent) {
+function getScores(
+  leagueTable,
+  match,
+  playerScoreMap,
+  managerScoreMap,
+  isCurrent
+) {
   let score1, score2;
-  let team1, team2;
+  const team1 = leagueTable[match.league_entry_1];
+  const team2 = leagueTable[match.league_entry_2];
 
   if (isCurrent) {
-    team1 = leagueTable[match.manager1.id];
-    team2 = leagueTable[match.manager2.id];
-    score1 = match.manager1.liveScore || 0;
-    score2 = match.manager2.liveScore || 0;
+    score1 =
+      getTotalScore(
+        match.event,
+        match.league_entry_1,
+        playerScoreMap,
+        managerScoreMap
+      ) || 0;
+    score2 =
+      getTotalScore(
+        match.event,
+        match.league_entry_2,
+        playerScoreMap,
+        managerScoreMap
+      ) || 0;
   } else {
-    team1 = leagueTable[match.league_entry_1];
-    team2 = leagueTable[match.league_entry_2];
     score1 = match.league_entry_1_points;
     score2 = match.league_entry_2_points;
   }
@@ -44,12 +60,17 @@ function getScores(leagueTable, match, isCurrent) {
   return { team1, team2 };
 }
 
-export function LiveLeagueTable({ currentGameweek, allScores, liveScores }) {
+export function LiveLeagueTable({
+  gameweek,
+  allMatchups,
+  playerScoreMap,
+  managerPlayerMap,
+}) {
   const [sortedTable, setSortedTable] = useState([]);
 
   useEffect(() => {
     async function fetchAndBuildTable() {
-      const { league_entries, matches } = allScores;
+      const { league_entries, matches } = allMatchups;
 
       const leagueTable = {};
       league_entries.forEach((entry) => {
@@ -69,8 +90,14 @@ export function LiveLeagueTable({ currentGameweek, allScores, liveScores }) {
       });
 
       matches.forEach((match) => {
-        if (match.finished && match.event < currentGameweek) {
-          getScores(leagueTable, match, /*isCurrent=*/ false);
+        if (match.finished && match.event < gameweek) {
+          getScores(
+            leagueTable,
+            match,
+            playerScoreMap,
+            managerPlayerMap,
+            /*isCurrent=*/ false
+          );
         }
       });
 
@@ -86,8 +113,18 @@ export function LiveLeagueTable({ currentGameweek, allScores, liveScores }) {
         startRanks[team.id] = index + 1;
       });
 
-      liveScores.map((match) => {
-        getScores(leagueTable, match, /*isCurrent=*/ true);
+      const matchesForCurrentGameweek = matches.filter(
+        (match) => match.event === gameweek
+      );
+
+      matchesForCurrentGameweek.forEach((match) => {
+        getScores(
+          leagueTable,
+          match,
+          playerScoreMap,
+          managerPlayerMap,
+          /*isCurrent=*/ true
+        );
       });
 
       const liveSortedTable = Object.values(leagueTable).sort((a, b) => {
@@ -109,7 +146,7 @@ export function LiveLeagueTable({ currentGameweek, allScores, liveScores }) {
       setSortedTable(finalTable);
     }
     fetchAndBuildTable();
-  }, [currentGameweek, allScores, liveScores]);
+  }, [gameweek, allMatchups, playerScoreMap, managerPlayerMap]);
 
   return (
     <div className={baseStyles.tableContainer}>
@@ -157,7 +194,10 @@ export function LiveLeagueTable({ currentGameweek, allScores, liveScores }) {
               <td>{team.L}</td>
               <td>{team.PF}</td>
               <td>{team.PA}</td>
-              <td>{team.PD}</td>
+              <td>
+                {team.PD > 0 ? "+" : null}
+                {team.PD}
+              </td>
               <td>{team.Pts}</td>
               <td>
                 {parseFloat(
