@@ -4,8 +4,9 @@ import utilStyles from "../../styles/utils.module.css";
 
 export function PlayerList({ gameweek, player, index }) {
   const [openPlayerId, setOpenPlayerId] = useState(null);
-  console.log(player);
-  const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${player.details.teamCode}-66.png`;
+
+  const isGKP = player.details.position === "GKP" ? "_1" : "";
+  const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${player.details.teamCode}${isGKP}-66.png`;
   const newPlayer = {
     id: player.details.id,
     name: player.details.webName,
