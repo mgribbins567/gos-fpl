@@ -11,6 +11,31 @@ import clsx from "clsx";
 import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
+import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
+
+function getTableData(
+  gameweek,
+  allAMatchups,
+  allBMatchups,
+  playerScoreMap,
+  managerPlayerMap
+) {
+  const tableAData = useLiveLeagueData(
+    gameweek,
+    allAMatchups,
+    playerScoreMap,
+    managerPlayerMap
+  );
+
+  const tableBData = useLiveLeagueData(
+    gameweek,
+    allBMatchups,
+    playerScoreMap,
+    managerPlayerMap
+  );
+
+  return { tableAData, tableBData };
+}
 
 async function getLivePageStartData() {
   const urls = [
@@ -42,12 +67,14 @@ export async function getServerSideProps() {
     (event) => event.is_current === true
   );
 
+  const isFinished = currentGameweekObject.finished;
+
   const gameweek = currentGameweekObject
     ? currentGameweekObject.id
     : bootstrapData.events.find((event) => event.is_next === true)?.id || 1;
 
   console.time("new player score map");
-  const newPlayerScoreMap = await getPlayerScoreMap(gameweek, bootstrapData);
+  const playerScoreMap = await getPlayerScoreMap(gameweek, bootstrapData);
   console.timeEnd("new player score map");
   console.time("manager player map");
   const managerPlayerMap = await getManagerPlayerMap(gameweek);
@@ -58,10 +85,11 @@ export async function getServerSideProps() {
   return {
     props: {
       gameweek: gameweek,
+      isFinished: isFinished,
       allAMatchups: matchupsAData,
       allBMatchups: matchupsBData,
       allCupMatchups: kickoffCupMatches,
-      playerScoreMap: newPlayerScoreMap,
+      playerScoreMap: playerScoreMap,
       managerPlayerMap: managerPlayerMap,
     },
   };
@@ -69,6 +97,7 @@ export async function getServerSideProps() {
 
 export default function Live({
   gameweek,
+  isFinished,
   allAMatchups,
   allBMatchups,
   allCupMatchups,
@@ -88,6 +117,14 @@ export default function Live({
   useEffect(() => {
     localStorage.setItem("activeLeague", activeLeague);
   }, [activeLeague]);
+
+  const tableData = getTableData(
+    gameweek,
+    allAMatchups,
+    allBMatchups,
+    playerScoreMap,
+    managerPlayerMap
+  );
 
   const handleRefresh = useCallback(async () => {
     setIsLoading(true);
@@ -142,47 +179,51 @@ export default function Live({
         <>
           <Matchups
             gameweek={gameweek}
+            isFinished={isFinished}
             allMatchups={allAMatchups}
             playerScoreMap={playerScoreMap}
             managerPlayerMap={managerPlayerMap}
+            tableData={
+              isFinished
+                ? tableData.tableAData.liveTable
+                : tableData.tableAData.startOfWeekTable
+            }
             isCup={false}
           />
           <hr style={{ width: "100%" }} />
           <br />
-          <LiveLeagueTable
-            gameweek={gameweek}
-            allMatchups={allAMatchups}
-            playerScoreMap={playerScoreMap}
-            managerPlayerMap={managerPlayerMap}
-          />
+          <LiveLeagueTable tableData={tableData.tableAData.liveTable} />
         </>
       )}
       {activeLeague === "leagueB" && (
         <>
           <Matchups
             gameweek={gameweek}
+            isFinished={isFinished}
             allMatchups={allBMatchups}
             playerScoreMap={playerScoreMap}
             managerPlayerMap={managerPlayerMap}
+            tableData={
+              isFinished
+                ? tableData.tableBData.liveTable
+                : tableData.tableBData.startOfWeekTable
+            }
             isCup={false}
           />
           <hr style={{ width: "100%" }} />
           <br />
-          <LiveLeagueTable
-            gameweek={gameweek}
-            allMatchups={allBMatchups}
-            playerScoreMap={playerScoreMap}
-            managerPlayerMap={managerPlayerMap}
-          />
+          <LiveLeagueTable tableData={tableData.tableBData.liveTable} />
         </>
       )}
       {activeLeague === "cup" && (
         <>
           <Matchups
             gameweek={gameweek}
+            isFinished={isFinished}
             allMatchups={allCupMatchups}
             playerScoreMap={playerScoreMap}
             managerPlayerMap={managerPlayerMap}
+            tableData={tableData}
             isCup={true}
           />
           <hr style={{ width: "100%" }} />
