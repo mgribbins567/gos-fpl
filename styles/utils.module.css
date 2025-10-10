@@ -318,6 +318,9 @@
     color: #888;
     margin: 0 2rem !important;
   }
+  .matchupCard:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .container h1 {
@@ -357,10 +360,6 @@
   padding: 0.5rem 0.75rem;
 }
 
-.matchupCard:hover {
-  transform: translateY(-4px);
-}
-
 .team {
   flex: 1;
   min-width: 0;
@@ -385,12 +384,16 @@
 .managerData {
   color: #b0b0b0;
   font-size: 0.85rem;
+  direction: rtl;
+  text-wrap: nowrap;
 }
 
 .scoreBox {
   display: flex;
   align-items: center;
-  margin: 0 10vw;
+  /* margin: 0 10vw; */
+  margin-left: 3vw;
+  margin-right: 3vw;
   background-color: #f0f2f5;
   padding: 0.25vh;
   border-radius: 8px;
