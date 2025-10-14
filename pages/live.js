@@ -6,12 +6,13 @@ import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { Matchups } from "../lib/matchups";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
+import { useRouter } from "next/router";
 
 function getTableData(
   gameweek,
@@ -104,6 +105,7 @@ export default function Live({
   playerScoreMap,
   managerPlayerMap,
 }) {
+  const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -126,10 +128,11 @@ export default function Live({
     managerPlayerMap
   );
 
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = async () => {
     setIsLoading(true);
+    await router.replace(router.asPath);
     setIsLoading(false);
-  }, [activeLeague]);
+  };
 
   return (
     <div className={homeStyles.home}>

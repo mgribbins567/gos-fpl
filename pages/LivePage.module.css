@@ -54,6 +54,5 @@
 }
 
 .refreshButton:hover:not(:disabled) {
-  background-color: var(--color-card);
   color: var(--color-text);
 }

@@ -31,8 +31,9 @@ export function PlayerCard({ player, isOpen, onCardClick, index }) {
                     .replace(/_/g, " ")
                     .split(" ")
                     .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                    .join(" ")}
-                  :<span className={utilStyles.playerScore}>{stat.points}</span>
+                    .join(" ")}{" "}
+                  ({stat.value})
+                  <span className={utilStyles.playerScore}>{stat.points}</span>
                 </li>
               ))}
               <h4></h4>
