@@ -1,13 +1,12 @@
 import { useState } from "react";
-import utilStyles from "../styles/utils.module.css";
+import utilStyles from "../../styles/utils.module.css";
+import styles from "../Live/LiveFixtures.module.css";
 
 function Scorebox({ fixture, teams }) {
   return (
     <div className={utilStyles.summaryRow}>
       <div className={`${utilStyles.team} ${utilStyles.teamLeft}`}>
-        <span className={utilStyles.fixturesTeamName}>
-          {teams[fixture.team_h]}
-        </span>
+        <span className={styles.fixturesTeamName}>{teams[fixture.team_h]}</span>
       </div>
       <div className={utilStyles.scoreBox}>
         <span className={utilStyles.score}>{fixture.team_h_score}</span>
@@ -15,26 +14,30 @@ function Scorebox({ fixture, teams }) {
         <span className={utilStyles.score}>{fixture.team_a_score}</span>
       </div>
       <div className={`${utilStyles.team} ${utilStyles.teamRight}`}>
-        <span className={utilStyles.fixturesTeamName}>
-          {teams[fixture.team_a]}
-        </span>
+        <span className={styles.fixturesTeamName}>{teams[fixture.team_a]}</span>
       </div>
     </div>
   );
 }
 
 function StatsList({ identifier, statMap, playerScoreMap }) {
+  if (
+    Object.keys(statMap.h).length === 0 &&
+    Object.keys(statMap.a).length === 0
+  ) {
+    return;
+  }
   return (
-    <div className={utilStyles.fixtureContainer}>
-      <div className={utilStyles.identifier}>
+    <div className={styles.fixtureContainer}>
+      <div className={styles.identifier}>
         {identifier
           .replace(/_/g, " ")
           .split(" ")
           .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
           .join(" ")}
       </div>
-      <div className={utilStyles.players}>
-        <div className={utilStyles.homePlayers}>
+      <div className={styles.players}>
+        <div className={styles.homePlayers}>
           {statMap.h.map((element) => (
             <div>
               {playerScoreMap[element.element].details.webName} ({element.value}
@@ -42,7 +45,7 @@ function StatsList({ identifier, statMap, playerScoreMap }) {
             </div>
           ))}
         </div>
-        <div className={utilStyles.awayPlayers}>
+        <div className={styles.awayPlayers}>
           {statMap.a.map((element) => (
             <div>
               {playerScoreMap[element.element].details.webName} ({element.value}
@@ -97,8 +100,8 @@ export function LiveFixtures({ gameweek, fixturesData, playerScoreMap }) {
             </div>
           </div>
           {openMatchupId === fixture.code && (
-            <div className={utilStyles.fixtureDetailsPanel}>
-              <div className={utilStyles.teamPlayers}>
+            <div className={styles.fixtureDetailsPanel}>
+              <div className={styles.teamPlayers}>
                 {fixture.stats.map((stat) => (
                   <StatsList
                     identifier={stat.identifier}

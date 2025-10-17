@@ -1,5 +1,5 @@
-import baseStyles from "../styles/Base.module.css";
-import styles from "../components/LiveLeagueTable.module.css";
+import baseStyles from "../../styles/Base.module.css";
+import styles from "../Live/LiveLeagueTable.module.css";
 
 export function LiveLeagueTable({ tableData }) {
   return (

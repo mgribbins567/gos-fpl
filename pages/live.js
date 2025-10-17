@@ -13,11 +13,11 @@ import {
   getPlayerScoreMap,
   getTeamScoreMap,
 } from "../lib/player_util";
-import { LiveLeagueTable } from "../components/LiveLeagueTable";
+import { LiveLeagueTable } from "../components/Live/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
-import { LiveFixtures } from "../components/LiveFixtures";
+import { LiveFixtures } from "../components/Live/LiveFixtures";
 
 function getTableData(
   gameweek,
