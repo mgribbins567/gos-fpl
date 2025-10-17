@@ -8,11 +8,16 @@ import { Matchups } from "../lib/matchups";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
+import {
+  getManagerPlayerMap,
+  getPlayerScoreMap,
+  getTeamScoreMap,
+} from "../lib/player_util";
 import { LiveLeagueTable } from "../components/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
+import { LiveFixtures } from "../components/LiveFixtures";
 
 function getTableData(
   gameweek,
@@ -43,6 +48,7 @@ async function getLivePageStartData() {
     "https://fantasy.premierleague.com/api/bootstrap-static/",
     "https://draft.premierleague.com/api/league/157/details",
     "https://draft.premierleague.com/api/league/461/details",
+    "https://fantasy.premierleague.com/api/fixtures/",
   ];
 
   const fetchPromises = urls.map((url) => fetch(url));
@@ -60,7 +66,7 @@ export async function getServerSideProps() {
   console.time("Full Live load time");
 
   console.time("Start data");
-  const [bootstrapData, matchupsAData, matchupsBData] =
+  const [bootstrapData, matchupsAData, matchupsBData, fixtures] =
     await getLivePageStartData();
   console.timeEnd("Start data");
 
@@ -81,6 +87,20 @@ export async function getServerSideProps() {
   const managerPlayerMap = await getManagerPlayerMap(gameweek);
   console.timeEnd("manager player map");
 
+  const teams = {};
+  bootstrapData.teams.forEach((team) => {
+    teams[team.id] = team.name;
+  });
+
+  // console.time("team data");
+  // const teamScoreMap = await getTeamScoreMap(
+  //   gameweek,
+  //   bootstrapData,
+  //   fixturesData,
+  //   playerScoreMap
+  // );
+  // console.timeEnd("team data");
+
   console.timeEnd("Full Live load time");
 
   return {
@@ -92,6 +112,7 @@ export async function getServerSideProps() {
       allCupMatchups: kickoffCupMatches,
       playerScoreMap: playerScoreMap,
       managerPlayerMap: managerPlayerMap,
+      fixturesData: { fixtures, teams },
     },
   };
 }
@@ -104,6 +125,7 @@ export default function Live({
   allCupMatchups,
   playerScoreMap,
   managerPlayerMap,
+  fixturesData,
 }) {
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
@@ -234,6 +256,13 @@ export default function Live({
           <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
         </>
       )}
+      <hr style={{ width: "100%" }} />
+      <br />
+      <LiveFixtures
+        gameweek={gameweek}
+        fixturesData={fixturesData}
+        playerScoreMap={playerScoreMap}
+      />
       <br />
       <hr style={{ width: "100%" }} />
       <br />
