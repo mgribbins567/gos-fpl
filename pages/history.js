@@ -15,6 +15,8 @@ export default function History({}) {
       <h1>
         <p>History</p>
       </h1>
+      <hr style={{ width: "100%" }} />
+      <br />
       <a href={`/history/accolades`} className={homeStyles.link}>
         Accolades
         <br />

@@ -22,7 +22,7 @@ export async function getStaticProps() {
 
 export default function Home({ allPostsData, featuredPost }) {
   return (
-    <div className={homeStyles.home}>
+    <div className={homeStyles.homePage}>
       <Analytics />
       <SpeedInsights />
       <Head>
@@ -33,6 +33,8 @@ export default function Home({ allPostsData, featuredPost }) {
         <title>Game of Stones</title>
       </Head>
       <h1>Game of Stones</h1>
+      <hr style={{ width: "100%" }} />
+      <br />
       <a href="/live" className={homeStyles.link}>
         Live
         <br />
@@ -40,6 +42,7 @@ export default function Home({ allPostsData, featuredPost }) {
           Quick link to the current season!
         </small>
       </a>
+      <br />
       <h2>Featured Post</h2>
       {featuredPost.map(({ id, date, title, summary, tags }) => (
         <a href={`/blog/${id}`} className={homeStyles.link}>

@@ -16,7 +16,7 @@ export async function getStaticProps() {
 
 export default function Blog({ allPostsData }) {
   return (
-    <div className={homeStyles.home}>
+    <div className={homeStyles.homePage}>
       <Head>
         <meta
           name="viewport"
@@ -27,6 +27,8 @@ export default function Blog({ allPostsData }) {
       <h1>
         <p>Blog Posts</p>
       </h1>
+      <hr style={{ width: "100%" }} />
+      <br />
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         {allPostsData.map(({ id, date, title, tags }) => (
           <a href={`/blog/${id}`} className={homeStyles.blogLink} key={id}>
