@@ -1,6 +1,4 @@
-import React from "react";
 import Head from "next/head";
-import Link from "next/link";
 import utilStyles from "../styles/utils.module.css";
 import homeStyles from "../styles/Home.module.css";
 
@@ -14,51 +12,53 @@ export default function History({}) {
         />
         <title>History - Game of Stones</title>
       </Head>
-      <h1>History of the Game of Stones</h1>
-      <ul className={homeStyles.postList}>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/history/accolades`}>Accolades</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Manager achievements and awards from every season.
-          </small>
-        </li>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/history/all_seasons`}>All Seasons</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Compilation of all Game of Stones seasons!
-          </small>
-        </li>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/live`}>2025/2026 Season</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Season 4 of the Game of Stones!
-          </small>
-        </li>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/history/season_24_25`}>2024/2025 Season</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Season 3 of the Game of Stones!
-          </small>
-        </li>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/history/season_23_24`}>2023/2024 Season</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Season 2 of the Game of Stones!
-          </small>
-        </li>
-        <li className={homeStyles.postListItem}>
-          <Link href={`/history/season_22_23`}>2022/2023 Season</Link>
-          <br />
-          <small className={utilStyles.lightText}>
-            Season 1 of the Game of Stones!
-          </small>
-        </li>
-      </ul>
+      <h1>
+        <p>History</p>
+      </h1>
+      <a href={`/history/accolades`} className={homeStyles.link}>
+        Accolades
+        <br />
+        <small className={utilStyles.lightText}>
+          Manager achievements and awards from every season.
+        </small>
+      </a>
+      <br />
+      <a href={`/history/all_seasons`} className={homeStyles.link}>
+        All Seasons
+        <br />
+        <small className={utilStyles.lightText}>
+          Compilation of all Game of Stones seasons!
+        </small>
+      </a>
+      <br />
+      <a href={`/live`} className={homeStyles.link}>
+        2025/2026 Season
+        <br />
+        <small className={utilStyles.lightText}>
+          Season 4 of the Game of Stones!
+        </small>
+      </a>
+      <a href={`/history/season_24_25`} className={homeStyles.link}>
+        2024/2025 Season
+        <br />
+        <small className={utilStyles.lightText}>
+          Season 3 of the Game of Stones!
+        </small>
+      </a>
+      <a href={`/history/season_23_24`} className={homeStyles.link}>
+        2023/2024 Season
+        <br />
+        <small className={utilStyles.lightText}>
+          Season 2 of the Game of Stones!
+        </small>
+      </a>
+      <a href={`/history/season_22_23`} className={homeStyles.link}>
+        2022/2023 Season
+        <br />
+        <small className={utilStyles.lightText}>
+          Season 1 of the Game of Stones!
+        </small>
+      </a>
       {/* <div>
         <JsonDataDisplay />
       </div> */}

@@ -15,6 +15,7 @@ export function PlayerList({ gameweek, player, index }) {
     score: player.gameweeks[gameweek].stats.total_points,
     minutes: player.gameweeks[gameweek].stats.minutes,
     stats: player.gameweeks[gameweek].explain[0].stats,
+    status: player.details.status,
   };
 
   useEffect(() => {

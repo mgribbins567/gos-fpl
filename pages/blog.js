@@ -1,7 +1,6 @@
 import Head from "next/head";
 import utilStyles from "../styles/utils.module.css";
 import homeStyles from "../styles/Home.module.css";
-import Link from "next/link";
 import { getSortedPostsData } from "../lib/posts";
 import Date from "../lib/date";
 import Tags from "../lib/tags";
@@ -17,7 +16,7 @@ export async function getStaticProps() {
 
 export default function Blog({ allPostsData }) {
   return (
-    <div className={utilStyles.main}>
+    <div className={homeStyles.home}>
       <Head>
         <meta
           name="viewport"
@@ -29,21 +28,19 @@ export default function Blog({ allPostsData }) {
         <p>Blog Posts</p>
       </h1>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <ul className={homeStyles.postList}>
-          {allPostsData.map(({ id, date, title, tags }) => (
-            <li className={homeStyles.postListItem} key={id}>
-              <Link href={`/blog/${id}`}>{title}</Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-              <br />
-              <small className={utilStyles.tagsLightText}>
-                <Tags tagList={tags} />
-              </small>
-            </li>
-          ))}
-        </ul>
+        {allPostsData.map(({ id, date, title, tags }) => (
+          <a href={`/blog/${id}`} className={homeStyles.blogLink} key={id}>
+            {title}
+            <br />
+            <small className={utilStyles.lightText}>
+              <Date dateString={date} />
+            </small>
+            <br />
+            <small className={utilStyles.tagsLightText}>
+              <Tags tagList={tags} />
+            </small>
+          </a>
+        ))}
       </section>
     </div>
   );

@@ -3,7 +3,7 @@
     box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.8);
   }
   70% {
-    box-shadow: 0 0 0 12px rgba(40, 167, 69, 0);
+    box-shadow: 0 0 0 8px rgba(40, 167, 69, 0);
   }
   100% {
     box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
@@ -472,6 +472,26 @@
 
 .playerPosition {
   /* font-size: 0.85rem; */
+}
+
+.playerName {
+  /* just need the statuses */
+}
+
+.playerName[status="d"] {
+  color: rgb(255, 171, 27);
+}
+
+.playerName[status="i"] {
+  color: rgb(192, 2, 13);
+}
+
+.playerName[status="u"] {
+  color: rgb(192, 2, 13);
+}
+
+.playerName[status="s"] {
+  color: rgb(192, 2, 13);
 }
 
 .benchSeparator {
