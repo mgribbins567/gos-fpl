@@ -1,9 +1,48 @@
 import utilStyles from "../../styles/utils.module.css";
+import { useState, useEffect } from "react";
+import { ExpandedPlayerCard } from "./ExpandedPlayerCard";
 
-export function PlayerCard({ player, isOpen, onCardClick, index }) {
+export function createCurrentGameweekPlayer(playerData, gameweek) {
+  const isGKP = playerData.details.position === "GKP" ? "_1" : "";
+  const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${playerData.details.teamCode}${isGKP}-66.png`;
+  return {
+    id: playerData.details.id,
+    name: playerData.details.webName,
+    position: playerData.details.position,
+    teamJersey: jerseyUrl,
+    score: playerData.gameweeks[gameweek].stats.total_points,
+    minutes: playerData.gameweeks[gameweek].stats.minutes,
+    stats: playerData.gameweeks[gameweek].explain[0].stats,
+    status: playerData.details.status,
+  };
+}
+
+export function PlayerCard({
+  playerData,
+  gameweek,
+  isOpen,
+  onCardClick,
+  index,
+  fixturesData,
+}) {
+  const [openPlayerId, setOpenPlayerId] = useState(null);
+  const player = createCurrentGameweekPlayer(playerData, gameweek);
+
   function handlePopoutClick(event) {
     event.stopPropagation();
   }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (!event.target.closest(`.${utilStyles.playerCard}`)) {
+        setOpenPlayerId(null);
+      }
+    }
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div className={utilStyles.playerCard} onClick={onCardClick}>
@@ -24,7 +63,18 @@ export function PlayerCard({ player, isOpen, onCardClick, index }) {
 
       {isOpen && (
         <div className={utilStyles.pointsBreakdown} onClick={handlePopoutClick}>
-          <h4>{player.name}</h4>
+          <div className={utilStyles.pointsBreakdownHeader}>
+            <h4>{player.name}</h4>
+            <ExpandedPlayerCard
+              playerData={playerData}
+              isOpen={openPlayerId === player.id}
+              onCardClick={() => {
+                setOpenPlayerId(openPlayerId === player.id ? null : player.id);
+              }}
+              fixturesData={fixturesData}
+            />
+          </div>
+
           <div>
             <ul>
               {player.stats.map((stat) => (
@@ -38,7 +88,7 @@ export function PlayerCard({ player, isOpen, onCardClick, index }) {
                   <span className={utilStyles.playerScore}>{stat.points}</span>
                 </li>
               ))}
-              <h4></h4>
+              <hr style={{ width: "100%" }} />
               <li>
                 Total:{" "}
                 <span className={utilStyles.playerScore}>{player.score}</span>

@@ -8,11 +8,7 @@ import { Matchups } from "../lib/matchups";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import {
-  getManagerPlayerMap,
-  getPlayerScoreMap,
-  getTeamScoreMap,
-} from "../lib/player_util";
+import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
 import { LiveLeagueTable } from "../components/Live/LiveLeagueTable";
 import { GetChampionsLeagueTable } from "../lib/history_util";
 import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
@@ -88,18 +84,11 @@ export async function getServerSideProps() {
   console.timeEnd("manager player map");
 
   const teams = {};
+  const teamCodes = {};
   bootstrapData.teams.forEach((team) => {
     teams[team.id] = team.name;
+    teamCodes[team.code] = team.name;
   });
-
-  // console.time("team data");
-  // const teamScoreMap = await getTeamScoreMap(
-  //   gameweek,
-  //   bootstrapData,
-  //   fixturesData,
-  //   playerScoreMap
-  // );
-  // console.timeEnd("team data");
 
   console.timeEnd("Full Live load time");
 
@@ -112,7 +101,7 @@ export async function getServerSideProps() {
       allCupMatchups: kickoffCupMatches,
       playerScoreMap: playerScoreMap,
       managerPlayerMap: managerPlayerMap,
-      fixturesData: { fixtures, teams },
+      fixturesData: { fixtures, teams, teamCodes },
     },
   };
 }
@@ -214,6 +203,7 @@ export default function Live({
                 : tableData.tableAData.startOfWeekTable
             }
             isCup={false}
+            fixturesData={fixturesData}
           />
           <hr style={{ width: "100%" }} />
           <br />
@@ -234,6 +224,7 @@ export default function Live({
                 : tableData.tableBData.startOfWeekTable
             }
             isCup={false}
+            fixturesData={fixturesData}
           />
           <hr style={{ width: "100%" }} />
           <br />
@@ -250,6 +241,7 @@ export default function Live({
             managerPlayerMap={managerPlayerMap}
             tableData={tableData}
             isCup={true}
+            fixturesData={fixturesData}
           />
           <hr style={{ width: "100%" }} />
           <br />
