@@ -7,7 +7,8 @@ export function ExpandedPlayerCardTable({ tableData }) {
         <thead>
           <tr>
             <th>GW</th>
-            <th>PTS</th>
+            <th>VS</th>
+            <th>P</th>
             <th>MP</th>
             <th>G</th>
             <th>A</th>
@@ -27,6 +28,7 @@ export function ExpandedPlayerCardTable({ tableData }) {
           {tableData.map((player) => (
             <tr key={player.id}>
               <td>{player.GW}</td>
+              <td>{player.VS}</td>
               <td>{player.PTS}</td>
               <td>{player.MP}</td>
               <td>{player.G}</td>

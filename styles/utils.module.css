@@ -437,7 +437,6 @@
 }
 
 .playerStats {
-  /*Nothing needed here */
   display: flex;
   align-items: center;
   /* vertical-align: bottom; */
@@ -513,9 +512,28 @@
   /* background: rgb(20, 20, 20); */
 }
 
+.pointsBreakdownHeaderContainer {
+  display: block;
+  border-bottom: 1px solid #eee;
+}
+
 .pointsBreakdownHeader {
   display: flex;
-  border-bottom: 1px solid #eee;
+}
+
+.pointsBreakdownMiniScore {
+  display: flex;
+  font-size: 0.95rem;
+  margin-bottom: 0.1rem;
+  white-space: pre;
+}
+
+.pointsBreakdownMiniScoreMinutes {
+  color: #666;
+}
+
+.playerTeam {
+  font-weight: 600;
 }
 
 .expandedPointsBreakdownHeader {

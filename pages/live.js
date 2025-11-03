@@ -85,9 +85,12 @@ export async function getServerSideProps() {
 
   const teams = {};
   const teamCodes = {};
+  const teamCodesToId = {};
   bootstrapData.teams.forEach((team) => {
-    teams[team.id] = team.name;
-    teamCodes[team.code] = team.name;
+    const teamData = { name: team.name, short_name: team.short_name };
+    teams[team.id] = teamData;
+    teamCodes[team.code] = teamData;
+    teamCodesToId[team.code] = team.id;
   });
 
   console.timeEnd("Full Live load time");
@@ -101,7 +104,7 @@ export async function getServerSideProps() {
       allCupMatchups: kickoffCupMatches,
       playerScoreMap: playerScoreMap,
       managerPlayerMap: managerPlayerMap,
-      fixturesData: { fixtures, teams, teamCodes },
+      fixturesData: { fixtures, teams, teamCodes, teamCodesToId },
     },
   };
 }

@@ -27,21 +27,18 @@
 }
 
 .tableContainer td {
-  padding: 1vw 0.75vw;
+  padding: 1vw 0.5vw;
   border-bottom: 1px solid #30363d;
   white-space: nowrap;
   font-size: 0.95rem;
   min-width: 1vw;
-  text-align: center;
+  text-align: left;
 }
 
 .tableContainer tbody tr {
   transition: background-color 0.15s ease;
 }
 
-.tableContainer tbody tr:hover {
-  background-color: var(--color-card);
-}
 .tableContainer tbody tr:last-child td {
   border-bottom: none;
 }
@@ -68,5 +65,8 @@
     font-size: 0.95rem;
     min-width: 1vw;
     text-align: center;
+  }
+  .tableContainer tbody tr:hover {
+    background-color: var(--color-card);
   }
 }

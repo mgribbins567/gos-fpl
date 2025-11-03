@@ -6,7 +6,9 @@ function Scorebox({ fixture, teams }) {
   return (
     <div className={utilStyles.summaryRow}>
       <div className={`${utilStyles.team} ${utilStyles.teamLeft}`}>
-        <span className={styles.fixturesTeamName}>{teams[fixture.team_h]}</span>
+        <span className={styles.fixturesTeamName}>
+          {teams[fixture.team_h].name}
+        </span>
       </div>
       <div className={utilStyles.scoreBox}>
         <span className={utilStyles.score}>{fixture.team_h_score}</span>
@@ -14,7 +16,9 @@ function Scorebox({ fixture, teams }) {
         <span className={utilStyles.score}>{fixture.team_a_score}</span>
       </div>
       <div className={`${utilStyles.team} ${utilStyles.teamRight}`}>
-        <span className={styles.fixturesTeamName}>{teams[fixture.team_a]}</span>
+        <span className={styles.fixturesTeamName}>
+          {teams[fixture.team_a].name}
+        </span>
       </div>
     </div>
   );

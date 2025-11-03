@@ -2,7 +2,19 @@ import utilStyles from "../../styles/utils.module.css";
 import { useState, useEffect } from "react";
 import { ExpandedPlayerCard } from "./ExpandedPlayerCard";
 
-export function createCurrentGameweekPlayer(playerData, gameweek) {
+export function createCurrentGameweekPlayer(
+  playerData,
+  fixturesData,
+  gameweek
+) {
+  const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
+  const fixturesForViewedGameweek = fixturesData.fixtures.filter(
+    (fixture) =>
+      fixture.event === gameweek &&
+      (fixture.team_a === teamId || fixture.team_h === teamId)
+  );
+  const isHome = fixturesForViewedGameweek[0].team_h === teamId;
+
   const isGKP = playerData.details.position === "GKP" ? "_1" : "";
   const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${playerData.details.teamCode}${isGKP}-66.png`;
   return {
@@ -14,6 +26,14 @@ export function createCurrentGameweekPlayer(playerData, gameweek) {
     minutes: playerData.gameweeks[gameweek].stats.minutes,
     stats: playerData.gameweeks[gameweek].explain[0].stats,
     status: playerData.details.status,
+    teamMinutes: fixturesForViewedGameweek[0].finished
+      ? "Final"
+      : fixturesForViewedGameweek[0].minutes + "'",
+    teamH: fixturesData.teams[fixturesForViewedGameweek[0].team_h].short_name,
+    teamA: fixturesData.teams[fixturesForViewedGameweek[0].team_a].short_name,
+    teamHScore: fixturesForViewedGameweek[0].team_h_score || 0,
+    teamAScore: fixturesForViewedGameweek[0].team_a_score || 0,
+    home: isHome,
   };
 }
 
@@ -26,7 +46,11 @@ export function PlayerCard({
   fixturesData,
 }) {
   const [openPlayerId, setOpenPlayerId] = useState(null);
-  const player = createCurrentGameweekPlayer(playerData, gameweek);
+  const player = createCurrentGameweekPlayer(
+    playerData,
+    fixturesData,
+    gameweek
+  );
 
   function handlePopoutClick(event) {
     event.stopPropagation();
@@ -63,16 +87,40 @@ export function PlayerCard({
 
       {isOpen && (
         <div className={utilStyles.pointsBreakdown} onClick={handlePopoutClick}>
-          <div className={utilStyles.pointsBreakdownHeader}>
-            <h4>{player.name}</h4>
-            <ExpandedPlayerCard
-              playerData={playerData}
-              isOpen={openPlayerId === player.id}
-              onCardClick={() => {
-                setOpenPlayerId(openPlayerId === player.id ? null : player.id);
-              }}
-              fixturesData={fixturesData}
-            />
+          <div className={utilStyles.pointsBreakdownHeaderContainer}>
+            <div className={utilStyles.pointsBreakdownHeader}>
+              <h4>{player.name}</h4>
+              <ExpandedPlayerCard
+                playerData={playerData}
+                isOpen={openPlayerId === player.id}
+                onCardClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === player.id ? null : player.id
+                  );
+                }}
+                fixturesData={fixturesData}
+              />
+            </div>
+            <div className={utilStyles.pointsBreakdownMiniScore}>
+              <div className={player.home ? utilStyles.playerTeam : ""}>
+                {player.teamH}
+              </div>
+              {" vs "}
+              <div className={player.home ? "" : utilStyles.playerTeam}>
+                {player.teamA}{" "}
+              </div>
+              <div className={player.home ? utilStyles.playerTeam : ""}>
+                {player.teamHScore}
+              </div>
+              {" - "}
+              <div className={player.home ? "" : utilStyles.playerTeam}>
+                {player.teamAScore}
+              </div>
+              <div className={utilStyles.pointsBreakdownMiniScoreMinutes}>
+                {" "}
+                {player.teamMinutes}
+              </div>
+            </div>
           </div>
 
           <div>

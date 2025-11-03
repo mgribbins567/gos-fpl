@@ -1,5 +1,4 @@
 import utilStyles from "../../styles/utils.module.css";
-import { useState } from "react";
 import { HiBars3 } from "react-icons/hi2";
 import { ExpandedPlayerCardTable } from "./ExpandedPlayerCardTable";
 import Portal from "../Portal";
@@ -10,7 +9,6 @@ export function ExpandedPlayerCard({
   onCardClick,
   fixturesData,
 }) {
-  const [openPlayerId, setOpenPlayerId] = useState(null);
   function handlePopoutClick(event) {
     event.stopPropagation();
   }
@@ -36,8 +34,19 @@ export function ExpandedPlayerCard({
   };
   Object.keys(playerData.gameweeks).forEach((gameweek) => {
     const data = playerData.gameweeks[gameweek].stats;
+    const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
+
+    const currentFixture = fixturesData.fixtures.filter(
+      (fixture) =>
+        fixture.id === playerData.gameweeks[gameweek].explain[0].fixture
+    );
+
+    const isHome = currentFixture[0].team_h === teamId;
+    const opp = isHome ? currentFixture[0].team_a : currentFixture[0].team_h;
+
     statsTable[gameweek] = {
       GW: gameweek,
+      VS: (isHome ? "vs " : "@ ") + fixturesData.teams[opp].short_name,
       PTS: data.total_points,
       MP: data.minutes,
       G: data.goals_scored,
@@ -88,7 +97,7 @@ export function ExpandedPlayerCard({
                 {playerData.details.firstName} {playerData.details.lastName}
               </h4>
               <h4>
-                {fixturesData.teamCodes[playerData.details.teamCode]}{" "}
+                {fixturesData.teamCodes[playerData.details.teamCode].name}{" "}
                 {playerData.details.position}
               </h4>
             </div>
