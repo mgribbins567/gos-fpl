@@ -32,7 +32,7 @@
   white-space: nowrap;
   font-size: 0.95rem;
   min-width: 1vw;
-  text-align: left;
+  text-align: center;
 }
 
 .tableContainer tbody tr {
