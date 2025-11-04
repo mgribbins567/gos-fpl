@@ -192,6 +192,13 @@ export default function PlayerSearchPage({ players }) {
               >
                 Clean Sheets {getSortIndicator("clean_sheets")}
               </th>
+              <th
+                className={utilStyles.sortableHeader}
+                onClick={() => requestSort("defensive_contributions")}
+              >
+                Defensive Contributions{" "}
+                {getSortIndicator("defensive_contributions")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -220,6 +227,9 @@ export default function PlayerSearchPage({ players }) {
                   {player.expected_goal_involvements}
                 </td>
                 <td className={utilStyles.dataCell}>{player.clean_sheets}</td>
+                <td className={utilStyles.dataCell}>
+                  {player.defensive_contributions}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -289,6 +299,7 @@ export async function getServerSideProps() {
       expected_assists: player.expected_assists,
       clean_sheets: player.clean_sheets,
       expected_goal_involvements: player.expected_goal_involvements,
+      defensive_contributions: player.defensive_contribution,
     }));
 
     return {
