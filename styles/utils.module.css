@@ -541,6 +541,14 @@
   border-bottom: 1px solid #eee;
 }
 
+.expandedPointsNextFive {
+  margin-top: 0.25vh;
+  padding-bottom: 0.25vh;
+  display: flex;
+  white-space: pre;
+  border-bottom: 1px solid #eee;
+}
+
 .expandedPointsBreakdownHeader h4 {
   font-weight: 600;
 }

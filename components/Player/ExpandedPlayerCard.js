@@ -3,6 +3,8 @@ import { HiBars3 } from "react-icons/hi2";
 import { ExpandedPlayerCardTable } from "./ExpandedPlayerCardTable";
 import Portal from "../Portal";
 
+import { IoIosAirplane } from "react-icons/io";
+
 export function ExpandedPlayerCard({
   playerData,
   isOpen,
@@ -32,6 +34,28 @@ export function ExpandedPlayerCard({
     PS: 0,
     PM: 0,
   };
+  const nextFixtures = [];
+  for (
+    let gameweek = numGameweeks + 1;
+    gameweek < numGameweeks + 6;
+    gameweek++
+  ) {
+    const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
+    const currentFixture = fixturesData.fixtures.filter(
+      (fixture) =>
+        fixture.event === gameweek &&
+        (fixture.team_h === teamId || fixture.team_a === teamId)
+    );
+
+    const isHome = currentFixture[0].team_h === teamId;
+    nextFixtures.push(
+      (isHome ? "vs " : "@ ") +
+        fixturesData.teams[
+          isHome ? currentFixture[0].team_a : currentFixture[0].team_h
+        ].short_name
+    );
+  }
+  console.log(nextFixtures);
   Object.keys(playerData.gameweeks).forEach((gameweek) => {
     const data = playerData.gameweeks[gameweek].stats;
     const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
@@ -100,6 +124,9 @@ export function ExpandedPlayerCard({
                 {fixturesData.teamCodes[playerData.details.teamCode].name}{" "}
                 {playerData.details.position}
               </h4>
+            </div>
+            <div className={utilStyles.expandedPointsNextFive}>
+              Next 5: {nextFixtures.map((fixture) => fixture).join(", ")}
             </div>
             <button className={utilStyles.closePopout} onClick={onCardClick}>
               x
