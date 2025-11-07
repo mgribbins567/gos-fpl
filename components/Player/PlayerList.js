@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { PlayerCard } from "./PlayerCard";
 import utilStyles from "../../styles/utils.module.css";
 
-export function PlayerList({ gameweek, player, index, fixturesData }) {
+export function PlayerList({ gameweek, player, index }) {
   const [openPlayerId, setOpenPlayerId] = useState(null);
 
   useEffect(() => {
@@ -30,7 +30,6 @@ export function PlayerList({ gameweek, player, index, fixturesData }) {
               openPlayerId === player.details.id ? null : player.details.id
             );
           }}
-          fixturesData={fixturesData}
         />
       </React.Fragment>
     </div>

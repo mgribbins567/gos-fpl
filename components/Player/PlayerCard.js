@@ -1,12 +1,11 @@
 import utilStyles from "../../styles/utils.module.css";
 import { useState, useEffect } from "react";
 import { ExpandedPlayerCard } from "./ExpandedPlayerCard";
+import { useLiveData } from "../../contexts/LiveDataContext";
+import { HiBars3 } from "react-icons/hi2";
 
-export function createCurrentGameweekPlayer(
-  playerData,
-  fixturesData,
-  gameweek
-) {
+export function createCurrentGameweekPlayer(playerData, gameweek) {
+  const fixturesData = useLiveData().fixturesData;
   const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
   const fixturesForViewedGameweek = fixturesData.fixtures.filter(
     (fixture) =>
@@ -43,14 +42,9 @@ export function PlayerCard({
   isOpen,
   onCardClick,
   index,
-  fixturesData,
 }) {
   const [openPlayerId, setOpenPlayerId] = useState(null);
-  const player = createCurrentGameweekPlayer(
-    playerData,
-    fixturesData,
-    gameweek
-  );
+  const player = createCurrentGameweekPlayer(playerData, gameweek);
 
   function handlePopoutClick(event) {
     event.stopPropagation();
@@ -90,6 +84,14 @@ export function PlayerCard({
           <div className={utilStyles.pointsBreakdownHeaderContainer}>
             <div className={utilStyles.pointsBreakdownHeader}>
               <h4>{player.name}</h4>
+              <HiBars3
+                className={utilStyles.expandPointsButton}
+                onClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === player.id ? null : player.id
+                  );
+                }}
+              />
               <ExpandedPlayerCard
                 playerData={playerData}
                 isOpen={openPlayerId === player.id}
@@ -98,7 +100,6 @@ export function PlayerCard({
                     openPlayerId === player.id ? null : player.id
                   );
                 }}
-                fixturesData={fixturesData}
               />
             </div>
             <div className={utilStyles.pointsBreakdownMiniScore}>

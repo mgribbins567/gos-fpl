@@ -1,16 +1,10 @@
 import utilStyles from "../../styles/utils.module.css";
-import { HiBars3 } from "react-icons/hi2";
 import { ExpandedPlayerCardTable } from "./ExpandedPlayerCardTable";
+import { useLiveData } from "../../contexts/LiveDataContext";
 import Portal from "../Portal";
 
-import { IoIosAirplane } from "react-icons/io";
-
-export function ExpandedPlayerCard({
-  playerData,
-  isOpen,
-  onCardClick,
-  fixturesData,
-}) {
+export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
+  const fixturesData = useLiveData().fixturesData;
   function handlePopoutClick(event) {
     event.stopPropagation();
   }
@@ -55,7 +49,6 @@ export function ExpandedPlayerCard({
         ].short_name
     );
   }
-  console.log(nextFixtures);
   Object.keys(playerData.gameweeks).forEach((gameweek) => {
     const data = playerData.gameweeks[gameweek].stats;
     const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
@@ -105,10 +98,6 @@ export function ExpandedPlayerCard({
 
   return (
     <div>
-      <HiBars3
-        className={utilStyles.expandPointsButton}
-        onClick={onCardClick}
-      />
       {isOpen && (
         <Portal>
           <div className={utilStyles.backdrop} onClick={onCardClick} />

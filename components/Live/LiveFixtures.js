@@ -1,6 +1,8 @@
 import { useState } from "react";
 import utilStyles from "../../styles/utils.module.css";
 import styles from "../Live/LiveFixtures.module.css";
+import { ExpandedPlayerCard } from "../Player/ExpandedPlayerCard";
+import { useLiveData } from "../../contexts/LiveDataContext";
 
 function Scorebox({ fixture, teams }) {
   return (
@@ -25,6 +27,7 @@ function Scorebox({ fixture, teams }) {
 }
 
 function StatsList({ identifier, statMap, playerScoreMap }) {
+  const [openPlayerId, setOpenPlayerId] = useState(null);
   if (
     Object.keys(statMap.h).length === 0 &&
     Object.keys(statMap.a).length === 0
@@ -44,16 +47,52 @@ function StatsList({ identifier, statMap, playerScoreMap }) {
         <div className={styles.homePlayers}>
           {statMap.h.map((element) => (
             <div>
-              {playerScoreMap[element.element].details.webName} ({element.value}
-              )
+              <a
+                className={utilStyles.expandPointsButton}
+                onClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === element.element ? null : element.element
+                  );
+                }}
+              >
+                {playerScoreMap[element.element].details.webName} (
+                {element.value})
+              </a>
+              <ExpandedPlayerCard
+                playerData={playerScoreMap[element.element]}
+                isOpen={openPlayerId === element.element}
+                onCardClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === element.element ? null : element.element
+                  );
+                }}
+              />
             </div>
           ))}
         </div>
         <div className={styles.awayPlayers}>
           {statMap.a.map((element) => (
             <div>
-              {playerScoreMap[element.element].details.webName} ({element.value}
-              )
+              <a
+                className={utilStyles.expandPointsButton}
+                onClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === element.element ? null : element.element
+                  );
+                }}
+              >
+                {playerScoreMap[element.element].details.webName} (
+                {element.value})
+              </a>
+              <ExpandedPlayerCard
+                playerData={playerScoreMap[element.element]}
+                isOpen={openPlayerId === element.element}
+                onCardClick={() => {
+                  setOpenPlayerId(
+                    openPlayerId === element.element ? null : element.element
+                  );
+                }}
+              />
             </div>
           ))}
         </div>
@@ -62,9 +101,10 @@ function StatsList({ identifier, statMap, playerScoreMap }) {
   );
 }
 
-export function LiveFixtures({ gameweek, fixturesData, playerScoreMap }) {
+export function LiveFixtures({ gameweek, playerScoreMap }) {
   const [viewedGameweek, setViewedGameweek] = useState(gameweek);
   const [openMatchupId, setOpenMatchupId] = useState(null);
+  const fixturesData = useLiveData().fixturesData;
 
   const fixturesForViewedGameweek = fixturesData.fixtures.filter(
     (fixture) => fixture.event === viewedGameweek

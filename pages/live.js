@@ -14,6 +14,7 @@ import { GetChampionsLeagueTable } from "../lib/history_util";
 import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
 import { LiveFixtures } from "../components/Live/LiveFixtures";
+import LiveDataContext from "../contexts/LiveDataContext";
 
 function getTableData(
   gameweek,
@@ -95,6 +96,12 @@ export async function getServerSideProps() {
 
   console.timeEnd("Full Live load time");
 
+  const liveData = {
+    // playerScoreMap: playerScoreMap,
+    // managerPlayerMap: managerPlayerMap,
+    fixturesData: { fixtures, teams, teamCodes, teamCodesToId },
+  };
+
   return {
     props: {
       gameweek: gameweek,
@@ -104,7 +111,7 @@ export async function getServerSideProps() {
       allCupMatchups: kickoffCupMatches,
       playerScoreMap: playerScoreMap,
       managerPlayerMap: managerPlayerMap,
-      fixturesData: { fixtures, teams, teamCodes, teamCodesToId },
+      liveData: liveData,
     },
   };
 }
@@ -117,7 +124,7 @@ export default function Live({
   allCupMatchups,
   playerScoreMap,
   managerPlayerMap,
-  fixturesData,
+  liveData,
 }) {
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
@@ -149,143 +156,138 @@ export default function Live({
   };
 
   return (
-    <div className={homeStyles.home}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <title>Season 4 - Game of Stones</title>
-      </Head>
-      <h2>Game of Stones Season 4</h2>
-      <hr style={{ width: "100%" }} />
-      <div className={styles.tabContainer}>
+    <LiveDataContext.Provider value={liveData}>
+      <div className={homeStyles.home}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
+          <title>Season 4 - Game of Stones</title>
+        </Head>
+        <h2>Game of Stones Season 4</h2>
+        <hr style={{ width: "100%" }} />
+        <div className={styles.tabContainer}>
+          <button
+            className={clsx(styles.tabButton, {
+              [styles.active]: activeLeague === "leagueA",
+            })}
+            onClick={() => setActiveLeague("leagueA")}
+          >
+            League A
+          </button>
+          <button
+            className={clsx(styles.tabButton, {
+              [styles.active]: activeLeague === "leagueB",
+            })}
+            onClick={() => setActiveLeague("leagueB")}
+          >
+            League B
+          </button>
+          <button
+            className={clsx(styles.tabButton, {
+              [styles.active]: activeLeague === "cup",
+            })}
+            onClick={() => setActiveLeague("cup")}
+          >
+            Cup
+          </button>
+        </div>
         <button
-          className={clsx(styles.tabButton, {
-            [styles.active]: activeLeague === "leagueA",
-          })}
-          onClick={() => setActiveLeague("leagueA")}
+          onClick={handleRefresh}
+          disabled={isLoading}
+          className={styles.refreshButton}
         >
-          League A
+          {isLoading ? "..." : " ⟳"}
         </button>
-        <button
-          className={clsx(styles.tabButton, {
-            [styles.active]: activeLeague === "leagueB",
-          })}
-          onClick={() => setActiveLeague("leagueB")}
-        >
-          League B
-        </button>
-        <button
-          className={clsx(styles.tabButton, {
-            [styles.active]: activeLeague === "cup",
-          })}
-          onClick={() => setActiveLeague("cup")}
-        >
-          Cup
-        </button>
+        {activeLeague === "leagueA" && (
+          <>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={allAMatchups}
+              playerScoreMap={playerScoreMap}
+              managerPlayerMap={managerPlayerMap}
+              tableData={
+                isFinished
+                  ? tableData.tableAData.liveTable
+                  : tableData.tableAData.startOfWeekTable
+              }
+              isCup={false}
+            />
+            <hr style={{ width: "100%" }} />
+            <br />
+            <LiveLeagueTable tableData={tableData.tableAData.liveTable} />
+          </>
+        )}
+        {activeLeague === "leagueB" && (
+          <>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={allBMatchups}
+              playerScoreMap={playerScoreMap}
+              managerPlayerMap={managerPlayerMap}
+              tableData={
+                isFinished
+                  ? tableData.tableBData.liveTable
+                  : tableData.tableBData.startOfWeekTable
+              }
+              isCup={false}
+            />
+            <hr style={{ width: "100%" }} />
+            <br />
+            <LiveLeagueTable tableData={tableData.tableBData.liveTable} />
+          </>
+        )}
+        {activeLeague === "cup" && (
+          <>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={allCupMatchups}
+              playerScoreMap={playerScoreMap}
+              managerPlayerMap={managerPlayerMap}
+              tableData={tableData}
+              isCup={true}
+            />
+            <hr style={{ width: "100%" }} />
+            <br />
+            <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
+          </>
+        )}
+        <hr style={{ width: "100%" }} />
+        <br />
+        <LiveFixtures gameweek={gameweek} playerScoreMap={playerScoreMap} />
+        <br />
+        <hr style={{ width: "100%" }} />
+        <br />
+        <h2>League A Prize Pool</h2>
+        <p>Total Pot - $728</p>
+        <ul>
+          <li>1st - $364 + Jersey</li>
+          <li>2nd - $218.40</li>
+          <li>3rd - $145.60</li>
+          <br />
+          <li>Manager of the Month - $10</li>
+          <li>Mid-Season Tournament - $30 + Mystery Kit</li>
+        </ul>
+        <h2>League B Prize Pool</h2>
+        <p>Total Pot - $190</p>
+        <ul>
+          <li>1st - $95 + Jersey</li>
+          <li>2nd - $57</li>
+          <li>3rd - $38</li>
+          <br />
+          <li>Manager of the Month - $10</li>
+          <li>Mid-Season Tournament - $30 + Mystery Kit</li>
+        </ul>
+        <hr style={{ width: "100%" }} />
+        <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
+        <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
+        <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
+        <Link href={`/history/all_seasons`}>All Seasons</Link>
       </div>
-      <button
-        onClick={handleRefresh}
-        disabled={isLoading}
-        className={styles.refreshButton}
-      >
-        {isLoading ? "..." : " ⟳"}
-      </button>
-      {activeLeague === "leagueA" && (
-        <>
-          <Matchups
-            gameweek={gameweek}
-            isFinished={isFinished}
-            allMatchups={allAMatchups}
-            playerScoreMap={playerScoreMap}
-            managerPlayerMap={managerPlayerMap}
-            tableData={
-              isFinished
-                ? tableData.tableAData.liveTable
-                : tableData.tableAData.startOfWeekTable
-            }
-            isCup={false}
-            fixturesData={fixturesData}
-          />
-          <hr style={{ width: "100%" }} />
-          <br />
-          <LiveLeagueTable tableData={tableData.tableAData.liveTable} />
-        </>
-      )}
-      {activeLeague === "leagueB" && (
-        <>
-          <Matchups
-            gameweek={gameweek}
-            isFinished={isFinished}
-            allMatchups={allBMatchups}
-            playerScoreMap={playerScoreMap}
-            managerPlayerMap={managerPlayerMap}
-            tableData={
-              isFinished
-                ? tableData.tableBData.liveTable
-                : tableData.tableBData.startOfWeekTable
-            }
-            isCup={false}
-            fixturesData={fixturesData}
-          />
-          <hr style={{ width: "100%" }} />
-          <br />
-          <LiveLeagueTable tableData={tableData.tableBData.liveTable} />
-        </>
-      )}
-      {activeLeague === "cup" && (
-        <>
-          <Matchups
-            gameweek={gameweek}
-            isFinished={isFinished}
-            allMatchups={allCupMatchups}
-            playerScoreMap={playerScoreMap}
-            managerPlayerMap={managerPlayerMap}
-            tableData={tableData}
-            isCup={true}
-            fixturesData={fixturesData}
-          />
-          <hr style={{ width: "100%" }} />
-          <br />
-          <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
-        </>
-      )}
-      <hr style={{ width: "100%" }} />
-      <br />
-      <LiveFixtures
-        gameweek={gameweek}
-        fixturesData={fixturesData}
-        playerScoreMap={playerScoreMap}
-      />
-      <br />
-      <hr style={{ width: "100%" }} />
-      <br />
-      <h2>League A Prize Pool</h2>
-      <p>Total Pot - $728</p>
-      <ul>
-        <li>1st - $364 + Jersey</li>
-        <li>2nd - $218.40</li>
-        <li>3rd - $145.60</li>
-        <br />
-        <li>Manager of the Month - $10</li>
-        <li>Mid-Season Tournament - $30 + Mystery Kit</li>
-      </ul>
-      <h2>League B Prize Pool</h2>
-      <p>Total Pot - $190</p>
-      <ul>
-        <li>1st - $95 + Jersey</li>
-        <li>2nd - $57</li>
-        <li>3rd - $38</li>
-        <br />
-        <li>Manager of the Month - $10</li>
-        <li>Mid-Season Tournament - $30 + Mystery Kit</li>
-      </ul>
-      <hr style={{ width: "100%" }} />
-      <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
-      <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
-      <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
-      <Link href={`/history/all_seasons`}>All Seasons</Link>
-    </div>
+    </LiveDataContext.Provider>
   );
 }
