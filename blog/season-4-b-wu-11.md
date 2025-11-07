@@ -1,6 +1,6 @@
 ---
 title: "Season 4 Weekly Update 11 - League A"
-date: "2025-11-05"
+date: "2025-11-06"
 summary: ""
 tags: ["season 4", "weekly update", "a league"]
 ---

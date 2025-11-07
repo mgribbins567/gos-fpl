@@ -1,8 +1,8 @@
 ---
-title: "Season 4 Weekly Update 11 - League A"
-date: "2025-11-05"
+title: "Season 4 Weekly Update 11 - League B"
+date: "2025-11-06"
 summary: ""
-tags: ["season 4", "weekly update", "a league"]
+tags: ["season 4", "weekly update", "b league"]
 ---
 
 <style>
