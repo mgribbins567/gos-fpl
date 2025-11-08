@@ -22,6 +22,8 @@ export function ExpandedPlayerCardTable({ tableData }) {
             <th>DC</th>
             <th>PS</th>
             <th>PM</th>
+            <th>OA</th>
+            <th>OB</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +45,8 @@ export function ExpandedPlayerCardTable({ tableData }) {
               <td>{player.DC}</td>
               <td>{player.PS}</td>
               <td>{player.PM}</td>
+              <td>{player.OA}</td>
+              <td>{player.OB}</td>
             </tr>
           ))}
         </tbody>

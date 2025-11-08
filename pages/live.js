@@ -98,7 +98,7 @@ export async function getServerSideProps() {
 
   const liveData = {
     // playerScoreMap: playerScoreMap,
-    // managerPlayerMap: managerPlayerMap,
+    managerPlayerMap: managerPlayerMap,
     fixturesData: { fixtures, teams, teamCodes, teamCodesToId },
   };
 

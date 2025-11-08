@@ -2,9 +2,28 @@ import utilStyles from "../../styles/utils.module.css";
 import { ExpandedPlayerCardTable } from "./ExpandedPlayerCardTable";
 import { useLiveData } from "../../contexts/LiveDataContext";
 import Portal from "../Portal";
+import managers from "../../data/managers.json";
+import { checkElementId } from "../../lib/player_util";
+
+function getOwners(managerPlayerMap, gameweek, id) {
+  var a, b;
+  for (var manager in managerPlayerMap) {
+    managerPlayerMap[manager].gameweeks[gameweek].map((player) => {
+      if (id === checkElementId(player.element)) {
+        if (managers[manager].league === "a") {
+          a = managers[manager].name;
+        } else {
+          b = managers[manager].name;
+        }
+      }
+    });
+  }
+  return { a: a, b: b };
+}
 
 export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
   const fixturesData = useLiveData().fixturesData;
+  const managerPlayerMap = useLiveData().managerPlayerMap;
   function handlePopoutClick(event) {
     event.stopPropagation();
   }
@@ -49,9 +68,14 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
         ].short_name
     );
   }
+  let currentOwners = {};
+
   Object.keys(playerData.gameweeks).forEach((gameweek) => {
     const data = playerData.gameweeks[gameweek].stats;
     const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
+
+    const owners = getOwners(managerPlayerMap, gameweek, playerData.details.id);
+    currentOwners = { a: owners.a, b: owners.b };
 
     const currentFixture = fixturesData.fixtures.filter(
       (fixture) =>
@@ -78,6 +102,8 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
       DC: data.defensive_contribution,
       PS: data.penalties_saved,
       PM: data.penalties_missed,
+      OA: owners.a,
+      OB: owners.b,
     };
     const sumTable = statsTable[numGameweeks + 1];
     sumTable.PTS += data.total_points;
@@ -116,6 +142,9 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
             </div>
             <div className={utilStyles.expandedPointsNextFive}>
               Next 5: {nextFixtures.map((fixture) => fixture).join(", ")}
+            </div>
+            <div className={utilStyles.expandedPointsNextFive}>
+              A: {currentOwners.a} B: {currentOwners.b || "None"}
             </div>
             <button className={utilStyles.closePopout} onClick={onCardClick}>
               x
