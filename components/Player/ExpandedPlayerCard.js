@@ -5,6 +5,31 @@ import Portal from "../Portal";
 import managers from "../../data/managers.json";
 import { checkElementId } from "../../lib/player_util";
 
+function getNextFiveFixtures(numGameweeks, fixturesData, playerData) {
+  const nextFixtures = [];
+  for (
+    let gameweek = numGameweeks + 1;
+    gameweek < numGameweeks + 6;
+    gameweek++
+  ) {
+    const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
+    const currentFixture = fixturesData.fixtures.filter(
+      (fixture) =>
+        fixture.event === gameweek &&
+        (fixture.team_h === teamId || fixture.team_a === teamId)
+    );
+
+    const isHome = currentFixture[0].team_h === teamId;
+    nextFixtures.push(
+      (isHome ? "vs " : "@ ") +
+        fixturesData.teams[
+          isHome ? currentFixture[0].team_a : currentFixture[0].team_h
+        ].short_name
+    );
+  }
+  return nextFixtures;
+}
+
 function getOwners(managerPlayerMap, gameweek, id) {
   var a, b;
   for (var manager in managerPlayerMap) {
@@ -30,6 +55,11 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
 
   const statsTable = [];
   const numGameweeks = Object.keys(playerData.gameweeks).length;
+  const mostRecentGameweek = parseInt(
+    Object.keys(playerData.gameweeks)[
+      Object.keys(playerData.gameweeks).length - 1
+    ]
+  );
   statsTable[numGameweeks + 1] = {
     GW: "=",
     PTS: 0,
@@ -47,35 +77,51 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
     PS: 0,
     PM: 0,
   };
-  const nextFixtures = [];
-  for (
-    let gameweek = numGameweeks + 1;
-    gameweek < numGameweeks + 6;
-    gameweek++
-  ) {
-    const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
-    const currentFixture = fixturesData.fixtures.filter(
-      (fixture) =>
-        fixture.event === gameweek &&
-        (fixture.team_h === teamId || fixture.team_a === teamId)
-    );
-
-    const isHome = currentFixture[0].team_h === teamId;
-    nextFixtures.push(
-      (isHome ? "vs " : "@ ") +
-        fixturesData.teams[
-          isHome ? currentFixture[0].team_a : currentFixture[0].team_h
-        ].short_name
-    );
-  }
+  const nextFixtures = getNextFiveFixtures(
+    mostRecentGameweek,
+    fixturesData,
+    playerData
+  );
   let currentOwners = {};
+  let lengthA = 0,
+    lengthB = 0,
+    scoreA = 0,
+    scoreB = 0;
+  let firstGameweekA = true,
+    firstGameweekB = true;
+  let tableLength = 0;
 
   Object.keys(playerData.gameweeks).forEach((gameweek) => {
     const data = playerData.gameweeks[gameweek].stats;
     const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
 
     const owners = getOwners(managerPlayerMap, gameweek, playerData.details.id);
-    currentOwners = { a: owners.a, b: owners.b };
+    if (firstGameweekA || currentOwners.a === owners.a) {
+      firstGameweekA = false;
+      lengthA++;
+      scoreA += data.total_points;
+    } else {
+      firstGameweekA = true;
+      lengthA = 0;
+      scoreA = 0;
+    }
+    if (firstGameweekB || currentOwners.b === owners.b) {
+      firstGameweekB = false;
+      lengthB++;
+      scoreB += data.total_points;
+    } else {
+      firstGameweekB = true;
+      lengthB = 0;
+      lengthB = 0;
+    }
+    currentOwners = {
+      a: owners.a,
+      lengthA: lengthA,
+      scoreA: scoreA,
+      b: owners.b,
+      lengthB: lengthB,
+      scoreB: scoreB,
+    };
 
     const currentFixture = fixturesData.fixtures.filter(
       (fixture) =>
@@ -85,7 +131,7 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
     const isHome = currentFixture[0].team_h === teamId;
     const opp = isHome ? currentFixture[0].team_a : currentFixture[0].team_h;
 
-    statsTable[gameweek] = {
+    statsTable[tableLength] = {
       GW: gameweek,
       VS: (isHome ? "vs " : "@ ") + fixturesData.teams[opp].short_name,
       PTS: data.total_points,
@@ -120,6 +166,8 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
     sumTable.DC += data.defensive_contribution;
     sumTable.PS += data.penalties_saved;
     sumTable.PM += data.penalties_missed;
+
+    tableLength++;
   });
 
   return (
@@ -144,7 +192,12 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
               Next 5: {nextFixtures.map((fixture) => fixture).join(", ")}
             </div>
             <div className={utilStyles.expandedPointsNextFive}>
-              A: {currentOwners.a} B: {currentOwners.b || "None"}
+              A: {currentOwners.a} ({currentOwners.lengthA}
+              {"gw, "}
+              {currentOwners.scoreA}p) B: {currentOwners.b || "None"} (
+              {currentOwners.lengthB}
+              {"gw, "}
+              {currentOwners.scoreB}p)
             </div>
             <button className={utilStyles.closePopout} onClick={onCardClick}>
               x
