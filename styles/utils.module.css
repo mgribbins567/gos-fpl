@@ -542,6 +542,7 @@
 }
 
 .expandedPointsNextFive {
+  font-size: 0.9rem;
   margin-top: 0.25vh;
   padding-bottom: 0.25vh;
   display: flex;
@@ -564,6 +565,7 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
+  max-width: 50vw;
   width: 200px;
   background: #2a2f37;
   border: 1px solid #ccc;
