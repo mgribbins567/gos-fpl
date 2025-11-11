@@ -3,12 +3,14 @@
   max-width: 100%;
   overflow-x: auto;
   border-radius: 8px;
+  max-height: 50vh;
 }
 
 .tableContainer table {
   width: 100%;
 
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin-left: auto;
   margin-right: auto;
 
@@ -16,8 +18,11 @@
 }
 
 .tableContainer th {
+  background-color: var(--color-card);
   color: var(--color-text-secondary);
 
+  position: sticky;
+  top: 0;
   padding: 0.5vw;
   font-size: 0.8rem;
   font-weight: 600;
@@ -47,6 +52,10 @@
 }
 
 @media screen and (min-width: 769px) {
+  .tableContainer {
+    max-width: 75vw;
+    max-height: 60vh;
+  }
   .tableContainer th {
     color: var(--color-text-secondary);
 
