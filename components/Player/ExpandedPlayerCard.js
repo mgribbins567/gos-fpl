@@ -183,7 +183,16 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
             <div className={utilStyles.expandedPointsBreakdownHeader}>
               <h4>
                 {playerData.details.firstName} {playerData.details.lastName}
+                <a
+                  className={utilStyles.playerSearchLink}
+                  href={`/player-search?q=${encodeURIComponent(
+                    `${playerData.details.firstName} ${playerData.details.lastName}`
+                  )}`}
+                >
+                  PS
+                </a>
               </h4>
+
               <h4>
                 {fixturesData.teamCodes[playerData.details.teamCode].name}{" "}
                 {playerData.details.position}

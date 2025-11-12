@@ -1,9 +1,10 @@
 import Head from "next/head";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import managers from "../data/managers.json";
 import utilStyles from "../styles/PlayerList.module.css";
 import { checkElementId } from "../lib/player_util";
 import { getBootstrapData } from "../api/fantasyService";
+import { useRouter } from "next/router";
 
 const getManagerName = (ownerId) => {
   if (!ownerId) {
@@ -18,9 +19,18 @@ const getManagerName = (ownerId) => {
 };
 
 export default function PlayerSearchPage({ players }) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [positionFilter, setPositionFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
+
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+    const q = router.query.q || "";
+    setSearchTerm(Array.isArray(q) ? q[0] : q);
+  }, [router.isReady, router.query.q]);
 
   const [sortConfig, setSortConfig] = useState({
     key: "total_points",
@@ -32,7 +42,10 @@ export default function PlayerSearchPage({ players }) {
       const nameMatch =
         player.web_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         player.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        player.second_name.toLowerCase().includes(searchTerm.toLowerCase());
+        player.second_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        `${player.first_name} ${player.second_name}`
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
       const positionMatch =
         positionFilter === "all" || player.position === positionFilter;
