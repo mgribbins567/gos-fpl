@@ -54,8 +54,8 @@ function getOwners(managerPlayerMap, gameweek, id) {
 
 export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
   useEffect(() => {
-    document.body.classList.toggle('no-scroll', !!isOpen);
-    return () => document.body.classList.remove('no-scroll');
+    document.body.classList.toggle("no-scroll", !!isOpen);
+    return () => document.body.classList.remove("no-scroll");
   }, [isOpen]);
   const fixturesData = useLiveData().fixturesData;
   const managerPlayerMap = useLiveData().managerPlayerMap;
@@ -97,7 +97,7 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
     const teamId = fixturesData.teamCodesToId[playerData.details.teamCode];
 
     const owners = getOwners(managerPlayerMap, gameweek, playerData.details.id);
-    if (firstGameweekA || (currentOwners.a === owners.a)) {
+    if (currentOwners.a && (firstGameweekA || currentOwners.a === owners.a)) {
       firstGameweekA = false;
       lengthA++;
       scoreA += data.total_points;
@@ -106,7 +106,7 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
       lengthA = 1;
       scoreA = data.total_points;
     }
-    if (firstGameweekB || (currentOwners.b === owners.b)) {
+    if (currentOwners.b && (firstGameweekB || currentOwners.b === owners.b)) {
       firstGameweekB = false;
       lengthB++;
       scoreB += data.total_points;
@@ -193,13 +193,13 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
               Next 5: {nextFixtures.map((fixture) => fixture).join(", ")}
             </div>
             <div className={utilStyles.expandedPointsNextFive}>
-              A: {currentOwners.a || "cast aside"}
+              A: {currentOwners.a || "cast aside "}
               {currentOwners.a && "("}
               {currentOwners.a && currentOwners.lengthA}
               {currentOwners.a && "gw, "}
               {currentOwners.a && currentOwners.scoreA}
               {currentOwners.a && "p) "}
-              B: {currentOwners.b || "cast aside"}
+              B: {currentOwners.b || "cast aside "}
               {currentOwners.b && " ("}
               {currentOwners.b && currentOwners.lengthB}
               {currentOwners.b && "gw, "}
