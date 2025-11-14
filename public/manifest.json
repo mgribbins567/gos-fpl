@@ -3,6 +3,7 @@
   "short_name": "GOSFPL",
   "description": "Game of Stones Fantasy Premier League",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
   "background_color": "#161B22",
   "theme_color": "#161B22",
