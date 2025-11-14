@@ -1,6 +1,7 @@
 .tableContainer {
   max-width: 100%;
   overflow-x: auto;
+  /* overflow: visible !important; */
   max-height: 50vh;
 }
 
@@ -49,6 +50,40 @@
   border-bottom: 1px solid #eee;
 }
 
+.tooltipTrigger {
+  position: relative;
+  cursor: help;
+  text-transform: none;
+}
+
+.tooltipTrigger::after {
+  content: attr(data-tooltip);
+  position: fixed;
+
+  top: 1rem;
+  left: 40%;
+  right: auto;
+  bottom: auto;
+
+  padding: 0.25rem;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  box-shadow: 0 0 0 1px var(--color-primary), 0 4px 8px rgba(0, 0, 0, 0.04);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+  z-index: 2000;
+}
+
+.tooltipTrigger:hover::after {
+  opacity: 1;
+  background: rgba(38, 33, 45, 0.75);
+  visibility: visible;
+}
+
 @media screen and (min-width: 769px) {
   .tableContainer {
     max-width: 75vw;
@@ -75,5 +110,10 @@
   }
   .tableContainer tbody tr:hover {
     background-color: var(--color-card);
+  }
+
+  .tooltipTrigger::after {
+    top: 1rem;
+    left: 65%;
   }
 }

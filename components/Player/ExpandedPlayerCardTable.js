@@ -6,24 +6,126 @@ export function ExpandedPlayerCardTable({ tableData }) {
       <table>
         <thead>
           <tr>
-            <th>GW</th>
-            <th>VS</th>
-            <th>P</th>
-            <th>MP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>CS</th>
-            <th>GC</th>
-            <th>OG</th>
-            <th>YC</th>
-            <th>RC</th>
-            <th>B</th>
-            <th>BPS</th>
-            <th>DC</th>
-            <th>PS</th>
-            <th>PM</th>
-            <th>OA</th>
-            <th>OB</th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Gameweek">
+                GW
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Opponent">
+                VS
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Points">
+                P
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Minutes Played"
+              >
+                MP
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Goals">
+                G
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Assists">
+                A
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Clean Sheets"
+              >
+                CS
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Goals Conceded"
+              >
+                GC
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Own Goals">
+                OG
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Yellow Cards"
+              >
+                YC
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Red Cards">
+                RC
+              </span>
+            </th>
+            <th>
+              <span className={styles.tooltipTrigger} data-tooltip="Bonus">
+                B
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Bonus Points System"
+              >
+                BPS
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Defensive Contributions"
+              >
+                DC
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Penalties Saved"
+              >
+                PS
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="Penalties Missed"
+              >
+                PM
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="League A Owner"
+              >
+                OA
+              </span>
+            </th>
+            <th>
+              <span
+                className={styles.tooltipTrigger}
+                data-tooltip="League B Owner"
+              >
+                OB
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
