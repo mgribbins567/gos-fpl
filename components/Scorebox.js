@@ -113,6 +113,51 @@ function getManagerTableData(match, tableData) {
   return { manager1Data, manager1Rank, manager2Data, manager2Rank };
 }
 
+export function ScoreBug({
+  manager1Name,
+  manager2Name,
+  score1,
+  score2,
+  manager1Data,
+  manager2Data,
+  manager1Rank,
+  manager2Rank,
+}) {
+  return (
+    <div className={utilStyles.summaryRow}>
+      <div className={`${utilStyles.team} ${utilStyles.teamLeft}`}>
+        <span className={utilStyles.managerName}>{manager1Name}</span>
+        {manager1Data && (
+          <span className={utilStyles.managerData}>
+            {manager1Rank}
+            {" • "} {manager1Data.Pts}
+            {" P • "}
+            {manager1Data.PF}
+            {" PF"}
+          </span>
+        )}
+      </div>
+      <div className={utilStyles.scoreBox}>
+        <span className={utilStyles.score}>{score1}</span>
+        <span className={utilStyles.versus}>-</span>
+        <span className={utilStyles.score}>{score2}</span>
+      </div>
+      <div className={`${utilStyles.team} ${utilStyles.teamRight}`}>
+        <span className={utilStyles.managerName}>{manager2Name}</span>
+        {manager2Data && (
+          <span className={utilStyles.managerData}>
+            {manager2Data.PF}
+            {" PF • "}
+            {manager2Data.Pts}
+            {" P • "}
+            {manager2Rank}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function Scorebox({
   isCurrentGameweek,
   match,
@@ -131,36 +176,15 @@ export function Scorebox({
   const managerTableData = getManagerTableData(match, tableData);
 
   return (
-    <div className={utilStyles.summaryRow}>
-      <div className={`${utilStyles.team} ${utilStyles.teamLeft}`}>
-        <span className={utilStyles.managerName}>
-          {managers[match.league_entry_1].name}
-        </span>
-        <span className={utilStyles.managerData}>
-          {managerTableData.manager1Rank}
-          {" • "} {managerTableData.manager1Data.Pts}
-          {" P • "}
-          {managerTableData.manager1Data.PF}
-          {" PF"}
-        </span>
-      </div>
-      <div className={utilStyles.scoreBox}>
-        <span className={utilStyles.score}>{matchup.score1}</span>
-        <span className={utilStyles.versus}>-</span>
-        <span className={utilStyles.score}>{matchup.score2}</span>
-      </div>
-      <div className={`${utilStyles.team} ${utilStyles.teamRight}`}>
-        <span className={utilStyles.managerName}>
-          {managers[match.league_entry_2].name}
-        </span>
-        <span className={utilStyles.managerData}>
-          {managerTableData.manager2Data.PF}
-          {" PF • "}
-          {managerTableData.manager2Data.Pts}
-          {" P • "}
-          {managerTableData.manager2Rank}
-        </span>
-      </div>
-    </div>
+    <ScoreBug
+      manager1Name={managers[match.league_entry_1].name}
+      manager2Name={managers[match.league_entry_2].name}
+      score1={matchup.score1}
+      score2={matchup.score2}
+      manager1Data={managerTableData.manager1Data}
+      manager2Data={managerTableData.manager2Data}
+      manager1Rank={managerTableData.manager1Rank}
+      manager2Rank={managerTableData.manager2Rank}
+    />
   );
 }

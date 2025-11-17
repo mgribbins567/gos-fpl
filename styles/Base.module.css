@@ -111,7 +111,7 @@
 .tableContainer {
   max-width: 100%;
 
-  overflow-x: hidden;
+  overflow-x: auto;
 
   background-color: var(--color-card);
   border: 1px solid #30363d;
@@ -140,7 +140,7 @@
   background-color: var(--color-bg);
   color: var(--color-text-secondary);
 
-  padding: 1.2vw;
+  padding: 1vw;
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;

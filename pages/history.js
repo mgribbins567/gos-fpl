@@ -40,21 +40,21 @@ export default function History({}) {
           Season 4 of the Game of Stones!
         </small>
       </a>
-      <a href={`/history/season_24_25`} className={homeStyles.link}>
+      <a href={`/history/season-3`} className={homeStyles.link}>
         2024/2025 Season
         <br />
         <small className={utilStyles.lightText}>
           Season 3 of the Game of Stones!
         </small>
       </a>
-      <a href={`/history/season_23_24`} className={homeStyles.link}>
+      <a href={`/history/season-2`} className={homeStyles.link}>
         2023/2024 Season
         <br />
         <small className={utilStyles.lightText}>
           Season 2 of the Game of Stones!
         </small>
       </a>
-      <a href={`/history/season_22_23`} className={homeStyles.link}>
+      <a href={`/history/season-1`} className={homeStyles.link}>
         2022/2023 Season
         <br />
         <small className={utilStyles.lightText}>
