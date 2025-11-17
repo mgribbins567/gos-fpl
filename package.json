@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "vercel-build": "npx prisma generate && npm run build",
+    "postinstall": "prisma generate --no-engine",
     "build": "next build",
     "dev": "next dev",
     "start": "next start"
