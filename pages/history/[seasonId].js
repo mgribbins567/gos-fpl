@@ -32,17 +32,42 @@ export async function getStaticProps({ params }) {
 }
 
 export default function HistoryPage({ seasonData }) {
-  const router = useRouter();
-  const { seasonId } = router.query;
-
   return (
     <div className={homeStyles.home}>
       <header className={styles.historyHeader}>
-        <h1>
-          {(
-            seasonData.id.charAt(0).toUpperCase() + seasonData.id.slice(1)
-          ).replace("-", " ")}
-        </h1>
+        <div className={styles.historyHeaderTitle}>
+          <a
+            href={
+              `/history/season-` +
+              (parseInt(seasonData.id[seasonData.id.length - 1]) - 1)
+            }
+          >
+            <button
+              disabled={seasonData.id === "season-1"}
+              className={styles.historyHeaderButton}
+            >
+              &larr; Prev
+            </button>
+          </a>
+          <h1>
+            {(
+              seasonData.id.charAt(0).toUpperCase() + seasonData.id.slice(1)
+            ).replace("-", " ")}
+          </h1>
+          <a
+            href={
+              `/history/season-` +
+              (parseInt(seasonData.id[seasonData.id.length - 1]) + 1)
+            }
+          >
+            <button
+              disabled={seasonData.id === "season-3"}
+              className={styles.historyHeaderButton}
+            >
+              Next &rarr;
+            </button>
+          </a>
+        </div>
         <h3>
           {seasonData.year}/{seasonData.year + 1}
         </h3>

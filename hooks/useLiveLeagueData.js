@@ -72,19 +72,27 @@ export function useLiveLeagueData(
 
     const baseTable = {};
     league_entries.forEach((entry) => {
-      baseTable[entry.id] = {
-        id: entry.id,
-        name: managers[entry.id].name,
-        W: 0,
-        D: 0,
-        L: 0,
-        PF: 0,
-        PA: 0,
-        PD: 0,
-        Pts: 0,
-        PPW: 0,
-        PPG: 0,
-      };
+      if (
+        matches.some(
+          (match) =>
+            match.league_entry_1 === entry.id ||
+            match.league_entry_2 === entry.id
+        )
+      ) {
+        baseTable[entry.id] = {
+          id: entry.id,
+          name: managers[entry.id].name,
+          W: 0,
+          D: 0,
+          L: 0,
+          PF: 0,
+          PA: 0,
+          PD: 0,
+          Pts: 0,
+          PPW: 0,
+          PPG: 0,
+        };
+      }
     });
     matches.forEach((match) => {
       if (match.finished && match.event < gameweek) {
