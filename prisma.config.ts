@@ -8,8 +8,7 @@ export default defineConfig({
   migrations: {
     path: "prisma/migrations",
   },
-  engine: "classic",
   datasource: {
-    url: process.env.DATABASE_URL!,
+    url: process.env.POSTGRES_PRISMA_URL,
   },
 });
