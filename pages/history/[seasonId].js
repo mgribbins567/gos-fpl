@@ -26,7 +26,7 @@ export async function getStaticProps({ params }) {
       },
     };
   } catch (error) {
-    console.log("Error fetching season data:", error);
+    console.log("Error fetching season data:", error, error.message);
     return { notFound: true };
   }
 }
