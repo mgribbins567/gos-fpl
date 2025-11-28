@@ -1,5 +1,6 @@
 import baseStyles from "../../styles/Base.module.css";
 import styles from "../Live/LiveLeagueTable.module.css";
+import ManagerNameLink from "../Manager/ManagerNameLink";
 
 export function LiveLeagueTable({ tableData }) {
   return (
@@ -42,7 +43,9 @@ export function LiveLeagueTable({ tableData }) {
                   </span>
                 )}
               </td>
-              <td>{team.name}</td>
+              <td>
+                <ManagerNameLink manager={team.name} />
+              </td>
               <td>{team.W}</td>
               <td>{team.D}</td>
               <td>{team.L}</td>
