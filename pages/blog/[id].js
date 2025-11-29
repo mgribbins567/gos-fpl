@@ -25,7 +25,7 @@ export default function Post({ postData }) {
       <Head>
         <meta
           name="viewport"
-          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+          content="width=device-width  initial-scale=1.0, maximum-scale=10.0, user-scalable=yes"
         />
         <title>{postData.title}</title>
       </Head>
