@@ -142,7 +142,7 @@ Also, the groups and matchups are all on the website now, so go check it out for
 
 # Power Rankings
 
-On the bubble (in no order): MatthewR, Scott, Kevin, Divya,
+On the bubble (in no order): MatthewR, Scott, Kevin, Divya
 Fell off: Kevin
 
 10 - John (-2) - League B - While he is currently the most in-form manager (undefeated in the last 6), it does come with a duo of 35 pointers and the death of Gabriel. That said, he does have Bruno Fernandes, Szoboszlai, and (god bless) Mateta, so surely he won't be stuck in 35-point purgatory forever.
