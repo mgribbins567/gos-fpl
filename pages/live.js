@@ -17,15 +17,7 @@ import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
 import { LiveFixtures } from "../components/Live/LiveFixtures";
 import LiveDataContext from "../contexts/LiveDataContext";
-
-function getTable(gameweek, allMatchups, playerScoreMap, managerPlayerMap) {
-  return useLiveLeagueData(
-    gameweek,
-    allMatchups,
-    playerScoreMap,
-    managerPlayerMap
-  );
-}
+import { THE_LEAGUE_CONFIG, BOXING_DAY_BASH_CONFIG } from "../data/cupConfigs";
 
 function getAllTables(
   gameweek,
@@ -46,21 +38,21 @@ function getAllTables(
     return result;
   };
 
-  const tableAData = getTable(
+  const tableAData = useLiveLeagueData(
     gameweek,
     allAMatchups,
     playerScoreMap,
     managerPlayerMap
   );
 
-  const tableBData = getTable(
+  const tableBData = useLiveLeagueData(
     gameweek,
     allBMatchups,
     playerScoreMap,
     managerPlayerMap
   );
 
-  const LeagueABBCupTableAData = getTable(
+  const LeagueABBCupTableAData = useLiveLeagueData(
     gameweek,
     {
       league_entries: allAMatchups.league_entries,
@@ -71,8 +63,7 @@ function getAllTables(
     playerScoreMap,
     managerPlayerMap
   );
-
-  const LeagueABBCupTableBData = getTable(
+  const LeagueABBCupTableBData = useLiveLeagueData(
     gameweek,
     {
       league_entries: allAMatchups.league_entries,
@@ -83,8 +74,7 @@ function getAllTables(
     playerScoreMap,
     managerPlayerMap
   );
-
-  const LeagueBBBCupTableAData = getTable(
+  const LeagueBBBCupTableAData = useLiveLeagueData(
     gameweek,
     {
       league_entries: allBMatchups.league_entries,
@@ -95,8 +85,7 @@ function getAllTables(
     playerScoreMap,
     managerPlayerMap
   );
-
-  const LeagueBBBCupTableBData = getTable(
+  const LeagueBBBCupTableBData = useLiveLeagueData(
     gameweek,
     {
       league_entries: allBMatchups.league_entries,
@@ -116,30 +105,6 @@ function getAllTables(
     LeagueBBBCupTableAData,
     LeagueBBBCupTableBData,
   ];
-}
-
-function getTableData(
-  gameweek,
-  allAMatchups,
-  allBMatchups,
-  playerScoreMap,
-  managerPlayerMap
-) {
-  const tableAData = useLiveLeagueData(
-    gameweek,
-    allAMatchups,
-    playerScoreMap,
-    managerPlayerMap
-  );
-
-  const tableBData = useLiveLeagueData(
-    gameweek,
-    allBMatchups,
-    playerScoreMap,
-    managerPlayerMap
-  );
-
-  return { tableAData, tableBData };
 }
 
 async function getLivePageStartData() {
@@ -314,7 +279,7 @@ export default function Live({
               tableData={
                 isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
               }
-              isCup={false}
+              cupData={null}
             />
             <h3>League Table</h3>
             <LiveLeagueTable tableData={tableAData.liveTable} />
@@ -329,7 +294,7 @@ export default function Live({
               tableData={
                 isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
               }
-              isCup={false}
+              cupData={BOXING_DAY_BASH_CONFIG}
             />
             <h3>Group A</h3>
             <LiveLeagueTable tableData={LeagueABBCupTableAData.liveTable} />
@@ -348,7 +313,7 @@ export default function Live({
               tableData={
                 isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
               }
-              isCup={false}
+              cupData={null}
             />
             <h3>League Table</h3>
             <LiveLeagueTable tableData={tableBData.liveTable} />
@@ -361,9 +326,9 @@ export default function Live({
               isFinished={isFinished}
               allMatchups={boxingDayBashBMatches}
               tableData={
-                isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
+                isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
               }
-              isCup={false}
+              cupData={BOXING_DAY_BASH_CONFIG}
             />
             <h3>Group A</h3>
             <LiveLeagueTable tableData={LeagueBBBCupTableAData.liveTable} />
@@ -380,7 +345,7 @@ export default function Live({
               isFinished={isFinished}
               allMatchups={kickoffCupMatches}
               tableData={tableData}
-              isCup={true}
+              cupData={THE_LEAGUE_CONFIG}
             />
             <hr style={{ width: "100%" }} />
             <br />

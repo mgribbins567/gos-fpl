@@ -69,11 +69,13 @@ export function useLiveLeagueData(
       return { liveTable: [], startOfWeekTable: [] };
     }
     const { league_entries, matches } = allMatchups;
+    const matchesData = matches.filter((match) => match);
+    const isCupOrCurrent = "group" in matchesData[0];
 
     const baseTable = {};
     league_entries.forEach((entry) => {
       if (
-        matches.some(
+        matchesData.some(
           (match) =>
             match.league_entry_1 === entry.id ||
             match.league_entry_2 === entry.id
@@ -94,14 +96,14 @@ export function useLiveLeagueData(
         };
       }
     });
-    matches.forEach((match) => {
+    matchesData.forEach((match) => {
       if (match.finished && match.event < gameweek) {
         getScores(
           baseTable,
           match,
           playerScoreMap,
           managerPlayerMap,
-          /*isCurrent=*/ false
+          /*isCurrent=*/ isCupOrCurrent
         );
       }
     });
@@ -119,7 +121,7 @@ export function useLiveLeagueData(
       startRanks[team.id] = index + 1;
     });
 
-    const matchesForCurrentGameweek = matches.filter(
+    const matchesForCurrentGameweek = matchesData.filter(
       (match) => match.event === gameweek
     );
 
