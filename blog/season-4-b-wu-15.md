@@ -55,7 +55,7 @@ After the first week of December Mack takes the lead on PF! Alex, myself, and Em
 In terms of form, I sit at the top of the table with 15/15 points earned! Divya is the sole manager with 4 wins in her last 5!
 
 <p class="center-bold">Form Table</p>
-<img src="/images/season-4/season-4-a-wu/15/form-table.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-b-wu/15/form-table.png" width="1200vh" height="auto">
 <br/>
 
 This week will see some great matchups, headlined by a top 2 matchup between me and John! Elsewhere, we'll see some fascinating matchups including one between Mack and Chris, a top 4 match between Alex and ZachA, and a matchup that could see Divya moving up the board as she takes on Morgs. Full matchups are as follows:
