@@ -88,73 +88,85 @@
       "event": 14,
       "league_entry_1": 1054,
       "league_entry_2": 206445,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 14,
       "league_entry_1": 72942,
       "league_entry_2": 205793,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 14,
       "league_entry_1": 144919,
       "league_entry_2": 212631,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 14,
       "league_entry_1": 243996,
       "league_entry_2": 102746,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 14,
       "league_entry_1": 18812,
       "league_entry_2": 208171,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 14,
       "league_entry_1": 163017,
       "league_entry_2": 212721,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 1054,
       "league_entry_2": 144919,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 72942,
       "league_entry_2": 212631,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 205793,
       "league_entry_2": 206445,
-      "group": "a"
+      "group": "a",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 243996,
       "league_entry_2": 212721,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 18812,
       "league_entry_2": 163017,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 15,
       "league_entry_1": 208171,
       "league_entry_2": 102746,
-      "group": "b"
+      "group": "b",
+      "finished": true
     },
     {
       "event": 16,
