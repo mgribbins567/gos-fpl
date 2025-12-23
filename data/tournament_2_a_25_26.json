@@ -1,0 +1,238 @@
+{
+  "matches": [
+    {
+      "event": 12,
+      "league_entry_1": 136117,
+      "league_entry_2": 95316,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 12,
+      "league_entry_1": 129240,
+      "league_entry_2": 56834,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 12,
+      "league_entry_1": 2554,
+      "league_entry_2": 281,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 12,
+      "league_entry_1": 99796,
+      "league_entry_2": 5457,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 12,
+      "league_entry_1": 614,
+      "league_entry_2": 2795,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 12,
+      "league_entry_1": 5248,
+      "league_entry_2": 2485,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 136117,
+      "league_entry_2": 56834,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 129240,
+      "league_entry_2": 281,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 2554,
+      "league_entry_2": 95316,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 99796,
+      "league_entry_2": 2485,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 614,
+      "league_entry_2": 5248,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 13,
+      "league_entry_1": 5457,
+      "league_entry_2": 2795,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 136117,
+      "league_entry_2": 281,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 129240,
+      "league_entry_2": 2554,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 56834,
+      "league_entry_2": 95316,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 99796,
+      "league_entry_2": 5248,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 614,
+      "league_entry_2": 5457,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 14,
+      "league_entry_1": 2485,
+      "league_entry_2": 2795,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 136117,
+      "league_entry_2": 2554,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 129240,
+      "league_entry_2": 95316,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 281,
+      "league_entry_2": 56834,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 99796,
+      "league_entry_2": 2795,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 614,
+      "league_entry_2": 2485,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 15,
+      "league_entry_1": 5457,
+      "league_entry_2": 5248,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 136117,
+      "league_entry_2": 129240,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 2554,
+      "league_entry_2": 56834,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 281,
+      "league_entry_2": 95316,
+      "group": "a",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 99796,
+      "league_entry_2": 614,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 5457,
+      "league_entry_2": 2485,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 16,
+      "league_entry_1": 5248,
+      "league_entry_2": 2795,
+      "group": "b",
+      "finished": true
+    },
+    {
+      "event": 17,
+      "league_entry_1": 2554,
+      "league_entry_2": 99796,
+      "group": "k"
+    },
+    {
+      "event": 17,
+      "league_entry_1": 2795,
+      "league_entry_2": 56834,
+      "group": "k"
+    },
+    {
+      "event": 17,
+      "league_entry_1": 281,
+      "league_entry_2": 2485,
+      "group": "k"
+    },
+    {
+      "event": 17,
+      "league_entry_1": 5457,
+      "league_entry_2": 129240,
+      "group": "k"
+    }
+  ]
+}

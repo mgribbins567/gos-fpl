@@ -8,6 +8,7 @@ const serwistConfig = withSerwist({
 
 const nextConfig = {
   reactStrictMode: true,
+  turbopack: {},
 };
 
 export default serwistConfig(nextConfig);

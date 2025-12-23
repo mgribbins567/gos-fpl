@@ -6,6 +6,8 @@ import homeStyles from "../styles/Home.module.css";
 import Link from "next/link";
 import { Matchups } from "../lib/matchups";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
+import boxingDayBashAMatches from "../data/tournament_2_a_25_26.json";
+import boxingDayBashBMatches from "../data/tournament_2_b_25_26.json";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
@@ -15,14 +17,27 @@ import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
 import { LiveFixtures } from "../components/Live/LiveFixtures";
 import LiveDataContext from "../contexts/LiveDataContext";
+import { THE_LEAGUE_CONFIG, BOXING_DAY_BASH_CONFIG } from "../data/cupConfigs";
 
-function getTableData(
+function getAllTables(
   gameweek,
   allAMatchups,
   allBMatchups,
   playerScoreMap,
   managerPlayerMap
 ) {
+  Object.filter = function (obj, predicate) {
+    let result = [],
+      key;
+
+    for (key in obj) {
+      if (obj.hasOwnProperty(key) && predicate(obj[key])) {
+        result[key] = obj[key];
+      }
+    }
+    return result;
+  };
+
   const tableAData = useLiveLeagueData(
     gameweek,
     allAMatchups,
@@ -37,7 +52,59 @@ function getTableData(
     managerPlayerMap
   );
 
-  return { tableAData, tableBData };
+  const LeagueABBCupTableAData = useLiveLeagueData(
+    gameweek,
+    {
+      league_entries: allAMatchups.league_entries,
+      matches: Object.filter(boxingDayBashAMatches.matches, (val) => {
+        return val.group === "a";
+      }),
+    },
+    playerScoreMap,
+    managerPlayerMap
+  );
+  const LeagueABBCupTableBData = useLiveLeagueData(
+    gameweek,
+    {
+      league_entries: allAMatchups.league_entries,
+      matches: Object.filter(boxingDayBashAMatches.matches, (val) => {
+        return val.group === "b";
+      }),
+    },
+    playerScoreMap,
+    managerPlayerMap
+  );
+  const LeagueBBBCupTableAData = useLiveLeagueData(
+    gameweek,
+    {
+      league_entries: allBMatchups.league_entries,
+      matches: Object.filter(boxingDayBashBMatches.matches, (val) => {
+        return val.group === "a";
+      }),
+    },
+    playerScoreMap,
+    managerPlayerMap
+  );
+  const LeagueBBBCupTableBData = useLiveLeagueData(
+    gameweek,
+    {
+      league_entries: allBMatchups.league_entries,
+      matches: Object.filter(boxingDayBashBMatches.matches, (val) => {
+        return val.group === "b";
+      }),
+    },
+    playerScoreMap,
+    managerPlayerMap
+  );
+
+  return [
+    tableAData,
+    tableBData,
+    LeagueABBCupTableAData,
+    LeagueABBCupTableBData,
+    LeagueBBBCupTableAData,
+    LeagueBBBCupTableBData,
+  ];
 }
 
 async function getLivePageStartData() {
@@ -97,7 +164,7 @@ export async function getServerSideProps() {
   console.timeEnd("Full Live load time");
 
   const liveData = {
-    // playerScoreMap: playerScoreMap,
+    playerScoreMap: playerScoreMap,
     managerPlayerMap: managerPlayerMap,
     fixturesData: { fixtures, teams, teamCodes, teamCodesToId },
   };
@@ -108,9 +175,6 @@ export async function getServerSideProps() {
       isFinished: isFinished,
       allAMatchups: matchupsAData,
       allBMatchups: matchupsBData,
-      allCupMatchups: kickoffCupMatches,
-      playerScoreMap: playerScoreMap,
-      managerPlayerMap: managerPlayerMap,
       liveData: liveData,
     },
   };
@@ -121,9 +185,6 @@ export default function Live({
   isFinished,
   allAMatchups,
   allBMatchups,
-  allCupMatchups,
-  playerScoreMap,
-  managerPlayerMap,
   liveData,
 }) {
   const router = useRouter();
@@ -141,13 +202,22 @@ export default function Live({
     localStorage.setItem("activeLeague", activeLeague);
   }, [activeLeague]);
 
-  const tableData = getTableData(
+  const [
+    tableAData,
+    tableBData,
+    LeagueABBCupTableAData,
+    LeagueABBCupTableBData,
+    LeagueBBBCupTableAData,
+    LeagueBBBCupTableBData,
+  ] = getAllTables(
     gameweek,
     allAMatchups,
     allBMatchups,
-    playerScoreMap,
-    managerPlayerMap
+    liveData.playerScoreMap,
+    liveData.managerPlayerMap
   );
+
+  const tableData = { tableAData, tableBData };
 
   const handleRefresh = async () => {
     setIsLoading(true);
@@ -206,18 +276,32 @@ export default function Live({
               gameweek={gameweek}
               isFinished={isFinished}
               allMatchups={allAMatchups}
-              playerScoreMap={playerScoreMap}
-              managerPlayerMap={managerPlayerMap}
               tableData={
-                isFinished
-                  ? tableData.tableAData.liveTable
-                  : tableData.tableAData.startOfWeekTable
+                isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
               }
-              isCup={false}
+              cupData={null}
             />
+            <h3>League Table</h3>
+            <LiveLeagueTable tableData={tableAData.liveTable} />
+            <br />
             <hr style={{ width: "100%" }} />
             <br />
-            <LiveLeagueTable tableData={tableData.tableAData.liveTable} />
+            <h3>Boxing Day Bash</h3>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={boxingDayBashAMatches}
+              tableData={
+                isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
+              }
+              cupData={BOXING_DAY_BASH_CONFIG}
+            />
+            <h3>Group A</h3>
+            <LiveLeagueTable tableData={LeagueABBCupTableAData.liveTable} />
+            <br />
+            <h3>Group B</h3>
+            <LiveLeagueTable tableData={LeagueABBCupTableBData.liveTable} />
+            <br />
           </>
         )}
         {activeLeague === "leagueB" && (
@@ -226,18 +310,32 @@ export default function Live({
               gameweek={gameweek}
               isFinished={isFinished}
               allMatchups={allBMatchups}
-              playerScoreMap={playerScoreMap}
-              managerPlayerMap={managerPlayerMap}
               tableData={
-                isFinished
-                  ? tableData.tableBData.liveTable
-                  : tableData.tableBData.startOfWeekTable
+                isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
               }
-              isCup={false}
+              cupData={null}
             />
+            <h3>League Table</h3>
+            <LiveLeagueTable tableData={tableBData.liveTable} />
+            <br />
             <hr style={{ width: "100%" }} />
             <br />
-            <LiveLeagueTable tableData={tableData.tableBData.liveTable} />
+            <h3>Boxing Day Bash</h3>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={boxingDayBashBMatches}
+              tableData={
+                isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
+              }
+              cupData={BOXING_DAY_BASH_CONFIG}
+            />
+            <h3>Group A</h3>
+            <LiveLeagueTable tableData={LeagueBBBCupTableAData.liveTable} />
+            <br />
+            <h3>Group B</h3>
+            <LiveLeagueTable tableData={LeagueBBBCupTableBData.liveTable} />
+            <br />
           </>
         )}
         {activeLeague === "cup" && (
@@ -245,11 +343,9 @@ export default function Live({
             <Matchups
               gameweek={gameweek}
               isFinished={isFinished}
-              allMatchups={allCupMatchups}
-              playerScoreMap={playerScoreMap}
-              managerPlayerMap={managerPlayerMap}
+              allMatchups={kickoffCupMatches}
               tableData={tableData}
-              isCup={true}
+              cupData={THE_LEAGUE_CONFIG}
             />
             <hr style={{ width: "100%" }} />
             <br />
@@ -258,7 +354,10 @@ export default function Live({
         )}
         <hr style={{ width: "100%" }} />
         <br />
-        <LiveFixtures gameweek={gameweek} playerScoreMap={playerScoreMap} />
+        <LiveFixtures
+          gameweek={gameweek}
+          playerScoreMap={liveData.playerScoreMap}
+        />
         <br />
         <hr style={{ width: "100%" }} />
         <br />
@@ -283,9 +382,9 @@ export default function Live({
           <li>Mid-Season Tournament - $30 + Mystery Kit</li>
         </ul>
         <hr style={{ width: "100%" }} />
-        <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
-        <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
-        <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
+        <Link href={`/history/season-1`}>Season 1 - 2022/2023</Link>
+        <Link href={`/history/season-2`}>Season 2 - 2023/2024</Link>
+        <Link href={`/history/season-3`}>Season 3 - 2024/2025</Link>
         <Link href={`/history/all_seasons`}>All Seasons</Link>
       </div>
     </LiveDataContext.Provider>

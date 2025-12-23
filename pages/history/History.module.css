@@ -2,3 +2,26 @@
   display: block;
   text-align: center;
 }
+
+.historyHeaderTitle {
+  display: flex;
+  align-items: center;
+}
+
+.historyHeaderTitle h1 {
+  padding: 1rem;
+  margin-bottom: 0;
+}
+
+.historyHeaderButton {
+  flex: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.historyHeaderButton:hover {
+  color: #006cd8;
+}

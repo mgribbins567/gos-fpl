@@ -69,31 +69,41 @@ export function useLiveLeagueData(
       return { liveTable: [], startOfWeekTable: [] };
     }
     const { league_entries, matches } = allMatchups;
+    const matchesData = matches.filter((match) => match);
+    const isCupOrCurrent = "group" in matchesData[0];
 
     const baseTable = {};
     league_entries.forEach((entry) => {
-      baseTable[entry.id] = {
-        id: entry.id,
-        name: managers[entry.id].name,
-        W: 0,
-        D: 0,
-        L: 0,
-        PF: 0,
-        PA: 0,
-        PD: 0,
-        Pts: 0,
-        PPW: 0,
-        PPG: 0,
-      };
+      if (
+        matchesData.some(
+          (match) =>
+            match.league_entry_1 === entry.id ||
+            match.league_entry_2 === entry.id
+        )
+      ) {
+        baseTable[entry.id] = {
+          id: entry.id,
+          name: managers[entry.id].name,
+          W: 0,
+          D: 0,
+          L: 0,
+          PF: 0,
+          PA: 0,
+          PD: 0,
+          Pts: 0,
+          PPW: 0,
+          PPG: 0,
+        };
+      }
     });
-    matches.forEach((match) => {
+    matchesData.forEach((match) => {
       if (match.finished && match.event < gameweek) {
         getScores(
           baseTable,
           match,
           playerScoreMap,
           managerPlayerMap,
-          /*isCurrent=*/ false
+          /*isCurrent=*/ isCupOrCurrent
         );
       }
     });
@@ -111,7 +121,7 @@ export function useLiveLeagueData(
       startRanks[team.id] = index + 1;
     });
 
-    const matchesForCurrentGameweek = matches.filter(
+    const matchesForCurrentGameweek = matchesData.filter(
       (match) => match.event === gameweek
     );
 

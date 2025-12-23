@@ -45,7 +45,11 @@ export default function Home({ allPostsData, featuredPost }) {
       <br />
       <h2>Featured Post</h2>
       {featuredPost.map(({ id, date, title, summary, tags }) => (
-        <a href={`/blog/${id}`} className={homeStyles.link}>
+        <a
+          href={`/blog/${id}`}
+          className={homeStyles.link}
+          key={`${date}-${id}`}
+        >
           {title}
           <br />
           <small className={utilStyles.lightText}>
@@ -62,7 +66,11 @@ export default function Home({ allPostsData, featuredPost }) {
       ))}
       <h2>Recent Blog Posts</h2>
       {allPostsData.map(({ id, date, title, summary, tags }) => (
-        <a href={`/blog/${id}`} className={homeStyles.link}>
+        <a
+          href={`/blog/${id}`}
+          className={homeStyles.link}
+          key={`${date}-${id}`}
+        >
           {title}
           <br />
           <small className={utilStyles.lightText}>
