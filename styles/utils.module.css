@@ -481,6 +481,10 @@
   color: rgb(192, 2, 13);
 }
 
+.playerName[status="n"] {
+  color: rgb(192, 2, 13);
+}
+
 .benchSeparator {
   height: 1px;
   width: 100%;
