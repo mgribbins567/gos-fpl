@@ -214,24 +214,40 @@
       "event": 17,
       "league_entry_1": 2554,
       "league_entry_2": 99796,
-      "group": "k"
+      "group": "k",
+      "finished": true
     },
     {
       "event": 17,
       "league_entry_1": 2795,
       "league_entry_2": 56834,
-      "group": "k"
+      "group": "k",
+      "finished": true
     },
     {
       "event": 17,
       "league_entry_1": 281,
       "league_entry_2": 2485,
-      "group": "k"
+      "group": "k",
+      "finished": true
     },
     {
       "event": 17,
       "league_entry_1": 5457,
       "league_entry_2": 129240,
+      "group": "k",
+      "finished": true
+    },
+    {
+      "event": 18,
+      "league_entry_1": 99796,
+      "league_entry_2": 2795,
+      "group": "k"
+    },
+    {
+      "event": 18,
+      "league_entry_1": 281,
+      "league_entry_2": 5457,
       "group": "k"
     }
   ]
