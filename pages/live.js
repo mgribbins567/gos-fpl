@@ -132,7 +132,12 @@ async function getLivePageStartData() {
       return Promise.all(responses.map((response) => response.json()));
     })
     .catch((err) => {
-      console.error("Error fetching live page start data:", err);
+      console.error(
+        "Error fetching live page start data from url: ",
+        url,
+        " error: ",
+        err
+      );
     });
 }
 
