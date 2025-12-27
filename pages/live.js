@@ -108,21 +108,31 @@ function getAllTables(
 }
 
 async function getLivePageStartData() {
-  const urls = [
-    "https://fantasy.premierleague.com/api/bootstrap-static/",
-    "https://draft.premierleague.com/api/league/157/details",
-    "https://draft.premierleague.com/api/league/461/details",
-    "https://fantasy.premierleague.com/api/fixtures/",
-  ];
+  const bootstrapUrl =
+    "https://fantasy.premierleague.com/api/bootstrap-static/";
+  const leagueAUrl = "https://draft.premierleague.com/api/league/157/details";
+  const leagueBUrl = "https://draft.premierleague.com/api/league/461/details";
+  const fixturesUrl = "https://fantasy.premierleague.com/api/fixtures/";
 
-  const fetchPromises = urls.map((url) => fetch(url));
-
-  return await Promise.all(fetchPromises)
+  return await Promise.all([
+    fetch(bootstrapUrl).catch((error) => {
+      throw { url: bootstrapUrl, error: error };
+    }),
+    fetch(leagueAUrl).catch((error) => {
+      throw { url: leagueAUrl, error: error };
+    }),
+    fetch(leagueBUrl).catch((error) => {
+      throw { url: leagueBUrl, error: error };
+    }),
+    fetch(fixturesUrl).catch((error) => {
+      throw { url: fixturesUrl, error: error };
+    }),
+  ])
     .then((responses) => {
       return Promise.all(responses.map((response) => response.json()));
     })
-    .catch((error) => {
-      console.error("Error fetching bootstrap data or league details:", error);
+    .catch((err) => {
+      console.error("Error fetching live page start data:", err);
     });
 }
 
