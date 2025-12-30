@@ -242,12 +242,20 @@
       "event": 18,
       "league_entry_1": 99796,
       "league_entry_2": 2795,
-      "group": "k"
+      "group": "k",
+      "finished": true
     },
     {
       "event": 18,
       "league_entry_1": 281,
       "league_entry_2": 5457,
+      "group": "k",
+      "finished": true
+    },
+    {
+      "event": 19,
+      "league_entry_1": 281,
+      "league_entry_2": 2795,
       "group": "k"
     }
   ]
