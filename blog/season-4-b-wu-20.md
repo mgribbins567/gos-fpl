@@ -120,7 +120,12 @@ Here are the full results of the tournament!
 
 # The League
 
-And welcome back to The League (tm)! As a quick reminder to where we left off, we are in the first round of playoffs between the managers who finished 9th to 16th in our group stage table at the beginning of the season! The winners this week will go up against the managers who finished 5th through 8th next week, and then the winners of those matchups will face off against the top 4 managers from the group stage in the quarter finals! That means we will have some great matchups this week across the board, including a top of League B clash between my B team and John, what should be a great matchup between Mack and Alex, and an A League match between MatthewR and Matt!
+And welcome back to The League (tm)! As a quick reminder to where we left off, we are in the first round of playoffs between the managers who finished 9th to 16th in our group stage table at the beginning of the season! The winners this week will go up against the managers who finished 5th through 8th next week, and then the winners of those matchups will face off against the top 4 managers from the group stage in the quarter finals! That means we will have some great matchups this week across the board, including a top of League B clash between my B team and John, what should be a great matchup between Mack and Alex, and an A League match between MatthewR and Matt! Full matchups are as follows:
+
+- MatthewR vs Matt
+- John vs Matthew2
+- ZachA vs Andrew
+- Mack vs Alex
 
 And as a reminder for the current state of things, here is what the tournament looks like so far!
 
