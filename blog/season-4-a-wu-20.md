@@ -109,7 +109,7 @@ Congratulations to the winner of the Boxing Day Bash: me! I defeated Scott 41-27
 Here are the full results of the tournament!
 
 <p class="center-bold">Group Stage</p>
-<img src="/images/season-4/season-4-a-wu/20/knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-a-wu/20/group-stage.png" width="1200vh" height="auto">
 <br/>
 
 <p class="center-bold">Knockout Stage</p>
@@ -125,7 +125,7 @@ And welcome back to The League (tm)! As a quick reminder to where we left off, w
 And as a reminder for the current state of things, here is what the tournament looks like so far!
 
 <p class="center-bold">Group Stage</p>
-<img src="/images/season-4/season-4-a-wu/20/the-league-knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-a-wu/20/the-league-group-stage.png" width="1200vh" height="auto">
 <br/>
 
 <p class="center-bold">Knockout Stage</p>
