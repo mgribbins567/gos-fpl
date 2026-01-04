@@ -41,12 +41,12 @@ export default function HeadToHeadModal({ managerA, managerB, onClose }) {
         pointsA += match.manager_2_score;
         pointsB += match.manager_1_score;
       }
-      if (match.winner === managerA) {
-        winsA += 1;
-      } else if (match.winner === managerB) {
-        winsB += 1;
-      } else {
+      if (match.manager_1_score === match.manager_2_score) {
         draws += 1;
+      } else if (match.winner === managerA) {
+        winsA += 1;
+      } else {
+        winsB += 1;
       }
     });
   }
