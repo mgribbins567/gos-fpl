@@ -479,6 +479,26 @@
       "event": 8,
       "league_entry_1": 5457,
       "league_entry_2": 72942
+    },
+    {
+      "event": 20,
+      "league_entry_1": 2554,
+      "league_entry_2": 2485
+    },
+    {
+      "event": 20,
+      "league_entry_1": 72942,
+      "league_entry_2": 1054
+    },
+    {
+      "event": 20,
+      "league_entry_1": 243996,
+      "league_entry_2": 205793
+    },
+    {
+      "event": 20,
+      "league_entry_1": 102746,
+      "league_entry_2": 144919
     }
   ]
 }

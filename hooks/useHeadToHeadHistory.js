@@ -1,24 +1,33 @@
-import useSWR from "swr";
-
-const fetcher = async ([url, managerA, managerB]) => {
-  const response = await fetch(
-    `${url}?managerA=${managerA}&managerB=${managerB}`
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch head-to-head history");
-  }
-  return response.json();
-};
+import { getManagerMatchupData } from "../lib/dataService";
+import { useEffect, useState } from "react";
 
 export function useHeadToHeadHistory(managerA, managerB) {
-  const { data, error, isLoading } = useSWR(
-    ["/api/head-to-head-history", managerA, managerB],
-    fetcher
-  );
+  const [history, setHistory] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  return {
-    headToHeadHistory: data,
-    isLoading,
-    isError: error,
-  };
+  useEffect(() => {
+    if (!managerA || !managerB) {
+      return;
+    }
+
+    setIsLoading(true);
+    getManagerMatchupData(managerA, managerB)
+      .then((data) => {
+        setHistory(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error(
+          "Failed to fetch history for: ",
+          managerA,
+          " vs ",
+          managerB,
+          "with error: ",
+          error
+        );
+        setIsLoading(false);
+      });
+  }, [managerA, managerB]);
+
+  return { headToHeadHistory: history, isLoading };
 }

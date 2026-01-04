@@ -1,0 +1,49 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #2a2f37;
+  transform: translate(-50%, -50%);
+  /* margin: 75% auto; */
+  bottom: auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /* min-width: 95vw; */
+  max-width: 95vw;
+  cursor: default;
+}
+
+.headToHeadModalHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modalContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998;
+}
+
+.closeButton {
+  justify-content: flex-end;
+  /* float: right; */
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #888;
+  padding-bottom: 1.5rem;
+}
