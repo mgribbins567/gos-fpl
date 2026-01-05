@@ -19,6 +19,13 @@ function Score(managerAScore, managerBScore) {
   );
 }
 
+function Winner(match, managerA, managerB) {
+  if (match.manager_1_score === match.manager_2_score) {
+    return "None";
+  }
+  return match.winner === managerA ? managerA : managerB;
+}
+
 export default function HeadToHeadModal({ managerA, managerB, onClose }) {
   console.log("finding h2h between: ", managerA, " and ", managerB);
   const { headToHeadHistory, isLoading } = useHeadToHeadHistory(
@@ -89,7 +96,7 @@ export default function HeadToHeadModal({ managerA, managerB, onClose }) {
                       <td>
                         {Score(match.manager_1_score, match.manager_2_score)}
                       </td>
-                      <td>{match.winner === managerA ? managerA : managerB}</td>
+                      <td>{Winner(match, managerA, managerB)}</td>
                     </tr>
                   ))}
                 </tbody>
