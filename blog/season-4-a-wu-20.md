@@ -141,8 +141,8 @@ And as a reminder for the current state of things, here is what the tournament l
 
 # Power Rankings
 
-On the bubble (in no order): Jesse, Kevin, Cara, Chris, Alex
-Fell off: Kevin
+On the bubble (in no order): Jesse, Cara, Alex
+Fell off: Scott
 
 10 - Mack (NEW) - League B - Last 5: 34 (L), 28 (L), 52 (L), 46 (W), 51 (W) - After a rough few weeks Mack was able to turn things around with a huge cup run, earning her the Boxing Day Bash trophy for League B and a place back on this list. There's a certain _je ne sais quoi_ to winning a trophy that meant she beat the other 3 or so names I could have put here. Anyway, she's got some very consistent performers as of recently, with Casemiro, Semenyo, Garner, and even Collins performing well week in week out.
 
