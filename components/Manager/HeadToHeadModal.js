@@ -3,6 +3,7 @@ import { useHeadToHeadHistory } from "../../hooks/useHeadToHeadHistory";
 import styles from "../Manager/HeadToHeadModal.module.css";
 import baseStyles from "../../styles/Base.module.css";
 import Portal from "../Portal";
+import managers from "../../data/managers.json";
 
 function Score(managerAScore, managerBScore) {
   if (managerAScore > managerBScore) {
@@ -26,12 +27,60 @@ function Winner(match, managerA, managerB) {
   return match.winner === managerA ? managerA : managerB;
 }
 
-export default function HeadToHeadModal({ managerA, managerB, onClose }) {
-  console.log("finding h2h between: ", managerA, " and ", managerB);
+function getManagerIdFromName(name) {
+  return Object.keys(managers).find((key) => managers[key].name === name);
+}
+
+export default function HeadToHeadModal({
+  managerA,
+  managerB,
+  matchups,
+  onClose,
+}) {
   const { headToHeadHistory, isLoading } = useHeadToHeadHistory(
     managerA,
     managerB
   );
+
+  const managerAID = parseInt(getManagerIdFromName(managerA));
+  const managerBID = parseInt(getManagerIdFromName(managerB));
+
+  if (headToHeadHistory) {
+    var currentSeasonHistory = matchups.filter(
+      (match) =>
+        (match.league_entry_1 === managerAID &&
+          match.league_entry_2 === managerBID) ||
+        (match.league_entry_1 === managerBID &&
+          match.league_entry_2 === managerAID)
+    );
+    currentSeasonHistory.map((matchup) => {
+      const id = managerA + "-" + managerB + "-4-" + matchup.event;
+      const gameweek_id = "season-4-" + matchup.event;
+      const gameweek = { gameweek: matchup.event, season_id: "season-4" };
+      const manager_1_score = matchup.league_entry_1_points;
+      const manager_2_score = matchup.league_entry_2_points;
+      let winner = managerA;
+      if (manager_2_score > manager_1_score) {
+        winner = managerB;
+      }
+      const match = {
+        id: id,
+        Gameweek: gameweek,
+        gameweek_id: gameweek_id,
+        manager_1: managerA,
+        manager_2: managerB,
+        manager_1_score: manager_1_score,
+        manager_2_score: manager_2_score,
+        winner: winner,
+      };
+
+      const check = (m) => m.id === id;
+
+      if (!headToHeadHistory.some(check)) {
+        headToHeadHistory.push(match);
+      }
+    });
+  }
 
   let winsA = 0;
   let winsB = 0;
@@ -60,7 +109,7 @@ export default function HeadToHeadModal({ managerA, managerB, onClose }) {
 
   return (
     <Portal>
-      <div classname={styles.backdrop}>
+      <div className={styles.backdrop}>
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <div className={styles.headToHeadModalHeader}>

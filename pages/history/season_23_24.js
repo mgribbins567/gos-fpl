@@ -464,10 +464,10 @@ function GetWinterBracket() {
             </li>
           </ul>
           <ul className={utilStyles.final}>
-            <li classname={utilStyles.final}>
+            <li className={utilStyles.final}>
               Andrew<span className={utilStyles.score}>19</span>
             </li>
-            <li classname={utilStyles.final}>
+            <li className={utilStyles.final}>
               Matthew<span className={utilStyles.score}>33</span>
             </li>
           </ul>
