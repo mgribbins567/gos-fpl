@@ -1,6 +1,7 @@
 import managers from "../data/managers.json";
 import { checkElementId } from "../lib/player_util";
 import utilStyles from "../styles/utils.module.css";
+import { VscHistory } from "react-icons/vsc";
 
 function PastGameweek(match) {
   let score1, score2;
