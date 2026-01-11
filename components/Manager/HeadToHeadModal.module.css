@@ -47,3 +47,30 @@
   color: #888;
   padding-bottom: 1.5rem;
 }
+
+.selectGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.select {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.select:focus {
+  /* max-height: 25px; */
+  overflow: auto;
+  text-align: left;
+  outline: 2px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.06);
+  background: var(--color-card);
+  scrollbar-width: thin;
+}

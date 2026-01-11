@@ -291,6 +291,7 @@ export default function Live({
               gameweek={gameweek}
               isFinished={isFinished}
               allMatchups={allAMatchups}
+              otherMatchups={allBMatchups}
               tableData={
                 isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
               }
@@ -325,6 +326,7 @@ export default function Live({
               gameweek={gameweek}
               isFinished={isFinished}
               allMatchups={allBMatchups}
+              otherMatchups={allAMatchups}
               tableData={
                 isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
               }

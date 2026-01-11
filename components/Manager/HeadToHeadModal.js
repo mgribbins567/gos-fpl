@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHeadToHeadHistory } from "../../hooks/useHeadToHeadHistory";
 import styles from "../Manager/HeadToHeadModal.module.css";
 import baseStyles from "../../styles/Base.module.css";
@@ -32,11 +32,26 @@ function getManagerIdFromName(name) {
 }
 
 export default function HeadToHeadModal({
-  managerA,
-  managerB,
+  managerA: managerAProp,
+  managerB: managerBProp,
   matchups,
   onClose,
 }) {
+  const managerNames = Object.keys(managers).map((k) => managers[k].name);
+  const [managerA, setManagerA] = useState(
+    managerAProp || managerNames[0] || ""
+  );
+  const [managerB, setManagerB] = useState(
+    managerBProp || managerNames[1] || managerNames[0] || ""
+  );
+
+  useEffect(() => {
+    if (managerA === managerB) {
+      const other = managerNames.find((n) => n !== managerA) || "";
+      if (other !== managerB) setManagerB(other);
+    }
+  }, [managerA, managerB]);
+
   const { headToHeadHistory, isLoading } = useHeadToHeadHistory(
     managerA,
     managerB
@@ -113,9 +128,37 @@ export default function HeadToHeadModal({
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <div className={styles.headToHeadModalHeader}>
-              <h3>
-                {managerA} vs {managerB}
-              </h3>
+              <div className={styles.selectGroup}>
+                <select
+                  className={styles.select}
+                  aria-label="Select manager A"
+                  value={managerA}
+                  onChange={(e) => setManagerA(e.target.value)}
+                >
+                  {managerNames
+                    .filter((name) => name !== managerB)
+                    .map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+                <div>vs</div>
+                <select
+                  className={styles.select}
+                  aria-label="Select manager B"
+                  value={managerB}
+                  onChange={(e) => setManagerB(e.target.value)}
+                >
+                  {managerNames
+                    .filter((name) => name !== managerA)
+                    .map((name) => (
+                      <option key={name} value={name}>
+                        {name}
+                      </option>
+                    ))}
+                </select>
+              </div>
               <button onClick={onClose} className={styles.closeButton}>
                 X
               </button>
