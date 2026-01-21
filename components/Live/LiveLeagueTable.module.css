@@ -32,6 +32,10 @@
   background-color: #a0a0a0;
 }
 
+.table th {
+  cursor: pointer;
+}
+
 @media screen and (min-width: 769px) {
   .rank {
     text-align: left;
