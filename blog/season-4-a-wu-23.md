@@ -55,7 +55,7 @@ Game Changers!
 In terms of form, Coop stakes his claim at the top with a perfect 15/15 points earned! He sits ahead of the Matthew duo, with the two of us on 12/15 points in the last 5.
 
 <p class="center-bold">Form Table</p>
-<img src="/images/season-4/season-4-a-wu/22/form-table.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-a-wu/23/form-table.png" width="1200vh" height="auto">
 <br/>
 
 This week will see some great matchups, headlined by a match between two in form teams in Coop vs me! Elsewhere, Darryan looks to bounce back with a match in hand against Kevin, Dylan takes on MatthewR in what could be a key matchup near the top, and Gavin tries to pick up back to back wins against Zach. Full matchups are as follows:

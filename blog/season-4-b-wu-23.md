@@ -55,7 +55,7 @@ Game Changers!
 In terms of form, John keeps it going at the top with his 15/15 points earned! He sits above Alex, Chris, and Mack who all have picked up 12 out of the last 15 available points!
 
 <p class="center-bold">Form Table</p>
-<img src="/images/season-4/season-4-b-wu/22/form-table.png" width="1200vh" height="auto">
+<img src="/images/season-4/season-4-b-wu/23/form-table.png" width="1200vh" height="auto">
 <br/>
 
 This week will see some great matchups, headlined by a huge match between two promotion hopefuls in Chris vs John! Elsewhere, Mack looks to pick up pace on the top half with a match against ZachA, and Morgs takes on Andrew! Full matchups are as follows:
