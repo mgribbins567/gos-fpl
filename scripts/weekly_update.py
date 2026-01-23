@@ -107,6 +107,14 @@ def save_sheet_as_png(gc, sheet_id, tab_name, cell_range, filename, width, title
                 cell = table[row_idx + 1, col_idx]
                 cell.get_text().set_text(f"+{int(val)}")
 
+    if "PD" in df.columns:
+        col_idx = df.columns.get_loc("PD")
+
+        for row_idx, val in enumerate(df["PD"]):
+            if pd.notna(val) and val > 0:
+                cell = table[row_idx + 1, col_idx]
+                cell.get_text().set_text(f"+{int(val)}")
+
     if title:
         plt.title(title, fontsize=14, weight='bold', pad=title_pad)
 
@@ -312,7 +320,7 @@ def save_league_pngs(sheet_id, filename_base):
         tab_name="Manager of the Month",
         cell_range="B83:L95",
         filename=filename_base + "/manager-of-the-month.png",
-        width=0.015,
+        width=0.02,
         title="January MotM",
         color_cols=None,
         cmap_name=""
@@ -369,7 +377,7 @@ if __name__ == "__main__":
     SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
     SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
 
-    gameweek = "22"
+    gameweek = "23"
 
     save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
     save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
