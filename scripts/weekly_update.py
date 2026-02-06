@@ -377,7 +377,7 @@ if __name__ == "__main__":
     SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
     SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
 
-    gameweek = "24"
+    gameweek = "25"
 
     save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
     save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
