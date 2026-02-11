@@ -10,7 +10,7 @@ function getNextFiveFixtures(fixturesData, playerData) {
   const mostRecentGameweek = parseInt(
     Object.keys(playerData.gameweeks)[
       Object.keys(playerData.gameweeks).length - 1
-    ]
+    ],
   );
   const nextFixtures = [];
   for (
@@ -22,16 +22,20 @@ function getNextFiveFixtures(fixturesData, playerData) {
     const currentFixture = fixturesData.fixtures.filter(
       (fixture) =>
         fixture.event === gameweek &&
-        (fixture.team_h === teamId || fixture.team_a === teamId)
+        (fixture.team_h === teamId || fixture.team_a === teamId),
     );
 
-    const isHome = currentFixture[0].team_h === teamId;
-    nextFixtures.push(
-      (isHome ? "vs " : "@ ") +
-        fixturesData.teams[
-          isHome ? currentFixture[0].team_a : currentFixture[0].team_h
-        ].short_name
-    );
+    if (currentFixture[0]) {
+      const isHome = currentFixture[0].team_h === teamId;
+      nextFixtures.push(
+        (isHome ? "vs " : "@ ") +
+          fixturesData.teams[
+            isHome ? currentFixture[0].team_a : currentFixture[0].team_h
+          ].short_name,
+      );
+    } else {
+      nextFixtures.push("Blank");
+    }
   }
   return nextFixtures;
 }
@@ -124,17 +128,42 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
       scoreB: scoreB,
     };
 
-    const currentFixture = fixturesData.fixtures.filter(
-      (fixture) =>
-        fixture.id === playerData.gameweeks[gameweek].explain[0].fixture
-    );
+    const gameweekFixtures = [];
 
-    const isHome = currentFixture[0].team_h === teamId;
-    const opp = isHome ? currentFixture[0].team_a : currentFixture[0].team_h;
+    playerData.gameweeks[gameweek].explain.forEach((gameweekFixture) => {
+      gameweekFixtures.push(
+        fixturesData.fixtures.filter(
+          (fixture) => fixture.id === gameweekFixture.fixture,
+        ),
+      );
+    });
+
+    var versus = "";
+    var prefix = "";
+    var suffix = "";
+    var matches = 0;
+    const addPrefix = gameweekFixtures.length === 1;
+
+    gameweekFixtures.map((gameweek) => {
+      if (matches > 0) {
+        versus += ", ";
+      }
+      gameweek.forEach((fixture) => {
+        const isHome = fixture.team_h === teamId;
+        const opp = isHome ? fixture.team_a : fixture.team_h;
+        if (addPrefix) {
+          prefix = isHome ? "vs " : "@ ";
+        } else {
+          suffix = isHome ? "" : "*";
+        }
+        versus += prefix + fixturesData.teams[opp].short_name + suffix;
+      });
+      matches++;
+    });
 
     statsTable[tableLength] = {
       GW: gameweek,
-      VS: (isHome ? "vs " : "@ ") + fixturesData.teams[opp].short_name,
+      VS: versus,
       PTS: data.total_points,
       MP: data.minutes,
       G: data.goals_scored,
@@ -186,7 +215,7 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
                 <a
                   className={utilStyles.playerSearchLink}
                   href={`/player-search?q=${encodeURIComponent(
-                    `${playerData.details.firstName} ${playerData.details.lastName}`
+                    `${playerData.details.firstName} ${playerData.details.lastName}`,
                   )}`}
                 >
                   PS
@@ -219,6 +248,7 @@ export function ExpandedPlayerCard({ playerData, isOpen, onCardClick }) {
               x
             </button>
             <ExpandedPlayerCardTable tableData={statsTable} />
+            <p>* is away in DGW</p>
           </div>
         </Portal>
       )}

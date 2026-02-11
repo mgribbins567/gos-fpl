@@ -10,9 +10,24 @@ export function createCurrentGameweekPlayer(playerData, gameweek) {
   const fixturesForViewedGameweek = fixturesData.fixtures.filter(
     (fixture) =>
       fixture.event === gameweek &&
-      (fixture.team_a === teamId || fixture.team_h === teamId)
+      (fixture.team_a === teamId || fixture.team_h === teamId),
   );
-  const isHome = fixturesForViewedGameweek[0].team_h === teamId;
+
+  const playerStats = [];
+  var match = 0;
+
+  fixturesForViewedGameweek.forEach((fixture) => {
+    playerStats.push({
+      stats: playerData.gameweeks[gameweek].explain[match].stats,
+      teamMinutes: fixture.finished ? "Final" : fixture.minutes + "'",
+      teamH: fixturesData.teams[fixture.team_h].short_name,
+      teamA: fixturesData.teams[fixture.team_a].short_name,
+      teamHScore: fixture.team_h_score || 0,
+      teamAScore: fixture.team_a_score || 0,
+      home: fixture.team_h === teamId,
+    });
+    match++;
+  });
 
   const isGKP = playerData.details.position === "GKP" ? "_1" : "";
   const jerseyUrl = `https://draft.premierleague.com/img/shirts/standard/shirt_${playerData.details.teamCode}${isGKP}-66.png`;
@@ -23,16 +38,8 @@ export function createCurrentGameweekPlayer(playerData, gameweek) {
     teamJersey: jerseyUrl,
     score: playerData.gameweeks[gameweek].stats.total_points,
     minutes: playerData.gameweeks[gameweek].stats.minutes,
-    stats: playerData.gameweeks[gameweek].explain[0].stats,
     status: playerData.details.status,
-    teamMinutes: fixturesForViewedGameweek[0].finished
-      ? "Final"
-      : fixturesForViewedGameweek[0].minutes + "'",
-    teamH: fixturesData.teams[fixturesForViewedGameweek[0].team_h].short_name,
-    teamA: fixturesData.teams[fixturesForViewedGameweek[0].team_a].short_name,
-    teamHScore: fixturesForViewedGameweek[0].team_h_score || 0,
-    teamAScore: fixturesForViewedGameweek[0].team_a_score || 0,
-    home: isHome,
+    playerStats: playerStats,
   };
 }
 
@@ -88,7 +95,7 @@ export function PlayerCard({
                 className={utilStyles.expandPointsButton}
                 onClick={() => {
                   setOpenPlayerId(
-                    openPlayerId === player.id ? null : player.id
+                    openPlayerId === player.id ? null : player.id,
                   );
                 }}
               />
@@ -97,52 +104,70 @@ export function PlayerCard({
                 isOpen={openPlayerId === player.id}
                 onCardClick={() => {
                   setOpenPlayerId(
-                    openPlayerId === player.id ? null : player.id
+                    openPlayerId === player.id ? null : player.id,
                   );
                 }}
               />
             </div>
-            <div className={utilStyles.pointsBreakdownMiniScore}>
-              <div className={player.home ? utilStyles.playerTeam : ""}>
-                {player.teamH}
-              </div>
-              {" vs "}
-              <div className={player.home ? "" : utilStyles.playerTeam}>
-                {player.teamA}{" "}
-              </div>
-              <div className={player.home ? utilStyles.playerTeam : ""}>
-                {player.teamHScore}
-              </div>
-              {" - "}
-              <div className={player.home ? "" : utilStyles.playerTeam}>
-                {player.teamAScore}
-              </div>
-              <div className={utilStyles.pointsBreakdownMiniScoreMinutes}>
-                {" "}
-                {player.teamMinutes}
-              </div>
-            </div>
           </div>
-
           <div>
-            <ul>
-              {player.stats.map((stat) => (
-                <li key={player + " " + stat.identifier}>
-                  {stat.identifier
-                    .replace(/_/g, " ")
-                    .split(" ")
-                    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                    .join(" ")}{" "}
-                  ({stat.value})
-                  <span className={utilStyles.playerScore}>{stat.points}</span>
-                </li>
-              ))}
-              <hr style={{ width: "100%" }} />
-              <li>
-                Total:{" "}
-                <span className={utilStyles.playerScore}>{player.score}</span>
-              </li>
-            </ul>
+            {player.playerStats.map((fixtureStats) => (
+              <div>
+                <div className={utilStyles.pointsBreakdownMiniScore}>
+                  <div
+                    className={fixtureStats.home ? utilStyles.playerTeam : ""}
+                  >
+                    {fixtureStats.teamH}
+                  </div>
+                  {" vs "}
+                  <div
+                    className={fixtureStats.home ? "" : utilStyles.playerTeam}
+                  >
+                    {fixtureStats.teamA}{" "}
+                  </div>
+                  <div
+                    className={fixtureStats.home ? utilStyles.playerTeam : ""}
+                  >
+                    {fixtureStats.teamHScore}
+                  </div>
+                  {" - "}
+                  <div
+                    className={fixtureStats.home ? "" : utilStyles.playerTeam}
+                  >
+                    {fixtureStats.teamAScore}
+                  </div>
+                  <div className={utilStyles.pointsBreakdownMiniScoreMinutes}>
+                    {" "}
+                    {fixtureStats.teamMinutes}
+                  </div>
+                </div>
+
+                <div>
+                  <ul>
+                    {fixtureStats.stats.map((stat) => (
+                      <li key={fixtureStats + " " + stat.identifier}>
+                        {stat.identifier
+                          .replace(/_/g, " ")
+                          .split(" ")
+                          .map(
+                            (s) => s.charAt(0).toUpperCase() + s.substring(1),
+                          )
+                          .join(" ")}{" "}
+                        ({stat.value})
+                        <span className={utilStyles.playerScore}>
+                          {stat.points}
+                        </span>
+                      </li>
+                    ))}
+                    <hr style={{ width: "100%" }} />
+                  </ul>
+                </div>
+              </div>
+            ))}
+            <div className={utilStyles.pointsBreakdownTotalScore}>
+              Total:{" "}
+              <span className={utilStyles.playerScore}>{player.score}</span>
+            </div>
           </div>
           <button className={utilStyles.closePopout} onClick={onCardClick}>
             x

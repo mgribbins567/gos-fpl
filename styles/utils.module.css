@@ -541,6 +541,11 @@
   white-space: pre;
 }
 
+.pointsBreakdownTotalScore {
+  display: flex;
+  justify-content: space-between;
+}
+
 .pointsBreakdownMiniScoreMinutes {
   color: #666;
 }
