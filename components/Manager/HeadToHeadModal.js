@@ -39,10 +39,10 @@ export default function HeadToHeadModal({
 }) {
   const managerNames = Object.keys(managers).map((k) => managers[k].name);
   const [managerA, setManagerA] = useState(
-    managerAProp || managerNames[0] || ""
+    managerAProp || managerNames[0] || "",
   );
   const [managerB, setManagerB] = useState(
-    managerBProp || managerNames[1] || managerNames[0] || ""
+    managerBProp || managerNames[1] || managerNames[0] || "",
   );
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function HeadToHeadModal({
 
   const { headToHeadHistory, isLoading } = useHeadToHeadHistory(
     managerA,
-    managerB
+    managerB,
   );
 
   const managerAID = parseInt(getManagerIdFromName(managerA));
@@ -66,7 +66,7 @@ export default function HeadToHeadModal({
         (match.league_entry_1 === managerAID &&
           match.league_entry_2 === managerBID) ||
         (match.league_entry_1 === managerBID &&
-          match.league_entry_2 === managerAID)
+          match.league_entry_2 === managerAID),
     );
     currentSeasonHistory.map((matchup) => {
       const id = managerA + "-" + managerB + "-4-" + matchup.event;
@@ -124,8 +124,8 @@ export default function HeadToHeadModal({
 
   return (
     <Portal>
-      <div className={styles.backdrop}>
-        <div className={styles.modal}>
+      <div className={styles.backdrop} onClick={onClose}>
+        <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
           <div className={styles.modalContent}>
             <div className={styles.headToHeadModalHeader}>
               <div className={styles.selectGroup}>
