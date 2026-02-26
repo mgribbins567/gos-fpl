@@ -1,6 +1,6 @@
 ---
 title: "Season 4 Weekly Update 28 - League A"
-date: "2026-02-24"
+date: "2026-02-25"
 summary: ""
 tags: ["season 4", "weekly update", "a league"]
 ---
