@@ -111,7 +111,7 @@ def save_sheet_as_png(gc, sheet_id, tab_name, cell_range, filename, width, title
         col_idx = df.columns.get_loc("PD")
 
         for row_idx, val in enumerate(df["PD"]):
-            if pd.notna(val) and val > 0:
+            if pd.notna(val) and val != '' and val > 0:
                 cell = table[row_idx + 1, col_idx]
                 cell.get_text().set_text(f"+{int(val)}")
 
@@ -318,10 +318,10 @@ def save_league_pngs(sheet_id, filename_base):
         gc=gc,
         sheet_id=sheet_id,
         tab_name="Manager of the Month",
-        cell_range="B83:L95",
+        cell_range="B99:L111",
         filename=filename_base + "/manager-of-the-month.png",
         width=0.02,
-        title="January MotM",
+        title="February MotM",
         color_cols=None,
         cmap_name=""
     )
@@ -372,12 +372,13 @@ def save_league_pngs(sheet_id, filename_base):
 
 
 if __name__ == "__main__":
-    gc = gspread.service_account(filename='game-of-stones-466323-5ab3af9d2d71.json')
+    # gc = gspread.service_account(filename='game-of-stones-466323-5ab3af9d2d71.json')
+    gc = gspread.service_account(filename='game-of-stones-466323-6776a1b39e8b.json')
     SHEET_ID_A = "1AAGP--ACojOQXlIkQUMz87-stYaw_wJo0GFYo7J3zDM"
     SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
     SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
 
-    gameweek = "27"
+    gameweek = "28"
 
     save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
     save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
