@@ -1,4 +1,3 @@
-import React from "react";
 import Head from "next/head";
 import utilStyles from "../../styles/utils.module.css";
 import Link from "next/link";
@@ -15,10 +14,10 @@ export default function AllSeasons({}) {
         <title>All Seasons - Game of Stones</title>
       </Head>
       <h1>Combined Season Stats</h1>
-      <Link href={`/history/season_22_23`}>Season 1 - 2022/2023</Link>
-      <Link href={`/history/season_23_24`}>Season 2 - 2023/2024</Link>
-      <Link href={`/history/season_24_25`}>Season 3 - 2024/2025</Link>
-      <Link href={`/season-4`}>Season 4 - 2025/2026</Link>
+      <Link href={`/history/season-1`}>Season 1 - 2022/2023</Link>
+      <Link href={`/history/season-2`}>Season 2 - 2023/2024</Link>
+      <Link href={`/history/season-3`}>Season 3 - 2024/2025</Link>
+      <Link href={`/live`}>Season 4 - 2025/2026</Link>
       <h2>League Table (by Points)</h2>
       <div>
         <GetExtendedLeagueTable range="Table!A1:L25" />

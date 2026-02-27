@@ -19,12 +19,22 @@ import { LiveFixtures } from "../components/Live/LiveFixtures";
 import LiveDataContext from "../contexts/LiveDataContext";
 import { THE_LEAGUE_CONFIG, BOXING_DAY_BASH_CONFIG } from "../data/cupConfigs";
 
+/**
+ * Get all league tables
+ * @param {*} gameweek current gameweek
+ * @param {*} allAMatchups all League A matchups
+ * @param {*} allBMatchups all League B matchups
+ * @param {*} playerScoreMap map of all players -> their scores
+ * @param {*} managerPlayerMap map of all players -> their owner
+ * @returns {*} an array of all table data
+ */
+// TODO: Clean up this function
 function getAllTables(
   gameweek,
   allAMatchups,
   allBMatchups,
   playerScoreMap,
-  managerPlayerMap
+  managerPlayerMap,
 ) {
   Object.filter = function (obj, predicate) {
     let result = [],
@@ -42,14 +52,14 @@ function getAllTables(
     gameweek,
     allAMatchups,
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
 
   const tableBData = useLiveLeagueData(
     gameweek,
     allBMatchups,
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
 
   const LeagueABBCupTableAData = useLiveLeagueData(
@@ -61,7 +71,7 @@ function getAllTables(
       }),
     },
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
   const LeagueABBCupTableBData = useLiveLeagueData(
     gameweek,
@@ -72,7 +82,7 @@ function getAllTables(
       }),
     },
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
   const LeagueBBBCupTableAData = useLiveLeagueData(
     gameweek,
@@ -83,7 +93,7 @@ function getAllTables(
       }),
     },
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
   const LeagueBBBCupTableBData = useLiveLeagueData(
     gameweek,
@@ -94,7 +104,7 @@ function getAllTables(
       }),
     },
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
 
   return [
@@ -107,6 +117,15 @@ function getAllTables(
   ];
 }
 
+/**
+ * Makes the Live Page API calls to the following endpoints:
+ * fantasy.premierleague.com/api/bootstrap-static/
+ * draft.premierleague.com/api/league/157/details
+ * draft.premierleague.com/api/league/461/details
+ * fantasy.premierleague.com/api/fixtures/
+ *
+ * @returns an array of the API data
+ */
 async function getLivePageStartData() {
   const bootstrapUrl =
     "https://fantasy.premierleague.com/api/bootstrap-static/";
@@ -136,11 +155,16 @@ async function getLivePageStartData() {
         "Error fetching live page start data from url: ",
         url,
         " error: ",
-        err
+        err,
       );
     });
 }
 
+/**
+ * Loads all static server side data for the Live Page
+ *
+ * @returns props to Live page
+ */
 export async function getServerSideProps() {
   console.time("Full Live load time");
 
@@ -150,7 +174,7 @@ export async function getServerSideProps() {
   console.timeEnd("Start data");
 
   const currentGameweekObject = bootstrapData.events.find(
-    (event) => event.is_current === true
+    (event) => event.is_current === true,
   );
 
   const isFinished = currentGameweekObject.finished;
@@ -195,6 +219,13 @@ export async function getServerSideProps() {
   };
 }
 
+/**
+ * Live page
+ * @param gameweek Current gameweek
+ * @param isFinished If the current gameweek is finished or not
+ * @param allAMatchups All League A matchups
+ * @param allBMatchups All League B matchups
+ */
 export default function Live({
   gameweek,
   isFinished,
@@ -229,7 +260,7 @@ export default function Live({
     allAMatchups,
     allBMatchups,
     liveData.playerScoreMap,
-    liveData.managerPlayerMap
+    liveData.managerPlayerMap,
   );
 
   const tableData = { tableAData, tableBData };
@@ -241,6 +272,8 @@ export default function Live({
   };
 
   return (
+    // TODO: Undo the LiveDataContext change. I think it might be better to just pass this via props
+    // TODO: Clean up this function. We can refactor and call separate functions using LeagueData as a prop
     <LiveDataContext.Provider value={liveData}>
       <div className={homeStyles.home}>
         <Head>
@@ -302,6 +335,7 @@ export default function Live({
             <br />
             <hr style={{ width: "100%" }} />
             <br />
+            {/* TODO: Put this in a drop down */}
             <h3>Boxing Day Bash</h3>
             <Matchups
               gameweek={gameweek}
@@ -337,6 +371,7 @@ export default function Live({
             <br />
             <hr style={{ width: "100%" }} />
             <br />
+            {/* TODO: Put this in a drop down */}
             <h3>Boxing Day Bash</h3>
             <Matchups
               gameweek={gameweek}

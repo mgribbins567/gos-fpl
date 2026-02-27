@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { LeagueTable } from "../../components/History/LeagueTable";
 import styles from "../history/History.module.css";
 import { MatchupBrowser } from "../../components/History/MatchupBrowser";
