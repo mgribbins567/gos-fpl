@@ -1,7 +1,6 @@
 import managers from "../data/managers.json";
 import { checkElementId } from "../lib/player_util";
 import utilStyles from "../styles/utils.module.css";
-import { VscHistory } from "react-icons/vsc";
 
 function PastGameweek(match) {
   let score1, score2;
@@ -16,7 +15,7 @@ export function getTotalScore(
   gameweek,
   entry,
   playerScoreMap,
-  managerPlayerMap
+  managerPlayerMap,
 ) {
   let totalScore = 0;
   managerPlayerMap[entry].gameweeks[gameweek].forEach((player) => {
@@ -41,13 +40,13 @@ function CurrentGameweek(match, playerScoreMap, managerPlayerMap) {
     match.event,
     match.league_entry_1,
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
   const score2 = getTotalScore(
     match.event,
     match.league_entry_2,
     playerScoreMap,
-    managerPlayerMap
+    managerPlayerMap,
   );
 
   return { score1, score2 };

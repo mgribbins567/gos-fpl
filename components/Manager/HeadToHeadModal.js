@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHeadToHeadHistory } from "../../hooks/useHeadToHeadHistory";
 import styles from "../Manager/HeadToHeadModal.module.css";
 import baseStyles from "../../styles/Base.module.css";

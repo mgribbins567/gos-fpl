@@ -1,4 +1,5 @@
 import baseStyles from "../../styles/Base.module.css";
+import ManagerNameLink from "../Manager/ManagerNameLink";
 
 export function LeagueTable({ seasonData }) {
   if (!seasonData || !seasonData.Gameweek || seasonData.Gameweek.length === 0) {
@@ -98,7 +99,9 @@ export function LeagueTable({ seasonData }) {
           {finalTable.map((team, index) => (
             <tr key={team.id}>
               <td>{index + 1}</td>
-              <td>{team.name}</td>
+              <td>
+                <ManagerNameLink manager={team.name} />
+              </td>
               <td>{team.W}</td>
               <td>{team.D}</td>
               <td>{team.L}</td>
@@ -111,12 +114,12 @@ export function LeagueTable({ seasonData }) {
               <td>{team.PTS}</td>
               <td>
                 {parseFloat(
-                  Number(team.PF / (team.W + team.D + team.L)).toFixed(2)
+                  Number(team.PF / (team.W + team.D + team.L)).toFixed(2),
                 )}
               </td>
               <td>
                 {parseFloat(
-                  Number(team.PTS / (team.W + team.D + team.L)).toFixed(2)
+                  Number(team.PTS / (team.W + team.D + team.L)).toFixed(2),
                 )}
               </td>
             </tr>
