@@ -121,7 +121,7 @@ Good luck in the second leg!
 On the bubble (in no order): Alex, Dylan, Morgs, ZachA
 Fell off: MatthewR
 
-10 - Dylan (-) - League A - Last 5: Last 5: 48 (L), 40 (L), 52 (L), 41 (W), 32 (W) - Some Patrick Mahomes reverting to the mean going on here as Dylan won with 32 points this week after losing with 48, 40, and 52 as he hangs onto this list by a thread. This week Van Hecke and Richards were the only players above 3 points, which is rough when the players who should be scoring points regularly are Gabriel who is in a poor run of defensive form from Arsenal and Salah who is in a poor season of form.
+10 - Dylan (-) - League A - Last 5: 48 (L), 40 (L), 52 (L), 41 (W), 32 (W) - Some Patrick Mahomes reverting to the mean going on here as Dylan won with 32 points this week after losing with 48, 40, and 52 as he hangs onto this list by a thread. This week Van Hecke and Richards were the only players above 3 points, which is rough when the players who should be scoring points regularly are Gabriel who is in a poor run of defensive form from Arsenal and Salah who is in a poor season of form.
 
 9 - Matt (NEW) - League A - Last 5: 65 (W), 41 (W), 37 (L), 46 (L), 50 (L) - Objectively some pretty good scores across the past 5 but my god has Matt been unlucky in his matchups, losing 3 in a row with 96 combined points between the last two weeks. Still, he's got a solid team especially with O'Reilly turning into Man City's main goalscorer. And somehow the Villa + City double ups on defense are working out. Plus, Lewis Hall is back, Bowen is defending again, and sometimes his midfielders get more than 4 points.
 
