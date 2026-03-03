@@ -43,6 +43,8 @@ Game Changers!
 - John: Bruno Fernandes - 13 pts - Not _quite_ to Semenyo's level but the main man at United picked up his own _13th_ assist this season. Which is also a ridiculous amount, considering how rough the start of the season was for that team.
 - Cara: Hugo Ekitike - 15 pts - It seems that instead of getting goal contributions in each of the 3 weeks leading up to this week, he got them all this week. Good guy Hugo looking out for Cara.
 - Andrew: Morgan Gibbs-White - 9 pts - No Haaland and no problem for Andrew as the Nottingham Forest midfielder picked up his 7th goal of the season and somehow 2 bonus points as his team went on to lose to Brighton 2-1.
+- Emma: Alexis Mac Allister - 9 pts - The year of the scoring #8s continues as the Liverpool version picked up his second goal in just as many games in a game where honestly who didn't score. (the answer is Mo Salah)
+- Morgs: Alex Iwobi - 10 pts - WHAT A HIT SON. This man showing true Arsenal passion to put spurs to the sword. But we mustn’t forget Wilson who played a key role in setting up his goal
 
 Congrats to John for winning February Manager of the Month! He also went undefeated with 12/12 points earned! This is his second manager of the month trophy!
 
