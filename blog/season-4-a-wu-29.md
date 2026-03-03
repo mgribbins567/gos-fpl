@@ -203,7 +203,7 @@ Group D:
 
 And here's the matchups for the entire group stage!
 
-<p class="center-bold">Knockout Stage</p>
+<p class="center-bold">Group Stage</p>
 <img src="/images/season-4/season-4-a-wu/29/champions-cup-group-stage.png" width="1200vh" height="auto">
 <br/>
 
