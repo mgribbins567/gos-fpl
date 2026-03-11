@@ -11,3 +11,10 @@ export const BOXING_DAY_BASH_CONFIG = {
   knockoutStageStartGw: 17,
   knockoutStageEndGw: 19,
 };
+
+export const CHAMPIONS_CUP_CONFIG = {
+  groupStageStartGw: 29,
+  groupStageEndGw: 33,
+  knockoutStageStartGw: 34,
+  knockoutStageEndGw: 38,
+};

@@ -8,6 +8,7 @@ import { Matchups } from "../lib/matchups";
 import kickoffCupMatches from "../data/tournament_1_25_26.json";
 import boxingDayBashAMatches from "../data/tournament_2_a_25_26.json";
 import boxingDayBashBMatches from "../data/tournament_2_b_25_26.json";
+import championsCupMatches from "../data/tournament_3_25_26.json";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
@@ -17,7 +18,11 @@ import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
 import { LiveFixtures } from "../components/Live/LiveFixtures";
 import LiveDataContext from "../contexts/LiveDataContext";
-import { THE_LEAGUE_CONFIG, BOXING_DAY_BASH_CONFIG } from "../data/cupConfigs";
+import {
+  THE_LEAGUE_CONFIG,
+  BOXING_DAY_BASH_CONFIG,
+  CHAMPIONS_CUP_CONFIG,
+} from "../data/cupConfigs";
 
 /**
  * Get all league tables
@@ -106,6 +111,51 @@ function getAllTables(
     playerScoreMap,
     managerPlayerMap,
   );
+
+  // const ChampionsCupGroupAData = useLiveLeagueData(
+  //   gameweek,
+  //   {
+  //     league_entries: allBMatchups.league_entries,
+  //     matches: Object.filter(championsCupMatches.matches, (val) => {
+  //       return val.group === "a";
+  //     }),
+  //   },
+  //   playerScoreMap,
+  //   managerPlayerMap,
+  // );
+  // const ChampionsCupGroupBData = useLiveLeagueData(
+  //   gameweek,
+  //   {
+  //     league_entries: allBMatchups.league_entries,
+  //     matches: Object.filter(championsCupMatches.matches, (val) => {
+  //       return val.group === "b";
+  //     }),
+  //   },
+  //   playerScoreMap,
+  //   managerPlayerMap,
+  // );
+  // const ChampionsCupGroupCData = useLiveLeagueData(
+  //   gameweek,
+  //   {
+  //     league_entries: allBMatchups.league_entries,
+  //     matches: Object.filter(championsCupMatches.matches, (val) => {
+  //       return val.group === "c";
+  //     }),
+  //   },
+  //   playerScoreMap,
+  //   managerPlayerMap,
+  // );
+  // const ChampionsCupGroupDData = useLiveLeagueData(
+  //   gameweek,
+  //   {
+  //     league_entries: allBMatchups.league_entries,
+  //     matches: Object.filter(championsCupMatches.matches, (val) => {
+  //       return val.group === "d";
+  //     }),
+  //   },
+  //   playerScoreMap,
+  //   managerPlayerMap,
+  // );
 
   return [
     tableAData,
@@ -236,6 +286,9 @@ export default function Live({
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLeagueABBCupOpen, setIsLeagueABBCupOpen] = useState(false);
+  const [isLeagueBBBCupOpen, setIsLeagueBBBCupOpen] = useState(false);
+  const [isChampionsCupOpen, setIsChampionsCupOpen] = useState(true);
 
   useEffect(() => {
     const savedLeague = localStorage.getItem("activeLeague");
@@ -335,23 +388,38 @@ export default function Live({
             <br />
             <hr style={{ width: "100%" }} />
             <br />
-            {/* TODO: Put this in a drop down */}
-            <h3>Boxing Day Bash</h3>
-            <Matchups
-              gameweek={gameweek}
-              isFinished={isFinished}
-              allMatchups={boxingDayBashAMatches}
-              tableData={
-                isFinished ? tableAData.liveTable : tableAData.startOfWeekTable
-              }
-              cupData={BOXING_DAY_BASH_CONFIG}
-            />
-            <h3>Group A</h3>
-            <LiveLeagueTable tableData={LeagueABBCupTableAData.liveTable} />
-            <br />
-            <h3>Group B</h3>
-            <LiveLeagueTable tableData={LeagueABBCupTableBData.liveTable} />
-            <br />
+            <div className={styles.tabContainer}>
+              <button
+                onClick={() => setIsLeagueABBCupOpen(!isLeagueABBCupOpen)}
+                className={clsx(styles.tabButton, {
+                  [styles.active]: isLeagueABBCupOpen,
+                })}
+              >
+                Boxing Day Bash
+                <span>{isLeagueABBCupOpen ? " ▲" : " ▼"}</span>
+              </button>
+            </div>
+            {isLeagueABBCupOpen && (
+              <div className={styles.cupInfoContainer}>
+                <Matchups
+                  gameweek={gameweek}
+                  isFinished={isFinished}
+                  allMatchups={boxingDayBashAMatches}
+                  tableData={
+                    isFinished
+                      ? tableAData.liveTable
+                      : tableAData.startOfWeekTable
+                  }
+                  cupData={BOXING_DAY_BASH_CONFIG}
+                />
+                <h3>Group A</h3>
+                <LiveLeagueTable tableData={LeagueABBCupTableAData.liveTable} />
+                <br />
+                <h3>Group B</h3>
+                <LiveLeagueTable tableData={LeagueABBCupTableBData.liveTable} />
+                <br />
+              </div>
+            )}
           </>
         )}
         {activeLeague === "leagueB" && (
@@ -371,23 +439,38 @@ export default function Live({
             <br />
             <hr style={{ width: "100%" }} />
             <br />
-            {/* TODO: Put this in a drop down */}
-            <h3>Boxing Day Bash</h3>
-            <Matchups
-              gameweek={gameweek}
-              isFinished={isFinished}
-              allMatchups={boxingDayBashBMatches}
-              tableData={
-                isFinished ? tableBData.liveTable : tableBData.startOfWeekTable
-              }
-              cupData={BOXING_DAY_BASH_CONFIG}
-            />
-            <h3>Group A</h3>
-            <LiveLeagueTable tableData={LeagueBBBCupTableAData.liveTable} />
-            <br />
-            <h3>Group B</h3>
-            <LiveLeagueTable tableData={LeagueBBBCupTableBData.liveTable} />
-            <br />
+            <div className={styles.tabContainer}>
+              <button
+                onClick={() => setIsLeagueBBBCupOpen(!isLeagueBBBCupOpen)}
+                className={clsx(styles.tabButton, {
+                  [styles.active]: isLeagueBBBCupOpen,
+                })}
+              >
+                Boxing Day Bash
+                <span>{isLeagueBBBCupOpen ? " ▲" : " ▼"}</span>
+              </button>
+            </div>
+            {isLeagueBBBCupOpen && (
+              <div className={styles.cupInfoContainer}>
+                <Matchups
+                  gameweek={gameweek}
+                  isFinished={isFinished}
+                  allMatchups={boxingDayBashBMatches}
+                  tableData={
+                    isFinished
+                      ? tableBData.liveTable
+                      : tableBData.startOfWeekTable
+                  }
+                  cupData={BOXING_DAY_BASH_CONFIG}
+                />
+                <h3>Group A</h3>
+                <LiveLeagueTable tableData={LeagueBBBCupTableAData.liveTable} />
+                <br />
+                <h3>Group B</h3>
+                <LiveLeagueTable tableData={LeagueBBBCupTableBData.liveTable} />
+                <br />
+              </div>
+            )}
           </>
         )}
         {activeLeague === "cup" && (
@@ -403,6 +486,43 @@ export default function Live({
             <br />
             <GetChampionsLeagueTable range="'Champions League'!B3:L27" />
           </>
+        )}
+        <hr style={{ width: "100%" }} />
+        <br />
+        <div className={styles.tabContainer}>
+          <button
+            onClick={() => setIsChampionsCupOpen(!isChampionsCupOpen)}
+            className={clsx(styles.tabButton, {
+              [styles.active]: isChampionsCupOpen,
+            })}
+          >
+            Champions Cup
+            <span>{isChampionsCupOpen ? " ▲" : " ▼"}</span>
+          </button>
+        </div>
+        {isChampionsCupOpen && (
+          <div className={styles.cupInfoContainer}>
+            <Matchups
+              gameweek={gameweek}
+              isFinished={isFinished}
+              allMatchups={championsCupMatches}
+              tableData={tableData}
+              cupData={CHAMPIONS_CUP_CONFIG}
+            />
+            <p>Group Stage tables coming soon (sorry!)</p>
+            {/* <h3>Group A</h3>
+            <LiveLeagueTable tableData={ChampionsCupGroupAData.liveTable} />
+            <br />
+            <h3>Group B</h3>
+            <LiveLeagueTable tableData={ChampionsCupGroupBData.liveTable} />
+            <br />
+            <h3>Group C</h3>
+            <LiveLeagueTable tableData={ChampionsCupGroupCData.liveTable} />
+            <br />
+            <h3>Group D</h3>
+            <LiveLeagueTable tableData={ChampionsCupGroupDData.liveTable} />
+            <br /> */}
+          </div>
         )}
         <hr style={{ width: "100%" }} />
         <br />

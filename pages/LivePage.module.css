@@ -16,12 +16,21 @@
   color: var(--color-text-secondary);
 
   border-bottom: 3px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .tabButton.active {
   color: var(--color-primary);
   border-bottom-color: var(--color-primary);
+}
+
+.cupInfoContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 769px) {
