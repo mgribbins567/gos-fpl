@@ -1,0 +1,355 @@
+"use client";
+
+import Head from "next/head";
+import styles from "./LivePage.module.css";
+import homeStyles from "../styles/Home.module.css";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next/link";
+import { Matchups } from "../lib/matchups";
+import kickoffCupMatches from "../data/tournament_1_25_26.json";
+import boxingDayBashAMatches from "../data/tournament_2_a_25_26.json";
+import boxingDayBashBMatches from "../data/tournament_2_b_25_26.json";
+import championsCupMatches from "../data/tournament_3_25_26.json";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
+import { LiveLeagueTable } from "../components/Live/LiveLeagueTable";
+import { GetChampionsLeagueTable } from "../lib/history_util";
+import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
+import { useRouter } from "next/router";
+import { LiveFixtures } from "../components/Live/LiveFixtures";
+import LiveDataContext from "../contexts/LiveDataContext";
+import {
+  THE_LEAGUE_CONFIG,
+  BOXING_DAY_BASH_CONFIG,
+  CHAMPIONS_CUP_CONFIG,
+} from "../data/cupConfigs";
+import { getBootstrapData, getLiveData } from "../api/fantasyService";
+import { getLeagueDetails, getManagerPicks } from "../api/draftService";
+import managersJson from "../data/managers.json";
+import { MatchupCard } from "../components/Matchups/MatchupCard";
+import { checkElementId } from "../lib/player_util";
+
+function buildHeadToHeadMatchups(matches, leagueData, gameweek) {
+  const fixtures = matches.filter((match) => match.event === gameweek);
+
+  return fixtures.map((fixture) => {
+    const team1 = leagueData.find(
+      (manager) => manager.fetch_id === fixture.league_entry_1.toString(),
+    );
+    const team2 = leagueData.find(
+      (manager) =>
+        manager.fetch_id.toString() === fixture.league_entry_2.toString(),
+    );
+
+    return {
+      matchId: fixture.id,
+      team1,
+      team2,
+    };
+  });
+}
+
+function liveTeams(picks, staticPlayers, liveData) {
+  if (!picks) {
+    return;
+  }
+  return picks.map((pick) => {
+    const playerId = checkElementId(pick.element);
+
+    const staticPlayerInfo = staticPlayers[playerId];
+    const livePlayerInfo = liveData[playerId] || {
+      total_points: 0,
+      minutes: 0,
+    };
+
+    return {
+      id: playerId,
+      name: staticPlayerInfo.web_name,
+      teamId: staticPlayerInfo.team,
+      position: staticPlayerInfo.element_type,
+      isStarter: pick.position <= 11,
+      benchOrder: pick.position > 11 ? pick.position - 11 : null,
+      points: livePlayerInfo.total_points,
+      liveDetails: livePlayerInfo,
+    };
+  });
+}
+
+function processLeagueMatchups(managerPicks, staticPlayers, liveData) {
+  return managerPicks.map((manager) => {
+    const processedTeam = liveTeams(manager.picks, staticPlayers, liveData);
+
+    const liveScore = processedTeam
+      ? processedTeam
+          .filter((player) => player.isStarter)
+          .reduce((sum, player) => sum + player.points, 0)
+      : 0;
+
+    return {
+      ...manager,
+      teamDetails: processedTeam,
+      totalPoints: liveScore,
+    };
+  });
+}
+
+async function getData(players, managerPicks, liveData) {
+  const normalizeData = (array, key = "id") => {
+    return array.reduce((acc, item) => {
+      acc[item[key]] = item;
+      return acc;
+    }, {});
+  };
+
+  const normalizeLiveData = (liveElementsArray) => {
+    return liveElementsArray.reduce((acc, playerLive) => {
+      acc[playerLive.id] = playerLive.stats;
+      return acc;
+    }, {});
+  };
+
+  const playerData = normalizeLiveData(liveData.elements);
+
+  const processedData = processLeagueMatchups(
+    managerPicks,
+    normalizeData(players),
+    playerData,
+  );
+  return processedData;
+}
+
+async function getInitialData(players, gameweek) {
+  const liveData = await getLiveData(gameweek);
+  const managerPicks = await getManagerPicks(gameweek);
+  return getData(players, managerPicks, liveData);
+}
+
+async function getUpdatedData(players, gameweek) {
+  const liveDataRes = await fetch(`/api/fpl/live/${gameweek}`);
+  const liveData = await liveDataRes.json();
+
+  const managerPicksRes = await fetch(`/api/fpl/entries/${gameweek}`);
+  if (!managerPicksRes.ok) {
+    throw new Error(`Failed to fetch manager picks for gameweek ${gameweek}`);
+  }
+  const managerPicks = await managerPicksRes.json();
+  return getData(players, managerPicks, liveData);
+}
+
+/**
+ * Loads all static server side data for the Live Page
+ *
+ * @returns props to Live page
+ */
+export async function getServerSideProps() {
+  console.time("Full Live load time");
+
+  const bootstrapStatic = await getBootstrapData();
+
+  const currentGameweekObject = bootstrapStatic.events.find(
+    (event) => event.is_current === true,
+  );
+
+  const isFinished = currentGameweekObject.finished;
+
+  const gameweek = currentGameweekObject
+    ? currentGameweekObject.id
+    : bootstrapStatic.events.find((event) => event.is_next === true)?.id || 1;
+
+  console.time("New score map");
+  const initialLeagueData = await getInitialData(
+    bootstrapStatic.elements,
+    gameweek,
+  );
+  console.timeEnd("New score map");
+
+  console.time("Get league details");
+  const leagueADetails = await getLeagueDetails(157);
+  const leagueBDetails = await getLeagueDetails(461);
+  console.timeEnd("Get league details");
+
+  console.timeEnd("Full Live load time");
+
+  return {
+    props: {
+      initialGw: gameweek,
+      initialLeagueData,
+      leagueADetails,
+      leagueBDetails,
+      bootstrapStatic,
+    },
+  };
+}
+
+function HeadToHeadMatchups({ matchups }) {
+  return matchups.map((match) => {
+    var team1Details = [];
+    var team2Details = [];
+    if (match.team1.teamDetails && match.team2.teamDetails) {
+      team1Details = match.team1.teamDetails.map((p) => ({
+        id: p.id,
+        name: p.name,
+        subText: p.liveDetails.minutes + "'",
+        value: p.points,
+      }));
+      team2Details = match.team2.teamDetails.map((p) => ({
+        id: p.id,
+        name: p.name,
+        subText: p.liveDetails.minutes + "'",
+        value: p.points,
+      }));
+    }
+    return (
+      <MatchupCard
+        team1={match.team1.name}
+        team2={match.team2.name}
+        score1={match.team1.totalPoints}
+        score2={match.team2.totalPoints}
+        team1Details={team1Details}
+        team2Details={team2Details}
+      />
+    );
+  });
+}
+
+/**
+ * Live page
+ * @param gameweek Current gameweek
+ * @param isFinished If the current gameweek is finished or not
+ * @param allAMatchups All League A matchups
+ * @param allBMatchups All League B matchups
+ */
+export default function Live({
+  initialGw,
+  initialLeagueData,
+  leagueADetails,
+  leagueBDetails,
+  bootstrapStatic,
+}) {
+  const router = useRouter();
+  const [activeLeague, setActiveLeague] = useState("leagueA");
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeGameweek, setActiveGameweek] = useState(initialGw);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const [gameweekCache, setGameweekCache] = useState({
+    [initialGw]: initialLeagueData,
+  });
+
+  useEffect(() => {
+    if (gameweekCache[activeGameweek]) {
+      return;
+    }
+
+    const fetchGameweekData = async () => {
+      setIsFetching(true);
+      try {
+        const data = await getUpdatedData(
+          bootstrapStatic.elements,
+          activeGameweek,
+        );
+
+        setGameweekCache((prevCache) => ({
+          ...prevCache,
+          [activeGameweek]: data,
+        }));
+      } catch (error) {
+        console.error("Error fetching gameweek data:", error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+
+    fetchGameweekData();
+  }, [activeGameweek, gameweekCache, bootstrapStatic]);
+
+  const displayData = gameweekCache[activeGameweek];
+
+  const matches =
+    activeLeague === "leagueA"
+      ? leagueADetails.matches
+      : leagueBDetails.matches;
+  const headToHeadMatchups = displayData
+    ? buildHeadToHeadMatchups(matches, displayData, activeGameweek)
+    : [];
+
+  useEffect(() => {
+    const savedLeague = localStorage.getItem("activeLeague");
+    if (savedLeague) {
+      setActiveLeague(savedLeague);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("activeLeague", activeLeague);
+  }, [activeLeague]);
+
+  const handleRefresh = async () => {
+    setIsLoading(true);
+    await router.replace(router.asPath);
+    setIsLoading(false);
+  };
+
+  return (
+    <div className={homeStyles.home}>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width  initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>Season 4 - Game of Stones</title>
+      </Head>
+      <h2>Game of Stones Season 4</h2>
+      <hr style={{ width: "100%" }} />
+      <div className={styles.tabContainer}>
+        <button
+          className={clsx(styles.tabButton, {
+            [styles.active]: activeLeague === "leagueA",
+          })}
+          onClick={() => setActiveLeague("leagueA")}
+        >
+          League A
+        </button>
+        <button
+          className={clsx(styles.tabButton, {
+            [styles.active]: activeLeague === "leagueB",
+          })}
+          onClick={() => setActiveLeague("leagueB")}
+        >
+          League B
+        </button>
+      </div>
+      <button
+        onClick={handleRefresh}
+        disabled={isLoading}
+        className={styles.refreshButton}
+      >
+        {isLoading ? "..." : " ⟳"}
+      </button>
+      <div className={styles.gameweekHeader}>
+        <button
+          onClick={() => setActiveGameweek((gw) => gw - 1)}
+          disabled={activeGameweek === 1}
+          className={utilStyles.gameweekButton}
+        >
+          &larr; Prev
+        </button>
+        <h3>Gameweek {activeGameweek}</h3>
+        <button
+          onClick={() => setActiveGameweek((gw) => gw + 1)}
+          disabled={activeGameweek === 38}
+          className={utilStyles.gameweekButton}
+        >
+          Next &rarr;
+        </button>
+      </div>
+      {activeLeague === "leagueA" && (
+        <HeadToHeadMatchups matchups={headToHeadMatchups} />
+      )}
+      {activeLeague === "leagueB" && (
+        <HeadToHeadMatchups matchups={headToHeadMatchups} />
+      )}
+    </div>
+  );
+}

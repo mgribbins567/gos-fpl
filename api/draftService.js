@@ -1,4 +1,5 @@
 import { checkElementId } from "../lib/player_util";
+import managersJson from "../data/managers.json";
 
 // https://draft.premierleague.com/api/entry/${managerId}/event/${gameweek}
 // "picks":
@@ -9,10 +10,10 @@ import { checkElementId } from "../lib/player_util";
 export async function calculateDraftManagerScore(
   gameweek,
   managerId,
-  playerScoreMap
+  playerScoreMap,
 ) {
   const teamRes = await fetch(
-    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweek}`
+    `https://draft.premierleague.com/api/entry/${managerId}/event/${gameweek}`,
   );
   const teamData = await teamRes.json();
 
@@ -54,7 +55,30 @@ export async function calculateDraftManagerScore(
 
 export async function getLeagueDetails(league) {
   const leagueDetailsRes = await fetch(
-    `https://draft.premierleague.com/api/league/${league}/details`
+    `https://draft.premierleague.com/api/league/${league}/details`,
   );
   return await leagueDetailsRes.json();
+}
+
+export async function getManagerPicks(gameweek) {
+  const managers = Object.entries(managersJson).map(([key, managerData]) => {
+    return {
+      ...managerData,
+      fetch_id: key,
+    };
+  });
+
+  const fetchPromises = managers.map(async (manager) => {
+    const response = await fetch(
+      `https://draft.premierleague.com/api/entry/${manager.entry_id}/event/${gameweek}`,
+    );
+    const data = await response.json();
+
+    return {
+      ...manager,
+      picks: data.picks,
+    };
+  });
+
+  return await Promise.all(fetchPromises);
 }

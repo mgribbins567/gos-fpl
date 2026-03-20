@@ -30,14 +30,19 @@
 
 export async function getBootstrapData() {
   const boostrapRes = await fetch(
-    "https://fantasy.premierleague.com/api/bootstrap-static/"
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
   );
   return await boostrapRes.json();
 }
 
 export async function getLiveData(gameweek) {
-  const liveRes = await fetch(
-    `https://fantasy.premierleague.com/api/event/${gameweek}/live/`
-  );
-  return await liveRes.json();
+  try {
+    const liveRes = await fetch(
+      `https://fantasy.premierleague.com/api/event/${gameweek}/live/`,
+    );
+    return await liveRes.json();
+  } catch (error) {
+    console.error("Error fetching live gameweek data:", error);
+    throw error;
+  }
 }

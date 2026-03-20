@@ -1,0 +1,99 @@
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 1px,
+    2px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  color: #ffffff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.teamName {
+  flex: 1;
+  font-size: 1.125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 8ch;
+}
+
+.teamName.right {
+  text-align: right;
+}
+
+.scoreboard {
+  padding: 0.25rem 1rem;
+  background-color: #374151;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin: 0 1rem;
+}
+
+.expandedArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #1f2937;
+}
+
+.column {
+  padding: 1rem;
+}
+
+.column.left {
+  border-right: 1px solid #e5e7eb;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.primaryText {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.subText {
+  font-size: 0.75rem;
+  color: #666;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.valueText {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.benchSeparator {
+  height: 1px;
+  width: 100%;
+  border-bottom: 1px solid #e5e7eb;
+  margin: 0.5rem 0;
+}
