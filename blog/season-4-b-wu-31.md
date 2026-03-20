@@ -1,6 +1,6 @@
 ---
 title: "Season 4 Weekly Update 31 - League B"
-date: "2026-03-18"
+date: "2026-03-19"
 summary: ""
 tags: ["season 4", "weekly update", "b league"]
 ---
