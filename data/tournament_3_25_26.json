@@ -66,7 +66,7 @@
     {
       "event": 29,
       "league_entry_1": 281,
-      "league_entry_2": 163017,
+      "league_entry_2": 163117,
       "group": "d",
       "finished": true
     },
@@ -167,6 +167,78 @@
       "league_entry_2": 208171,
       "group": "d",
       "finished": true
+    },
+    {
+      "event": 31,
+      "league_entry_1": 99796,
+      "league_entry_2": 144919,
+      "group": "a"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 614,
+      "league_entry_2": 2485,
+      "group": "a"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 212721,
+      "league_entry_2": 205793,
+      "group": "a"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 2554,
+      "league_entry_2": 243996,
+      "group": "b"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 129240,
+      "league_entry_2": 95316,
+      "group": "b"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 18812,
+      "league_entry_2": 212631,
+      "group": "b"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 5457,
+      "league_entry_2": 1054,
+      "group": "c"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 5248,
+      "league_entry_2": 2795,
+      "group": "c"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 102746,
+      "league_entry_2": 206445,
+      "group": "c"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 281,
+      "league_entry_2": 72942,
+      "group": "d"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 136117,
+      "league_entry_2": 56834,
+      "group": "d"
+    },
+    {
+      "event": 31,
+      "league_entry_1": 208171,
+      "league_entry_2": 163017,
+      "group": "d"
     }
   ]
 }
