@@ -42,6 +42,9 @@ export default function Home({ allPostsData, featuredPost }) {
           Quick link to the current season!
         </small>
       </a>
+      <a href="/live-beta" className={homeStyles.link}>
+        LiveBeta
+      </a>
       <br />
       <h2>Featured Post</h2>
       {featuredPost.map(({ id, date, title, summary, tags }) => (
