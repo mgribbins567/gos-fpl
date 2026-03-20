@@ -17,6 +17,7 @@
 - [ ] Unit tests
 - [ ] Matchup predictor
 - [ ] Add search and filtering to the Blog page
+- [ ] Add form to league table (or a toggle)
 
 ## Bug fixes
 
