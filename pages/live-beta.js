@@ -29,6 +29,7 @@ import { getLeagueDetails, getManagerPicks } from "../api/draftService";
 import managersJson from "../data/managers.json";
 import { MatchupCard } from "../components/Matchups/MatchupCard";
 import { checkElementId } from "../lib/player_util";
+import { LeagueTable } from "../components/League/LeagueTable";
 
 function buildHeadToHeadMatchups(matches, leagueData, gameweek) {
   const fixtures = matches.filter((match) => match.event === gameweek);
@@ -119,9 +120,9 @@ async function getData(players, managerPicks, liveData) {
   return processedData;
 }
 
-async function getInitialData(players, gameweek) {
+async function getInitialData(players, gameweek, managers) {
   const liveData = await getLiveData(gameweek);
-  const managerPicks = await getManagerPicks(gameweek);
+  const managerPicks = await getManagerPicks(managers, gameweek);
   return getData(players, managerPicks, liveData);
 }
 
@@ -158,9 +159,16 @@ export async function getServerSideProps() {
     : bootstrapStatic.events.find((event) => event.is_next === true)?.id || 1;
 
   console.time("New score map");
+  const managers = Object.entries(managersJson).map(([key, managerData]) => {
+    return {
+      ...managerData,
+      fetch_id: key,
+    };
+  });
   const initialLeagueData = await getInitialData(
     bootstrapStatic.elements,
     gameweek,
+    managers,
   );
   console.timeEnd("New score map");
 
@@ -178,6 +186,7 @@ export async function getServerSideProps() {
       leagueADetails,
       leagueBDetails,
       bootstrapStatic,
+      managers,
     },
   };
 }
@@ -191,12 +200,14 @@ function HeadToHeadMatchups({ matchups }) {
         id: p.id,
         name: p.name,
         subText: p.liveDetails.minutes + "'",
+        additionalDetails: p.liveDetails,
         value: p.points,
       }));
       team2Details = match.team2.teamDetails.map((p) => ({
         id: p.id,
         name: p.name,
         subText: p.liveDetails.minutes + "'",
+        additionalDetails: p.liveDetails,
         value: p.points,
       }));
     }
@@ -226,6 +237,7 @@ export default function Live({
   leagueADetails,
   leagueBDetails,
   bootstrapStatic,
+  managers,
 }) {
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
@@ -345,7 +357,14 @@ export default function Live({
         </button>
       </div>
       {activeLeague === "leagueA" && (
-        <HeadToHeadMatchups matchups={headToHeadMatchups} />
+        <div>
+          <HeadToHeadMatchups matchups={headToHeadMatchups} />
+          <LeagueTable
+            standings={leagueADetails.standings}
+            managers={managers}
+            seasonFixtures={leagueADetails.matches}
+          />
+        </div>
       )}
       {activeLeague === "leagueB" && (
         <HeadToHeadMatchups matchups={headToHeadMatchups} />

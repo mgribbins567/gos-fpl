@@ -60,14 +60,7 @@ export async function getLeagueDetails(league) {
   return await leagueDetailsRes.json();
 }
 
-export async function getManagerPicks(gameweek) {
-  const managers = Object.entries(managersJson).map(([key, managerData]) => {
-    return {
-      ...managerData,
-      fetch_id: key,
-    };
-  });
-
+export async function getManagerPicks(managers, gameweek) {
   const fetchPromises = managers.map(async (manager) => {
     const response = await fetch(
       `https://draft.premierleague.com/api/entry/${manager.entry_id}/event/${gameweek}`,

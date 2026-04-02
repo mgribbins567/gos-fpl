@@ -1,12 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./MatchupCard.module.css";
 
+function Player({ details }) {
+  console.log("details: ", details);
+
+  return <div>{details.goals_scored}</div>;
+}
+
 function ExpandedMatchupCard({ team1Details, team2Details }) {
+  console.log(team1Details);
   return (
     <div className={styles.expandedArea}>
       <div className={`${styles.column} ${styles.left}`}>
         {team1Details.map((item, index) => (
           <div>
+            <Player details={item.additionalDetails} />
             <div key={item.id} className={styles.detailRow}>
               <div>
                 <span className={styles.primaryText}>{item.name}</span>
