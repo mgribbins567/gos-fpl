@@ -1,3 +1,4 @@
+import { ColorSchemeScript } from "@mantine/core";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -14,6 +15,7 @@ export default function Document() {
         <meta name="theme-color" content="#161B22" />
 
         <link rel="manifest" href="/manifest.json" />
+        <ColorSchemeScript defaultColorScheme="dark" />
       </Head>
       <body>
         <Main />

@@ -7,6 +7,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@mantine/core": "^9.0.1",
+    "@mantine/hooks": "^9.0.1",
     "@nextui-org/react": "^2.4.2",
     "@nextui-org/table": "^2.0.36",
     "@serwist/next": "^9.4.2",
