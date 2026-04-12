@@ -4,26 +4,9 @@ import Head from "next/head";
 import styles from "./LivePage.module.css";
 import homeStyles from "../styles/Home.module.css";
 import utilStyles from "../styles/utils.module.css";
-import Link from "next/link";
-import { Matchups } from "../lib/matchups";
-import kickoffCupMatches from "../data/tournament_1_25_26.json";
-import boxingDayBashAMatches from "../data/tournament_2_a_25_26.json";
-import boxingDayBashBMatches from "../data/tournament_2_b_25_26.json";
-import championsCupMatches from "../data/tournament_3_25_26.json";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import { getManagerPlayerMap, getPlayerScoreMap } from "../lib/player_util";
-import { LiveLeagueTable } from "../components/Live/LiveLeagueTable";
-import { GetChampionsLeagueTable } from "../lib/history_util";
-import { useLiveLeagueData } from "../hooks/useLiveLeagueData";
 import { useRouter } from "next/router";
-import { LiveFixtures } from "../components/Live/LiveFixtures";
-import LiveDataContext from "../contexts/LiveDataContext";
-import {
-  THE_LEAGUE_CONFIG,
-  BOXING_DAY_BASH_CONFIG,
-  CHAMPIONS_CUP_CONFIG,
-} from "../data/cupConfigs";
 import { getBootstrapData, getLiveData } from "../api/fantasyService";
 import { getLeagueDetails, getManagerPicks } from "../api/draftService";
 import managersJson from "../data/managers.json";
@@ -68,6 +51,7 @@ function liveTeams(picks, staticPlayers, liveData) {
       id: playerId,
       name: staticPlayerInfo.web_name,
       teamId: staticPlayerInfo.team,
+      teamCode: staticPlayerInfo.team_code,
       position: staticPlayerInfo.element_type,
       isStarter: pick.position <= 11,
       benchOrder: pick.position > 11 ? pick.position - 11 : null,
@@ -199,6 +183,8 @@ function HeadToHeadMatchups({ matchups }) {
       team1Details = match.team1.teamDetails.map((p) => ({
         id: p.id,
         name: p.name,
+        team: p.teamCode,
+        position: p.position,
         subText: p.liveDetails.minutes + "'",
         additionalDetails: p.liveDetails,
         value: p.points,
@@ -206,6 +192,8 @@ function HeadToHeadMatchups({ matchups }) {
       team2Details = match.team2.teamDetails.map((p) => ({
         id: p.id,
         name: p.name,
+        team: p.teamCode,
+        position: p.position,
         subText: p.liveDetails.minutes + "'",
         additionalDetails: p.liveDetails,
         value: p.points,

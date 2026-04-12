@@ -1,36 +1,155 @@
 import React, { useState } from "react";
 import styles from "./MatchupCard.module.css";
-import { Card, Flex, Text, Badge, Divider, Box, Collapse } from "@mantine/core";
+import {
+  Card,
+  Flex,
+  Text,
+  Badge,
+  Divider,
+  Box,
+  Collapse,
+  Popover,
+  Button,
+  Table,
+  Stack,
+  Image,
+} from "@mantine/core";
 
-function Player({ details }) {
-  console.log("details: ", details);
+const includedStats = [
+  "assists",
+  "bonus",
+  "clean_sheets",
+  "goals_conceded",
+  "goals_scored",
+  "minutes",
+  "own_goals",
+  "penalties_missed",
+  "penalties_saved",
+  "red_cards",
+  "saves",
+  "total_points",
+  "yellow_cards",
+];
 
-  return <div>{details.goals_scored}</div>;
+function Player({ name, minutes, position, team, score, details }) {
+  // console.log(details);
+  var color;
+  switch (position) {
+    case 1:
+      color = "red";
+      break;
+    case 2:
+      color = "green";
+      break;
+    case 3:
+      color = "yellow";
+      break;
+    case 4:
+      color = "blue";
+      break;
+    default:
+      color = "gray";
+  }
+  return (
+    <Popover width={200} position="top" shadow="md">
+      <Popover.Target>
+        <Button
+          variant="light"
+          size="compact-xs"
+          color={color}
+          leftSection={
+            <Image
+              src={`https://draft.premierleague.com/img/shirts/standard/shirt_${team}${position === 1 ? "_1" : ""}-66.png`}
+              width={22}
+              height={22}
+              alt="Team Jersey"
+            />
+          }
+          justify="left"
+          fw={500}
+          c="white"
+          style={{ flex: 1, fontSize: "0.875rem" }}
+        >
+          {name}
+        </Button>
+      </Popover.Target>
+      <Popover.Dropdown p="xs" bd="1px solid white">
+        {details && Object.keys(details).length > 0 ? (
+          <Stack gap="xs" spacing="xs">
+            <Text size="sm" fw={700}>
+              {name}
+            </Text>
+            <Divider color="white" />
+            <Table withRowBorders={false} size="sm">
+              <Table.Tbody>
+                {Object.entries(details).map(([key, value]) => {
+                  if (includedStats.includes(key) && value !== 0) {
+                    return (
+                      <Table.Tr key={key}>
+                        <Table.Td>
+                          {key
+                            .replace(/_/g, " ")
+                            .split(" ")
+                            .map(
+                              (s) => s.charAt(0).toUpperCase() + s.substring(1),
+                            )
+                            .join(" ")}
+                        </Table.Td>
+                        <Table.Td ta="right">{value}</Table.Td>
+                      </Table.Tr>
+                    );
+                  }
+                })}
+              </Table.Tbody>
+            </Table>
+          </Stack>
+        ) : (
+          <Text size="xs">No details available</Text>
+        )}
+      </Popover.Dropdown>
+    </Popover>
+  );
 }
 
 function ExpandedMatchupCard2({ team1Details, team2Details }) {
   return (
     <div>
-      {team1Details.map((item, index) => {
-        const item2 = team2Details[index];
+      {team1Details.map((team1, index) => {
+        const team2 = team2Details[index];
         return (
           <React.Fragment key={index}>
             <Flex gap="md" mb={4}>
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
-                <Text size="sm" c="white" truncate style={{ flex: 1 }}>
-                  {item.name}
+                <Player
+                  name={team1.name}
+                  position={team1.position}
+                  team={team1.team}
+                  minutes={team1.subText}
+                  score={team1.value}
+                  details={team1.additionalDetails}
+                />
+                <Text size="xs" fw={400} c="dimmed" w={25} ta="center">
+                  {team1.subText}
                 </Text>
-                <Text size="sm" fw={600} c="blue">
-                  {item.value}
+                <Text size="sm" fw={600} c="blue" w={20} ta="right">
+                  {team1.value}
                 </Text>
               </Flex>
 
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
-                <Text size="sm" c="white" truncate style={{ flex: 1 }}>
-                  {item2.name}
+                <Player
+                  name={team2.name}
+                  position={team2.position}
+                  team={team2.team}
+                  minutes={team2.subText}
+                  score={team2.value}
+                  details={team2.additionalDetails}
+                />
+                <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
+                  {team2.subText}
                 </Text>
-                <Text size="sm" fw={600} c="blue" ta="right">
-                  {item2.value}
+                <Text size="sm" fw={600} c="blue" w={20} ta="right">
+                  {team2.value}
                 </Text>
               </Flex>
             </Flex>
@@ -51,7 +170,6 @@ export function MatchupCard({
   team2Details = [],
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  console.log("card is currently: ", isExpanded);
 
   return (
     <Card
@@ -60,7 +178,7 @@ export function MatchupCard({
       radius="md"
       withBorder
       mb="md"
-      maw={300}
+      maw={400}
       mx="auto"
       style={{ cursor: "pointer" }}
     >
