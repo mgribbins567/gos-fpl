@@ -13,6 +13,8 @@ import {
   Table,
   Stack,
   Image,
+  CloseButton,
+  Group,
 } from "@mantine/core";
 
 const includedStats = [
@@ -47,11 +49,17 @@ function colorForPositionMack(position) {
 }
 
 function Player({ name, minutes, position, team, score, details }) {
-  // console.log(details);
+  const [opened, setOpened] = useState(false);
   const color = colorForPositionMack(position);
 
   return (
-    <Popover width={200} position="top" shadow="md">
+    <Popover
+      width={200}
+      position="top"
+      shadow="md"
+      opened={opened}
+      onDismiss={() => setOpened(false)}
+    >
       <Popover.Target>
         <Button
           variant="gradient"
@@ -70,6 +78,7 @@ function Player({ name, minutes, position, team, score, details }) {
           fw={500}
           c="white"
           style={{ flex: 1, fontSize: "0.875rem" }}
+          onClick={() => setOpened((o) => !o)}
         >
           {name}
         </Button>
@@ -77,9 +86,12 @@ function Player({ name, minutes, position, team, score, details }) {
       <Popover.Dropdown p="xs" bd="1px solid white">
         {details && Object.keys(details).length > 0 ? (
           <Stack gap="xs" spacing="xs">
-            <Text size="sm" fw={700}>
-              {name}
-            </Text>
+            <Group justify="space-between">
+              <Text size="sm" fw={700}>
+                {name}
+              </Text>
+              <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
+            </Group>
             <Divider color="white" />
             <Table withRowBorders={false} size="sm">
               <Table.Tbody>
