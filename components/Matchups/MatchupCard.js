@@ -31,23 +31,6 @@ const includedStats = [
   "yellow_cards",
 ];
 
-function colorForPositionMatthew(position) {
-  switch (position) {
-    case 1:
-      return "rgba(15, 8, 75, 1)";
-    case 2:
-      return "#002F7F";
-    case 3:
-      return "#005FFF";
-    // case 4:
-    //   return "#4C8FFF";
-    case 4:
-      return "rgba(129, 177, 213, 1)";
-    default:
-      return "blue";
-  }
-}
-
 function colorForPositionMack(position) {
   switch (position) {
     case 1:
@@ -63,22 +46,9 @@ function colorForPositionMack(position) {
   }
 }
 
-function Player({
-  name,
-  minutes,
-  position,
-  colorScheme,
-  team,
-  score,
-  details,
-}) {
+function Player({ name, minutes, position, team, score, details }) {
   // console.log(details);
-  var color;
-  if (colorScheme === 1) {
-    color = colorForPositionMatthew(position);
-  } else {
-    color = colorForPositionMack(position);
-  }
+  const color = colorForPositionMack(position);
 
   return (
     <Popover width={200} position="top" shadow="md">
@@ -143,7 +113,6 @@ function Player({
 }
 
 function ExpandedMatchupCard2({ team1Details, team2Details }) {
-  const colorScheme = Math.floor(Math.random() * 2) + 1;
   return (
     <div>
       {team1Details.map((team1, index) => {
@@ -155,7 +124,6 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team1.name}
                   position={team1.position}
-                  colorScheme={colorScheme}
                   team={team1.team}
                   minutes={team1.subText}
                   score={team1.value}
@@ -173,7 +141,6 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team2.name}
                   position={team2.position}
-                  colorScheme={colorScheme}
                   team={team2.team}
                   minutes={team2.subText}
                   score={team2.value}
