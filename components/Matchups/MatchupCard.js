@@ -39,8 +39,10 @@ function colorForPositionMatthew(position) {
       return "#002F7F";
     case 3:
       return "#005FFF";
+    // case 4:
+    //   return "#4C8FFF";
     case 4:
-      return "#4C8FFF";
+      return "rgba(129, 177, 213, 1)";
     default:
       return "blue";
   }
