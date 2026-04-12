@@ -31,30 +31,59 @@ const includedStats = [
   "yellow_cards",
 ];
 
-function Player({ name, minutes, position, team, score, details }) {
-  // console.log(details);
-  var color;
+function colorForPositionMatthew(position) {
   switch (position) {
     case 1:
-      color = "red";
-      break;
+      return "rgba(15, 8, 75, 1)";
     case 2:
-      color = "green";
-      break;
+      return "#002F7F";
     case 3:
-      color = "yellow";
-      break;
+      return "#005FFF";
     case 4:
-      color = "blue";
-      break;
+      return "#4C8FFF";
     default:
-      color = "gray";
+      return "blue";
   }
+}
+
+function colorForPositionMack(position) {
+  switch (position) {
+    case 1:
+      return "rgba(15, 8, 75, 1)";
+    case 2:
+      return "#002F7F";
+    case 3:
+      return "rgba(61, 96, 167, 1)";
+    case 4:
+      return "rgba(129, 177, 213, 1)";
+    default:
+      return "blue";
+  }
+}
+
+function Player({
+  name,
+  minutes,
+  position,
+  colorScheme,
+  team,
+  score,
+  details,
+}) {
+  // console.log(details);
+  var color;
+  if (colorScheme === 1) {
+    color = colorForPositionMatthew(position);
+  } else {
+    color = colorForPositionMack(position);
+  }
+
   return (
     <Popover width={200} position="top" shadow="md">
       <Popover.Target>
         <Button
-          variant="light"
+          variant="gradient"
+          gradient={{ from: color, to: "gray.8", deg: 90 }}
           size="compact-xs"
           color={color}
           leftSection={
@@ -112,6 +141,7 @@ function Player({ name, minutes, position, team, score, details }) {
 }
 
 function ExpandedMatchupCard2({ team1Details, team2Details }) {
+  const colorScheme = Math.floor(Math.random() * 2) + 1;
   return (
     <div>
       {team1Details.map((team1, index) => {
@@ -123,6 +153,7 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team1.name}
                   position={team1.position}
+                  colorScheme={colorScheme}
                   team={team1.team}
                   minutes={team1.subText}
                   score={team1.value}
@@ -140,6 +171,7 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team2.name}
                   position={team2.position}
+                  colorScheme={colorScheme}
                   team={team2.team}
                   minutes={team2.subText}
                   score={team2.value}
@@ -148,7 +180,7 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
                   {team2.subText}
                 </Text>
-                <Text size="sm" fw={600} c="blue" w={20} ta="right">
+                <Text size="sm" fw={700} c="blue" w={20} ta="right">
                   {team2.value}
                 </Text>
               </Flex>
@@ -194,7 +226,7 @@ export function MatchupCard({
 
         <Flex align="center" gap="xs" style={{ flexShrink: 0 }}>
           <Badge
-            fw={700}
+            fw={800}
             size="lg"
             c="white"
             w={45}
@@ -208,7 +240,7 @@ export function MatchupCard({
             -
           </Text>
           <Badge
-            fw={700}
+            fw={800}
             size="lg"
             c="white"
             w={45}
