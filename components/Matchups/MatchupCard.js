@@ -48,9 +48,21 @@ function colorForPositionMack(position) {
   }
 }
 
-function Player({ name, minutes, position, team, score, details }) {
+function colorForStatus(status) {
+  console.log(status);
+  if (status === "a") {
+    return "gray.8";
+  } else if (status === "d") {
+    return "orange.4";
+  } else {
+    return "red.9";
+  }
+}
+
+function Player({ name, minutes, position, status, team, score, details }) {
   const [opened, setOpened] = useState(false);
   const color = colorForPositionMack(position);
+  const statusColor = colorForStatus(status);
 
   return (
     <Popover
@@ -63,7 +75,7 @@ function Player({ name, minutes, position, team, score, details }) {
       <Popover.Target>
         <Button
           variant="gradient"
-          gradient={{ from: color, to: "gray.8", deg: 90 }}
+          gradient={{ from: color, to: statusColor, deg: 90 }}
           size="compact-xs"
           color={color}
           leftSection={
@@ -93,7 +105,12 @@ function Player({ name, minutes, position, team, score, details }) {
               <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
             </Group>
             <Divider color="white" />
-            <Table withRowBorders={false} size="sm">
+            <Table
+              withRowBorders={false}
+              tabularNums
+              variant="vertical"
+              size="sm"
+            >
               <Table.Tbody>
                 {Object.entries(details).map(([key, value]) => {
                   if (includedStats.includes(key) && value !== 0) {
@@ -124,7 +141,7 @@ function Player({ name, minutes, position, team, score, details }) {
   );
 }
 
-function ExpandedMatchupCard2({ team1Details, team2Details }) {
+function ExpandedMatchupCard({ team1Details, team2Details }) {
   return (
     <div>
       {team1Details.map((team1, index) => {
@@ -136,6 +153,7 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team1.name}
                   position={team1.position}
+                  status={team1.status}
                   team={team1.team}
                   minutes={team1.subText}
                   score={team1.value}
@@ -153,6 +171,7 @@ function ExpandedMatchupCard2({ team1Details, team2Details }) {
                 <Player
                   name={team2.name}
                   position={team2.position}
+                  status={team2.status}
                   team={team2.team}
                   minutes={team2.subText}
                   score={team2.value}
@@ -246,7 +265,7 @@ export function MatchupCard({
         <Box w="100%" style={{ display: "inline-block", cursor: "default" }}>
           <Divider my="sm" color="gray.8" />
           <Box px="xs" pb="xs">
-            <ExpandedMatchupCard2
+            <ExpandedMatchupCard
               team1Details={team1Details}
               team2Details={team2Details}
             />
