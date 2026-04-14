@@ -52,9 +52,9 @@ function colorForStatus(status) {
   if (status === "a") {
     return "#343a40";
   } else if (status === "d") {
-    return "#ff840000";
+    return "#ff840050";
   } else {
-    return "#ff000000";
+    return "#ff000028";
   }
 }
 
