@@ -50,11 +50,11 @@ function colorForPositionMack(position) {
 
 function colorForStatus(status) {
   if (status === "a") {
-    return "gray.8";
+    return "#343a40";
   } else if (status === "d") {
-    return "orange.4";
+    return "#ff840000";
   } else {
-    return "red.9";
+    return "#ff000000";
   }
 }
 
