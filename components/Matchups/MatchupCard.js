@@ -49,7 +49,6 @@ function colorForPositionMack(position) {
 }
 
 function colorForStatus(status) {
-  console.log(status);
   if (status === "a") {
     return "gray.8";
   } else if (status === "d") {
@@ -96,7 +95,7 @@ function Player({ name, minutes, position, status, team, score, details }) {
         </Button>
       </Popover.Target>
       <Popover.Dropdown p="xs" bd="1px solid white">
-        {details && Object.keys(details).length > 0 ? (
+        {details.explain && Object.keys(details.explain).length > 0 ? (
           <Stack gap="xs" spacing="xs">
             <Group justify="space-between">
               <Text size="sm" fw={700}>
@@ -112,24 +111,28 @@ function Player({ name, minutes, position, status, team, score, details }) {
               size="sm"
             >
               <Table.Tbody>
-                {Object.entries(details).map(([key, value]) => {
-                  if (includedStats.includes(key) && value !== 0) {
-                    return (
-                      <Table.Tr key={key}>
-                        <Table.Td>
-                          {key
-                            .replace(/_/g, " ")
-                            .split(" ")
-                            .map(
-                              (s) => s.charAt(0).toUpperCase() + s.substring(1),
-                            )
-                            .join(" ")}
-                        </Table.Td>
-                        <Table.Td ta="right">{value}</Table.Td>
-                      </Table.Tr>
-                    );
-                  }
-                })}
+                {Object.values(details.explain).flatMap((match) =>
+                  match.stats.map((stat) => (
+                    <Table.Tr key={`${match.id}-${stat.identifier}`}>
+                      <Table.Td>
+                        {stat.identifier
+                          .replace(/_/g, " ")
+                          .split(" ")
+                          .map(
+                            (s) => s.charAt(0).toUpperCase() + s.substring(1),
+                          )
+                          .join(" ")}
+                      </Table.Td>
+                      <Table.Td ta="center">({stat.value})</Table.Td>
+                      <Table.Td ta="right">{stat.points}</Table.Td>
+                    </Table.Tr>
+                  )),
+                )}
+                <Table.Tr key="total" style={{ borderTop: "1px solid white" }}>
+                  <Table.Td>Total Points:</Table.Td>
+                  <Table.Td></Table.Td>
+                  <Table.Td ta="right">{details.total_points}</Table.Td>
+                </Table.Tr>
               </Table.Tbody>
             </Table>
           </Stack>

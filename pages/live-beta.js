@@ -90,7 +90,11 @@ async function getData(players, managerPicks, liveData) {
 
   const normalizeLiveData = (liveElementsArray) => {
     return liveElementsArray.reduce((acc, playerLive) => {
-      acc[playerLive.id] = playerLive.stats;
+      const playerInfo = {
+        ...playerLive.stats,
+        explain: { ...playerLive.explain },
+      };
+      acc[playerLive.id] = playerInfo;
       return acc;
     }, {});
   };
