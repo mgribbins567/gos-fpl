@@ -104,12 +104,7 @@ function Player({ name, minutes, position, status, team, score, details }) {
               <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
             </Group>
             <Divider color="white" />
-            <Table
-              withRowBorders={false}
-              tabularNums
-              variant="vertical"
-              size="sm"
-            >
+            <Table tabularNums variant="vertical">
               <Table.Tbody>
                 {Object.values(details.explain).flatMap((match) =>
                   match.stats.map((stat) => (
@@ -128,7 +123,12 @@ function Player({ name, minutes, position, status, team, score, details }) {
                     </Table.Tr>
                   )),
                 )}
-                <Table.Tr key="total" style={{ borderTop: "1px solid white" }}>
+                <Table.Tr
+                  key="total"
+                  style={{
+                    backgroundColor: "#8080803c",
+                  }}
+                >
                   <Table.Td>Total Points:</Table.Td>
                   <Table.Td></Table.Td>
                   <Table.Td ta="right">{details.total_points}</Table.Td>
