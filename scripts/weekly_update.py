@@ -318,10 +318,10 @@ def save_league_pngs(sheet_id, filename_base):
         gc=gc,
         sheet_id=sheet_id,
         tab_name="Manager of the Month",
-        cell_range="B115:L127",
+        cell_range="B131:L143",
         filename=filename_base + "/manager-of-the-month.png",
         width=0.02,
-        title="March MotM",
+        title="April MotM",
         color_cols=None,
         cmap_name=""
     )
@@ -378,7 +378,7 @@ if __name__ == "__main__":
     SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
     SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
 
-    gameweek = "32"
+    gameweek = "33"
 
     save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
     save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
