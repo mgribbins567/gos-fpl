@@ -271,6 +271,54 @@ export default function Live({
     fetchGameweekData();
   }, [activeGameweek, gameweekCache, bootstrapStatic]);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    const prefetchGameweeks = async () => {
+      const queue = [];
+      let pastGw = initialGw - 1;
+      let futureGw = initialGw + 1;
+
+      while (pastGw >= 1 || futureGw <= 38) {
+        if (pastGw >= 1) {
+          queue.push(pastGw);
+          pastGw--;
+        }
+        if (futureGw <= 38) {
+          queue.push(futureGw);
+          futureGw++;
+        }
+      }
+
+      for (const gw of queue) {
+        if (!isMounted) {
+          break;
+        }
+
+        if (gameweekCache[gw]) {
+          continue;
+        }
+
+        const data = await getUpdatedData(bootstrapStatic.elements, gw);
+
+        if (data && isMounted) {
+          setGameweekCache((prevCache) => ({ ...prevCache, [gw]: data }));
+
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      }
+    };
+
+    const startTimeout = setTimeout(() => {
+      prefetchGameweeks();
+    }, 2000);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(startTimeout);
+    };
+  }, [initialGw]);
+
   const displayData = gameweekCache[activeGameweek];
 
   const matches =

@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { gw } = req.query;
 
   try {
-    const managerPicks = await getManagerPicks(gw);
+    const managerPicks = await getManagerPicks(null, gw);
     res.setHeader(
       "Cache-Control",
       "s-maxage=31536000, stale-while-revalidate=30",
