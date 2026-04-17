@@ -15,7 +15,10 @@ import {
   Image,
   CloseButton,
   Group,
+  ActionIcon,
 } from "@mantine/core";
+import { VscHistory } from "react-icons/vsc";
+import HeadToHeadModal from "../Manager/HeadToHeadModal";
 
 const includedStats = [
   "assists",
@@ -203,8 +206,10 @@ export function MatchupCard({
   score2,
   team1Details = [],
   team2Details = [],
+  matchups = null,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isHeadToHeadOpen, setIsHeadToHeadOpen] = useState(false);
 
   return (
     <Card
@@ -266,7 +271,20 @@ export function MatchupCard({
         transitionTimingFunction="ease"
       >
         <Box w="100%" style={{ display: "inline-block", cursor: "default" }}>
-          <Divider my="sm" color="gray.8" />
+          {team1 && team2 && matchups && (
+            <Group justify="center" mb="xs">
+              <ActionIcon
+                variant="subtle"
+                onClick={() => setIsHeadToHeadOpen(true)}
+                size="sm"
+                title="View head-to-head history"
+                mt={5}
+              >
+                <VscHistory />
+              </ActionIcon>
+            </Group>
+          )}
+          <Divider my="xs" color="gray.8" />
           <Box px="xs" pb="xs">
             <ExpandedMatchupCard
               team1Details={team1Details}
@@ -275,6 +293,14 @@ export function MatchupCard({
           </Box>
         </Box>
       </Collapse>
+      {isHeadToHeadOpen && (
+        <HeadToHeadModal
+          managerA={team1}
+          managerB={team2}
+          matchups={matchups}
+          onClose={() => setIsHeadToHeadOpen(false)}
+        />
+      )}
     </Card>
   );
 }

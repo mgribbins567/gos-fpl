@@ -180,7 +180,7 @@ export async function getServerSideProps() {
   };
 }
 
-function HeadToHeadMatchups({ matchups }) {
+function HeadToHeadMatchups({ matchups, allMatches }) {
   return matchups.map((match) => {
     var team1Details = [];
     var team2Details = [];
@@ -214,6 +214,7 @@ function HeadToHeadMatchups({ matchups }) {
         score2={match.team2.totalPoints}
         team1Details={team1Details}
         team2Details={team2Details}
+        matchups={allMatches}
       />
     );
   });
@@ -401,7 +402,10 @@ export default function Live({
       </div>
       {activeLeague === "leagueA" && (
         <div>
-          <HeadToHeadMatchups matchups={headToHeadMatchups} />
+          <HeadToHeadMatchups
+            matchups={headToHeadMatchups}
+            allMatches={leagueADetails.matches}
+          />
           <LeagueTable
             standings={leagueADetails.standings}
             managers={managers}
@@ -410,7 +414,10 @@ export default function Live({
         </div>
       )}
       {activeLeague === "leagueB" && (
-        <HeadToHeadMatchups matchups={headToHeadMatchups} />
+        <HeadToHeadMatchups
+          matchups={headToHeadMatchups}
+          allMatches={leagueBDetails.matches}
+        />
       )}
     </div>
   );
