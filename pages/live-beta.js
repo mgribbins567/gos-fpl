@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "./LivePage.module.css";
 import homeStyles from "../styles/Home.module.css";
 import utilStyles from "../styles/utils.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import { getBootstrapData, getLiveData } from "../api/fantasyService";
@@ -237,7 +237,6 @@ export default function Live({
 }) {
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
-  const [isLoading, setIsLoading] = useState(false);
   const [activeGameweek, setActiveGameweek] = useState(initialGw);
   const [isFetching, setIsFetching] = useState(false);
 
@@ -342,9 +341,22 @@ export default function Live({
   }, [activeLeague]);
 
   const handleRefresh = async () => {
-    setIsLoading(true);
-    await router.replace(router.asPath);
-    setIsLoading(false);
+    setIsFetching(true);
+    try {
+      const data = await getUpdatedData(
+        bootstrapStatic.elements,
+        activeGameweek,
+      );
+
+      setGameweekCache((prevCache) => ({
+        ...prevCache,
+        [activeGameweek]: data,
+      }));
+    } catch (error) {
+      console.error("Error fetching gameweek data:", error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   return (
@@ -378,14 +390,16 @@ export default function Live({
       </div>
       <button
         onClick={handleRefresh}
-        disabled={isLoading}
+        disabled={isFetching}
         className={styles.refreshButton}
       >
-        {isLoading ? "..." : " ⟳"}
+        {isFetching ? "..." : " ⟳"}
       </button>
       <div className={styles.gameweekHeader}>
         <button
-          onClick={() => setActiveGameweek((gw) => gw - 1)}
+          onClick={() =>
+            startTransition(() => setActiveGameweek((gw) => gw - 1))
+          }
           disabled={activeGameweek === 1}
           className={utilStyles.gameweekButton}
         >
@@ -393,7 +407,9 @@ export default function Live({
         </button>
         <h3>Gameweek {activeGameweek}</h3>
         <button
-          onClick={() => setActiveGameweek((gw) => gw + 1)}
+          onClick={() =>
+            startTransition(() => setActiveGameweek((gw) => gw + 1))
+          }
           disabled={activeGameweek === 38}
           className={utilStyles.gameweekButton}
         >

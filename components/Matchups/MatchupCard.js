@@ -218,7 +218,7 @@ export function MatchupCard({
       radius="md"
       withBorder
       mb="md"
-      maw={400}
+      w={400}
       mx="auto"
       style={{ cursor: "pointer" }}
     >
