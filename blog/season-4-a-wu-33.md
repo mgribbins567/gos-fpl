@@ -104,7 +104,7 @@ Shoutout this week to Dylan and Matt for each picking up 3 winstreaks! Also to C
 
 # Champions Cup
 
-Welcome to Gameweek 5 of the Champions Cup and the **final week of the group stage**! Some great matchups this week, led by **to more draws**: one between Zach and Mack at 51 a piece in Group C, and another between me and Morgs at 35 in Group D! Elsewhere, Kevin lost the shootout against Matthew2 in Group C 51-55, John defeated Dylan in a high scoring 51-47 match in Group D, and ZachA beat Chris by a narrow score of 46-42. The full results are as follows:
+Welcome to Gameweek 5 of the Champions Cup and the **final week of the group stage**! Some great matchups this week, led by **two more draws**: one between Zach and Mack at 51 a piece in Group C, and another between me and Morgs at 35 in Group D! Elsewhere, Kevin lost the shootout against Matthew2 in Group C 51-55, John defeated Dylan in a high scoring 51-47 match in Group D, and ZachA beat Chris by a narrow score of 46-42. The full results are as follows:
 
 Group A:
 
