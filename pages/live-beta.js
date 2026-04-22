@@ -417,23 +417,22 @@ export default function Live({
         </button>
       </div>
       {activeLeague === "leagueA" && (
-        <div>
+        <div className={styles.liveBeta}>
           <HeadToHeadMatchups
             matchups={headToHeadMatchups}
             allMatches={leagueADetails.matches}
           />
-          <LeagueTable
-            standings={leagueADetails.standings}
-            managers={managers}
-            seasonFixtures={leagueADetails.matches}
-          />
+          <LeagueTable leagueId={157} liveMatchups={headToHeadMatchups} />
         </div>
       )}
       {activeLeague === "leagueB" && (
-        <HeadToHeadMatchups
-          matchups={headToHeadMatchups}
-          allMatches={leagueBDetails.matches}
-        />
+        <div className={styles.liveBeta}>
+          <HeadToHeadMatchups
+            matchups={headToHeadMatchups}
+            allMatches={leagueBDetails.matches}
+          />
+          <LeagueTable leagueId={461} liveMatchups={headToHeadMatchups} />
+        </div>
       )}
     </div>
   );

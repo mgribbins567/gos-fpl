@@ -1,231 +1,257 @@
-import { useState } from "react";
-import baseStyles from "../../styles/Base.module.css";
-import styles from "../Live/LiveLeagueTable.module.css";
-import ManagerNameLink from "../Manager/ManagerNameLink";
+"use client";
 
-function calculatePointsAgainst(standings, seasonFixtures) {
-  const paMap = {};
-  standings.forEach((team) => {
-    paMap[team.league_entry] = 0;
-  });
+import { useEffect, useState } from "react";
+import { Table, Text, Badge, Group, Stack, Loader, Box } from "@mantine/core";
+import { buildTable } from "../../lib/buildLeagueTable";
+import managersData from "../../data/managers.json";
 
-  const finishedMatches = seasonFixtures.filter(
-    (match) => match.finished === true,
+const managerNameMap = Object.fromEntries(
+  Object.entries(managersData).map(([key, m]) => [Number(key), m.name]),
+);
+
+const stickyStyle = (left) => ({
+  position: "sticky",
+  left,
+  zIndex: 1,
+  backgroundColor: "#2e2e2e",
+});
+
+function RankChange({ change }) {
+  if (change > 0)
+    return (
+      <Badge color="green" size="xs" variant="filled" w={25}>
+        +{change}
+      </Badge>
+    );
+  if (change < 0)
+    return (
+      <Badge color="red" size="xs" variant="filled" w={25}>
+        {change}
+      </Badge>
+    );
+  return (
+    <Badge color="gray" size="xs" variant="filled" w={25}>
+      -
+    </Badge>
   );
-
-  finishedMatches.forEach((match) => {
-    const team1 = match.league_entry_1?.toString();
-    const team2 = match.league_entry_2?.toString();
-    const score1 = match.league_entry_1_points || 0;
-    const score2 = match.league_entry_2_points || 0;
-
-    if (paMap[team1]) {
-      paMap[team1] += score2;
-    }
-
-    if (paMap[team2]) {
-      paMap[team2] += score1;
-    }
-  });
-  return paMap;
 }
 
-export function LeagueTable({ standings, managers, seasonFixtures }) {
-  const pointsAgainstMap = calculatePointsAgainst(standings, seasonFixtures);
+function buildLiveMask(liveMatchups) {
+  const mask = {};
 
-  const tableData = standings.map((row) => {
-    const managerInfo = managers.find(
-      (manager) => manager.fetch_id.toString() === row.league_entry.toString(),
+  liveMatchups.map((team) => {
+    const team1 = Number(team.team1.fetch_id);
+    const team2 = Number(team.team2.fetch_id);
+    const team1Score = team.team1.totalPoints;
+    const team2Score = team.team2.totalPoints;
+
+    if (team1Score > team2Score) {
+      mask[team1] = {
+        win: 1,
+        draw: 0,
+        loss: 0,
+        points: 3,
+        pf: team1Score,
+        pa: team2Score,
+      };
+      mask[team2] = {
+        win: 0,
+        draw: 0,
+        loss: 1,
+        points: 0,
+        pf: team2Score,
+        pa: team1Score,
+      };
+    } else if (team2Score > team1Score) {
+      mask[team1] = {
+        win: 0,
+        draw: 0,
+        loss: 1,
+        points: 0,
+        pf: team1Score,
+        pa: team2Score,
+      };
+      mask[team2] = {
+        win: 1,
+        draw: 0,
+        loss: 0,
+        points: 3,
+        pf: team2Score,
+        pa: team1Score,
+      };
+    } else {
+      mask[team1] = {
+        win: 0,
+        draw: 1,
+        loss: 0,
+        points: 1,
+        pf: team1Score,
+        pa: team2Score,
+      };
+      mask[team2] = {
+        win: 0,
+        draw: 1,
+        loss: 0,
+        points: 1,
+        pf: team2Score,
+        pa: team1Score,
+      };
+    }
+  });
+
+  return mask;
+}
+
+export function LeagueTable({ leagueId, liveMatchups }) {
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(`/api/fpl/league/${leagueId}`);
+        if (!res.ok)
+          throw new Error("Failed to load league data for league ", leagueId);
+        const liveMask = buildLiveMask(liveMatchups);
+
+        const { details, isLive } = await res.json();
+        const { league_entries, matches, standings } = details;
+
+        if (isLive) {
+          setIsLive(true);
+        }
+
+        const table = buildTable(
+          standings,
+          matches,
+          league_entries,
+          liveMask,
+          managerNameMap,
+        );
+        setRows(table);
+        setError(null);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [leagueId]);
+
+  if (loading) {
+    return (
+      <Group justify="center" p="xl">
+        <Loader />
+        <Text c="dimmed">Loading league table…</Text>
+      </Group>
     );
+  }
 
-    return {
-      ...row,
-      managerName: managerInfo.name,
-      points_against: pointsAgainstMap[row.league_entry.toString()],
-    };
-  });
+  if (error) {
+    return <Box color="red">{error}</Box>;
+  }
 
-  const [sortConfig, setSortConfig] = useState({
-    key: "Pos",
-    direction: "descending",
-  });
+  const tableHeaders = (
+    <Table.Tr>
+      <Table.Th style={stickyStyle(0)}>Pos</Table.Th>
+      <Table.Th style={stickyStyle(40)}>Team</Table.Th>
+      <Table.Th ta="center">W</Table.Th>
+      <Table.Th ta="center">D</Table.Th>
+      <Table.Th ta="center">L</Table.Th>
+      <Table.Th ta="center">PF</Table.Th>
+      <Table.Th ta="center">PA</Table.Th>
+      <Table.Th ta="center">PD</Table.Th>
+      <Table.Th ta="center">Pts</Table.Th>
+      <Table.Th ta="center">PPW</Table.Th>
+      <Table.Th ta="center">PPG</Table.Th>
+    </Table.Tr>
+  );
 
-  const sortedTableData = [...tableData].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === "ascending" ? 1 : -1;
-    }
-    return 0;
-  });
-
-  const requestSort = (key) => {
-    let direction = "descending";
-    if (sortConfig.key === key && sortConfig.direction === "descending") {
-      direction = "ascending";
-    }
-    setSortConfig({ key, direction });
-  };
+  const tableRows = rows.map((row, i) => (
+    <Table.Tr key={row.league_entry}>
+      <Table.Td style={stickyStyle(0)}>
+        <Group gap={4} wrap="nowrap">
+          <Text w={25} fw={600}>
+            {i + 1}
+          </Text>
+          <RankChange change={row.rankChange} />
+        </Group>
+      </Table.Td>
+      <Table.Td style={stickyStyle(25)}>
+        <Stack gap={0}>
+          <Text fw={600} size="sm">
+            {row.managerName}
+          </Text>
+        </Stack>
+      </Table.Td>
+      <Table.Td ta="center">{row.matches_won}</Table.Td>
+      <Table.Td ta="center">{row.matches_drawn}</Table.Td>
+      <Table.Td ta="center">{row.matches_lost}</Table.Td>
+      <Table.Td ta="center">{row.points_for}</Table.Td>
+      <Table.Td ta="center">{row.points_against}</Table.Td>
+      <Table.Td ta="center">{row.points_for - row.points_against}</Table.Td>
+      <Table.Td ta="center">
+        <Text fw={700}>{row.projectedTotal}</Text>
+      </Table.Td>
+      <Table.Td ta="center">
+        {(row.points_for / row.matches_played).toFixed(2)}
+      </Table.Td>
+      <Table.Td ta="center">
+        {(row.projectedTotal / row.matches_played).toFixed(2)}
+      </Table.Td>
+    </Table.Tr>
+  ));
 
   return (
-    <div className={baseStyles.tableContainer}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th onClick={() => requestSort("Pos")}>
-              Pos{" "}
-              {sortConfig.key === "Pos"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("Team")}>
-              Team{" "}
-              {sortConfig.key === "Team"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("W")}>
-              W{" "}
-              {sortConfig.key === "W"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("D")}>
-              D{" "}
-              {sortConfig.key === "D"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("L")}>
-              L{" "}
-              {sortConfig.key === "L"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("PF")}>
-              PF{" "}
-              {sortConfig.key === "PF"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("PA")}>
-              PA{" "}
-              {sortConfig.key === "PA"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("PD")}>
-              PD{" "}
-              {sortConfig.key === "PD"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("Pts")}>
-              Pts{" "}
-              {sortConfig.key === "Pts"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("PPW")}>
-              PPW{" "}
-              {sortConfig.key === "PPW"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-            <th onClick={() => requestSort("PPG")}>
-              PPG{" "}
-              {sortConfig.key === "PPG"
-                ? sortConfig.direction === "ascending"
-                  ? "▴"
-                  : "▾"
-                : ""}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedTableData.map((team, index) => {
-            const rankDifference =
-              team.rank - (team.projected_rank || team.rank);
-            return (
-              <tr key={team.id}>
-                <td className={styles.positionCell}>
-                  <span className={styles.rank}>{index + 1}</span>
-                  {rankDifference !== 0 ? (
-                    <span
-                      className={`${styles.rankMovement} ${
-                        rankDifference > 0 ? styles.up : styles.down
-                      }`}
-                    >
-                      {rankDifference > 0 ? "+" : null}
-                      {rankDifference}
-                    </span>
-                  ) : (
-                    <span
-                      className={`${styles.rankMovement} ${styles.noMovement}`}
-                    >
-                      -
-                    </span>
-                  )}
-                </td>
-                <td>
-                  <ManagerNameLink manager={team.managerName} />
-                </td>
-                <td>{team.matches_won}</td>
-                <td>{team.matches_drawn}</td>
-                <td>{team.matches_lost}</td>
-                <td>{team.points_for}</td>
-                <td>{team.points_against}</td>
-                <td>
-                  {team.points_for - team.points_against > 0 ? "+" : null}
-                  {team.points_for - team.points_against}
-                </td>
-                <td>{team.total}</td>
-                <td>
-                  {parseFloat(
-                    Number(
-                      team.points_for /
-                        (team.matches_won +
-                          team.matches_drawn +
-                          team.matches_lost),
-                    ).toFixed(2),
-                  )}
-                </td>
-                <td>
-                  {parseFloat(
-                    Number(
-                      team.total /
-                        (team.matches_won +
-                          team.matches_drawn +
-                          team.matches_lost),
-                    ).toFixed(2),
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <Stack
+      gap="sm"
+      maw={800}
+      mx="auto"
+      p={{ base: "xs", sm: "md", overflowX: "hidden", width: "100%" }}
+    >
+      <Group justify="space-between" align="center">
+        <Text size={{ base: "md", sm: "xl" }} fw={700}>
+          League Table
+        </Text>
+        <Group gap="xs">
+          {isLive && (
+            <Badge color="green" variant="dot">
+              Live
+            </Badge>
+          )}
+          {!isLive && (
+            <Badge color="grey" variant="dot">
+              Final
+            </Badge>
+          )}
+        </Group>
+      </Group>
+
+      <Box
+        bdrs="md"
+        bd="1px solid #444"
+        w="100%"
+        style={{
+          overflowX: "auto",
+          WebkitOverflowScrolling: "touch",
+          width: "100%",
+          maxWidth: "100%",
+        }}
+      >
+        <Table
+          verticalSpacing="xs"
+          bg="#2e2e2e"
+          style={{
+            maxWidth: "100%",
+          }}
+        >
+          <Table.Thead>{tableHeaders}</Table.Thead>
+          <Table.Tbody>{tableRows}</Table.Tbody>
+        </Table>
+      </Box>
+    </Stack>
   );
 }
