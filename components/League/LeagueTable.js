@@ -114,13 +114,15 @@ export function LeagueTable({ leagueId, liveMatchups }) {
         const res = await fetch(`/api/fpl/league/${leagueId}`);
         if (!res.ok)
           throw new Error("Failed to load league data for league ", leagueId);
-        const liveMask = buildLiveMask(liveMatchups);
+        // const liveMask = buildLiveMask(liveMatchups);
+        var liveMask;
 
         const { details, isLive } = await res.json();
         const { league_entries, matches, standings } = details;
 
         if (isLive) {
           setIsLive(true);
+          liveMask = buildLiveMask(liveMatchups);
         }
 
         const table = buildTable(
