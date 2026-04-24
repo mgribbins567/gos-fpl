@@ -372,13 +372,13 @@ def save_league_pngs(sheet_id, filename_base):
 
 
 if __name__ == "__main__":
-    # gc = gspread.service_account(filename='game-of-stones-466323-5ab3af9d2d71.json')
-    gc = gspread.service_account(filename='game-of-stones-466323-6776a1b39e8b.json')
+    gc = gspread.service_account(filename='game-of-stones-466323-5ab3af9d2d71.json')
+    # gc = gspread.service_account(filename='game-of-stones-466323-6776a1b39e8b.json')
     SHEET_ID_A = "1AAGP--ACojOQXlIkQUMz87-stYaw_wJo0GFYo7J3zDM"
     SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
     SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
 
-    gameweek = "33"
+    gameweek = "34"
 
     save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
     save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
