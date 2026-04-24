@@ -269,7 +269,7 @@ export default function Live({
     };
 
     fetchGameweekData();
-  }, [activeGameweek, gameweekCache, bootstrapStatic]);
+  }, [activeGameweek, bootstrapStatic]);
 
   useEffect(() => {
     let isMounted = true;
