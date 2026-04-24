@@ -166,7 +166,9 @@ export function LeagueTable({ leagueId, liveMatchups }) {
       <Table.Th ta="center">PF</Table.Th>
       <Table.Th ta="center">PA</Table.Th>
       <Table.Th ta="center">PD</Table.Th>
-      <Table.Th ta="center">Pts</Table.Th>
+      <Table.Th ta="center" c="blue">
+        PTS
+      </Table.Th>
       <Table.Th ta="center">PPW</Table.Th>
       <Table.Th ta="center">PPG</Table.Th>
     </Table.Tr>
@@ -196,13 +198,21 @@ export function LeagueTable({ leagueId, liveMatchups }) {
       <Table.Td ta="center">{row.points_against}</Table.Td>
       <Table.Td ta="center">{row.points_for - row.points_against}</Table.Td>
       <Table.Td ta="center">
-        <Text fw={700}>{row.projectedTotal}</Text>
+        <Text c="blue" fw={700}>
+          {row.projectedTotal}
+        </Text>
       </Table.Td>
       <Table.Td ta="center">
-        {(row.points_for / row.matches_played).toFixed(2)}
+        {(
+          row.points_for /
+          (row.matches_won + row.matches_drawn + row.matches_lost)
+        ).toFixed(2)}
       </Table.Td>
       <Table.Td ta="center">
-        {(row.projectedTotal / row.matches_played).toFixed(2)}
+        {(
+          row.projectedTotal /
+          (row.matches_won + row.matches_drawn + row.matches_lost)
+        ).toFixed(2)}
       </Table.Td>
     </Table.Tr>
   ));
