@@ -196,7 +196,10 @@ export function LeagueTable({ leagueId, liveMatchups }) {
       <Table.Td ta="center">{row.matches_lost}</Table.Td>
       <Table.Td ta="center">{row.points_for}</Table.Td>
       <Table.Td ta="center">{row.points_against}</Table.Td>
-      <Table.Td ta="center">{row.points_for - row.points_against}</Table.Td>
+      <Table.Td ta="center">
+        {row.points_for - row.points_against > 0 ? "+" : ""}
+        {row.points_for - row.points_against}
+      </Table.Td>
       <Table.Td ta="center">
         <Text c="blue" fw={700}>
           {row.projectedTotal}
