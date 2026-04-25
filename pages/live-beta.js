@@ -400,7 +400,7 @@ export default function Live({
             size="compact-xs"
             disabled={activeGameweek === 1}
           >
-            &larr; Prev
+            ◂ Prev
           </Button>
           <Text size="lg" fw={700} miw={150} ta="center">
             Gameweek {activeGameweek}
@@ -412,7 +412,7 @@ export default function Live({
             size="compact-xs"
             disabled={activeGameweek === 38}
           >
-            Next &rarr;
+            Next ▸
           </Button>
         </Group>
         {activeLeague === "leagueA" && (
