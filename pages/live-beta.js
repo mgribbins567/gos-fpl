@@ -13,6 +13,7 @@ import managersJson from "../data/managers.json";
 import { MatchupCard } from "../components/Matchups/MatchupCard";
 import { checkElementId } from "../lib/player_util";
 import { LeagueTable } from "../components/League/LeagueTable";
+import { Button, Group, Stack, Text } from "@mantine/core";
 
 function buildHeadToHeadMatchups(matches, leagueData, gameweek) {
   const fixtures = matches.filter((match) => match.event === gameweek);
@@ -244,33 +245,35 @@ export default function Live({
     [initialGw]: initialLeagueData,
   });
 
+  // Fetch new gameweek data on initial load and when activeGameweek changes
   useEffect(() => {
     if (gameweekCache[activeGameweek]) {
       return;
     }
-
-    const fetchGameweekData = async () => {
-      setIsFetching(true);
-      try {
-        const data = await getUpdatedData(
-          bootstrapStatic.elements,
-          activeGameweek,
-        );
-
-        setGameweekCache((prevCache) => ({
-          ...prevCache,
-          [activeGameweek]: data,
-        }));
-      } catch (error) {
-        console.error("Error fetching gameweek data:", error);
-      } finally {
-        setIsFetching(false);
-      }
-    };
-
     fetchGameweekData();
   }, [activeGameweek, bootstrapStatic]);
 
+  // Function to fetch gameweek data and update the cache
+  const fetchGameweekData = async () => {
+    setIsFetching(true);
+    try {
+      const data = await getUpdatedData(
+        bootstrapStatic.elements,
+        activeGameweek,
+      );
+
+      setGameweekCache((prevCache) => ({
+        ...prevCache,
+        [activeGameweek]: data,
+      }));
+    } catch (error) {
+      console.error("Error fetching gameweek data:", error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  // Prefetch other gameweeks in the background
   useEffect(() => {
     let isMounted = true;
 
@@ -329,6 +332,7 @@ export default function Live({
     ? buildHeadToHeadMatchups(matches, displayData, activeGameweek)
     : [];
 
+  // Get saved league from local storage
   useEffect(() => {
     const savedLeague = localStorage.getItem("activeLeague");
     if (savedLeague) {
@@ -336,27 +340,15 @@ export default function Live({
     }
   }, []);
 
+  // Set active league in local storage
   useEffect(() => {
     localStorage.setItem("activeLeague", activeLeague);
   }, [activeLeague]);
 
+  // Handle refresh button
   const handleRefresh = async () => {
     setIsFetching(true);
-    try {
-      const data = await getUpdatedData(
-        bootstrapStatic.elements,
-        activeGameweek,
-      );
-
-      setGameweekCache((prevCache) => ({
-        ...prevCache,
-        [activeGameweek]: data,
-      }));
-    } catch (error) {
-      console.error("Error fetching gameweek data:", error);
-    } finally {
-      setIsFetching(false);
-    }
+    await fetchGameweekData();
   };
 
   return (
@@ -388,52 +380,60 @@ export default function Live({
           League B
         </button>
       </div>
-      <button
-        onClick={handleRefresh}
-        disabled={isFetching}
-        className={styles.refreshButton}
-      >
-        {isFetching ? "..." : " ⟳"}
-      </button>
-      <div className={styles.gameweekHeader}>
-        <button
-          onClick={() =>
-            startTransition(() => setActiveGameweek((gw) => gw - 1))
-          }
-          disabled={activeGameweek === 1}
-          className={utilStyles.gameweekButton}
+      <Stack align="center">
+        <Button
+          onClick={handleRefresh}
+          disabled={isFetching}
+          loading={isFetching}
+          variant="transparent"
+          fw={900}
+          fz="xl"
+          size="compact-xs"
         >
-          &larr; Prev
-        </button>
-        <h3>Gameweek {activeGameweek}</h3>
-        <button
-          onClick={() =>
-            startTransition(() => setActiveGameweek((gw) => gw + 1))
-          }
-          disabled={activeGameweek === 38}
-          className={utilStyles.gameweekButton}
-        >
-          Next &rarr;
-        </button>
-      </div>
-      {activeLeague === "leagueA" && (
-        <div className={styles.liveBeta}>
-          <HeadToHeadMatchups
-            matchups={headToHeadMatchups}
-            allMatches={leagueADetails.matches}
-          />
-          <LeagueTable leagueId={157} liveMatchups={headToHeadMatchups} />
-        </div>
-      )}
-      {activeLeague === "leagueB" && (
-        <div className={styles.liveBeta}>
-          <HeadToHeadMatchups
-            matchups={headToHeadMatchups}
-            allMatches={leagueBDetails.matches}
-          />
-          <LeagueTable leagueId={461} liveMatchups={headToHeadMatchups} />
-        </div>
-      )}
+          ⟳
+        </Button>
+        <Group justify="space-between" align="center">
+          <Button
+            onClick={() =>
+              startTransition(() => setActiveGameweek((gw) => gw - 1))
+            }
+            size="compact-xs"
+            disabled={activeGameweek === 1}
+          >
+            &larr; Prev
+          </Button>
+          <Text size="lg" fw={700} miw={150} ta="center">
+            Gameweek {activeGameweek}
+          </Text>
+          <Button
+            onClick={() =>
+              startTransition(() => setActiveGameweek((gw) => gw + 1))
+            }
+            size="compact-xs"
+            disabled={activeGameweek === 38}
+          >
+            Next &rarr;
+          </Button>
+        </Group>
+        {activeLeague === "leagueA" && (
+          <div className={styles.liveBeta}>
+            <HeadToHeadMatchups
+              matchups={headToHeadMatchups}
+              allMatches={leagueADetails.matches}
+            />
+            <LeagueTable leagueId={157} liveMatchups={headToHeadMatchups} />
+          </div>
+        )}
+        {activeLeague === "leagueB" && (
+          <div className={styles.liveBeta}>
+            <HeadToHeadMatchups
+              matchups={headToHeadMatchups}
+              allMatches={leagueBDetails.matches}
+            />
+            <LeagueTable leagueId={461} liveMatchups={headToHeadMatchups} />
+          </div>
+        )}
+      </Stack>
     </div>
   );
 }
