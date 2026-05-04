@@ -177,6 +177,7 @@ export async function getServerSideProps() {
       leagueBDetails,
       bootstrapStatic,
       managers,
+      isFinished,
     },
   };
 }
@@ -235,6 +236,7 @@ export default function Live({
   leagueBDetails,
   bootstrapStatic,
   managers,
+  isFinished,
 }) {
   const router = useRouter();
   const [activeLeague, setActiveLeague] = useState("leagueA");
@@ -421,7 +423,12 @@ export default function Live({
               matchups={headToHeadMatchups}
               allMatches={leagueADetails.matches}
             />
-            <LeagueTable leagueId={157} liveMatchups={headToHeadMatchups} />
+            <LeagueTable
+              leagueId={157}
+              liveMatchups={headToHeadMatchups}
+              leagueDetails={leagueADetails}
+              isLive={!isFinished}
+            />
           </div>
         )}
         {activeLeague === "leagueB" && (
@@ -430,7 +437,12 @@ export default function Live({
               matchups={headToHeadMatchups}
               allMatches={leagueBDetails.matches}
             />
-            <LeagueTable leagueId={461} liveMatchups={headToHeadMatchups} />
+            <LeagueTable
+              leagueId={461}
+              liveMatchups={headToHeadMatchups}
+              leagueDetails={leagueBDetails}
+              isLive={!isFinished}
+            />
           </div>
         )}
       </Stack>

@@ -55,9 +55,9 @@ function colorForStatus(status) {
   if (status === "a") {
     return "#343a40";
   } else if (status === "d") {
-    return "#ff840050";
+    return "#ff840078";
   } else {
-    return "#ff000028";
+    return "#ff00006c";
   }
 }
 
@@ -168,7 +168,7 @@ function ExpandedMatchupCard({ team1Details, team2Details }) {
                 <Text size="xs" fw={400} c="dimmed" w={25} ta="center">
                   {team1.subText}
                 </Text>
-                <Text size="sm" fw={600} c="blue" w={20} ta="right">
+                <Text size="sm" c="blue" w={20} ta="right">
                   {team1.value}
                 </Text>
               </Flex>
@@ -186,7 +186,7 @@ function ExpandedMatchupCard({ team1Details, team2Details }) {
                 <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
                   {team2.subText}
                 </Text>
-                <Text size="sm" fw={700} c="blue" w={20} ta="right">
+                <Text size="sm" c="blue" w={20} ta="right">
                   {team2.value}
                 </Text>
               </Flex>

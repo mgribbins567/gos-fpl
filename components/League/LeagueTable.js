@@ -102,26 +102,18 @@ function buildLiveMask(liveMatchups) {
   return mask;
 }
 
-export function LeagueTable({ leagueId, liveMatchups }) {
+export function LeagueTable({ leagueId, liveMatchups, leagueDetails, isLive }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`/api/fpl/league/${leagueId}`);
-        if (!res.ok)
-          throw new Error("Failed to load league data for league ", leagueId);
-        // const liveMask = buildLiveMask(liveMatchups);
         var liveMask;
-
-        const { details, isLive } = await res.json();
-        const { league_entries, matches, standings } = details;
+        const { league_entries, matches, standings } = leagueDetails;
 
         if (isLive) {
-          setIsLive(true);
           liveMask = buildLiveMask(liveMatchups);
         }
 
