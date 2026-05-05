@@ -36,6 +36,22 @@ const includedStats = [
   "yellow_cards",
 ];
 
+const ranks = [
+  "",
+  "1st",
+  "2nd",
+  "3rd",
+  "4th",
+  "5th",
+  "6th",
+  "7th",
+  "8th",
+  "9th",
+  "10th",
+  "11th",
+  "12th",
+];
+
 function colorForPositionMack(position) {
   switch (position) {
     case 1:
@@ -202,14 +218,34 @@ function ExpandedMatchupCard({ team1Details, team2Details }) {
 export function MatchupCard({
   team1,
   team2,
-  score1,
-  score2,
   team1Details = [],
   team2Details = [],
   matchups = null,
+  standings = null,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHeadToHeadOpen, setIsHeadToHeadOpen] = useState(false);
+
+  const team1Name = team1.name;
+  const team2Name = typeof team2 === "string" ? team2 : (team2?.name ?? "");
+  const team1Id = team1.fetch_id;
+  const team2Id = team2.fetch_id;
+  const team1Score = team1.totalPoints;
+  const team2Score = team2.totalPoints;
+
+  const team1Standing = standings?.find(
+    (entry) => String(entry.league_entry) === String(team1Id),
+  );
+  const team1Total = team1Standing?.total;
+  const team1Rank = ranks[team1Standing?.rank];
+  const team1Pf = team1Standing?.points_for;
+
+  const team2Standing = standings?.find(
+    (entry) => String(entry.league_entry) === String(team2Id),
+  );
+  const team2Total = team2Standing?.total;
+  const team2Rank = ranks[team2Standing?.rank];
+  const team2Pf = team2Standing?.points_for;
 
   return (
     <Card
@@ -228,9 +264,14 @@ export function MatchupCard({
         gap="sm"
         onClick={() => setIsExpanded((e) => !e)}
       >
-        <Text fw={700} c="white" size="sm" w={80} truncate>
-          {team1}
-        </Text>
+        <Stack gap={0}>
+          <Text fw={700} c="white" size="sm" truncate>
+            {team1Name}
+          </Text>
+          <Text style="dimmed" size="xs">
+            {team1Rank} • {team1Total} P • {team1Pf} PF
+          </Text>
+        </Stack>
 
         <Flex align="center" gap="xs" style={{ flexShrink: 0 }}>
           <Badge
@@ -242,7 +283,7 @@ export function MatchupCard({
             color="blue"
             radius="sm"
           >
-            {score1}
+            {team1Score}
           </Badge>
           <Text fw={700} c="dimmed">
             -
@@ -256,13 +297,18 @@ export function MatchupCard({
             color="blue"
             radius="sm"
           >
-            {score2}
+            {team2Score}
           </Badge>
         </Flex>
 
-        <Text fw={700} c="white" size="sm" w={80} truncate ta="right">
-          {team2}
-        </Text>
+        <Stack gap={0} ta="right">
+          <Text fw={700} c="white" size="sm" truncate ta="right">
+            {team2Name}
+          </Text>
+          <Text style="dimmed" size="xs" ta="right">
+            {team2Pf} PF • {team2Total} P • {team2Rank}
+          </Text>
+        </Stack>
       </Flex>
 
       <Collapse
@@ -295,8 +341,8 @@ export function MatchupCard({
       </Collapse>
       {isHeadToHeadOpen && (
         <HeadToHeadModal
-          managerA={team1}
-          managerB={team2}
+          managerA={team1Name}
+          managerB={team2Name}
           matchups={matchups}
           onClose={() => setIsHeadToHeadOpen(false)}
         />

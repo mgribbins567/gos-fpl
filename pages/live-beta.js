@@ -182,12 +182,15 @@ export async function getServerSideProps() {
   };
 }
 
-function HeadToHeadMatchups({ matchups, allMatches }) {
+function HeadToHeadMatchups({ matchups, allMatches, standings }) {
   return matchups.map((match) => {
+    const team1Obj = match.team1 || {};
+    const team2Obj = match.team2 || {};
+
     var team1Details = [];
     var team2Details = [];
-    if (match.team1.teamDetails && match.team2.teamDetails) {
-      team1Details = match.team1.teamDetails.map((p) => ({
+    if (team1Obj.teamDetails && team2Obj.teamDetails) {
+      team1Details = team1Obj.teamDetails.map((p) => ({
         id: p.id,
         name: p.name,
         team: p.teamCode,
@@ -197,7 +200,7 @@ function HeadToHeadMatchups({ matchups, allMatches }) {
         additionalDetails: p.liveDetails,
         value: p.points,
       }));
-      team2Details = match.team2.teamDetails.map((p) => ({
+      team2Details = team2Obj.teamDetails.map((p) => ({
         id: p.id,
         name: p.name,
         team: p.teamCode,
@@ -210,13 +213,12 @@ function HeadToHeadMatchups({ matchups, allMatches }) {
     }
     return (
       <MatchupCard
-        team1={match.team1.name}
-        team2={match.team2.name}
-        score1={match.team1.totalPoints}
-        score2={match.team2.totalPoints}
+        team1={team1Obj}
+        team2={team2Obj}
         team1Details={team1Details}
         team2Details={team2Details}
         matchups={allMatches}
+        standings={standings}
       />
     );
   });
@@ -422,6 +424,7 @@ export default function Live({
             <HeadToHeadMatchups
               matchups={headToHeadMatchups}
               allMatches={leagueADetails.matches}
+              standings={leagueADetails.standings}
             />
             <LeagueTable
               leagueId={157}
@@ -436,6 +439,7 @@ export default function Live({
             <HeadToHeadMatchups
               matchups={headToHeadMatchups}
               allMatches={leagueBDetails.matches}
+              standings={leagueBDetails.standings}
             />
             <LeagueTable
               leagueId={461}
