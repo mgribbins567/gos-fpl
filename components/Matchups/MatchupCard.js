@@ -268,7 +268,7 @@ export function MatchupCard({
           <Text fw={700} c="white" size="sm" truncate>
             {team1Name}
           </Text>
-          <Text style="dimmed" size="xs">
+          <Text c="dimmed" size="xs">
             {team1Rank} • {team1Total} P • {team1Pf} PF
           </Text>
         </Stack>
@@ -305,7 +305,7 @@ export function MatchupCard({
           <Text fw={700} c="white" size="sm" truncate ta="right">
             {team2Name}
           </Text>
-          <Text style="dimmed" size="xs" ta="right">
+          <Text c="dimmed" size="xs" ta="right">
             {team2Pf} PF • {team2Total} P • {team2Rank}
           </Text>
         </Stack>
