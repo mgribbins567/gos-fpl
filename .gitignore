@@ -34,3 +34,6 @@ yarn-error.log*
 
 # key
 /scripts/*.json
+
+# data files
+/scripts/data
