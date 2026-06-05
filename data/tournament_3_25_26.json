@@ -24,7 +24,7 @@
     {
       "event": 29,
       "league_entry_1": 2554,
-      "league_entry_2": 212635,
+      "league_entry_2": 212631,
       "group": "b",
       "finished": true
     },
@@ -37,7 +37,7 @@
     },
     {
       "event": 29,
-      "league_entry_1": 95356,
+      "league_entry_1": 95316,
       "league_entry_2": 243996,
       "group": "b",
       "finished": true
@@ -66,7 +66,7 @@
     {
       "event": 29,
       "league_entry_1": 281,
-      "league_entry_2": 163517,
+      "league_entry_2": 163017,
       "group": "d",
       "finished": true
     },
@@ -79,7 +79,7 @@
     },
     {
       "event": 29,
-      "league_entry_1": 56835,
+      "league_entry_1": 56834,
       "league_entry_2": 72942,
       "group": "d",
       "finished": true
@@ -121,8 +121,8 @@
     },
     {
       "event": 30,
-      "league_entry_1": 95356,
-      "league_entry_2": 212635,
+      "league_entry_1": 95316,
+      "league_entry_2": 212631,
       "group": "b",
       "finished": true
     },
@@ -150,7 +150,7 @@
     {
       "event": 30,
       "league_entry_1": 281,
-      "league_entry_2": 56835,
+      "league_entry_2": 56834,
       "group": "d",
       "finished": true
     },
@@ -231,7 +231,7 @@
     {
       "event": 31,
       "league_entry_1": 136117,
-      "league_entry_2": 56835,
+      "league_entry_2": 56834,
       "group": "d"
     },
     {
@@ -308,7 +308,7 @@
     },
     {
       "event": 32,
-      "league_entry_1": 56835,
+      "league_entry_1": 56834,
       "league_entry_2": 163017,
       "group": "d"
     },
@@ -374,7 +374,7 @@
     },
     {
       "event": 33,
-      "league_entry_1": 56835,
+      "league_entry_1": 56834,
       "league_entry_2": 208171,
       "group": "d"
     },
@@ -453,6 +453,30 @@
     {
       "event": 35,
       "league_entry_1": 18812,
+      "league_entry_2": 102746,
+      "group": "k"
+    },
+    {
+      "event": 36,
+      "league_entry_1": 5457,
+      "league_entry_2": 2485,
+      "group": "k"
+    },
+    {
+      "event": 36,
+      "league_entry_1": 614,
+      "league_entry_2": 102746,
+      "group": "k"
+    },
+    {
+      "event": 37,
+      "league_entry_1": 5457,
+      "league_entry_2": 102746,
+      "group": "k"
+    },
+    {
+      "event": 38,
+      "league_entry_1": 5457,
       "league_entry_2": 102746,
       "group": "k"
     }
