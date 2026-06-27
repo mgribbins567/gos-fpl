@@ -84,7 +84,7 @@ For the format nerds out there, I went with 3 groups of 4, with the bottom team 
 <p class="center-bold">Season 2 Champions Cup Group Stage</p>
 <img src="/images/season-4/recap/season-2-champions-cup-group-stage.png" width="1200vh" height="auto">
 <p class="center-bold">Season 2 Champions Cup Knockout Stage</p>
-<img src="/images/season-4/recap/season-2-champions-cup-knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-2-champions-cup-knockout-stage.png" width="700vh" height="auto">
 <br/>
 
 This tournament was a _little_ bit longer. Two groups of 6 with the bottom 2 teams eliminated led into yet again an 8 team bracket. Unlike the December Cup though, every knockout stage was 2-legged. Which made the full cup 5 group stage gameweeks + 6 knockout stage gameweeks. Oh yeah, and I won this one too. (And if you want an idea of how absurd my scores were, my knockout stage scores were: 87, 55, 78, 84, 95, 44)
@@ -108,8 +108,8 @@ And yeah, this season had 3 tournaments.
 
 <br/>
 <p class="center-bold">Season 3 Kick-Off Cup Group Stage</p>
-<img src="/images/season-4/recap/season-3-kickoff-cup-group-stage.png" width="1200vh" height="auto">
-<p class="center-bold">Season 2 Kick-Off Cup Knockout Stage</p>
+<img src="/images/season-4/recap/season-3-kickoff-cup-group-stage.png" width="800vh" height="auto">
+<p class="center-bold">Season 3 Kick-Off Cup Knockout Stage</p>
 <img src="/images/season-4/recap/season-3-kickoff-cup-knockout-stage.png" width="1200vh" height="auto">
 <br/>
 
@@ -117,20 +117,22 @@ The first tournament (yes, there is a youtube video of me doing the draw...) beg
 
 <br/>
 <p class="center-bold">Season 3 Short n' Sweet Cup Group Stage</p>
-<img src="/images/season-4/recap/season-3-sns-cup-group-stage.png" width="1200vh" height="auto">
-<p class="center-bold">Season 2 Short n' Sweet Cup Knockout Stage</p>
-<img src="/images/season-4/recap/season-3-sns-cup-knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-3-sns-cup-group-stage.png" width="800vh" height="auto">
+<p class="center-bold">Season 3 Short n' Sweet Cup Knockout Stage</p>
+<img src="/images/season-4/recap/season-3-sns-cup-knockout-stage.png" width="1000vh" height="auto">
 <br/>
 
 This season's festive cup was the Short n' Sweet tournament, named after the Sabrina Carpenter album + the fact that yes, the tournament _was_ short and sweet. Exactly as short and sweet as the first December Cup at 7 gameweeks. Starting with 4 groups of 4 (again), the bottom manager of each group was eliminated, while the top manager got an automatic bye to the quarter final. The 2nd and 3rd placed teams of each group had to play in a "Round of 12" / playoff round, where the group winners were awaiting the playoff winners. Yet again the knockouts were all single legged, this time including the final, where Matt defeated Darryan 51-44.
 
 <br/>
 <p class="center-bold">Season 3 Champions Cup Group Stage 1</p>
-<img src="/images/season-4/recap/season-3-sns-cup-group-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-3-champions-cup-group-stage-1.png" width="800vh" height="auto">
 <p class="center-bold">Season 3 Champions Cup Group Stage 2</p>
-<img src="/images/season-4/recap/season-3-sns-cup-group-stage.png" width="1200vh" height="auto">
-<p class="center-bold">Season 2 Champions Cup Knockout Stage</p>
-<img src="/images/season-4/recap/season-3-sns-cup-knockout-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-3-champions-cup-group-stage-2.png" width="800vh" height="auto">
+<p class="center-bold">Season 3 Champions Cup Knockout Stage</p>
+<img src="/images/season-4/recap/season-3-champions-cup-knockout-stage-1.png" width="1000vh" height="auto">
+<p class="center-bold">Season 3 Champions Cup Knockout Stage - Consolation</p>
+<img src="/images/season-4/recap/season-3-champions-cup-knockout-stage-2.png" width="600vh" height="auto">
 <br/>
 
 Okay so this one might resonate more with you format-heads, because I went a _little_ wild with it. Two group stages. No eliminations until the playoffs. A single elimination round of 16 which led to double elimination matchups for the remainder of the tournament.
@@ -157,6 +159,8 @@ So, this tournament was one of the things I was the most excited about when expa
 <br/>
 <p class="center-bold">The League Group Stage</p>
 <img src="/images/season-4/recap/season-4-the-league-group-stage.png" width="1200vh" height="auto">
+<p class="center-bold">The League Group Stage Matches</p>
+<img src="/images/season-4/recap/season-4-the-league-group-stage-matches.png" width="700vh" height="auto">
 <br/>
 
 And the group stage ended as we all expected: with Jesse being the only undefeated manager.
@@ -216,7 +220,7 @@ The yearly super fast festive fixtures themed holiday tournament came back with 
 <p class="center-bold">Boxing Day Bash Group Stage</p>
 <img src="/images/season-4/recap/season-4-boxing-day-bash-a-group-stage.png" width="1200vh" height="auto">
 <p class="center-bold">Boxing Day Bash Knockout Stage</p>
-<img src="/images/season-4/recap/season-4-boxing-day-bash-a-group-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-boxing-day-bash-a-knockout-stage.png" width="800vh" height="auto">
 <br/>
 
 Okay, let's see... MatthewR won Group A pretty solidly while Zach did the same with his own 12 point peformance in Group B. Dylan from Group A, and Kevin and Luke from B were the surprise eliminations (sorry Gavin, your elimination was a little less surprising :/). Anyway, MatthewR went out in the first round of knockouts to Darryan, while I defeated Zach in the semi finals en route to my Boxing Day Bash winning victory over Scott, 41-27.
@@ -227,7 +231,7 @@ Okay, let's see... MatthewR won Group A pretty solidly while Zach did the same w
 <p class="center-bold">Boxing Day Bash Group Stage</p>
 <img src="/images/season-4/recap/season-4-boxing-day-bash-b-group-stage.png" width="1200vh" height="auto">
 <p class="center-bold">Boxing Day Bash Knockout Stage</p>
-<img src="/images/season-4/recap/season-4-boxing-day-bash-b-group-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-boxing-day-bash-b-knockout-stage.png" width="800vh" height="auto">
 <br/>
 
 On the other side of the Game of Stones world, Emma swept Group B as the only 15 point team in all 4 groups, while Alex won Group A with the usual 12 points. Divya exited Group A on PF ahead of Andrew, while ZachA and Morgs couldn't pick up the 1 more win to get themselves out of the danger zone. And interestingly, John somehow had _2_ draws in Group A. I honestly don't think I've seen that one before.
@@ -243,6 +247,8 @@ This season's kinda cramped Champions Cup was of course the second interleague t
 <br/>
 <p class="center-bold">Season 4 Champions Cup Group Stage</p>
 <img src="/images/season-4/recap/season-4-champions-cup-group-stage.png" width="1200vh" height="auto">
+<p class="center-bold">Season 4 Champions Cup Group Stage Matches</p>
+<img src="/images/season-4/recap/season-4-champions-cup-group-stage-matches.png" width="1600vh" height="auto">
 <br/>
 
 Alright, let's start with the group stage and see if we can find anything interesting!
@@ -260,7 +266,7 @@ Alright, let's start with the group stage and see if we can find anything intere
 
 <br/>
 <p class="center-bold">Season 4 Champions Cup Knockout Stage</p>
-<img src="/images/season-4/recap/season-4-champions-cup-group-stage.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-champions-cup-knockout-stage.png" width="1200vh" height="auto">
 <br/>
 
 And in the knockouts, Mack had a solid run where she defeated Darryan, Chris, and Luke, until finally going up against truly the final boss of this season: Zach. And Zach proved his League A win wasn't a fluke by putting up 115 points in 2 weeks against her 43.
@@ -313,11 +319,11 @@ The PPW table also led by me, with Luke unsurprisingly hot on my tail as the onl
 PPG looks pretty similar, the only notable difference being Gavin sneaking his way up to 5th (uh oh).
 
 <p class="center-bold">All-Time Table (Post-S4)</p>
-<img src="/images/season-4/recap/season-4-end-all-time.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-end-all-time.png" width="1100vh" height="auto">
 <p class="center-bold">All-Time PPW Table (Post-S4)</p>
-<img src="/images/season-4/recap/season-4-end-ppw.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-end-ppw.png" width="1100vh" height="auto">
 <p class="center-bold">All-Time PPG Table (Post-S4)</p>
-<img src="/images/season-4/recap/season-4-end-ppg.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-end-ppg.png" width="1100vh" height="auto">
 <br/>
 
 So, where are we now? Well, considering MatthewR and I finished the season on the _same_ number of points, not a lot of movement there. I guess I can make a little comparison list here of the top 10 or so:
@@ -472,9 +478,9 @@ Just a sidenote here, I feel like usually I'd go into the Game Changers stats he
 #### Stats Tables
 
 <p class="center-bold">Season 4 League A Gameweek Breakdown</p>
-<img src="/images/season-4/recap/season-4-gameweek-breakdown-a.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-gameweek-breakdown-a.png" width="1500vh" height="auto">
 <p class="center-bold">Season 4 League B Gameweek Breakdown</p>
-<img src="/images/season-4/recap/season-4-gameweek-breakdown-b.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-gameweek-breakdown-b.png" width="1500vh" height="auto">
 <br/>
 
 Alright, starting with the Gameweek Breakdown table. The one that you've probably been completely unable to read for a lot of the season. Well don't worry, I'll take a more hi-res screenshot this time.
@@ -540,9 +546,9 @@ And moving onto the manager breakdowns, here's some cool things:
 #### Timelines
 
 <p class="center-bold">Season 4 League A Position Timeline</p>
-<img src="/images/season-4/recap/season-4-position-timeline-a.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-position-timeline-a.png" width="1000vh" height="auto">
 <p class="center-bold">Season 4 League B Position Timeline</p>
-<img src="/images/season-4/recap/season-4-position-timeline-b.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-position-timeline-b.png" width="1000vh" height="auto">
 <br/>
 
 Okay let's breeze through these ones:
@@ -561,15 +567,15 @@ Okay let's breeze through these ones:
 And I'll just let you peruse the other timelines since they're about as you'd expect (and I'm selfishly saving time)
 
 <p class="center-bold">Season 4 League A Points Timeline</p>
-<img src="/images/season-4/recap/season-4-points-timeline-a.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-points-timeline-a.png" width="1000vh" height="auto">
 <p class="center-bold">Season 4 League B Points Timeline</p>
-<img src="/images/season-4/recap/season-4-points-timeline-b.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-points-timeline-b.png" width="1000vh" height="auto">
 <br/>
 
 <p class="center-bold">Season 4 League A Points For Timeline</p>
-<img src="/images/season-4/recap/season-4-points-for-timeline-a.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-points-for-timeline-a.png" width="1000vh" height="auto">
 <p class="center-bold">Season 4 League B Points For Timeline</p>
-<img src="/images/season-4/recap/season-4-points-for-timeline-b.png" width="1200vh" height="auto">
+<img src="/images/season-4/recap/season-4-points-for-timeline-b.png" width="1000vh" height="auto">
 <br/>
 
 ---
