@@ -6,6 +6,14 @@ tags: ["world cup", "weekly update"]
 ---
 
 <style>
+table, th, td {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1px solid;
+    padding: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
 img {
  display: block;
  margin-left: auto;
@@ -210,5 +218,7 @@ And real quick just wanted to highlight some fun looking matches:
 | 9 (-2)   | Mack    | 210    | 91  | 67  | 52  |
 | 10 (-)   | Kevin   | 184    | 66  | 75  | 43  |
 | 11 (-)   | Scott   | 124    | 44  | 46  | 34  |
+
+<br/>
 
 A huge week for Luke as his wildcard paid off with a huge 104 point week where his biggest disappointment was a 3 pointer from Lamine Yamal. He now takes the top spot over Chris by 9 points, whose wildcard went the opposite direction as he put up the tied-6th highest score this week (67). Darryan uses a quadruple 7 pointer to put up 81 to close the gap with Chris to just 4 points heading into the knockout rounds while also separating from Zach in 4th by 25 points. He sits now just 3 ahead of Jesse and 9 ahead of me. John moves to 7th and now leads the trio of him/Coop/Mack who are on 213/211/210 points to 20 back of me. Kevin sits another 25 points back and Scott another 60.
