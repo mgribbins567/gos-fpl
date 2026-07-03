@@ -10,6 +10,7 @@ import {
   PasswordInput,
   Flex,
 } from "@mantine/core";
+import { useManager } from "../../contexts/ManagerContext";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -28,30 +29,12 @@ async function fetchManager(userId) {
 }
 
 export function FantasyAuth() {
+  const { user, manager, supabase } = useManager();
   const [mode, setMode] = useState("signIn");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
-  const [manager, setManager] = useState(undefined);
-
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      setManager(undefined);
-      if (currentUser) {
-        fetchManager(currentUser.id)
-          .then(setManager)
-          .catch((err) => setMessage(err.message));
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   async function handleEmailSubmit(event) {
     event.preventDefault();
@@ -108,7 +91,7 @@ export function FantasyAuth() {
   }
 
   return (
-    <Card shadow="sm" padding="sm" radius="md" withBorder>
+    <Card shadow="sm" padding="sm" radius="md" maw={520} miw={340} withBorder>
       <Stack gap="xs">
         <Group padding="sm" gap={0}>
           {!user && (
