@@ -30,7 +30,7 @@ img {
 
 Hello and welcome to the Round of 16 (and some teams to the quarterfinals)! Once again these rounds are coming way too fast for me to get these out day of, but congrats to Morocco for being the first African nation to make the quarter finals twice - and in back to back World Cups!
 
-This week was filled with late goals, dramatic finishes, "why don't professional soccer players just score a penality 100% of the time"s and more, so let's get straight into it!
+This week was filled with late goals, dramatic finishes, "why don't professional soccer players just score a penalty 100% of the time"s and more, so let's get straight into it!
 
 ---
 
