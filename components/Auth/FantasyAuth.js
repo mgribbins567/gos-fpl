@@ -12,22 +12,6 @@ import {
 } from "@mantine/core";
 import { useManager } from "../../contexts/ManagerContext";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-);
-
-async function fetchManager(userId) {
-  const { data: manager, error } = await supabase
-    .from("Manager")
-    .select("*")
-    .eq("auth_id", userId)
-    .single();
-
-  if (error) return null;
-  return manager;
-}
-
 export function FantasyAuth() {
   const { user, manager, supabase } = useManager();
   const [mode, setMode] = useState("signIn");

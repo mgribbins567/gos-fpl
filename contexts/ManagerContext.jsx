@@ -2,13 +2,14 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_LOCAL_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_SERVICE_ROLE_KEY,
 );
 
 const ManagerContext = createContext(null);
 
-async function fetchManager(userId) {
+export async function fetchManager(userId) {
   const { data: manager, error } = await supabase
     .from("Manager")
     .select("*")

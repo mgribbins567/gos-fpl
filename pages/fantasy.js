@@ -1,4 +1,5 @@
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
+import { TeamCard } from "../components/Team/TeamCard";
 import { Container, Title, Stack, Group } from "@mantine/core";
 import { ManagerProvider } from "../contexts/ManagerContext";
 
@@ -11,6 +12,7 @@ export default function Fantasy() {
             Game of Stones Fantasy
           </Title>
           <Group>
+            <TeamCard />
             <FantasyAuth />
           </Group>
         </Stack>
