@@ -1,6 +1,9 @@
 import { Card, Text, Stack, Group } from "@mantine/core";
 import { useManager } from "../../contexts/ManagerContext";
 import { useEffect, useState } from "react";
+import { useBootstrapStatic, useLiveEvent } from "../../hooks/useFplData";
+import { getCurrentGameweek, mergeTeamWithLiveData } from "../../lib/fplData";
+import { Field } from "./Field";
 
 export async function getTeam(manager, supabase) {
   if (!manager) {
@@ -20,30 +23,38 @@ export async function getTeam(manager, supabase) {
 export function TeamCard() {
   const { manager, supabase } = useManager();
   const [team, setTeam] = useState(undefined);
-  const [error, setError] = useState(null);
+  const [teamError, setTeamError] = useState(null);
 
   useEffect(() => {
     getTeam(manager, supabase)
       .then(setTeam)
-      .catch((err) => setError(err.message));
+      .catch((err) => setTeamError(err.message));
   }, [manager, supabase]);
 
+  const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
+  const gameweek = bootstrap ? getCurrentGameweek(bootstrap) : undefined;
+  const { data: live, error: liveError } = useLiveEvent(gameweek);
+
   if (!manager || team === undefined) {
-    return;
+    return null;
   }
+
+  const loadError = teamError || bootstrapError || liveError;
+  const players =
+    team && bootstrap && live
+      ? mergeTeamWithLiveData(team, bootstrap, live)
+      : undefined;
+
+  console.log("Team players: ", players);
 
   return (
     <Card shadow="sm" padding="sm" radius="md" withBorder>
       <Stack gap="xs">
         <Text fw={700}>{manager?.name}</Text>
-        {team === undefined && <Text>Loading...</Text>}
-        {error && <Text c="red">{error}</Text>}
-        {team?.length === 0 && <Text>No players found.</Text>}
-        {team?.map((player) => (
-          <Group key={player.id} justify="space-between">
-            <Text>{player.player_id}</Text>
-          </Group>
-        ))}
+        {players === undefined && !loadError && <Text>Loading...</Text>}
+        {loadError && <Text c="red">{loadError}</Text>}
+        {players?.length === 0 && <Text>No players found.</Text>}
+        {players && players.length > 0 && <Field players={players} />}
       </Stack>
     </Card>
   );
