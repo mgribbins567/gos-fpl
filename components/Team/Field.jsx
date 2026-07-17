@@ -1,19 +1,45 @@
-import { Box, Text, Stack, Flex, Group } from "@mantine/core";
+import { Box, Text, Stack, Flex, Group, Badge } from "@mantine/core";
 import { groupPlayersByPosition, getShirtUrl } from "../../lib/fplData";
 
 const PITCH_GREEN = "#2d7a3e";
 const PITCH_GREEN_DARK = "#276b37";
 
+function colorForPositionMack(position) {
+  switch (position) {
+    case 1:
+      return "red";
+    case 2:
+      return "orange";
+    case 3:
+      return "rgba(61, 96, 167, 1)";
+    case 4:
+      return "purple";
+    default:
+      return "blue";
+  }
+}
+
+function colorForStatus(status) {
+  if (status === "a") {
+    return "#343a40";
+  } else if (status === "d") {
+    return "#ff840078";
+  } else {
+    return "#ff00006c";
+  }
+}
+
 function PlayerChip({ player }) {
+  const color = colorForPositionMack(player.elementType);
   return (
     <Box
       bg="rgba(255, 255, 255, 0.1)"
       py={4}
       ta="center"
-      miw={60}
-      maw={60}
+      miw={70}
+      maw={70}
       bdrs="sm"
-      bd="1px solid white"
+      //   bd="1px solid white"
       c="white"
     >
       <img
@@ -23,9 +49,23 @@ function PlayerChip({ player }) {
         height={30}
         style={{ display: "block", margin: "0 auto 2px" }}
       />
-      <Text size="xs" fw={600} truncate="end">
+      <Badge
+        size="compact-xs"
+        variant="gradient"
+        gradient={{
+          from: color,
+          to: "gray",
+          deg: 90,
+        }}
+        tt="none"
+        fz="xs"
+        fw={500}
+        miw="100%"
+        radius="sm"
+        truncate="end"
+      >
         {player.name}
-      </Text>
+      </Badge>
       <Text size="xs">{player.points}</Text>
     </Box>
   );
@@ -33,7 +73,15 @@ function PlayerChip({ player }) {
 
 function PositionRow({ players }) {
   return (
-    <Group justify="space-evenly" direction="row" py="xs" wrap="nowrap">
+    <Group
+      justify="center"
+      direction="row"
+      py="xs"
+      px="xs"
+      gap={12}
+      wrap="nowrap"
+      w="100%"
+    >
       {players.map((player) => (
         <PlayerChip key={player.id} player={player} />
       ))}
@@ -46,9 +94,9 @@ export function Field({ players }) {
     groupPlayersByPosition(players);
 
   return (
-    <Stack gap="xs">
+    <Stack gap="xs" w="100%">
       <Box
-        position="relative"
+        // position="relative"
         bdrs="md"
         bd="2px solid white"
         style={{

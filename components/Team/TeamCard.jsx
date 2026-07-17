@@ -2,7 +2,11 @@ import { Card, Text, Stack, Group } from "@mantine/core";
 import { useManager } from "../../contexts/ManagerContext";
 import { useEffect, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "../../hooks/useFplData";
-import { getCurrentGameweek, mergeTeamWithLiveData } from "../../lib/fplData";
+import {
+  getCurrentGameweek,
+  mergeTeamWithLiveData,
+  getTotalStartingPoints,
+} from "../../lib/fplData";
 import { Field } from "./Field";
 
 export async function getTeam(manager, supabase) {
@@ -45,12 +49,21 @@ export function TeamCard() {
       ? mergeTeamWithLiveData(team, bootstrap, live)
       : undefined;
 
-  console.log("Team players: ", players);
+  const totalPoints = players ? getTotalStartingPoints(players) : undefined;
 
   return (
-    <Card shadow="sm" padding="sm" radius="md" withBorder>
+    <Card shadow="sm" padding={1} radius="md" withBorder>
       <Stack gap="xs">
-        <Text fw={700}>{manager?.name}</Text>
+        <Group justify="space-between">
+          <Text fw={700} c="white">
+            {manager?.name}
+          </Text>
+          {totalPoints !== undefined && (
+            <Text fw={700} c="white">
+              {totalPoints} pts
+            </Text>
+          )}
+        </Group>
         {players === undefined && !loadError && <Text>Loading...</Text>}
         {loadError && <Text c="red">{loadError}</Text>}
         {players?.length === 0 && <Text>No players found.</Text>}

@@ -6,15 +6,15 @@ import { ManagerProvider } from "../contexts/ManagerContext";
 export default function Fantasy() {
   return (
     <ManagerProvider>
-      <Container>
+      <Container px={0}>
         <Stack align="center">
           <Title padding="sm" align="center">
             Game of Stones Fantasy
           </Title>
-          <Group>
+          <Group maw="100%">
             <TeamCard />
-            <FantasyAuth />
           </Group>
+          <FantasyAuth />
         </Stack>
       </Container>
     </ManagerProvider>
