@@ -9,8 +9,11 @@ import {
   TextInput,
   PasswordInput,
   Flex,
+  Modal,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useManager } from "../../contexts/ManagerContext";
+import { User } from "@phosphor-icons/react";
 
 export function FantasyAuth() {
   const { user, manager, supabase } = useManager();
@@ -19,6 +22,7 @@ export function FantasyAuth() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   async function handleEmailSubmit(event) {
     event.preventDefault();
@@ -38,6 +42,7 @@ export function FantasyAuth() {
       if (error) {
         setMessage(error.message);
       }
+      close();
     }
 
     setLoading(false);
@@ -52,7 +57,7 @@ export function FantasyAuth() {
       options: {
         redirectTo:
           typeof window !== "undefined"
-            ? `${window.location.origin}/fantasy`
+            ? `${window.location.origin}/`
             : undefined,
       },
     });
@@ -75,78 +80,89 @@ export function FantasyAuth() {
   }
 
   return (
-    <Card shadow="sm" padding="sm" radius="md" maw={520} miw={340} withBorder>
-      <Stack gap="xs">
-        <Group padding="sm" gap={0}>
-          {!user && (
-            <Group justify="space-between" style={{ width: "100%" }}>
-              <Text c="white" fw="700">
-                {mode === "signIn" ? "Sign in!" : "Sign up!"}
-              </Text>
-              <Button
-                onClick={() => setMode(mode === "signIn" ? "signUp" : "signIn")}
-                disabled={loading}
-                padding="xs"
-              >
-                {mode === "signIn" ? "Sign up" : "Sign in"}
-              </Button>
-            </Group>
-          )}
-        </Group>
-
-        {user ? (
-          <Stack gap="xs" mt={0}>
-            {manager === undefined ? (
-              <Text>Welcome</Text>
-            ) : manager ? (
-              <Text>Welcome {manager.name}</Text>
-            ) : (
-              <Text>Welcome - please ping me to link your account!</Text>
+    <Group miw="400px" maw="70%" justify="space-between">
+      {user === null ? null : manager ? (
+        <Text>Hello {manager && manager.name}</Text>
+      ) : (
+        <Text>Please ping me to link your account!</Text>
+      )}
+      <Modal opened={opened} onClose={close} centered title="Authentication">
+        <Stack gap="xs">
+          <Group padding="sm" gap={0}>
+            {!user && (
+              <Group justify="space-between" style={{ width: "100%" }}>
+                <Text c="white" fw="700">
+                  {mode === "signIn" ? "Sign in!" : "Sign up!"}
+                </Text>
+                <Button
+                  onClick={() =>
+                    setMode(mode === "signIn" ? "signUp" : "signIn")
+                  }
+                  disabled={loading}
+                  padding="xs"
+                >
+                  {mode === "signIn" ? "Sign up" : "Sign in"}
+                </Button>
+              </Group>
             )}
-            <Text>Signed in as {user.email}</Text>
-            <Button onClick={handleSignOut} disabled={loading}>
-              Sign out
-            </Button>
-          </Stack>
-        ) : (
-          <form onSubmit={handleEmailSubmit}>
-            <Stack>
-              <TextInput
-                label="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder="email@email.com"
-                required
-              />
-              <PasswordInput
-                label="Password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="Put your password here"
-                required
-                minLength={6}
-              />
+          </Group>
 
-              <Button type="submit" disabled={loading}>
-                {mode === "signUp" ? "Create account" : "Sign in"}
+          {user ? (
+            <Stack gap="xs" mt={0}>
+              <Text>Signed in as {user.email}</Text>
+              <Button onClick={handleSignOut} disabled={loading}>
+                Sign out
               </Button>
             </Stack>
-          </form>
-        )}
+          ) : (
+            <form onSubmit={handleEmailSubmit}>
+              <Stack>
+                <TextInput
+                  label="Email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="email@email.com"
+                  required
+                />
+                <PasswordInput
+                  label="Password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Put your password here"
+                  required
+                  minLength={6}
+                />
 
-        {!user && (
-          <Flex align="center" justify="center">
-            <Button
-              onClick={handleGoogleSignIn}
-              disabled={loading}
-              w={200}
-              size="xs"
-            >
-              Sign in with Google
-            </Button>
-          </Flex>
-        )}
-      </Stack>
-    </Card>
+                <Button type="submit" disabled={loading}>
+                  {mode === "signUp" ? "Create account" : "Sign in"}
+                </Button>
+              </Stack>
+            </form>
+          )}
+
+          {!user && (
+            <Flex align="center" justify="center">
+              <Button
+                onClick={handleGoogleSignIn}
+                disabled={loading}
+                w={200}
+                size="xs"
+              >
+                Sign in with Google
+              </Button>
+            </Flex>
+          )}
+        </Stack>
+      </Modal>
+      {!user ? (
+        <Button variant="default" onClick={open}>
+          Sign in
+        </Button>
+      ) : (
+        <Button size="compact-sm" fz={20} variant="default" onClick={open}>
+          <User />
+        </Button>
+      )}
+    </Group>
   );
 }

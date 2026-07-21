@@ -1,3 +1,4 @@
+import { Group } from "@mantine/core";
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -58,5 +59,28 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+export function NewNavbar() {
+  const router = useRouter();
+  return (
+    <Group>
+      {navLinks.map((link) => {
+        const isActive =
+          link.path === "/"
+            ? router.pathname === "/"
+            : router.pathname.startsWith(link.path);
+        const active = isActive ? styles.navLinkActive : styles.navLinkInactive;
+        return (
+          <div className={styles.navLink} key={link.path}>
+            <Link href={link.path} ket={link.name} className={active}>
+              <div className={styles.icon}>{link.icon}</div>
+              <span className={styles.label}>{link.name}</span>
+            </Link>
+          </div>
+        );
+      })}
+    </Group>
   );
 }
