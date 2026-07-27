@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { getGameweekPhase, getActiveGameweekContext } from "../../lib/gameweek";
+import {
+  getGameweekPhase,
+  getActiveGameweekContext,
+  canEditLineup,
+} from "../../lib/gameweek";
 
 function makeEvent(
   id,
@@ -122,5 +126,25 @@ describe("getActiveGameweekContext", () => {
     expect(() => getActiveGameweekContext(bootstrap)).toThrow(
       "No current or next gameweek found in bootstrap-static data",
     );
+  });
+});
+
+describe("canEditLineup", () => {
+  const deadline = "2026-08-15T18:00:00.000Z";
+
+  it("returns true when now is before the deadline", () => {
+    expect(canEditLineup(deadline, new Date("2026-08-15T00:00:00.000Z"))).toBe(
+      true,
+    );
+  });
+
+  it("returns false when now is after the deadline", () => {
+    expect(canEditLineup(deadline, new Date("2026-08-16T00:00:00.000Z"))).toBe(
+      false,
+    );
+  });
+
+  it("returns false at the exact deadline instant (matches getGameweekPhase's in_progress boundary)", () => {
+    expect(canEditLineup(deadline, new Date(deadline))).toBe(false);
   });
 });

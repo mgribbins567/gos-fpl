@@ -12,21 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { useManager } from "../../contexts/ManagerContext";
 import { useMatchupPreview } from "../../hooks/useMatchupPreview";
-
-function formatDeadline(date) {
-  return date.toLocaleString(undefined, {
-    weekday: "short",
-    hour: "numeric",
-    minute: "2-digit",
-  });
-}
-
-function statusText(data) {
-  if (data.phase === "in_progress") return `In progress`;
-  if (data.phase === "waivers_due")
-    return `Waivers due ${formatDeadline(data.waiversDueAt)}`;
-  return `Squad locks ${formatDeadline(data.squadLockAt)}`;
-}
+import { formatDeadline, describeGameweekStatus } from "../../lib/gameweek";
 
 function CurrentMatch({
   manager1,
@@ -38,7 +24,7 @@ function CurrentMatch({
 }) {
   return (
     <>
-      <Stack align="center" p="sm">
+      <Stack align="center">
         <Paper
           radius="md"
           p="xs"
@@ -87,31 +73,19 @@ function CurrentMatch({
             {manager2}
           </Text>
         </Paper>
-        <Group miw="100%" justify="space-between">
-          <Text size="sm">
-            {topPlayer1.name} ({topPlayer1.points})
-          </Text>
-          <Text size="sm">Top Player</Text>
-          <Text size="sm" ta="right">
-            {topPlayer2.name} ({topPlayer2.points})
-          </Text>
-        </Group>
+        {topPlayer1 && (
+          <Group miw="100%" justify="space-between">
+            <Text size="sm">
+              {topPlayer1.name} ({topPlayer1.points})
+            </Text>
+            <Text size="sm">Top Player</Text>
+            <Text size="sm" ta="right">
+              {topPlayer2.name} ({topPlayer2.points})
+            </Text>
+          </Group>
+        )}
       </Stack>
     </>
-  );
-}
-
-function ScoreRow({ label, name, score }) {
-  return (
-    <Group justify="space-between">
-      <Text size="sm" c="dimmed">
-        {label}
-      </Text>
-      <Group gap={6}>
-        <Text size="sm">{name}</Text>
-        {score !== undefined && score !== null && <Text fw={700}>{score}</Text>}
-      </Group>
-    </Group>
   );
 }
 
@@ -119,13 +93,12 @@ export function TeamPreviewCard() {
   const { manager, supabase } = useManager();
   const router = useRouter();
   const { data, error } = useMatchupPreview(manager, supabase);
-  console.log("data: ", data);
 
   if (!manager) return null;
 
   return (
     <Card shadow="sm" padding="sm" radius="md" withBorder>
-      <Stack gap="xs">
+      <Stack>
         {!data && !error && <Skeleton height={80} />}
         {error && <Text c="red">{error}</Text>}
 
@@ -143,7 +116,7 @@ export function TeamPreviewCard() {
                     data.phase === "in_progress" ? "lime" : "orange",
                 }}
               >
-                {statusText(data)}
+                {describeGameweekStatus(data)}
               </Badge>
             </Group>
             {data.mode === "live" && data.matchup && (
@@ -169,15 +142,11 @@ export function TeamPreviewCard() {
                     <Text size="xs" c="dimmed">
                       Last week
                     </Text>
-                    <ScoreRow
-                      label="You"
-                      name={data.matchup.previous.self.name}
-                      score={data.matchup.previous.self.score}
-                    />
-                    <ScoreRow
-                      label="Opponent"
-                      name={data.matchup.previous.opponent.name}
-                      score={data.matchup.previous.opponent.score}
+                    <CurrentMatch
+                      manager1={data.matchup.previous.self.name}
+                      manager2={data.matchup.previous.opponent.name}
+                      score1={data.matchup.previous.self.score}
+                      score2={data.matchup.previous.opponent.score}
                     />
                   </Stack>
                 )}
@@ -186,7 +155,9 @@ export function TeamPreviewCard() {
                     <Text size="xs" c="dimmed">
                       Next week
                     </Text>
-                    <Text size="sm">vs {data.matchup.next.opponent.name}</Text>
+                    <Text size="sm" c="white">
+                      vs {data.matchup.next.opponent.name}
+                    </Text>
                   </Stack>
                 )}
               </>

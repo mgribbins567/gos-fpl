@@ -70,7 +70,6 @@ export function useMatchupPreview(manager, supabase) {
           getTeam(manager, supabase),
           getTeam(opponentManager, supabase),
         ]);
-        console.log("coop's team: ", opponentTeam);
 
         const selfPlayers = mergeTeamWithLiveData(selfTeam, bootstrap, live);
         const opponentPlayers = mergeTeamWithLiveData(
@@ -78,7 +77,6 @@ export function useMatchupPreview(manager, supabase) {
           bootstrap,
           live,
         );
-        console.log("players: ", selfPlayers);
 
         return {
           mode: "live",

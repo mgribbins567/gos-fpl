@@ -80,7 +80,7 @@ export function FantasyAuth() {
   }
 
   return (
-    <Group miw="400px" maw="70%" justify="space-between">
+    <Group w="100%" maw="22rem" justify="space-between">
       {user === null ? null : manager ? (
         <Text>Hello {manager && manager.name}</Text>
       ) : (

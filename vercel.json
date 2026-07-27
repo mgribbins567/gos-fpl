@@ -1,0 +1,1 @@
+{ "crons": [{ "path": "/api/cron/sync-gameweeks", "schedule": "0 6 * * *" }] }

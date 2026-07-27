@@ -63,7 +63,7 @@ describe("matchupData integration", () => {
     const gameweekId = "season-5-3";
     const managerA = "Matthew";
     const managerB = "Coop";
-    const matchupId = "Matthew-Coop-1-1";
+    const matchupId = "Matthew-Coop-5-1";
 
     it("finds the matchup when the manager is manager_1", async () => {
       const matchup = await getMatchupForManager(

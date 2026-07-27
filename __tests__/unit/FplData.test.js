@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  getCurrentGameweek,
-  isGameweekLive,
   getShirtUrl,
   mergeTeamWithLiveData,
   groupPlayersByPosition,
@@ -45,50 +43,6 @@ function makeTeamPlayer(overrides = {}) {
   };
 }
 
-describe("getCurrentGameweek", () => {
-  it("returns the id of the event marked is_current", () => {
-    const bootstrap = makeBootstrap({
-      events: [makeEvent(1), makeEvent(2, { isCurrent: true }), makeEvent(3)],
-    });
-
-    expect(getCurrentGameweek(bootstrap)).toBe(2);
-  });
-
-  it("throws when no event is marked is_current", () => {
-    const bootstrap = makeBootstrap({ events: [makeEvent(1), makeEvent(2)] });
-
-    expect(() => getCurrentGameweek(bootstrap)).toThrow(
-      "No current gameweek found in bootstrap-static data",
-    );
-  });
-});
-
-describe("isGameweekLive", () => {
-  it("returns true when the gameweek exists and is not finished", () => {
-    const bootstrap = makeBootstrap({
-      events: [makeEvent(5, { finished: false })],
-    });
-
-    expect(isGameweekLive(bootstrap, 5)).toBe(true);
-  });
-
-  it("returns false when the gameweek exists and is finished", () => {
-    const bootstrap = makeBootstrap({
-      events: [makeEvent(5, { finished: true })],
-    });
-
-    expect(isGameweekLive(bootstrap, 5)).toBe(false);
-  });
-
-  it("throws when the gameweek is not found", () => {
-    const bootstrap = makeBootstrap({ events: [makeEvent(5)] });
-
-    expect(() => isGameweekLive(bootstrap, 99)).toThrow(
-      "Gameweek 99 not found in bootstrap-static data",
-    );
-  });
-});
-
 describe("getShirtUrl", () => {
   it("returns the standard shirt url for outfield positions", () => {
     expect(getShirtUrl(3, 4)).toBe(
@@ -124,6 +78,10 @@ describe("mergeTeamWithLiveData", () => {
         manager_id: 21,
         player_id: 50,
         is_starter: true,
+        liveStats: {
+          minutes: 90,
+          total_points: 12,
+        },
         bench_order: null,
         name: "Haaland",
         teamId: 1,
