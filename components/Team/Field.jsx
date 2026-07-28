@@ -1,5 +1,9 @@
 import { Box, Text, Stack, Flex, Group, Badge } from "@mantine/core";
-import { groupPlayersByPosition, getShirtUrl } from "../../lib/fplData";
+import {
+  groupPlayersByPosition,
+  getShirtUrl,
+  getFixtureDisplayText,
+} from "../../lib/fplData";
 
 const PITCH_GREEN = "#2d7a3e";
 const PITCH_GREEN_DARK = "#276b37";
@@ -31,6 +35,9 @@ function colorForStatus(status) {
 
 function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
   const color = colorForPositionMack(player.elementType);
+  const upcomingFixtures = player.fixtures?.filter((f) => !f.started) ?? [];
+  const showOpponents = upcomingFixtures.length > 0;
+
   return (
     <Box
       onClick={onClick}
@@ -71,8 +78,8 @@ function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
       >
         {player.name}
       </Badge>
-      <Text size="xs" fw={700}>
-        {player.points}
+      <Text size="xs" c="white">
+        {getFixtureDisplayText(player)}
       </Text>
     </Box>
   );

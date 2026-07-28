@@ -3,6 +3,7 @@ import {
   getShirtUrl,
   mergeTeamWithLiveData,
   groupPlayersByPosition,
+  getFixtureDisplayText,
 } from "../../lib/fplData";
 
 function makeBootstrap({ events = [], elements = [], teams = [] } = {}) {
@@ -182,5 +183,122 @@ describe("groupPlayersByPosition", () => {
       goalkeepers: [],
       bench: [],
     });
+  });
+});
+
+describe("getFixtureDisplayText", () => {
+  function makeFixture(overrides = {}) {
+    return {
+      opponentShortName: "ARS",
+      isHome: true,
+      started: false,
+      finished: false,
+      ...overrides,
+    };
+  }
+
+  function makePlayerWithFixtures(points, fixtures) {
+    return { points, fixtures };
+  }
+
+  it("shows points when fixtures is undefined (e.g. historical view where fixture status was never attached)", () => {
+    const player = { points: 6 };
+    expect(getFixtureDisplayText(player)).toBe(6);
+  });
+
+  it("shows '-' when fixtures is undefined and points is null", () => {
+    const player = { points: null };
+    expect(getFixtureDisplayText(player)).toBe("-");
+  });
+
+  it("shows points when the player has no fixtures this gameweek (blank gameweek)", () => {
+    const player = makePlayerWithFixtures(0, []);
+    expect(getFixtureDisplayText(player)).toBe(0);
+  });
+
+  it("shows '-' for a blank gameweek when points is null", () => {
+    const player = makePlayerWithFixtures(null, []);
+    expect(getFixtureDisplayText(player)).toBe("-");
+  });
+
+  it("shows the opponent only, with no points, when the single fixture hasn't started", () => {
+    const player = makePlayerWithFixtures(0, [
+      makeFixture({ opponentShortName: "ARS", isHome: true, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("vs ARS");
+  });
+
+  it("uses '@' for an away fixture", () => {
+    const player = makePlayerWithFixtures(0, [
+      makeFixture({ opponentShortName: "CHE", isHome: false, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("@CHE");
+  });
+
+  it("shows points once the single fixture has started", () => {
+    const player = makePlayerWithFixtures(9, [
+      makeFixture({ started: true, finished: true }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe(9);
+  });
+
+  it("shows points for a started-but-not-yet-finished fixture (currently live)", () => {
+    const player = makePlayerWithFixtures(5, [
+      makeFixture({ started: true, finished: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe(5);
+  });
+
+  it("shows 0 pts (not the opponent) for a player with zero minutes in an already-finished fixture — an unused sub, not someone yet to play", () => {
+    const player = makePlayerWithFixtures(0, [
+      makeFixture({ started: true, finished: true }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe(0);
+  });
+
+  it("shows both upcoming opponents, with no points, when neither of a double gameweek's fixtures has started", () => {
+    const player = makePlayerWithFixtures(0, [
+      makeFixture({ opponentShortName: "ARS", isHome: true, started: false }),
+      makeFixture({ opponentShortName: "CHE", isHome: false, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("vs ARS, @CHE");
+  });
+
+  it("shows accumulated points plus the remaining opponent for a mid-double gameweek", () => {
+    const player = makePlayerWithFixtures(9, [
+      makeFixture({
+        opponentShortName: "TM3",
+        isHome: true,
+        started: true,
+        finished: true,
+      }),
+      makeFixture({ opponentShortName: "TM4", isHome: false, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("9, @TM4");
+  });
+
+  it("falls back to 0 in the mid-double prefix when points is null but a fixture has already started", () => {
+    const player = makePlayerWithFixtures(null, [
+      makeFixture({ started: true, finished: true }),
+      makeFixture({ opponentShortName: "TM4", isHome: false, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("0, @TM4");
+  });
+
+  it("shows points only (no opponent list) once both fixtures in a double gameweek have started", () => {
+    const player = makePlayerWithFixtures(14, [
+      makeFixture({ started: true, finished: true }),
+      makeFixture({ started: true, finished: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe(14);
+  });
+
+  it("lists multiple remaining opponents in fixture order for a triple-or-more gameweek with none started", () => {
+    const player = makePlayerWithFixtures(0, [
+      makeFixture({ opponentShortName: "ARS", isHome: true, started: false }),
+      makeFixture({ opponentShortName: "CHE", isHome: false, started: false }),
+      makeFixture({ opponentShortName: "MUN", isHome: true, started: false }),
+    ]);
+    expect(getFixtureDisplayText(player)).toBe("vs ARS, @CHE, vs MUN");
   });
 });

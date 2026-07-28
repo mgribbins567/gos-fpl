@@ -1,10 +1,15 @@
 import { Card, Text, Stack, Group, Badge, Box } from "@mantine/core";
 import { useManager } from "../../contexts/ManagerContext";
 import { useEffect, useState, useMemo } from "react";
-import { useBootstrapStatic, useLiveEvent } from "../../hooks/useFplData";
+import {
+  useBootstrapStatic,
+  useLiveEvent,
+  useFixtures,
+} from "../../hooks/useFplData";
 import {
   mergeTeamWithLiveData,
   getTotalStartingPoints,
+  attachFixtureStatus,
 } from "../../lib/fplData";
 import { canEditLineup } from "../../lib/gameweek";
 import { Field } from "./Field";
@@ -61,9 +66,10 @@ export function TeamCard() {
     context?.mode === "live"
       ? context.event.id
       : context?.mode === "between"
-        ? context.previousEvent?.id
+        ? context.nextEvent?.id
         : undefined;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
+  const { data: fixtures, error: fixturesError } = useFixtures(relevantEventId);
 
   const history = useTeamHistory(
     manager,
@@ -77,11 +83,20 @@ export function TeamCard() {
   }
 
   const loadError =
-    teamError || bootstrapError || contextError || liveError || history.error;
+    teamError ||
+    bootstrapError ||
+    contextError ||
+    liveError ||
+    fixturesError ||
+    history.error;
   let players;
   if (!history.isHistorical && team && bootstrap && context) {
-    if (relevantEventId && live) {
-      players = mergeTeamWithLiveData(team, bootstrap, live);
+    if (relevantEventId && live && fixtures) {
+      players = attachFixtureStatus(
+        mergeTeamWithLiveData(team, bootstrap, live),
+        bootstrap,
+        fixtures,
+      );
     } else if (!relevantEventId) {
       players = mergeTeamWithStaticData(team, bootstrap);
     }
