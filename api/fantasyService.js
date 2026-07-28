@@ -46,3 +46,15 @@ export async function getLiveData(gameweek) {
     throw error;
   }
 }
+
+export async function getFixtures(gameweek) {
+  const res = await fetch(
+    `https://fantasy.premierleague.com/api/fixtures/?event=${gameweek}`,
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch fixtures for gameweek ${gameweek}: ${res.status}`,
+    );
+  }
+  return res.json();
+}
