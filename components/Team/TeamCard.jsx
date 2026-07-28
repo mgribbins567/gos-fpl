@@ -117,8 +117,8 @@ export function TeamCard() {
     <Card maw="98vw" shadow="sm" padding="sm" radius="md" withBorder>
       <Stack gap="xs">
         <Group wrap="nowrap" align="center">
-          <Box style={{ flex: 1, textAlign: "left" }}>
-            <Text fw={700} c="white" truncate>
+          <Box style={{ flex: 1, textAlign: "left", minWidth: 0 }}>
+            <Text fw={700} c="white">
               {manager?.name}
             </Text>
           </Box>
@@ -133,7 +133,7 @@ export function TeamCard() {
             />
           )}
           {totalPoints !== undefined && (
-            <Box style={{ flex: 1, textAlign: "right" }}>
+            <Box style={{ flex: 1, textAlign: "right", minWidth: 0 }}>
               {totalPoints !== undefined && (
                 <Text fw={700} c="white">
                   {totalPoints} pts

@@ -9,7 +9,7 @@ export function GameweekNavigator({
   onForward,
 }) {
   return (
-    <Group justify="center" wrap="nowrap" gap={3}>
+    <Group justify="center" wrap="nowrap" gap={0}>
       <Button
         size="compact-xs"
         onClick={onBack}
@@ -20,8 +20,11 @@ export function GameweekNavigator({
       </Button>
       <Badge
         color={!isHistorical ? "green" : "grey"}
+        size="xs"
         variant="dot"
+        fz="xs"
         bg="none"
+        bd="none"
         radius="xs"
       >
         GW{gameweekNumber}
