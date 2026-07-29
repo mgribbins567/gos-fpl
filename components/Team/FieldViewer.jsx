@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Field } from "./Field";
 import { PlayerDetailModal } from "./PlayerDetailModal";
 
-export function FieldViewer({ players }) {
+export function FieldViewer({ players, onTradeClick }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
+
+  function handleTradeClick(player) {
+    setViewingPlayer(null);
+    onTradeClick?.(player);
+  }
 
   return (
     <>
@@ -12,6 +17,7 @@ export function FieldViewer({ players }) {
         player={viewingPlayer}
         opened={!!viewingPlayer}
         onClose={() => setViewingPlayer(null)}
+        onTradeClick={onTradeClick ? handleTradeClick : undefined}
         canEdit={false}
       />
     </>

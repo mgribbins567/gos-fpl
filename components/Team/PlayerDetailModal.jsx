@@ -36,6 +36,7 @@ export function PlayerDetailModal({
   opened,
   onClose,
   onMoveClick,
+  onTradeClick,
   canEdit,
 }) {
   if (!player) return null;
@@ -113,11 +114,14 @@ export function PlayerDetailModal({
         <Text size="xs" c="dimmed" ta="center">
           Recent match history coming soon.
         </Text>
-        {canEdit && (
-          <Button fullWidth onClick={onMoveClick}>
-            Move / Sub
-          </Button>
-        )}
+        <Group grow>
+          {canEdit && <Button onClick={onMoveClick}>Move / Sub</Button>}
+          {onTradeClick && (
+            <Button color="blue.6" onClick={() => onTradeClick(player)}>
+              Trade
+            </Button>
+          )}
+        </Group>
       </Stack>
     </Modal>
   );

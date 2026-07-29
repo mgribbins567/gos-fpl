@@ -10,12 +10,16 @@ import {
 } from "../../lib/lineup";
 import { updateLineup } from "../../lib/lineupData";
 
-export function LineupEditor({ players, manager, supabase, onLineupUpdated }) {
+export function LineupEditor({
+  players,
+  manager,
+  supabase,
+  onLineupUpdated,
+  onTradeClick,
+}) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
   const [sourcePlayer, setSourcePlayer] = useState(null);
   const [saving, setSaving] = useState(false);
-
-  console.log("team is editable!");
 
   const validTargetIds = useMemo(
     () =>
@@ -40,6 +44,11 @@ export function LineupEditor({ players, manager, supabase, onLineupUpdated }) {
   function handleMoveClick() {
     setSourcePlayer(viewingPlayer);
     setViewingPlayer(null);
+  }
+
+  function handleTradeClick(player) {
+    setViewingPlayer(null);
+    onTradeClick?.(player);
   }
 
   async function handleSelectDestination(destPlayer) {
@@ -97,6 +106,8 @@ export function LineupEditor({ players, manager, supabase, onLineupUpdated }) {
         opened={!!viewingPlayer}
         onClose={() => setViewingPlayer(null)}
         onMoveClick={handleMoveClick}
+        canEdit
+        onTradeClick={onTradeClick ? handleTradeClick : undefined}
         canEdit
       />
     </Stack>

@@ -1,4 +1,5 @@
-import { Card, Text, Stack, Group, Badge, Box } from "@mantine/core";
+import { Card, Text, Stack, Group, Box } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { useManager } from "../../contexts/ManagerContext";
 import { useEffect, useState, useMemo } from "react";
 import {
@@ -18,6 +19,8 @@ import { getActiveGameweekContext } from "../../lib/gameweek";
 import { FieldViewer } from "./FieldViewer";
 import { GameweekNavigator } from "./GameweekNavigator";
 import { useTeamHistory } from "../../hooks/useTeamHistory";
+import { useSingleLeagueForManager } from "../../hooks/useSingleLeagueForManager";
+import { PlayerSearchPanel } from "./PlayerSearchPanel";
 
 export async function getTeam(manager, supabase) {
   if (!manager) {
@@ -34,7 +37,7 @@ export async function getTeam(manager, supabase) {
   return team;
 }
 
-export function TeamCard() {
+export function TeamCard({ onTradeClick }) {
   const { manager, supabase } = useManager();
   const [team, setTeam] = useState(undefined);
   const [teamError, setTeamError] = useState(null);
@@ -56,12 +59,6 @@ export function TeamCard() {
     }
   }, [bootstrap]);
 
-  const boundaryGameweekNumber =
-    context?.mode === "live"
-      ? context.event.id
-      : context?.mode === "between"
-        ? context.nextEvent.id
-        : undefined;
   const relevantEventId =
     context?.mode === "live"
       ? context.event.id
@@ -71,12 +68,7 @@ export function TeamCard() {
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
   const { data: fixtures, error: fixturesError } = useFixtures(relevantEventId);
 
-  const history = useTeamHistory(
-    manager,
-    supabase,
-    bootstrap,
-    boundaryGameweekNumber,
-  );
+  const history = useTeamHistory(manager, supabase, bootstrap, relevantEventId);
 
   if (!manager || team === undefined) {
     return null;
@@ -122,7 +114,7 @@ export function TeamCard() {
               {manager?.name}
             </Text>
           </Box>
-          {boundaryGameweekNumber && (
+          {relevantEventId && (
             <GameweekNavigator
               gameweekNumber={history.displayedGameweekNumber}
               isHistorical={history.isHistorical}
@@ -143,12 +135,18 @@ export function TeamCard() {
           )}
         </Group>
         {loadError && <Text c="red">{loadError}</Text>}
+
         {history.isHistorical && !history.historicalPlayers && !loadError && (
           <Text>Loading...</Text>
         )}
-
+        {history.isHistorical && history.historicalPlayers?.length === 0 && (
+          <Text c="dimmed">No lineup recorded for this gameweek.</Text>
+        )}
         {history.isHistorical && history.historicalPlayers?.length > 0 && (
-          <FieldViewer players={history.historicalPlayers} />
+          <FieldViewer
+            players={history.historicalPlayers}
+            onTradeClick={onTradeClick}
+          />
         )}
 
         {!history.isHistorical && players === undefined && !loadError && (
@@ -163,10 +161,11 @@ export function TeamCard() {
             manager={manager}
             supabase={supabase}
             onLineupUpdated={setTeam}
+            onTradeClick={onTradeClick}
           />
         )}
         {!history.isHistorical && players?.length > 0 && !editable && (
-          <FieldViewer players={players} />
+          <FieldViewer players={players} onTradeClick={onTradeClick} />
         )}
       </Stack>
     </Card>
