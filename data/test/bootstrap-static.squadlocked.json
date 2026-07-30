@@ -1,0 +1,56 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "is_current": false,
+      "is_next": false,
+      "finished": true,
+      "deadline_time": "2026-08-01T18:00:00Z"
+    },
+    {
+      "id": 2,
+      "is_current": false,
+      "is_next": true,
+      "finished": false,
+      "deadline_time": "2026-07-21T06:00:00Z"
+    }
+  ],
+  "teams": [
+    { "id": 1, "code": 3, "name": "Team One", "short_name": "TM1" },
+    { "id": 2, "code": 7, "name": "Team Two", "short_name": "TM2" },
+    { "id": 3, "code": 11, "name": "Team Three", "short_name": "TM3" },
+    { "id": 4, "code": 14, "name": "Team Four", "short_name": "TM4" }
+  ],
+  "elements": [
+    { "id": 101, "web_name": "A. Keeper", "team": 1, "element_type": 1 },
+    { "id": 102, "web_name": "B. Back", "team": 1, "element_type": 2 },
+    { "id": 103, "web_name": "C. Back", "team": 2, "element_type": 2 },
+    { "id": 104, "web_name": "D. Back", "team": 3, "element_type": 2 },
+    { "id": 105, "web_name": "E. Back", "team": 4, "element_type": 2 },
+    { "id": 106, "web_name": "F. Mid", "team": 1, "element_type": 3 },
+    { "id": 107, "web_name": "G. Mid", "team": 2, "element_type": 3 },
+    { "id": 108, "web_name": "H. Mid", "team": 3, "element_type": 3 },
+    { "id": 109, "web_name": "I. Mid", "team": 4, "element_type": 3 },
+    { "id": 110, "web_name": "J. Striker", "team": 1, "element_type": 4 },
+    { "id": 111, "web_name": "K. Striker", "team": 2, "element_type": 4 },
+    { "id": 112, "web_name": "L. Keeper", "team": 2, "element_type": 1 },
+    { "id": 113, "web_name": "M. Back", "team": 3, "element_type": 2 },
+    { "id": 114, "web_name": "N. Mid", "team": 4, "element_type": 3 },
+    { "id": 115, "web_name": "O. Striker", "team": 1, "element_type": 4 },
+    { "id": 201, "web_name": "P. Keeper", "team": 2, "element_type": 1 },
+    { "id": 202, "web_name": "Q. Back", "team": 1, "element_type": 2 },
+    { "id": 203, "web_name": "R. Back", "team": 3, "element_type": 2 },
+    { "id": 204, "web_name": "S. Back", "team": 4, "element_type": 2 },
+    { "id": 205, "web_name": "T. Back", "team": 2, "element_type": 2 },
+    { "id": 206, "web_name": "U. Mid", "team": 1, "element_type": 3 },
+    { "id": 207, "web_name": "V. Mid", "team": 3, "element_type": 3 },
+    { "id": 208, "web_name": "W. Mid", "team": 4, "element_type": 3 },
+    { "id": 209, "web_name": "X. Mid", "team": 2, "element_type": 3 },
+    { "id": 210, "web_name": "Y. Striker", "team": 1, "element_type": 4 },
+    { "id": 211, "web_name": "Z. Striker", "team": 3, "element_type": 4 },
+    { "id": 212, "web_name": "AA. Keeper", "team": 4, "element_type": 1 },
+    { "id": 213, "web_name": "BB. Back", "team": 1, "element_type": 2 },
+    { "id": 214, "web_name": "CC. Mid", "team": 2, "element_type": 3 },
+    { "id": 215, "web_name": "DD. Striker", "team": 3, "element_type": 4 }
+  ]
+}

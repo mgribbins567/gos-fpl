@@ -28,17 +28,16 @@ function MatchPreviews({ matchups }) {
               {matchup.manager2.score} {matchup.manager2.name}
             </Text>
           ))}
-        </Stack>
-      )}
-
-      {closest.length > 0 && (
-        <Stack gap={4}>
-          {closest.map((matchup) => (
-            <Text key={matchup.id} size="sm">
-              {matchup.manager1.name} {matchup.manager1.score}-
-              {matchup.manager2.score} {matchup.manager2.name}
-            </Text>
-          ))}
+          {closest.length > 0 && (
+            <Stack gap={4}>
+              {closest.map((matchup) => (
+                <Text key={matchup.id} size="sm">
+                  {matchup.manager1.name} {matchup.manager1.score}-
+                  {matchup.manager2.score} {matchup.manager2.name}
+                </Text>
+              ))}
+            </Stack>
+          )}
         </Stack>
       )}
 
