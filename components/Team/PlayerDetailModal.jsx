@@ -86,6 +86,14 @@ export function PlayerDetailModal({
         player.explain &&
         Object.keys(player.explain).length > 0 ? (
           <Stack gap="xs" spacing="xs">
+            <Group justify="center">
+              <img
+                src={getShirtUrl(player.teamCode, player.elementType)}
+                alt=""
+                width={48}
+                height={60}
+              />
+            </Group>
             <Table tabularNums variant="vertical">
               <Table.Tbody>
                 {Object.values(player.explain).flatMap((match) =>
