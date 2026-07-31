@@ -1,4 +1,4 @@
-import { Group, ActionIcon, Text, Button, Badge } from "@mantine/core";
+import { Group, ActionIcon, Text, Button, Badge, Box } from "@mantine/core";
 
 export function GameweekNavigator({
   gameweekNumber,
@@ -18,19 +18,19 @@ export function GameweekNavigator({
       >
         ◂ Prev
       </Button>
-      <Badge
-        color={!isHistorical ? "green" : "grey"}
-        size="xs"
-        variant="dot"
-        fz="xs"
-        bg="none"
-        bd="none"
-        radius="xs"
-        miw="4ch"
-        style={{ flexShrink: 0, flexGrow: 0 }}
-      >
-        GW{gameweekNumber}
-      </Badge>
+      <Box w={60} style={{ display: "flex", justifyContent: "center" }}>
+        <Badge
+          color={!isHistorical ? "green" : "grey"}
+          size="xs"
+          variant="dot"
+          fz="xs"
+          bg="none"
+          bd="none"
+          radius="xs"
+        >
+          GW{gameweekNumber}
+        </Badge>
+      </Box>
       <Button
         size="compact-xs"
         onClick={onForward}
