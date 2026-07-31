@@ -106,7 +106,14 @@ export function TeamCard({ onTradeClick }) {
       : undefined;
 
   return (
-    <Card maw="98vw" shadow="sm" padding="sm" radius="md" withBorder>
+    <Card
+      miw={{ base: "98vw", sm: "0" }}
+      maw="98vw"
+      shadow="sm"
+      padding="sm"
+      radius="md"
+      withBorder
+    >
       <Stack gap="xs">
         <Group wrap="nowrap" align="center">
           <Box style={{ flex: 1, textAlign: "left", minWidth: 0 }}>
