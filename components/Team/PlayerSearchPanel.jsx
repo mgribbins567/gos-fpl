@@ -118,6 +118,7 @@ export function PlayerSearchPanel({
             }))
           }
           placeholder="Position"
+          allowDeselect={false}
         />
         <Select
           data={teamFilterOptions}
@@ -126,12 +127,14 @@ export function PlayerSearchPanel({
             setFilters((f) => ({ ...f, teamId: value ? Number(value) : null }))
           }
           placeholder="Team"
+          allowDeselect={false}
         />
         <Select
           data={SORT_SELECT_OPTIONS}
           value={sortKey}
           onChange={setSortKey}
           placeholder="Sort by"
+          allowDeselect={false}
         />
       </Group>
       <ScrollArea h={{ base: "80vh", sm: "420px" }}>
