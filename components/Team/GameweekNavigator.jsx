@@ -26,6 +26,8 @@ export function GameweekNavigator({
         bg="none"
         bd="none"
         radius="xs"
+        miw="4ch"
+        style={{ flexShrink: 0, flexGrow: 0 }}
       >
         GW{gameweekNumber}
       </Badge>
