@@ -9,6 +9,7 @@ import {
   Button,
   ScrollArea,
   Text,
+  Switch,
 } from "@mantine/core";
 import { usePlayerSearch } from "../../hooks/usePlayerSearch";
 import { SORT_OPTIONS, isFreeAgent } from "../../lib/playerSearch";
@@ -102,11 +103,27 @@ export function PlayerSearchPanel({
 
   return (
     <Stack gap="xs">
-      <TextInput
-        placeholder="Search players..."
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.currentTarget.value)}
-      />
+      <Group gap="xs" justify="space-between" wrap="nowrap">
+        <TextInput
+          placeholder="Search players..."
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.currentTarget.value)}
+        />
+        <Switch
+          size="sm"
+          withThumbIndicator={false}
+          labelPosition="left"
+          label="Only FAs"
+          checked={filters.onlyAvailable}
+          onChange={(event) =>
+            setFilters((f) => ({
+              ...f,
+              onlyAvailable: event.target.checked,
+            }))
+          }
+          styles={{ label: { whiteSpace: "nowrap" } }}
+        />
+      </Group>
       <Group gap="xs" grow>
         <Select
           data={POSITION_FILTER_OPTIONS}

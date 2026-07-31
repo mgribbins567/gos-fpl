@@ -30,6 +30,7 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     position: null,
     teamId: null,
     searchText: "",
+    onlyAvailable: false,
   });
 
   const ownershipMap = useMemo(
@@ -44,7 +45,7 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       ownershipMap,
       viewingManagerId,
     );
-    return sortPlayers(filterPlayers(withoutOwnRoster, filters), sortKey);
+    return sortPlayers(filterPlayers(withoutOwnRoster, filters, ownershipMap), sortKey);
   }, [bootstrap, ownershipMap, viewingManagerId, filters, sortKey]);
 
   return {
