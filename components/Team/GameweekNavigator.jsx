@@ -18,7 +18,11 @@ export function GameweekNavigator({
       >
         ◂ Prev
       </Button>
-      <Box w={60} style={{ display: "flex", justifyContent: "center" }}>
+      <Box
+        w={60}
+        style={{ display: "flex", justifyContent: "center" }}
+        key={gameweekNumber}
+      >
         <Badge
           color={!isHistorical ? "green" : "grey"}
           size="xs"
