@@ -113,7 +113,7 @@ export function useLeaguePreview(leagueId, supabase) {
       return {
         mode: context.mode,
         gameweekNumber,
-        phase: context.mode === "live" ? "in_progress" : context.phase,
+        phase: context.mode === "live" ? "gameweek_live" : context.phase,
         waiversDueAt:
           context.mode === "between" ? context.waiversDueAt : undefined,
         squadLockAt:

@@ -34,10 +34,11 @@ describe("snapshot_locked_gameweeks integration", () => {
     ]);
     await adminClient.from("team_players").insert({
       manager_id: managerId,
-      player_id: 101,
+      player_id: 1001,
       is_starter: true,
       bench_order: null,
       added_via: "draft",
+      league_id: "a",
     });
   });
 
@@ -65,7 +66,7 @@ describe("snapshot_locked_gameweeks integration", () => {
       .eq("gameweek_id", pastGwId);
     console.log("data: ", data);
     expect(
-      data.find((r) => r.manager_id === managerId && r.player_id === 101),
+      data.find((r) => r.manager_id === managerId && r.player_id === 1001),
     ).toMatchObject({ is_starter: true });
   });
 
@@ -87,7 +88,7 @@ describe("snapshot_locked_gameweeks integration", () => {
       .select("*")
       .eq("gameweek_id", pastGwId);
     const matchesForThisPlayer = data.filter(
-      (r) => r.manager_id === managerId && r.player_id === 101,
+      (r) => r.manager_id === managerId && r.player_id === 1001,
     );
     expect(matchesForThisPlayer).toHaveLength(1);
   });

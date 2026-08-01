@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic } from "./useFplData";
-import { getLeagueRoster } from "../lib/leagueData";
+import { getLeagueRoster, getPlayerAvailability } from "../lib/leagueData";
+import { getActiveGameweekContext } from "../lib/gameweek";
 import {
   sortPlayers,
   filterPlayers,
   buildOwnershipMap,
+  buildUnavailablePlayerIds,
   excludeOwnRoster,
   DEFAULT_SORT_KEY,
 } from "../lib/playerSearch";
@@ -12,14 +14,22 @@ import {
 export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
   const [roster, setRoster] = useState(undefined);
-  const [rosterError, setRosterError] = useState(null);
+  const [availability, setAvailability] = useState(undefined);
+  const [dataError, setDataError] = useState(null);
 
   useEffect(() => {
     if (!leagueId) return;
     let cancelled = false;
-    getLeagueRoster(supabase, leagueId)
-      .then((data) => !cancelled && setRoster(data))
-      .catch((err) => !cancelled && setRosterError(err.message));
+    Promise.all([
+      getLeagueRoster(supabase, leagueId),
+      getPlayerAvailability(supabase, leagueId),
+    ])
+      .then(([rosterData, availabilityData]) => {
+        if (cancelled) return;
+        setRoster(rosterData);
+        setAvailability(availabilityData);
+      })
+      .catch((err) => !cancelled && setDataError(err.message));
     return () => {
       cancelled = true;
     };
@@ -33,20 +43,52 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     onlyAvailable: false,
   });
 
+  const context = useMemo(() => {
+    if (!bootstrap) return undefined;
+    try {
+      return getActiveGameweekContext(bootstrap);
+    } catch {
+      return undefined;
+    }
+  }, [bootstrap]);
+  console.log("context: ", context);
+  const currentGameweekNumber =
+    context?.mode === "live" ? context.event.id : context?.nextEvent?.id;
+
   const ownershipMap = useMemo(
     () => (roster ? buildOwnershipMap(roster) : undefined),
     [roster],
   );
+  const unavailablePlayerIds = useMemo(
+    () =>
+      availability && currentGameweekNumber
+        ? buildUnavailablePlayerIds(availability, currentGameweekNumber)
+        : undefined,
+    [availability, currentGameweekNumber],
+  );
+  console.log("unavailablePlayerIds: ", unavailablePlayerIds);
 
   const results = useMemo(() => {
-    if (!bootstrap || !ownershipMap) return undefined;
+    if (!bootstrap || !ownershipMap || !unavailablePlayerIds) {
+      return undefined;
+    }
     const withoutOwnRoster = excludeOwnRoster(
       bootstrap.elements,
       ownershipMap,
       viewingManagerId,
     );
-    return sortPlayers(filterPlayers(withoutOwnRoster, filters, ownershipMap), sortKey);
-  }, [bootstrap, ownershipMap, viewingManagerId, filters, sortKey]);
+    return sortPlayers(
+      filterPlayers(withoutOwnRoster, filters, ownershipMap),
+      sortKey,
+    );
+  }, [
+    bootstrap,
+    ownershipMap,
+    unavailablePlayerIds,
+    viewingManagerId,
+    filters,
+    sortKey,
+  ]);
 
   return {
     results,
@@ -55,7 +97,8 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     filters,
     setFilters,
     ownershipMap,
+    unavailablePlayerIds,
     bootstrap,
-    error: bootstrapError || rosterError,
+    error: bootstrapError || dataError,
   };
 }

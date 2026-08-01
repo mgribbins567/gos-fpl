@@ -7,6 +7,7 @@ import {
   swapLineupSlots,
   validateLineup,
   getValidSwapTargets,
+  getPositionMatchedPlayers,
 } from "../../lib/lineup";
 import { updateLineup } from "../../lib/lineupData";
 
@@ -16,6 +17,7 @@ export function LineupEditor({
   supabase,
   onLineupUpdated,
   onTradeClick,
+  fieldSelection,
 }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
   const [sourcePlayer, setSourcePlayer] = useState(null);
@@ -28,6 +30,23 @@ export function LineupEditor({
         : undefined,
     [players, sourcePlayer],
   );
+
+  if (fieldSelection) {
+    const matchingIds = new Set(
+      getPositionMatchedPlayers(players, fieldSelection.elementType).map(
+        (p) => p.player_id,
+      ),
+    );
+    return (
+      <Field
+        players={players}
+        onPlayerClick={(player) =>
+          matchingIds.has(player.player_id) && fieldSelection.onSelect(player)
+        }
+        highlightedPlayerIds={matchingIds}
+      />
+    );
+  }
 
   function handlePlayerClick(player) {
     if (sourcePlayer) {

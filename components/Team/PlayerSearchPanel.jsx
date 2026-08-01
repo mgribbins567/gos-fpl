@@ -27,7 +27,15 @@ const SORT_SELECT_OPTIONS = Object.entries(SORT_OPTIONS).map(
   ([value, { label }]) => ({ value, label }),
 );
 
-function PlayerRow({ player, team, statValue, isFree, onSign, onTrade }) {
+function PlayerRow({
+  player,
+  team,
+  statValue,
+  isFree,
+  signingDisabled,
+  onSign,
+  onTrade,
+}) {
   return (
     <Table.Tr>
       <Table.Td>
@@ -54,7 +62,12 @@ function PlayerRow({ player, team, statValue, isFree, onSign, onTrade }) {
       </Table.Td>
       <Table.Td maw="9ch">
         {isFree ? (
-          <Button fullWidth size="compact-xs" onClick={() => onSign(player)}>
+          <Button
+            fullWidth
+            size="compact-xs"
+            disabled={signingDisabled}
+            onClick={() => onSign(player)}
+          >
             Sign
           </Button>
         ) : (
@@ -73,6 +86,7 @@ export function PlayerSearchPanel({
   supabase,
   onSign,
   onTrade,
+  signingDisabled,
 }) {
   const [searchInput, setSearchInput] = useState("");
   const [debouncedSearchText] = useDebouncedValue(searchInput, 300);
@@ -84,6 +98,7 @@ export function PlayerSearchPanel({
     filters,
     setFilters,
     ownershipMap,
+    unavailablePlayerIds,
     bootstrap,
     error,
   } = usePlayerSearch(leagueId, viewingManagerId, supabase);
@@ -179,7 +194,12 @@ export function PlayerSearchPanel({
                 player={player}
                 team={teamsById.get(player.team)}
                 statValue={SORT_OPTIONS[sortKey].getValue(player)}
-                isFree={isFreeAgent(player.id, ownershipMap)}
+                isFree={isFreeAgent(
+                  player.id,
+                  ownershipMap,
+                  unavailablePlayerIds,
+                )}
+                signingDisabled={signingDisabled}
                 onSign={onSign}
                 onTrade={onTrade}
               />

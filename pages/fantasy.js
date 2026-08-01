@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import {
   Container,
   Title,
@@ -7,14 +8,21 @@ import {
   Drawer,
   Text,
   Card,
+  Modal,
+  Alert,
+  Group,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { useState } from "react";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { TeamCard } from "../components/Team/TeamCard";
 import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
+import { useBootstrapStatic } from "../hooks/useFplData";
+import { useTransactionGameweeks } from "../hooks/useTransactionGameweeks";
+import { useFreeAgentSigning } from "../hooks/useFreeAgentSigning";
+import { getActiveGameweekContext } from "../lib/gameweek";
+import { POSITION_LABELS } from "../lib/fplData";
 
 function FantasyPageContent() {
   const { manager, supabase } = useManager();
@@ -25,18 +33,60 @@ function FantasyPageContent() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const { data: bootstrap } = useBootstrapStatic();
+  const context = useMemo(() => {
+    if (!bootstrap) return undefined;
+    try {
+      return getActiveGameweekContext(bootstrap);
+    } catch {
+      return undefined;
+    }
+  }, [bootstrap]);
+
+  const { data: txGameweeks } = useTransactionGameweeks(
+    bootstrap,
+    context,
+    supabase,
+  );
+  const canSignFreeAgents =
+    context?.mode === "between" && context?.phase === "free_agency_open";
+
+  console.log("canSignFreeAgents: ", canSignFreeAgents);
+
+  const signing = useFreeAgentSigning({
+    leagueId: league?.id,
+    manager,
+    supabase,
+    gameweekId: txGameweeks?.gameweekId,
+    nextGameweekId: txGameweeks?.nextGameweekId,
+    onSigned: () => window.location.reload(),
+  });
+
   function handleTradeClick() {
     setSearchOpen(true);
-    // setViewingPlayer(null);
   }
+
+  function handleSign(player) {
+    if (!canSignFreeAgents) return;
+    setSearchOpen(true);
+    signing.startSigning(player);
+  }
+
+  const fieldSelection = signing.isSelecting
+    ? {
+        elementType: signing.pendingAddPlayer.element_type,
+        onSelect: signing.selectDropPlayer,
+      }
+    : null;
 
   const searchPanel = league ? (
     <PlayerSearchPanel
       leagueId={league.id}
       viewingManagerId={manager?.id}
       supabase={supabase}
-      onSign={(player) => console.log("sign (stub):", player)}
+      onSign={handleSign}
       onTrade={(player) => console.log("trade for (stub):", player)}
+      signingDisabled={!canSignFreeAgents}
     />
   ) : (
     leagueError && <Text c="red">{leagueError}</Text>
@@ -53,12 +103,30 @@ function FantasyPageContent() {
           </Button>
         )}
 
+        {signing.isSelecting && (
+          <Alert
+            color="blue"
+            title={`Choose a ${POSITION_LABELS[signing.pendingAddPlayer.element_type]} to drop for ${signing.pendingAddPlayer.web_name}`}
+          >
+            <Button size="xs" variant="light" onClick={signing.cancel}>
+              Cancel
+            </Button>
+          </Alert>
+        )}
+        {signing.error && <Text c="red">{signing.error}</Text>}
+
         {isMobile ? (
-          <TeamCard onTradeClick={isMobile ? handleTradeClick : undefined} />
+          <TeamCard
+            onTradeClick={handleTradeClick}
+            fieldSelection={fieldSelection}
+          />
         ) : (
           <Grid justify="center" gutter="md" w="80%">
             <Grid.Col maw="500px">
-              <TeamCard />
+              <TeamCard
+                onTradeClick={handleTradeClick}
+                fieldSelection={fieldSelection}
+              />
             </Grid.Col>
             <Grid.Col maw="400px" h="540px">
               <Card shadow="sm" h="100%" padding="sm" radius="md" withBorder>
@@ -78,6 +146,34 @@ function FantasyPageContent() {
       >
         {searchPanel}
       </Drawer>
+
+      <Modal
+        opened={signing.isConfirming}
+        onClose={signing.cancel}
+        title="Confirm Signing"
+        centered
+      >
+        {signing.pendingAddPlayer && signing.pendingDropPlayer && (
+          <Stack gap="sm">
+            <Text>
+              Sign <b>{signing.pendingAddPlayer.web_name}</b>, dropping{" "}
+              <b>{signing.pendingDropPlayer.name}</b>?
+            </Text>
+            <Group grow>
+              <Button
+                variant="default"
+                onClick={signing.cancel}
+                disabled={signing.submitting}
+              >
+                Cancel
+              </Button>
+              <Button onClick={signing.confirm} loading={signing.submitting}>
+                Confirm
+              </Button>
+            </Group>
+          </Stack>
+        )}
+      </Modal>
     </Container>
   );
 }

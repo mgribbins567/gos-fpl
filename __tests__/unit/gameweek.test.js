@@ -28,27 +28,27 @@ describe("getGameweekPhase", () => {
 
   it("returns waivers_due when now is well before the waiver deadline", () => {
     const now = new Date("2026-08-10T00:00:00.000Z");
-    expect(getGameweekPhase(deadline, now).phase).toBe("waivers_due");
+    expect(getGameweekPhase(deadline, now).phase).toBe("waivers_open");
   });
 
-  it("returns squad_locked when now is between the waiver deadline and squad lock", () => {
+  it("returns free_agency_open when now is between the waiver deadline and squad lock", () => {
     const now = new Date("2026-08-15T00:00:00.000Z");
-    expect(getGameweekPhase(deadline, now).phase).toBe("squad_locked");
+    expect(getGameweekPhase(deadline, now).phase).toBe("free_agency_open");
   });
 
   it("returns in_progress when now is after squad lock", () => {
     const now = new Date("2026-08-16T00:00:00.000Z");
-    expect(getGameweekPhase(deadline, now).phase).toBe("in_progress");
+    expect(getGameweekPhase(deadline, now).phase).toBe("gameweek_live");
   });
 
-  it("treats the exact waiver deadline instant as squad_locked, not waivers_due", () => {
+  it("treats the exact waiver deadline instant as free_agency_open, not waivers_open", () => {
     const now = new Date(waiversDue);
-    expect(getGameweekPhase(deadline, now).phase).toBe("squad_locked");
+    expect(getGameweekPhase(deadline, now).phase).toBe("free_agency_open");
   });
 
-  it("treats the exact squad lock instant as in_progress", () => {
+  it("treats the exact squad lock instant as gameweek_live", () => {
     const now = new Date(deadline);
-    expect(getGameweekPhase(deadline, now).phase).toBe("in_progress");
+    expect(getGameweekPhase(deadline, now).phase).toBe("gameweek_live");
   });
 
   it("computes waiversDueAt as exactly 24 hours before squadLockAt", () => {
@@ -88,7 +88,7 @@ describe("getActiveGameweekContext", () => {
 
     expect(result.mode).toBe("between");
     expect(result.nextEvent.id).toBe(3);
-    expect(result.phase).toBe("in_progress");
+    expect(result.phase).toBe("gameweek_live");
   });
 
   it("selects the highest-id finished event as previousEvent when multiple gameweeks have finished", () => {

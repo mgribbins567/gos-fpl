@@ -37,7 +37,7 @@ export async function getTeam(manager, supabase) {
   return team;
 }
 
-export function TeamCard({ onTradeClick }) {
+export function TeamCard({ onTradeClick, fieldSelection }) {
   const { manager, supabase } = useManager();
   const [team, setTeam] = useState(undefined);
   const [teamError, setTeamError] = useState(null);
@@ -169,10 +169,15 @@ export function TeamCard({ onTradeClick }) {
             supabase={supabase}
             onLineupUpdated={setTeam}
             onTradeClick={onTradeClick}
+            fieldSelection={fieldSelection}
           />
         )}
         {!history.isHistorical && players?.length > 0 && !editable && (
-          <FieldViewer players={players} onTradeClick={onTradeClick} />
+          <FieldViewer
+            players={players}
+            onTradeClick={onTradeClick}
+            fieldSelection={fieldSelection}
+          />
         )}
       </Stack>
     </Card>

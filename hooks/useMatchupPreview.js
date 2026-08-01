@@ -55,7 +55,7 @@ export function useMatchupPreview(manager, supabase) {
           return {
             mode: "live",
             gameweekNumber: context.event.id,
-            phase: "in_progress",
+            phase: "gameweek_live",
             matchup: null,
           };
         }
@@ -81,7 +81,7 @@ export function useMatchupPreview(manager, supabase) {
         return {
           mode: "live",
           gameweekNumber: context.event.id,
-          phase: "in_progress",
+          phase: "gameweek_live",
           matchup: {
             self: {
               name: manager.name,

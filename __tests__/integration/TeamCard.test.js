@@ -15,6 +15,7 @@ function getMockTeam(userId) {
       bench_order: null,
       added_at: "2026-07-06 03:49:16.019597+00",
       added_via: "draft",
+      league_id: "a",
     },
     {
       id: "00000000-0000-0000-0000-000000000001",
@@ -24,6 +25,7 @@ function getMockTeam(userId) {
       bench_order: null,
       added_at: "2026-07-06 03:52:16.019597+00",
       added_via: "draft",
+      league_id: "a",
     },
     {
       id: "00000000-0000-0000-0000-000000000002",
@@ -33,6 +35,7 @@ function getMockTeam(userId) {
       bench_order: null,
       added_at: "2026-07-06 03:55:16.019597+00",
       added_via: "draft",
+      league_id: "a",
     },
   ];
 }

@@ -4,6 +4,7 @@ import {
   mergeTeamWithLiveData,
   groupPlayersByPosition,
   getFixtureDisplayText,
+  getTotalStartingPoints,
 } from "../../lib/fplData";
 
 function makeBootstrap({ events = [], elements = [], teams = [] } = {}) {
@@ -79,10 +80,18 @@ describe("mergeTeamWithLiveData", () => {
         manager_id: 21,
         player_id: 50,
         is_starter: true,
-        liveStats: {
+        gameweekStats: {
           minutes: 90,
           total_points: 12,
         },
+        seasonStats: {
+          element_type: 4,
+          id: 50,
+          team: 1,
+          web_name: "Haaland",
+        },
+        is_starter: true,
+        explain: undefined,
         bench_order: null,
         name: "Haaland",
         teamId: 1,
@@ -104,17 +113,24 @@ describe("mergeTeamWithLiveData", () => {
     );
   });
 
-  it("throws when a player_id is not found in live event elements", () => {
-    const team = [makeTeamPlayer({ player_id: 50 })];
+  it("returns null points/minutes/liveStats when a player has no live event entry (e.g. added to the game after this gameweek)", () => {
+    const team = [makeTeamPlayer({ id: "row-1", player_id: 50 })];
     const bootstrap = makeBootstrap({
-      elements: [makeElement(50, { team: 1 })],
+      elements: [
+        makeElement(50, { team: 1, elementType: 4, webName: "NewSigning" }),
+      ],
       teams: [makeTeam(1, 3)],
     });
     const live = makeLive([]);
 
-    expect(() => mergeTeamWithLiveData(team, bootstrap, live)).toThrow(
-      "Player 50 not found in live event data",
-    );
+    const result = mergeTeamWithLiveData(team, bootstrap, live);
+
+    expect(result[0]).toMatchObject({
+      points: null,
+      minutes: null,
+      liveStats: null,
+      name: "NewSigning",
+    });
   });
 
   it("throws when the player's team is not found in bootstrap-static teams", () => {
@@ -225,7 +241,7 @@ describe("getFixtureDisplayText", () => {
     const player = makePlayerWithFixtures(0, [
       makeFixture({ opponentShortName: "ARS", isHome: true, started: false }),
     ]);
-    expect(getFixtureDisplayText(player)).toBe("vs ARS");
+    expect(getFixtureDisplayText(player)).toBe("ARS");
   });
 
   it("uses '@' for an away fixture", () => {
@@ -261,7 +277,7 @@ describe("getFixtureDisplayText", () => {
       makeFixture({ opponentShortName: "ARS", isHome: true, started: false }),
       makeFixture({ opponentShortName: "CHE", isHome: false, started: false }),
     ]);
-    expect(getFixtureDisplayText(player)).toBe("vs ARS, @CHE");
+    expect(getFixtureDisplayText(player)).toBe("ARS, @CHE");
   });
 
   it("shows accumulated points plus the remaining opponent for a mid-double gameweek", () => {
@@ -299,6 +315,16 @@ describe("getFixtureDisplayText", () => {
       makeFixture({ opponentShortName: "CHE", isHome: false, started: false }),
       makeFixture({ opponentShortName: "MUN", isHome: true, started: false }),
     ]);
-    expect(getFixtureDisplayText(player)).toBe("vs ARS, @CHE, vs MUN");
+    expect(getFixtureDisplayText(player)).toBe("ARS, @CHE, MUN");
+  });
+});
+
+describe("getTotalStartingPoints", () => {
+  it("treats a null points value (no live data yet for that player) as 0 in the sum", () => {
+    const players = [
+      { is_starter: true, points: 10 },
+      { is_starter: true, points: null },
+    ];
+    expect(getTotalStartingPoints(players)).toBe(20 - 10);
   });
 });
