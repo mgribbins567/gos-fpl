@@ -104,13 +104,13 @@ function FantasyPageContent() {
         )}
 
         {signing.isSelecting && (
-          <Alert
-            color="blue"
-            title={`Choose a ${POSITION_LABELS[signing.pendingAddPlayer.element_type]} to drop for ${signing.pendingAddPlayer.web_name}`}
-          >
-            <Button size="xs" variant="light" onClick={signing.cancel}>
-              Cancel
-            </Button>
+          <Alert variant="outline" maw="70vw" p="xs" color="deep-blue.5">
+            <Group justify="center" wrap="wrap" gap={2}>
+              Choose who to drop for {signing.pendingAddPlayer.web_name}
+              <Button size="xs" onClick={signing.cancel}>
+                Cancel
+              </Button>
+            </Group>
           </Alert>
         )}
         {signing.error && <Text c="red">{signing.error}</Text>}
@@ -156,8 +156,12 @@ function FantasyPageContent() {
         {signing.pendingAddPlayer && signing.pendingDropPlayer && (
           <Stack gap="sm">
             <Text>
-              Sign <b>{signing.pendingAddPlayer.web_name}</b>, dropping{" "}
-              <b>{signing.pendingDropPlayer.name}</b>?
+              Player in: <b>{signing.pendingAddPlayer.web_name}</b> (
+              {POSITION_LABELS[signing.pendingAddPlayer.element_type]})
+            </Text>
+            <Text>
+              Player out: <b>{signing.pendingDropPlayer.name}</b> (
+              {POSITION_LABELS[signing.pendingAddPlayer.element_type]})
             </Text>
             <Group grow>
               <Button
