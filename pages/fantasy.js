@@ -68,7 +68,7 @@ function FantasyPageContent() {
 
   function handleSign(player) {
     if (!canSignFreeAgents) return;
-    setSearchOpen(true);
+    setSearchOpen(false);
     signing.startSigning(player);
   }
 
@@ -107,7 +107,7 @@ function FantasyPageContent() {
           <Alert variant="outline" maw="70vw" p="xs" color="deep-blue.5">
             <Group justify="center" wrap="wrap" gap={2}>
               Choose who to drop for {signing.pendingAddPlayer.web_name}
-              <Button size="xs" onClick={signing.cancel}>
+              <Button size="compact-xs" onClick={signing.cancel}>
                 Cancel
               </Button>
             </Group>

@@ -106,7 +106,7 @@ export function LineupEditor({
         <Alert variant="outline" maw="70vw" p="xs" color="deep-blue.5">
           <Group justify="center" wrap="wrap" gap={2}>
             Choose who to sub for {sourcePlayer.name}
-            <Button size="xs" onClick={() => setSourcePlayer(null)}>
+            <Button size="compact-xs" onClick={() => setSourcePlayer(null)}>
               Cancel
             </Button>
           </Group>
