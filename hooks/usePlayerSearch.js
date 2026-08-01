@@ -78,7 +78,12 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       viewingManagerId,
     );
     return sortPlayers(
-      filterPlayers(withoutOwnRoster, filters, ownershipMap),
+      filterPlayers(
+        withoutOwnRoster,
+        filters,
+        ownershipMap,
+        unavailablePlayerIds,
+      ),
       sortKey,
     );
   }, [
