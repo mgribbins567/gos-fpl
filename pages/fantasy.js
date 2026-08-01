@@ -48,10 +48,7 @@ function FantasyPageContent() {
     context,
     supabase,
   );
-  const canSignFreeAgents =
-    context?.mode === "between" && context?.phase === "free_agency_open";
-
-  console.log("canSignFreeAgents: ", canSignFreeAgents);
+  const canSignFreeAgents = context?.upcoming?.phase === "free_agency_open";
 
   const signing = useFreeAgentSigning({
     leagueId: league?.id,

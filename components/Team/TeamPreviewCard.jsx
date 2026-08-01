@@ -113,7 +113,7 @@ export function TeamPreviewCard() {
                 tt="none"
                 style={{
                   "--badge-dot-color":
-                    data.phase === "in_progress" ? "lime" : "orange",
+                    data.phase === "gameweek_live" ? "lime" : "orange",
                 }}
               >
                 {describeGameweekStatus(data)}

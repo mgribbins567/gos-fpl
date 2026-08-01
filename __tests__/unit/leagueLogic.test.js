@@ -56,7 +56,6 @@ describe("getFeaturedMatchups", () => {
   it("returns matchup only to one", () => {
     const summary = toLeagueMatchupSummary(makeMatchup());
     const result = getFeaturedMatchups([summary]);
-    console.log("result: ", result);
     expect(result.highestScoring[0].id).toBe(summary.id);
     expect(result.closest).toStrictEqual([]);
   });

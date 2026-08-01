@@ -97,13 +97,11 @@ export function useMatchupPreview(manager, supabase) {
         };
       }
 
-      // show previous week's final result + next week's opponent
-      const { previousEvent, nextEvent, phase, waiversDueAt, squadLockAt } =
-        context;
+      const { previousEvent, upcoming } = context;
       const nextGameweekRow = await getGameweekByNumber(
         supabase,
         season.id,
-        nextEvent.id,
+        upcoming.event.id,
       );
 
       const previousMatchup = previousEvent
@@ -119,10 +117,10 @@ export function useMatchupPreview(manager, supabase) {
 
       return {
         mode: "between",
-        gameweekNumber: nextEvent.id,
-        phase,
-        waiversDueAt,
-        squadLockAt,
+        gameweekNumber: upcoming.event.id,
+        phase: upcoming.phase,
+        waiversDueAt: upcoming.waiversDueAt,
+        squadLockAt: upcoming.squadLockAt,
         matchup: {
           previous: toMatchupSummary(previousMatchup, manager.name),
           next: toMatchupSummary(nextMatchup, manager.name),

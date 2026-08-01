@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLiveEvent } from "./useFplData";
 import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
 import {
@@ -7,17 +7,13 @@ import {
 } from "../lib/teamHistory";
 import { mergeTeamWithLiveData } from "../lib/fplData";
 import {
+  getForwardStates,
   getNavigationState,
-  getNextViewedGameweek,
   getPreviousViewedGameweek,
+  getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
 
-export function useTeamHistory(
-  manager,
-  supabase,
-  bootstrap,
-  boundaryGameweekNumber,
-) {
+export function useTeamHistory(manager, supabase, bootstrap, context) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
   const [seasonId, setSeasonId] = useState(undefined);
   const [earliestGameweek, setEarliestGameweek] = useState(undefined);
@@ -43,25 +39,30 @@ export function useTeamHistory(
     };
   }, [manager, supabase]);
 
-  const { displayedGameweekNumber, isHistorical, canGoBack, canGoForward } =
-    getNavigationState(
-      viewedGameweek,
-      boundaryGameweekNumber,
-      earliestGameweek,
-    );
+  const forwardStates = useMemo(() => getForwardStates(context), [context]);
+  const { displayedGameweekNumber, kind, canGoBack, canGoForward } =
+    getNavigationState(viewedGameweek, forwardStates, earliestGameweek);
 
   function goBack() {
     if (!canGoBack) return;
-    setViewedGameweek(getPreviousViewedGameweek(displayedGameweekNumber));
+    setViewedGameweek(
+      getPreviousViewedGameweek(displayedGameweekNumber, forwardStates),
+    );
   }
 
   function goForward() {
     if (!canGoForward) return;
     setViewedGameweek(
-      getNextViewedGameweek(displayedGameweekNumber, boundaryGameweekNumber),
+      getNextViewedGameweek(displayedGameweekNumber, forwardStates),
     );
   }
 
+  function jumpToUpcoming() {
+    const upcomingState = forwardStates.find((s) => s.kind === "upcoming");
+    if (upcomingState) setViewedGameweek(upcomingState.gameweekNumber);
+  }
+
+  const isHistorical = kind === "historical";
   const { data: historicalLive, error: liveError } = useLiveEvent(
     isHistorical ? displayedGameweekNumber : undefined,
   );
@@ -117,11 +118,12 @@ export function useTeamHistory(
 
   return {
     displayedGameweekNumber,
-    isHistorical,
+    kind,
     canGoBack,
     canGoForward,
     goBack,
     goForward,
+    jumpToUpcoming,
     historicalPlayers: isHistorical ? historyState.data : undefined,
     error:
       boundsError || liveError || (isHistorical ? historyState.error : null),

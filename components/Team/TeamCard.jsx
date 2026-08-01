@@ -59,16 +59,20 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     }
   }, [bootstrap]);
 
+  const history = useTeamHistory(manager, supabase, bootstrap, context);
+
+  useEffect(() => {
+    if (fieldSelection && history.kind && history.kind !== "upcoming") {
+      history.jumpToUpcoming();
+    }
+  }, [fieldSelection]);
+
   const relevantEventId =
-    context?.mode === "live"
-      ? context.event.id
-      : context?.mode === "between"
-        ? context.nextEvent?.id
-        : undefined;
+    history.kind === "current" || history.kind === "upcoming"
+      ? history.displayedGameweekNumber
+      : undefined;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
   const { data: fixtures, error: fixturesError } = useFixtures(relevantEventId);
-
-  const history = useTeamHistory(manager, supabase, bootstrap, relevantEventId);
 
   if (!manager || team === undefined) {
     return null;
@@ -81,22 +85,20 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     liveError ||
     fixturesError ||
     history.error;
+
   let players;
-  if (!history.isHistorical && team && bootstrap && context) {
-    if (relevantEventId && live && fixtures) {
-      players = attachFixtureStatus(
-        mergeTeamWithLiveData(team, bootstrap, live),
-        bootstrap,
-        fixtures,
-      );
-    } else if (!relevantEventId) {
-      players = mergeTeamWithStaticData(team, bootstrap);
-    }
+  if (relevantEventId && team && bootstrap && live && fixtures) {
+    players = attachFixtureStatus(
+      mergeTeamWithLiveData(team, bootstrap, live),
+      bootstrap,
+      fixtures,
+      history.displayedGameweekNumber,
+    );
   }
 
   const editable =
-    !history.isHistorical && context?.mode === "between"
-      ? canEditLineup(context.nextEvent.deadline_time)
+    history.kind === "upcoming" && context?.upcoming
+      ? canEditLineup(context.upcoming.event.deadline_time)
       : false;
 
   const totalPoints = players
@@ -121,10 +123,10 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
               {manager?.name}
             </Text>
           </Box>
-          {relevantEventId && (
+          {history.displayedGameweekNumber && (
             <GameweekNavigator
               gameweekNumber={history.displayedGameweekNumber}
-              isHistorical={history.isHistorical}
+              kind={history.kind}
               canGoBack={history.canGoBack}
               canGoForward={history.canGoForward}
               onBack={history.goBack}
@@ -143,26 +145,28 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
         </Group>
         {loadError && <Text c="red">{loadError}</Text>}
 
-        {history.isHistorical && !history.historicalPlayers && !loadError && (
-          <Text>Loading...</Text>
-        )}
-        {history.isHistorical && history.historicalPlayers?.length === 0 && (
-          <Text c="dimmed">No lineup recorded for this gameweek.</Text>
-        )}
-        {history.isHistorical && history.historicalPlayers?.length > 0 && (
-          <FieldViewer
-            players={history.historicalPlayers}
-            onTradeClick={onTradeClick}
-          />
-        )}
+        {history.kind === "historical" &&
+          !history.historicalPlayers &&
+          !loadError && <Text>Loading...</Text>}
+        {history.kind === "historical" &&
+          history.historicalPlayers?.length === 0 && (
+            <Text c="dimmed">No lineup recorded for this gameweek.</Text>
+          )}
+        {history.kind === "historical" &&
+          history.historicalPlayers?.length > 0 && (
+            <FieldViewer
+              players={history.historicalPlayers}
+              onTradeClick={onTradeClick}
+            />
+          )}
 
-        {!history.isHistorical && players === undefined && !loadError && (
-          <Text>Loading...</Text>
-        )}
-        {!history.isHistorical && players?.length === 0 && (
+        {history.kind !== "historical" &&
+          players === undefined &&
+          !loadError && <Text>Loading...</Text>}
+        {history.kind !== "historical" && players?.length === 0 && (
           <Text>No players found.</Text>
         )}
-        {!history.isHistorical && players?.length > 0 && editable && (
+        {history.kind !== "historical" && players?.length > 0 && editable && (
           <LineupEditor
             players={players}
             manager={manager}
@@ -172,7 +176,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
             fieldSelection={fieldSelection}
           />
         )}
-        {!history.isHistorical && players?.length > 0 && !editable && (
+        {history.kind !== "historical" && players?.length > 0 && !editable && (
           <FieldViewer
             players={players}
             onTradeClick={onTradeClick}

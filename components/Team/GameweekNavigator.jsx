@@ -2,7 +2,7 @@ import { Group, ActionIcon, Text, Button, Badge, Box } from "@mantine/core";
 
 export function GameweekNavigator({
   gameweekNumber,
-  isHistorical,
+  kind,
   canGoBack,
   canGoForward,
   onBack,
@@ -24,7 +24,13 @@ export function GameweekNavigator({
         key={gameweekNumber}
       >
         <Badge
-          color={!isHistorical ? "green" : "grey"}
+          color={
+            kind === "current"
+              ? "green"
+              : kind === "upcoming"
+                ? "orange"
+                : "grey"
+          }
           size="xs"
           variant="dot"
           fz="xs"

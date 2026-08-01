@@ -64,7 +64,6 @@ describe("snapshot_locked_gameweeks integration", () => {
       .from("GameweekLineup")
       .select("*")
       .eq("gameweek_id", pastGwId);
-    console.log("data: ", data);
     expect(
       data.find((r) => r.manager_id === managerId && r.player_id === 1001),
     ).toMatchObject({ is_starter: true });

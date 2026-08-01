@@ -13,12 +13,12 @@ export function useTransactionGameweeks(bootstrap, context, supabase) {
       const gameweek = await getGameweekByNumber(
         supabase,
         season.id,
-        context.nextEvent.id,
+        context.upcoming.event.id,
       );
       const nextGameweek = await getGameweekByNumber(
         supabase,
         season.id,
-        context.nextEvent.id + 1,
+        context.upcoming.event.id + 1,
       );
       return { gameweekId: gameweek.id, nextGameweekId: nextGameweek.id };
     }

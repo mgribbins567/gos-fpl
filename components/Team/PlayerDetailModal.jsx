@@ -72,7 +72,6 @@ export function PlayerDetailModal({
   if (!player) return null;
 
   const relevantStats = getRelevantStats(player.elementType);
-  console.log("this is the player: ", player);
 
   return (
     <Modal

@@ -26,10 +26,10 @@
     "event": 1,
     "team_h": 4,
     "team_a": 1,
-    "team_h_score": null,
-    "team_a_score": null,
-    "started": false,
-    "finished": false,
+    "team_h_score": 0,
+    "team_a_score": 0,
+    "started": true,
+    "finished": true,
     "kickoff_time": "2026-08-26T19:00:00Z"
   },
   {

@@ -87,8 +87,8 @@ describe("getActiveGameweekContext", () => {
     const result = getActiveGameweekContext(bootstrap, now);
 
     expect(result.mode).toBe("between");
-    expect(result.nextEvent.id).toBe(3);
-    expect(result.phase).toBe("gameweek_live");
+    expect(result.upcoming.event.id).toBe(3);
+    expect(result.upcoming.phase).toBe("gameweek_live");
   });
 
   it("selects the highest-id finished event as previousEvent when multiple gameweeks have finished", () => {

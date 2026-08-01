@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Field } from "./Field";
 import { PlayerDetailModal } from "./PlayerDetailModal";
+import { getPositionMatchedPlayers } from "../../lib/lineup";
 
 export function FieldViewer({ players, onTradeClick, fieldSelection }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);

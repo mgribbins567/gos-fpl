@@ -51,9 +51,7 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       return undefined;
     }
   }, [bootstrap]);
-  console.log("context: ", context);
-  const currentGameweekNumber =
-    context?.mode === "live" ? context.event.id : context?.nextEvent?.id;
+  const currentGameweekNumber = context?.upcoming?.event.id;
 
   const ownershipMap = useMemo(
     () => (roster ? buildOwnershipMap(roster) : undefined),
@@ -66,7 +64,6 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
         : undefined,
     [availability, currentGameweekNumber],
   );
-  console.log("unavailablePlayerIds: ", unavailablePlayerIds);
 
   const results = useMemo(() => {
     if (!bootstrap || !ownershipMap || !unavailablePlayerIds) {

@@ -39,7 +39,7 @@ export function useLeaguePreview(leagueId, supabase) {
     async function load() {
       const season = await getCurrentSeason(supabase);
       const gameweekNumber =
-        context.mode === "live" ? context.event.id : context.nextEvent.id;
+        context.mode === "live" ? context.event.id : context.upcoming.event.id;
 
       let scoreByName = new Map();
       let featuredMatchups = { highestScoring: null, closest: null };
@@ -108,16 +108,18 @@ export function useLeaguePreview(leagueId, supabase) {
         gameweekNumber,
         scoreByName,
       ).slice(0, 5);
-      console.log("standings: ", standings);
 
       return {
         mode: context.mode,
         gameweekNumber,
-        phase: context.mode === "live" ? "gameweek_live" : context.phase,
+        phase:
+          context.mode === "live" ? "gameweek_live" : context.upcoming.phase,
         waiversDueAt:
-          context.mode === "between" ? context.waiversDueAt : undefined,
+          context.mode === "between"
+            ? context.upcoming.waiversDueAt
+            : undefined,
         squadLockAt:
-          context.mode === "between" ? context.squadLockAt : undefined,
+          context.mode === "between" ? context.upcoming.squadLockAt : undefined,
         featuredMatchups,
         standings,
       };
