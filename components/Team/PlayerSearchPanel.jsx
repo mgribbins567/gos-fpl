@@ -33,6 +33,7 @@ function PlayerRow({
   statValue,
   isFree,
   signingDisabled,
+  ownerId,
   onSign,
   onTrade,
 }) {
@@ -71,7 +72,11 @@ function PlayerRow({
             Sign
           </Button>
         ) : (
-          <Button fullWidth size="compact-xs" onClick={() => onTrade(player)}>
+          <Button
+            fullWidth
+            size="compact-xs"
+            onClick={() => onTrade(player, ownerId)}
+          >
             Trade
           </Button>
         )}
@@ -192,6 +197,7 @@ export function PlayerSearchPanel({
               <PlayerRow
                 key={player.id}
                 player={player}
+                ownerId={ownershipMap.get(player.id)}
                 team={teamsById.get(player.team)}
                 statValue={SORT_OPTIONS[sortKey].getValue(player)}
                 isFree={isFreeAgent(
