@@ -11,6 +11,7 @@ import {
   Modal,
   Alert,
   Group,
+  Divider,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
@@ -19,6 +20,7 @@ import { TeamCard } from "../components/Team/TeamCard";
 import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
 import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
+import { WaiverListPanel } from "../components/Team/WaiverListPanel";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
 import { useBootstrapStatic } from "../hooks/useFplData";
 import { useTransactionGameweeks } from "../hooks/useTransactionGameweeks";
@@ -28,6 +30,8 @@ import { getActiveGameweekContext } from "../lib/gameweek";
 import { useTradeBuilder } from "../hooks/useTradeBuilder";
 import { useIncomingTrades } from "../hooks/useIncomingTrades";
 import { useAdminTradeQueue } from "../hooks/useAdminTradeQueue";
+import { useWaiverList } from "../hooks/useWaiverList";
+import { useWaiverClaimBuilder } from "../hooks/useWaiverClaimBuilder";
 import {
   respondToTradeAsReceiver,
   respondToTradeAsAdmin,
@@ -60,7 +64,13 @@ function FantasyPageContent() {
     context,
     supabase,
   );
-  const canSignFreeAgents = context?.upcoming?.phase === "free_agency_open";
+  const upcomingPhase = context?.upcoming?.phase;
+  const signButtonMode =
+    upcomingPhase === "waivers_open"
+      ? "waiver"
+      : upcomingPhase === "free_agency_open"
+        ? "free_agent"
+        : "closed";
   const isAdminUser = manager ? isAdmin(manager.id) : false;
 
   const signing = useFreeAgentSigning({
@@ -78,6 +88,21 @@ function FantasyPageContent() {
     supabase,
     gameweekId: txGameweeks?.gameweekId,
     onProposed: () => window.location.reload(),
+  });
+
+  const waiverList = useWaiverList(
+    manager,
+    league?.id,
+    txGameweeks?.gameweekId,
+    supabase,
+    bootstrap,
+  );
+  const waiverBuilder = useWaiverClaimBuilder({
+    leagueId: league?.id,
+    manager,
+    supabase,
+    gameweekId: txGameweeks?.gameweekId,
+    onSubmitted: () => waiverList.refresh(),
   });
 
   const [refreshKey, setRefreshKey] = useState(0);
@@ -109,9 +134,13 @@ function FantasyPageContent() {
   }
 
   function handleSign(player) {
-    if (!canSignFreeAgents) return;
-    setSearchOpen(false);
-    signing.startSigning(player);
+    if (upcomingPhase === "waivers_open") {
+      setSearchOpen(false);
+      waiverBuilder.startClaim(player);
+    } else if (upcomingPhase === "free_agency_open") {
+      setSearchOpen(false);
+      signing.startSigning(player);
+    }
   }
 
   function handleTrade(player, ownerId) {
@@ -127,20 +156,28 @@ function FantasyPageContent() {
   const fieldSelection = signing.isSelecting
     ? {
         elementType: signing.pendingAddPlayer.element_type,
-        onSelect: (player) => {
-          signing.selectDropPlayer(player);
+        onSelect: (p) => {
+          signing.selectDropPlayer(p);
           setSearchOpen(true);
         },
       }
-    : builder.isSelectingProposerPlayer
+    : waiverBuilder.isSelecting
       ? {
-          elementType: builder.pendingReceiverPlayer.element_type,
-          onSelect: (player) => {
-            builder.selectProposerPlayer(player);
+          elementType: waiverBuilder.pendingAddPlayer.element_type,
+          onSelect: (p) => {
+            waiverBuilder.selectDropPlayer(p);
             setSearchOpen(true);
           },
         }
-      : null;
+      : builder.isSelectingProposerPlayer
+        ? {
+            elementType: builder.pendingReceiverPlayer.element_type,
+            onSelect: (p) => {
+              builder.selectProposerPlayer(p);
+              setSearchOpen(true);
+            },
+          }
+        : null;
 
   const searchPanel = league ? (
     <PlayerSearchPanel
@@ -149,7 +186,11 @@ function FantasyPageContent() {
       supabase={supabase}
       onSign={handleSign}
       onTrade={handleTrade}
-      signingDisabled={!canSignFreeAgents}
+      signButtonMode={signButtonMode}
+      waiverClaims={waiverList.claims}
+      waiverError={waiverList.error}
+      onReorderWaiverClaim={waiverList.reorder}
+      onRemoveWaiverClaim={waiverList.remove}
     />
   ) : (
     leagueError && <Text c="red">{leagueError}</Text>
@@ -177,6 +218,23 @@ function FantasyPageContent() {
           </Alert>
         )}
         {signing.error && <Text c="red">{signing.error}</Text>}
+
+        {waiverBuilder.isSelecting && (
+          <Alert variant="outline" maw="70vw" p="xs" color="deep-blue.5">
+            <Group justify="center" wrap="wrap" gap={2}>
+              Choose who to drop for {waiverBuilder.pendingAddPlayer.web_name}
+              <Button size="compact-xs" onClick={waiverBuilder.cancel}>
+                Cancel
+              </Button>
+              {waiverBuilder.submitting && (
+                <Text size="xs" c="dimmed">
+                  Adding claim...
+                </Text>
+              )}
+            </Group>
+          </Alert>
+        )}
+        {waiverBuilder.error && <Text c="red">{waiverBuilder.error}</Text>}
 
         {builder.isSelectingProposerPlayer && (
           <Alert variant="outline" maw="70vw" p="xs" color="deep-blue.5">

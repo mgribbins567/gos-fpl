@@ -148,3 +148,75 @@ describe("canEditLineup", () => {
     expect(canEditLineup(deadline, new Date(deadline))).toBe(false);
   });
 });
+
+describe("getActiveGameweekContext — multi-week cycle (regression for the waivers/FA loop)", () => {
+  function makeEvent(id, overrides = {}) {
+    return {
+      id,
+      is_current: false,
+      is_next: false,
+      finished: false,
+      deadline_time: null,
+      ...overrides,
+    };
+  }
+
+  it("cycles correctly across a full gameweek transition: upcoming's phase resets to waivers_open the moment it becomes the new upcoming gameweek", () => {
+    // GW1 deadline just passed (now live); GW2 is the new upcoming, freshly
+    // more than 24h out — its phase should be waivers_open, not carried over
+    // from GW1's phase.
+    const bootstrap = {
+      events: [
+        makeEvent(1, {
+          is_current: true,
+          deadline_time: "2026-08-15T18:00:00Z",
+        }),
+        makeEvent(2, { is_next: true, deadline_time: "2026-08-22T18:00:00Z" }),
+      ],
+    };
+    const now = new Date("2026-08-15T18:00:01Z");
+
+    const context = getActiveGameweekContext(bootstrap, now);
+
+    expect(context.mode).toBe("live");
+    expect(context.event.id).toBe(1);
+    expect(context.upcoming.event.id).toBe(2);
+    expect(context.upcoming.phase).toBe("waivers_open");
+  });
+
+  it("cycles the same way a second time (GW2 -> GW3), confirming this isn't a one-off transition but a repeatable loop", () => {
+    const bootstrap = {
+      events: [
+        makeEvent(2, {
+          is_current: true,
+          deadline_time: "2026-08-22T18:00:00Z",
+        }),
+        makeEvent(3, { is_next: true, deadline_time: "2026-08-29T18:00:00Z" }),
+      ],
+    };
+    const now = new Date("2026-08-22T18:00:01Z");
+
+    const context = getActiveGameweekContext(bootstrap, now);
+
+    expect(context.upcoming.event.id).toBe(3);
+    expect(context.upcoming.phase).toBe("waivers_open");
+  });
+
+  it("free_agency_open opens for the upcoming gameweek even while the previous gameweek is still live", () => {
+    const bootstrap = {
+      events: [
+        makeEvent(1, {
+          is_current: true,
+          deadline_time: "2026-08-15T18:00:00Z",
+        }),
+        makeEvent(2, { is_next: true, deadline_time: "2026-08-22T18:00:00Z" }),
+      ],
+    };
+    const now = new Date("2026-08-22T00:00:00Z"); // within 24h of GW2's deadline; GW1 still "live" per is_current
+
+    const context = getActiveGameweekContext(bootstrap, now);
+
+    expect(context.mode).toBe("live");
+    expect(context.upcoming.phase).toBe("free_agency_open");
+  });
+});

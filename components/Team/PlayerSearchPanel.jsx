@@ -10,10 +10,12 @@ import {
   ScrollArea,
   Text,
   Switch,
+  SegmentedControl,
 } from "@mantine/core";
 import { usePlayerSearch } from "../../hooks/usePlayerSearch";
 import { SORT_OPTIONS, isFreeAgent } from "../../lib/playerSearch";
 import { POSITION_LABELS, ELEMENT_TYPE, getShirtUrl } from "../../lib/fplData";
+import { WaiverListPanel } from "./WaiverListPanel";
 
 const POSITION_FILTER_OPTIONS = [
   { value: "", label: "Position" },
@@ -32,7 +34,7 @@ function PlayerRow({
   team,
   statValue,
   isFree,
-  signingDisabled,
+  signButtonMode,
   ownerId,
   onSign,
   onTrade,
@@ -66,10 +68,14 @@ function PlayerRow({
           <Button
             fullWidth
             size="compact-xs"
-            disabled={signingDisabled}
+            disabled={signButtonMode === "closed"}
             onClick={() => onSign(player)}
           >
-            Sign
+            {signButtonMode === "waiver"
+              ? "Waive"
+              : signButtonMode === "closed"
+                ? "Closed"
+                : "Sign"}
           </Button>
         ) : (
           <Button
@@ -91,9 +97,14 @@ export function PlayerSearchPanel({
   supabase,
   onSign,
   onTrade,
-  signingDisabled,
+  signButtonMode,
+  waiverClaims,
+  waiverError,
+  onReorderWaiverClaim,
+  onRemoveWaiverClaim,
 }) {
   const [searchInput, setSearchInput] = useState("");
+  const [showWaiverList, setShowWaiverList] = useState(false);
   const [debouncedSearchText] = useDebouncedValue(searchInput, 300);
 
   const {
@@ -123,96 +134,128 @@ export function PlayerSearchPanel({
 
   return (
     <Stack gap="xs">
-      <Group gap="xs" justify="space-between" wrap="nowrap">
-        <TextInput
-          placeholder="Search players..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.currentTarget.value)}
-        />
-        <Switch
-          size="sm"
-          withThumbIndicator={false}
-          labelPosition="left"
-          label="Only FAs"
-          checked={filters.onlyAvailable}
-          onChange={(event) =>
-            setFilters((f) => ({
-              ...f,
-              onlyAvailable: event.target.checked,
-            }))
-          }
-          styles={{ label: { whiteSpace: "nowrap" } }}
-        />
-      </Group>
-      <Group gap="xs" grow>
-        <Select
-          data={POSITION_FILTER_OPTIONS}
-          value={filters.position ? String(filters.position) : ""}
-          onChange={(value) =>
-            setFilters((f) => ({
-              ...f,
-              position: value ? Number(value) : null,
-            }))
-          }
-          placeholder="Position"
-          allowDeselect={false}
-        />
-        <Select
-          data={teamFilterOptions}
-          value={filters.teamId ? String(filters.teamId) : ""}
-          onChange={(value) =>
-            setFilters((f) => ({ ...f, teamId: value ? Number(value) : null }))
-          }
-          placeholder="Team"
-          allowDeselect={false}
-        />
-        <Select
-          data={SORT_SELECT_OPTIONS}
-          value={sortKey}
-          onChange={setSortKey}
-          placeholder="Sort by"
-          allowDeselect={false}
-        />
-      </Group>
-      <ScrollArea h={{ base: "80vh", sm: "420px" }}>
-        <Table
-          stickyHeader
-          stickyHeaderOffset={0}
-          verticalSpacing={4}
-          horizontalSpacing={2}
-          p={0}
-          fz="xs"
-        >
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>Player</Table.Th>
-              <Table.Th>Team</Table.Th>
-              <Table.Th>Pos</Table.Th>
-              <Table.Th ta="center">{SORT_OPTIONS[sortKey].label}</Table.Th>
-              <Table.Th></Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {results.map((player) => (
-              <PlayerRow
-                key={player.id}
-                player={player}
-                ownerId={ownershipMap.get(player.id)}
-                team={teamsById.get(player.team)}
-                statValue={SORT_OPTIONS[sortKey].getValue(player)}
-                isFree={isFreeAgent(
-                  player.id,
-                  ownershipMap,
-                  unavailablePlayerIds,
-                )}
-                signingDisabled={signingDisabled}
-                onSign={onSign}
-                onTrade={onTrade}
-              />
-            ))}
-          </Table.Tbody>
-        </Table>
-      </ScrollArea>
+      <SegmentedControl
+        fullWidth
+        value={showWaiverList ? "waivers" : "search"}
+        onChange={(value) => setShowWaiverList(value === "waivers")}
+        data={[
+          { label: "Players", value: "search" },
+          {
+            label: `Waivers${waiverClaims ? ` (${waiverClaims.length})` : ""}`,
+            value: "waivers",
+          },
+        ]}
+      />
+      {showWaiverList ? (
+        <>
+          {waiverError && (
+            <Text c="red" size="sm">
+              {waiverError}
+            </Text>
+          )}
+          <WaiverListPanel
+            claims={waiverClaims}
+            onReorder={onReorderWaiverClaim}
+            onRemove={onRemoveWaiverClaim}
+          />
+        </>
+      ) : (
+        <>
+          <Group gap="xs" justify="space-between" wrap="nowrap">
+            <TextInput
+              placeholder="Search players..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.currentTarget.value)}
+            />
+            <Switch
+              size="sm"
+              withThumbIndicator={false}
+              labelPosition="left"
+              label="Only FAs"
+              checked={filters.onlyAvailable}
+              onChange={(event) =>
+                setFilters((f) => ({
+                  ...f,
+                  onlyAvailable: event.target.checked,
+                }))
+              }
+              styles={{ label: { whiteSpace: "nowrap" } }}
+            />
+          </Group>
+          <Group gap="xs" grow>
+            <Select
+              data={POSITION_FILTER_OPTIONS}
+              value={filters.position ? String(filters.position) : ""}
+              onChange={(value) =>
+                setFilters((f) => ({
+                  ...f,
+                  position: value ? Number(value) : null,
+                }))
+              }
+              placeholder="Position"
+              allowDeselect={false}
+            />
+            <Select
+              data={teamFilterOptions}
+              value={filters.teamId ? String(filters.teamId) : ""}
+              onChange={(value) =>
+                setFilters((f) => ({
+                  ...f,
+                  teamId: value ? Number(value) : null,
+                }))
+              }
+              placeholder="Team"
+              allowDeselect={false}
+            />
+            <Select
+              data={SORT_SELECT_OPTIONS}
+              value={sortKey}
+              onChange={setSortKey}
+              placeholder="Sort by"
+              allowDeselect={false}
+            />
+          </Group>
+          <ScrollArea h={{ base: "80vh", sm: "420px" }}>
+            <Table
+              stickyHeader
+              stickyHeaderOffset={0}
+              verticalSpacing={4}
+              horizontalSpacing={2}
+              p={0}
+              fz="xs"
+            >
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Player</Table.Th>
+                  <Table.Th>Team</Table.Th>
+                  <Table.Th>Pos</Table.Th>
+                  <Table.Th ta="center">{SORT_OPTIONS[sortKey].label}</Table.Th>
+                  <Table.Th></Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {results.map((player) => (
+                  <PlayerRow
+                    key={player.id}
+                    player={player}
+                    ownerId={ownershipMap.get(player.id)}
+                    team={teamsById.get(player.team)}
+                    statValue={SORT_OPTIONS[sortKey].getValue(player)}
+                    isFree={isFreeAgent(
+                      player.id,
+                      ownershipMap,
+                      unavailablePlayerIds,
+                    )}
+                    signButtonMode={signButtonMode}
+                    onSign={onSign}
+                    onTrade={onTrade}
+                  />
+                ))}
+              </Table.Tbody>
+            </Table>
+          </ScrollArea>
+        </>
+      )}
     </Stack>
   );
 }

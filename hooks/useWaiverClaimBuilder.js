@@ -1,47 +1,40 @@
 import { useState } from "react";
-import { signFreeAgent } from "../lib/transactionsData";
+import { submitWaiverClaim } from "../lib/waiverData";
 
-export function useFreeAgentSigning({
+export function useWaiverClaimBuilder({
   leagueId,
   manager,
   supabase,
   gameweekId,
-  nextGameweekId,
-  onSigned,
+  onSubmitted,
 }) {
   const [pendingAddPlayer, setPendingAddPlayer] = useState(null);
-  const [pendingDropPlayer, setPendingDropPlayer] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  function startSigning(freeAgentPlayer) {
+  function startClaim(freeAgentPlayer) {
     setError(null);
     setPendingAddPlayer(freeAgentPlayer);
   }
 
-  function selectDropPlayer(ownPlayer) {
-    setPendingDropPlayer(ownPlayer);
-  }
-
   function cancel() {
     setPendingAddPlayer(null);
-    setPendingDropPlayer(null);
-    setSubmitting(false);
     setError(null);
+    setSubmitting(false);
   }
 
-  async function confirm() {
+  async function selectDropPlayer(ownPlayer) {
     setSubmitting(true);
+    setError(null);
     try {
-      await signFreeAgent(supabase, {
+      await submitWaiverClaim(supabase, {
         leagueId,
         managerId: manager.id,
-        dropPlayerId: pendingDropPlayer.player_id,
+        dropPlayerId: ownPlayer.player_id,
         addPlayerId: pendingAddPlayer.id,
         gameweekId,
-        nextGameweekId,
       });
-      onSigned();
+      onSubmitted();
       cancel();
     } catch (err) {
       setError(err.message);
@@ -50,15 +43,12 @@ export function useFreeAgentSigning({
   }
 
   return {
-    isSelecting: !!pendingAddPlayer && !pendingDropPlayer,
-    isConfirming: !!pendingAddPlayer && !!pendingDropPlayer,
+    isSelecting: !!pendingAddPlayer,
     pendingAddPlayer,
-    pendingDropPlayer,
     submitting,
     error,
-    startSigning,
+    startClaim,
     selectDropPlayer,
     cancel,
-    confirm,
   };
 }

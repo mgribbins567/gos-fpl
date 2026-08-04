@@ -51,6 +51,7 @@ export function useTradeBuilder({
     setReceivingManagerId(null);
     setPairings([]);
     setPendingReceiverPlayer(null);
+    setSubmitting(false);
     setError(null);
     setConfirming(false);
   }
