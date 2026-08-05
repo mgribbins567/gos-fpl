@@ -12,8 +12,24 @@ import {
 } from "../../../lib/waiverProcessing";
 
 export default async function handler(req, res) {
-  if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
-    res.status(401).json({ error: "Unauthorized" });
+  //   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
+  //     res.status(401).json({ error: "Unauthorized" });
+  //     return;
+  //   }
+
+  const received = req.headers.authorization;
+  const expected = `Bearer ${process.env.CRON_SECRET}`;
+
+  if (received !== expected) {
+    res.status(401).json({
+      error: "Unauthorized",
+      receivedLength: received?.length ?? 0,
+      expectedLength: expected.length,
+      receivedPreview: received
+        ? `${received.slice(0, 10)}...${received.slice(-4)}`
+        : null,
+      expectedPreview: `${expected.slice(0, 10)}...${expected.slice(-4)}`,
+    });
     return;
   }
 
