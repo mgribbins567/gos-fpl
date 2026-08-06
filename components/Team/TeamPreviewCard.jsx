@@ -45,7 +45,6 @@ function CurrentMatch({
 
           <Badge
             size="lg"
-            color="deep-blue.5"
             radius="sm"
             w="6ch"
             fw={800}
@@ -54,13 +53,12 @@ function CurrentMatch({
             {score1}
           </Badge>
 
-          <Text size="sm" fw={700} c="dimmed">
+          <Text size="sm" fw={700}>
             -
           </Text>
 
           <Badge
             size="lg"
-            color="deep-blue.5"
             radius="sm"
             w="6ch"
             fw={800}
@@ -140,7 +138,10 @@ export function TeamPreviewCard() {
                 {data.matchup.previous && (
                   <Stack gap={2}>
                     <Text size="xs" c="dimmed">
-                      Last week
+                      Last week{" "}
+                      {data.matchup.previous.provisional
+                        ? " (provisional)"
+                        : ""}
                     </Text>
                     <CurrentMatch
                       manager1={data.matchup.previous.self.name}

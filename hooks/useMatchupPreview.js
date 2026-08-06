@@ -7,6 +7,7 @@ import {
   getManagerByName,
   getMatchupForManager,
   toMatchupSummary,
+  buildLiveMatchupSummary,
 } from "../lib/matchupData";
 import { getTeam } from "../components/Team/TeamCard";
 import {
@@ -14,6 +15,8 @@ import {
   getTotalStartingPoints,
   getTopPlayer,
 } from "../lib/fplData";
+import { getManagersByNames } from "../lib/leagueData";
+import { getGameweekLineup } from "../lib/teamHistory";
 
 export function useMatchupPreview(manager, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -27,6 +30,17 @@ export function useMatchupPreview(manager, supabase) {
   const { data: live, error: liveError } = useLiveEvent(liveGameweek, {
     poll: context?.mode === "live",
   });
+
+  const previousLiveGameweek =
+    context?.mode === "between" &&
+    context.previousEvent &&
+    !context.previousEvent.data_checked
+      ? context.previousEvent.id
+      : undefined;
+  const { data: previousLive, error: previousLiveError } = useLiveEvent(
+    previousLiveGameweek,
+    { poll: true },
+  );
 
   const [state, setState] = useState({ data: undefined, error: null });
 
@@ -104,11 +118,68 @@ export function useMatchupPreview(manager, supabase) {
         upcoming.event.id,
       );
 
-      const previousMatchup = previousEvent
-        ? await getGameweekByNumber(supabase, season.id, previousEvent.id).then(
-            (row) => getMatchupForManager(supabase, row.id, manager.name),
+      const previousGameweekRow = previousEvent
+        ? await getGameweekByNumber(supabase, season.id, previousEvent.id)
+        : null;
+      const previousMatchup = previousGameweekRow
+        ? await getMatchupForManager(
+            supabase,
+            previousGameweekRow.id,
+            manager.name,
           )
         : null;
+      let previousSummary = null;
+      if (previousMatchup) {
+        if (previousEvent.data_checked) {
+          previousSummary = toMatchupSummary(previousMatchup, manager.name);
+        } else if (previousLive) {
+          const isSelfManager1 = previousMatchup.manager_1 === manager.name;
+          const selfName = isSelfManager1
+            ? previousMatchup.manager_1
+            : previousMatchup.manager_2;
+          const opponentName = isSelfManager1
+            ? previousMatchup.manager_2
+            : previousMatchup.manager_1;
+
+          const managersByName = await getManagersByNames(supabase, [
+            selfName,
+            opponentName,
+          ]);
+          const selfManager = managersByName.get(selfName);
+          const opponentManager = managersByName.get(opponentName);
+          if (!selfManager || !opponentManager) {
+            throw new Error(
+              `Manager referenced in Matchup not found in Manager table`,
+            );
+          }
+
+          const [selfRows, opponentRows] = await Promise.all([
+            getGameweekLineup(supabase, selfManager.id, previousGameweekRow.id),
+            getGameweekLineup(
+              supabase,
+              opponentManager.id,
+              previousGameweekRow.id,
+            ),
+          ]);
+          const selfPlayers = mergeTeamWithLiveData(
+            selfRows,
+            bootstrap,
+            previousLive,
+          );
+          const opponentPlayers = mergeTeamWithLiveData(
+            opponentRows,
+            bootstrap,
+            previousLive,
+          );
+          previousSummary = buildLiveMatchupSummary(
+            selfName,
+            selfPlayers,
+            opponentName,
+            opponentPlayers,
+          );
+        }
+      }
+
       const nextMatchup = await getMatchupForManager(
         supabase,
         nextGameweekRow.id,
@@ -122,7 +193,7 @@ export function useMatchupPreview(manager, supabase) {
         waiversDueAt: upcoming.waiversDueAt,
         squadLockAt: upcoming.squadLockAt,
         matchup: {
-          previous: toMatchupSummary(previousMatchup, manager.name),
+          previous: previousSummary,
           next: toMatchupSummary(nextMatchup, manager.name),
         },
       };
@@ -142,6 +213,6 @@ export function useMatchupPreview(manager, supabase) {
 
   return {
     data: state.data,
-    error: state.error || bootstrapError || liveError,
+    error: state.error || bootstrapError || liveError || previousLiveError,
   };
 }

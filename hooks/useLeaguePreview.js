@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
+import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
   getLeagueMatchups,
   getLeagueMatchupsForSeason,
@@ -11,7 +12,6 @@ import {
 import {
   toLeagueMatchupSummary,
   getFeaturedMatchups,
-  computeStandings,
   computeStandingsWithRankChange,
 } from "../lib/leagueLogic";
 import { mergeTeamWithLiveData, getTotalStartingPoints } from "../lib/fplData";
@@ -28,11 +28,21 @@ export function useLeaguePreview(leagueId, supabase) {
     poll: context?.mode === "live",
   });
 
+  const previousLiveGameweek =
+    context?.mode === "between" &&
+    context.previousEvent &&
+    !context.previousEvent.data_checked
+      ? context.previousEvent.id
+      : undefined;
+  const { data: previousLive, error: previousLiveError } =
+    useLiveEvent(previousLiveGameweek);
+
   const [state, setState] = useState({ data: undefined, error: null });
 
   useEffect(() => {
     if (!leagueId || !bootstrap || !context) return;
     if (context.mode === "live" && !live) return;
+    if (previousLiveGameweek && !previousLive) return;
 
     let cancelled = false;
 
@@ -43,6 +53,7 @@ export function useLeaguePreview(leagueId, supabase) {
 
       let scoreByName = new Map();
       let featuredMatchups = { highestScoring: null, closest: null };
+      let previousWeekProvisional = false;
 
       if (context.mode === "live") {
         const gameweekRow = await getGameweekByNumber(
@@ -92,9 +103,45 @@ export function useLeaguePreview(leagueId, supabase) {
           leagueId,
           previousGameweekRow.id,
         );
-        featuredMatchups = getFeaturedMatchups(
-          matchups.map((m) => toLeagueMatchupSummary(m)),
-        );
+        if (matchups.length > 0) {
+          if (context.previousEvent.data_checked) {
+            featuredMatchups = getFeaturedMatchups(
+              matchups.map((m) => toLeagueMatchupSummary(m)),
+            );
+          } else if (previousLive) {
+            previousWeekProvisional = true;
+            const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
+            const managersByName = await getManagersByNames(supabase, names);
+            const managerIds = [...managersByName.values()].map((m) => m.id);
+            const lineupsByManagerId = await getGameweekLineupsForManagers(
+              supabase,
+              managerIds,
+              previousGameweekRow.id,
+            );
+
+            const provisionalScoreByName = new Map();
+            for (const name of names) {
+              const manager = managersByName.get(name);
+              if (!manager)
+                throw new Error(
+                  `Manager "${name}" referenced in Matchup not found in Manager table`,
+                );
+              const rows = lineupsByManagerId.get(manager.id) ?? [];
+              const players = mergeTeamWithLiveData(
+                rows,
+                bootstrap,
+                previousLive,
+              );
+              provisionalScoreByName.set(name, getTotalStartingPoints(players));
+            }
+
+            featuredMatchups = getFeaturedMatchups(
+              matchups.map((m) =>
+                toLeagueMatchupSummary(m, provisionalScoreByName),
+              ),
+            );
+          }
+        }
       }
 
       const seasonMatchups = await getLeagueMatchupsForSeason(
@@ -121,6 +168,7 @@ export function useLeaguePreview(leagueId, supabase) {
         squadLockAt:
           context.mode === "between" ? context.upcoming.squadLockAt : undefined,
         featuredMatchups,
+        previousWeekProvisional,
         standings,
       };
     }
@@ -134,10 +182,18 @@ export function useLeaguePreview(leagueId, supabase) {
     return () => {
       cancelled = true;
     };
-  }, [leagueId, supabase, bootstrap, context, live]);
+  }, [
+    leagueId,
+    supabase,
+    bootstrap,
+    context,
+    live,
+    previousLive,
+    previousLiveGameweek,
+  ]);
 
   return {
     data: state.data,
-    error: state.error || bootstrapError || liveError,
+    error: state.error || bootstrapError || liveError || previousLiveError,
   };
 }
