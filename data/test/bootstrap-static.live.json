@@ -2,9 +2,10 @@
   "events": [
     {
       "id": 1,
-      "is_current": true,
+      "is_current": false,
       "is_next": false,
-      "finished": false,
+      "finished": true,
+      "data_checked": true,
       "deadline_time": "2026-07-31T18:00:00Z"
     },
     {
@@ -12,7 +13,16 @@
       "is_current": false,
       "is_next": true,
       "finished": false,
-      "deadline_time": "2026-08-02T18:00:00Z"
+      "data_checked": false,
+      "deadline_time": "2026-08-07T01:00:00Z"
+    },
+    {
+      "id": 3,
+      "is_current": false,
+      "is_next": false,
+      "finished": false,
+      "data_checked": false,
+      "deadline_time": "2026-08-012T01:00:00Z"
     }
   ],
   "teams": [

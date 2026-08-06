@@ -11,6 +11,10 @@ import {
   getTotalStartingPoints,
 } from "../../../lib/fplData";
 import { buildFinalizedMatchupUpdates } from "../../../lib/matchupFinalization";
+import {
+  applyAutoSubstitutions,
+  buildAutoSubUpdates,
+} from "../../../lib/lineup";
 
 export default async function handler(req, res) {
   if (req.headers.authorization !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -75,8 +79,28 @@ export default async function handler(req, res) {
             `Manager "${name}" referenced in Matchup not found in Manager table`,
           );
         const rows = lineupsByManagerId.get(manager.id) ?? [];
-        const players = mergeTeamWithLiveData(rows, bootstrap, live);
+        const merged = mergeTeamWithLiveData(rows, bootstrap, live);
+        const { players, subbedInPlayerIds } = applyAutoSubstitutions(merged);
         scoreByManagerName.set(name, getTotalStartingPoints(players));
+
+        const lineupUpdates = buildAutoSubUpdates(
+          rows,
+          players,
+          subbedInPlayerIds,
+        );
+        for (const update of lineupUpdates) {
+          const { error: lineupUpdateError } = await supabase
+            .from("GameweekLineup")
+            .update({
+              is_starter: update.is_starter,
+              bench_order: update.bench_order,
+              was_auto_subbed: update.was_auto_subbed,
+            })
+            .eq("manager_id", manager.id)
+            .eq("gameweek_id", gameweekRow.id)
+            .eq("player_id", update.player_id);
+          if (lineupUpdateError) throw new Error(lineupUpdateError.message);
+        }
       }
 
       const updates = buildFinalizedMatchupUpdates(

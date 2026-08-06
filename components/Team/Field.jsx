@@ -85,7 +85,7 @@ function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
   );
 }
 
-function PositionRow({ players, resolveInteraction }) {
+function PositionRow({ players, resolveInteraction, showBenchOrder }) {
   return (
     <Group
       justify="space-around"
@@ -97,11 +97,18 @@ function PositionRow({ players, resolveInteraction }) {
       w="100%"
     >
       {players.map((player) => (
-        <PlayerChip
-          key={player.id}
-          player={player}
-          {...resolveInteraction(player)}
-        />
+        <>
+          {showBenchOrder && player.elementType !== 1 && (
+            <Text size="xs" c="dimmed" fw={500}>
+              {player.bench_order - 1}
+            </Text>
+          )}
+          <PlayerChip
+            key={player.id}
+            player={player}
+            {...resolveInteraction(player)}
+          />
+        </>
       ))}
     </Group>
   );
@@ -160,7 +167,11 @@ export function Field({
       </Box>
 
       <Box bdrs="md" bd="1px solid white">
-        <PositionRow players={bench} resolveInteraction={resolveInteraction} />
+        <PositionRow
+          players={bench}
+          resolveInteraction={resolveInteraction}
+          showBenchOrder
+        />
       </Box>
     </Stack>
   );

@@ -12,6 +12,7 @@ import {
   getPreviousViewedGameweek,
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
+import { applyAutoSubstitutions } from "../lib/lineup";
 
 export function useTeamHistory(manager, supabase, bootstrap, context) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
@@ -94,7 +95,10 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
         manager.id,
         gameweekRow.id,
       );
-      return mergeTeamWithLiveData(rows, bootstrap, historicalLive);
+      const { players } = applyAutoSubstitutions(
+        mergeTeamWithLiveData(rows, bootstrap, historicalLive),
+      );
+      return players;
     }
     load()
       .then((data) => !cancelled && setHistoryState({ data, error: null }))
