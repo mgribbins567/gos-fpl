@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Text, Stack, Flex, Group, Badge } from "@mantine/core";
 import {
   groupPlayersByPosition,
@@ -43,8 +44,7 @@ function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
       onClick={onClick}
       bg="rgba(255, 255, 255, 0.1)"
       ta="center"
-      w="16vw"
-      maw="20%"
+      w="100%"
       bdrs="sm"
       c="white"
       style={{
@@ -95,20 +95,17 @@ function PositionRow({ players, resolveInteraction, showBenchOrder }) {
       gap="1vw"
       wrap="nowrap"
       w="100%"
+      align="flex-start"
     >
       {players.map((player) => (
-        <>
+        <Stack key={player.id} align="center" gap={0} w="16vw" maw="20%">
+          <PlayerChip player={player} {...resolveInteraction(player)} />
           {showBenchOrder && player.elementType !== 1 && (
             <Text size="xs" c="dimmed" fw={500}>
               {player.bench_order - 1}
             </Text>
           )}
-          <PlayerChip
-            key={player.id}
-            player={player}
-            {...resolveInteraction(player)}
-          />
-        </>
+        </Stack>
       ))}
     </Group>
   );
