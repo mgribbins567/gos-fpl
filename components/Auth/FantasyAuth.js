@@ -15,6 +15,36 @@ import { useDisclosure } from "@mantine/hooks";
 import { useManager } from "../../contexts/ManagerContext";
 import { User } from "@phosphor-icons/react";
 
+const hellos = [
+  "Hello", // English
+  "Sup", // also English
+  "Howdy", // Southern
+  "Kaixo", // Basque
+  "Zdravo", // Bosnian
+  "Ni hao", // Cantonese
+  "Hola", // Spanish
+  "Ahoj", // Czech
+  "Hej", // Danish
+  "Hallo", // Dutch
+  "Bula", // Fijian
+  "Bonjour", // French
+  "Moin", // German
+  "Ciao", // Italian
+  "Konnichiwa", // Japanese
+  "Annyeong", // Korean
+  "Hei", // Norwegian
+  "Cześć", // Polish
+  "Olá", // Portuguese
+  "Hallå", // Swedish
+  "Merhaba", // Turkish
+  "Helo", // Welsh
+];
+
+function randomHello() {
+  const index = Math.floor(Math.random() * hellos.length);
+  return hellos[index];
+}
+
 export function FantasyAuth() {
   const { user, manager, supabase } = useManager();
   const [mode, setMode] = useState("signIn");
@@ -82,7 +112,9 @@ export function FantasyAuth() {
   return (
     <Group w="100%" maw="22rem" justify="space-between">
       {user === null ? null : manager ? (
-        <Text>Hello {manager && manager.name}</Text>
+        <Text>
+          {randomHello()} {manager && manager.name}
+        </Text>
       ) : (
         <Text>Please ping me to link your account!</Text>
       )}
