@@ -167,11 +167,13 @@ export function PlayerDetailModal({
           <Text size="xs">No details available</Text>
         )}
         <Group grow>
-          {canEdit && <Button onClick={onMoveClick}>Move / Sub</Button>}
-          {onTradeClick && (
-            <Button color="blue.6" onClick={() => onTradeClick(player)}>
-              Trade
-            </Button>
+          {canEdit && onTradeClick && (
+            <>
+              <Button onClick={onMoveClick}>Move / Sub</Button>
+              <Button color="blue.6" onClick={() => onTradeClick(player)}>
+                Trade
+              </Button>
+            </>
           )}
         </Group>
       </Stack>

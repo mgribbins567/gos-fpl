@@ -16,6 +16,7 @@ import { usePlayerSearch } from "../../hooks/usePlayerSearch";
 import { SORT_OPTIONS, isFreeAgent } from "../../lib/playerSearch";
 import { POSITION_LABELS, ELEMENT_TYPE, getShirtUrl } from "../../lib/fplData";
 import { WaiverListPanel } from "./WaiverListPanel";
+import { useLeagueManagers } from "../../hooks/useLeagueManagers";
 
 const POSITION_FILTER_OPTIONS = [
   { value: "", label: "Position" },
@@ -36,6 +37,7 @@ function PlayerRow({
   isFree,
   signButtonMode,
   ownerId,
+  ownerShortName,
   onSign,
   onTrade,
 }) {
@@ -82,8 +84,16 @@ function PlayerRow({
             fullWidth
             size="compact-xs"
             onClick={() => onTrade(player, ownerId)}
+            styles={{
+              inner: { maxWidth: "100%" },
+              label: {
+                whiteSpace: "normal",
+                overflow: "visible",
+                textOverflow: "clip",
+              },
+            }}
           >
-            Trade
+            {ownerShortName}
           </Button>
         )}
       </Table.Td>
@@ -118,6 +128,10 @@ export function PlayerSearchPanel({
     bootstrap,
     error,
   } = usePlayerSearch(leagueId, viewingManagerId, supabase);
+  const { data: leagueManagersById } = useLeagueManagers(
+    { id: leagueId },
+    supabase,
+  );
 
   useEffect(() => {
     setFilters((f) => ({ ...f, searchText: debouncedSearchText }));
@@ -239,6 +253,16 @@ export function PlayerSearchPanel({
                     key={player.id}
                     player={player}
                     ownerId={ownershipMap.get(player.id)}
+                    ownerShortName={
+                      leagueManagersById?.get(ownershipMap.get(player.id))
+                        ?.short_name
+                        ? leagueManagersById?.get(ownershipMap.get(player.id))
+                            ?.short_name
+                        : leagueManagersById
+                            ?.get(ownershipMap.get(player.id))
+                            ?.name.slice(0, 3)
+                            .toUpperCase()
+                    }
                     team={teamsById.get(player.team)}
                     statValue={SORT_OPTIONS[sortKey].getValue(player)}
                     isFree={isFreeAgent(

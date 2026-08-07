@@ -2,7 +2,7 @@ import testBootstrapData from "../data/test/bootstrap-static.between.json";
 import testLiveData1 from "../data/test/live-event-1.json";
 import testLiveData2 from "../data/test/live-event-2.json";
 // import testLiveDataMD2 from "../data/test/live-event-2.mid-double.json";
-import fixturesData from "../data/test/fixtures-gameweek-2.between.json";
+import fixturesData from "../data/test/fixtures-gameweek-2.json";
 // import fixturesData2 from "../data/test/fixtures-gameweek-2.mid-double.json";
 
 // https://fantasy.premierleague.com/api/bootstrap-static/
