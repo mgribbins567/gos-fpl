@@ -87,13 +87,24 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     history.error;
 
   let players;
-  if (relevantEventId && team && bootstrap && live && fixtures) {
-    players = attachFixtureStatus(
-      mergeTeamWithLiveData(team, bootstrap, live),
-      bootstrap,
-      fixtures,
-      history.displayedGameweekNumber,
-    );
+  if (history.kind === "upcoming") {
+    if (relevantEventId && team && bootstrap && live && fixtures) {
+      players = attachFixtureStatus(
+        mergeTeamWithLiveData(team, bootstrap, live),
+        bootstrap,
+        fixtures,
+        history.displayedGameweekNumber,
+      );
+    }
+  } else {
+    if (relevantEventId && history.historicalPlayers && bootstrap && fixtures) {
+      players = attachFixtureStatus(
+        history.historicalPlayers,
+        bootstrap,
+        fixtures,
+        history.displayedGameweekNumber,
+      );
+    }
   }
 
   const editable =
@@ -145,10 +156,10 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
         </Group>
         {loadError && <Text c="red">{loadError}</Text>}
 
-        {history.kind === "historical" &&
+        {history.kind !== "upcoming" &&
           !history.historicalPlayers &&
           !loadError && <Text>Loading...</Text>}
-        {history.kind === "historical" &&
+        {history.kind !== "upcoming" &&
           history.historicalPlayers?.length === 0 && (
             <Text c="dimmed">No lineup recorded for this gameweek.</Text>
           )}
@@ -160,13 +171,13 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
             />
           )}
 
-        {history.kind !== "historical" &&
-          players === undefined &&
-          !loadError && <Text>Loading...</Text>}
-        {history.kind !== "historical" && players?.length === 0 && (
+        {history.kind === "upcoming" && players === undefined && !loadError && (
+          <Text>Loading...</Text>
+        )}
+        {history.kind === "upcoming" && players?.length === 0 && (
           <Text>No players found.</Text>
         )}
-        {history.kind !== "historical" && players?.length > 0 && editable && (
+        {history.kind === "upcoming" && players?.length > 0 && editable && (
           <LineupEditor
             players={players}
             manager={manager}
@@ -176,7 +187,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
             fieldSelection={fieldSelection}
           />
         )}
-        {history.kind !== "historical" && players?.length > 0 && !editable && (
+        {history.kind === "current" && players?.length > 0 && !editable && (
           <FieldViewer
             players={players}
             onTradeClick={onTradeClick}

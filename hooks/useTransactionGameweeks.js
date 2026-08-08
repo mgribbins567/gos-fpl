@@ -5,7 +5,7 @@ export function useTransactionGameweeks(bootstrap, context, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
 
   useEffect(() => {
-    if (!bootstrap || context?.mode !== "between") return;
+    if (!bootstrap) return;
     let cancelled = false;
 
     async function load() {
@@ -33,6 +33,5 @@ export function useTransactionGameweeks(bootstrap, context, supabase) {
       cancelled = true;
     };
   }, [bootstrap, context, supabase]);
-
   return state;
 }

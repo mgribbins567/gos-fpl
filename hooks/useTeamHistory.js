@@ -64,8 +64,10 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
   }
 
   const isHistorical = kind === "historical";
+  const isCurrent = kind === "current";
+  const isUpcoming = kind === "upcoming";
   const { data: historicalLive, error: liveError } = useLiveEvent(
-    isHistorical ? displayedGameweekNumber : undefined,
+    !isUpcoming ? displayedGameweekNumber : undefined,
   );
 
   const [historyState, setHistoryState] = useState({
@@ -75,14 +77,15 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
 
   useEffect(() => {
     if (
-      !isHistorical ||
+      !kind ||
       !manager ||
       !supabase ||
       !seasonId ||
       !bootstrap ||
       !historicalLive
-    )
+    ) {
       return;
+    }
     let cancelled = false;
     async function load() {
       const gameweekRow = await getGameweekByNumber(
@@ -95,10 +98,16 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
         manager.id,
         gameweekRow.id,
       );
-      const { players } = applyAutoSubstitutions(
-        mergeTeamWithLiveData(rows, bootstrap, historicalLive),
-      );
-      return players;
+      let playerList;
+      if (isHistorical) {
+        const { players } = applyAutoSubstitutions(
+          mergeTeamWithLiveData(rows, bootstrap, historicalLive),
+        );
+        playerList = players;
+      } else {
+        playerList = mergeTeamWithLiveData(rows, bootstrap, historicalLive);
+      }
+      return playerList;
     }
     load()
       .then((data) => !cancelled && setHistoryState({ data, error: null }))
@@ -111,7 +120,7 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
       cancelled = true;
     };
   }, [
-    isHistorical,
+    kind,
     manager,
     supabase,
     seasonId,
@@ -128,8 +137,8 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
     goBack,
     goForward,
     jumpToUpcoming,
-    historicalPlayers: isHistorical ? historyState.data : undefined,
+    historicalPlayers: !isUpcoming ? historyState.data : undefined,
     error:
-      boundsError || liveError || (isHistorical ? historyState.error : null),
+      boundsError || liveError || (!isUpcoming ? historyState.error : null),
   };
 }
