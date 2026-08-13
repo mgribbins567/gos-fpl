@@ -46,7 +46,7 @@ export function useMatchupPreview(manager, supabase) {
 
   useEffect(() => {
     if (!manager || !bootstrap || !context) return;
-    if (context.mode === "live" && !live) return; // wait for live points before computing scores
+    if (context.mode === "live" && !live) return;
 
     let cancelled = false;
 
@@ -81,8 +81,8 @@ export function useMatchupPreview(manager, supabase) {
         const opponentManager = await getManagerByName(supabase, opponentName);
 
         const [selfTeam, opponentTeam] = await Promise.all([
-          getTeam(manager, supabase),
-          getTeam(opponentManager, supabase),
+          getGameweekLineup(supabase, manager.id, gameweekRow.id),
+          getGameweekLineup(supabase, opponentManager.id, gameweekRow.id),
         ]);
 
         const selfPlayers = mergeTeamWithLiveData(selfTeam, bootstrap, live);

@@ -13,6 +13,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -41,6 +52,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -58,7 +80,19 @@
     },
     {
       "id": 103,
-      "explain": [],
+      "explain": [
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
+        }
+      ],
       "stats": {
         "minutes": 0,
         "goals_scored": 0,
@@ -153,6 +187,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -184,6 +229,17 @@
               "identifier": "assists",
               "points": 3,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -289,6 +345,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -323,6 +390,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -348,6 +426,17 @@
               "identifier": "minutes",
               "points": 4,
               "value": 64,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -453,6 +542,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -478,6 +578,17 @@
               "identifier": "minutes",
               "points": 3,
               "value": 57,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -512,6 +623,17 @@
               "identifier": "goals_scored",
               "points": 4,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -611,6 +733,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -642,6 +775,17 @@
               "identifier": "bonus",
               "points": 2,
               "value": 2,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -741,6 +885,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -766,6 +921,17 @@
               "identifier": "minutes",
               "points": 1,
               "value": 26,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -865,6 +1031,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -896,6 +1073,17 @@
               "identifier": "assists",
               "points": 3,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -967,6 +1155,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -998,6 +1197,17 @@
               "identifier": "goals_conceded",
               "points": -1,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1097,6 +1307,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1128,6 +1349,17 @@
               "identifier": "assists",
               "points": 3,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1227,6 +1459,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1258,6 +1501,17 @@
               "identifier": "goals_conceded",
               "points": -1,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1363,6 +1617,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1388,6 +1653,17 @@
               "identifier": "minutes",
               "points": 4,
               "value": 60,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -1447,6 +1723,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1478,6 +1765,17 @@
               "identifier": "assists",
               "points": 3,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1565,6 +1863,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1596,6 +1905,17 @@
               "identifier": "assists",
               "points": 3,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1695,6 +2015,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1720,6 +2051,17 @@
               "identifier": "minutes",
               "points": 4,
               "value": 64,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -1819,6 +2161,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1844,6 +2197,17 @@
               "identifier": "minutes",
               "points": 2,
               "value": 30,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -1909,6 +2273,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -1940,6 +2315,17 @@
               "identifier": "goals_scored",
               "points": 8,
               "value": 2,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2045,6 +2431,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2076,6 +2473,17 @@
               "identifier": "bonus",
               "points": 1,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2163,6 +2571,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2188,6 +2607,17 @@
               "identifier": "minutes",
               "points": 2,
               "value": 36,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2275,6 +2705,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2300,6 +2741,17 @@
               "identifier": "minutes",
               "points": 4,
               "value": 70,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -2371,6 +2823,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2402,6 +2865,17 @@
               "identifier": "goals_conceded",
               "points": -2,
               "value": 2,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2501,6 +2975,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2532,6 +3017,17 @@
               "identifier": "goals_scored",
               "points": 8,
               "value": 2,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2631,6 +3127,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2656,6 +3163,17 @@
               "identifier": "minutes",
               "points": 3,
               "value": 47,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2755,6 +3273,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2786,6 +3315,17 @@
               "identifier": "clean_sheets",
               "points": 4,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]
@@ -2851,6 +3391,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -2882,6 +3433,17 @@
               "identifier": "goals_conceded",
               "points": -1,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -2987,6 +3549,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -3018,6 +3591,17 @@
               "identifier": "goals_scored",
               "points": 4,
               "value": 1,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -3117,6 +3701,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -3142,6 +3737,17 @@
               "identifier": "minutes",
               "points": 3,
               "value": 45,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
               "points_modification": 0
             }
           ]
@@ -3241,6 +3847,17 @@
               "points_modification": 0
             }
           ]
+        },
+        {
+          "fixture": 2001,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 10,
+              "points_modification": 0
+            }
+          ]
         }
       ],
       "stats": {
@@ -3266,6 +3883,17 @@
               "identifier": "minutes",
               "points": 5,
               "value": 77,
+              "points_modification": 0
+            }
+          ]
+        },
+        {
+          "fixture": 2002,
+          "stats": [
+            {
+              "identifier": "made_up",
+              "points": 1,
+              "value": 5,
               "points_modification": 0
             }
           ]

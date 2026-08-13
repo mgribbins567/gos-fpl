@@ -111,7 +111,6 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     history.kind === "upcoming" && context?.upcoming
       ? canEditLineup(context.upcoming.event.deadline_time)
       : false;
-
   const totalPoints = players
     ? getTotalStartingPoints(players)
     : history.historicalPlayers
@@ -144,7 +143,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
               onForward={history.goForward}
             />
           )}
-          {totalPoints !== undefined && (
+          {history.kind !== "upcoming" && totalPoints !== undefined ? (
             <Box style={{ flex: 1, textAlign: "right", minWidth: 0 }}>
               {totalPoints !== undefined && (
                 <Text fw={700} c="white">
@@ -152,6 +151,8 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
                 </Text>
               )}
             </Box>
+          ) : (
+            <Box style={{ flex: 1, textAlign: "right", minWidth: "6ch" }}></Box>
           )}
         </Group>
         {loadError && <Text c="red">{loadError}</Text>}

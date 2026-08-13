@@ -8,6 +8,7 @@ import {
   getLeagueMatchupsForSeason,
   getManagersByNames,
   getTeamsForManagers,
+  getTeamsForManagersByGameweek,
 } from "../lib/leagueData";
 import {
   toLeagueMatchupSummary,
@@ -70,9 +71,10 @@ export function useLeaguePreview(leagueId, supabase) {
         if (matchups.length > 0) {
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
           const managersByName = await getManagersByNames(supabase, names);
-          const teamsByManagerId = await getTeamsForManagers(
+          const teamsByManagerId = await getTeamsForManagersByGameweek(
             supabase,
             [...managersByName.values()].map((m) => m.id),
+            gameweekRow.id,
           );
 
           scoreByName = new Map();

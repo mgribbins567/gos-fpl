@@ -136,8 +136,8 @@ describe("computeStandings", () => {
     const standings = computeStandings([makeMatchup()]);
     const Matthew = standings.find((r) => r.name === "Matthew");
     const Coop = standings.find((r) => r.name === "Coop");
-    expect(Matthew).toMatchObject({ wins: 1, losses: 0, ties: 0 });
-    expect(Coop).toMatchObject({ wins: 0, losses: 1, ties: 0 });
+    expect(Matthew).toMatchObject({ wins: 1, losses: 0, draws: 0 });
+    expect(Coop).toMatchObject({ wins: 0, losses: 1, draws: 0 });
   });
 
   it("counts a tie for both managers when winner is null but scores are present", () => {
@@ -146,8 +146,8 @@ describe("computeStandings", () => {
     ]);
     const Matthew = standings.find((r) => r.name === "Matthew");
     const Coop = standings.find((r) => r.name === "Coop");
-    expect(Matthew).toMatchObject({ wins: 0, losses: 0, ties: 1 });
-    expect(Coop).toMatchObject({ wins: 0, losses: 0, ties: 1 });
+    expect(Matthew).toMatchObject({ wins: 0, losses: 0, draws: 1 });
+    expect(Coop).toMatchObject({ wins: 0, losses: 0, draws: 1 });
   });
 
   it("accumulates pointsFor and pointsAgainst across multiple matchups", () => {
