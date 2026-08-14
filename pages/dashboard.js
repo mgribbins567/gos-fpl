@@ -42,11 +42,16 @@ function LeagueCards() {
         slideGap="md"
         align="center"
         withIndicators={false}
-        controlsOffset={2}
+        controlsOffset={4}
         controlSize={14}
         initialSlide={initialSlideIndex}
         emblaOptions={{
           loop: true,
+        }}
+        styles={{
+          controls: {
+            top: "5%",
+          },
         }}
       >
         {leagues.map((league) => (
