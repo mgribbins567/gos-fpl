@@ -1,4 +1,5 @@
 import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
 
 import Head from "next/head";
 import { createTheme, MantineProvider, AppShell } from "@mantine/core";

@@ -10,6 +10,7 @@
     "test:integration": "vitest --config vitest.integration.config.js"
   },
   "dependencies": {
+    "@mantine/carousel": "^9.5.1",
     "@mantine/core": "^9.0.1",
     "@mantine/hooks": "^9.0.1",
     "@mantine/notifications": "^9.4.2",
@@ -23,6 +24,7 @@
     "@vercel/speed-insights": "^1.0.12",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
+    "embla-carousel-react": "^8.6.0",
     "next": "^16.2.10",
     "pg": "^8.16.3",
     "react": "^19.2.1",
