@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@mantine/carousel": "^9.5.1",
-    "@mantine/core": "^9.0.1",
-    "@mantine/hooks": "^9.0.1",
-    "@mantine/notifications": "^9.4.2",
+    "@mantine/core": "^9.5.1",
+    "@mantine/hooks": "^9.5.1",
+    "@mantine/notifications": "^9.5.1",
     "@nextui-org/react": "^2.4.2",
     "@nextui-org/table": "^2.0.36",
     "@phosphor-icons/react": "^2.1.10",
