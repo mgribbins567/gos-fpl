@@ -91,7 +91,7 @@ The Premier League officially starts on Friday, August 21st. After the draft, I'
 **League C**
 
 1. Travis
-2. ???
+2. Katie
 3. Emma
 4. Charlotte
 5. JohnM
@@ -101,7 +101,7 @@ The Premier League officially starts on Friday, August 21st. After the draft, I'
 9. Aarushi
 10. Morgan
 11. Madelynn
-12. ???
+12. Tori
 
 Not to _keep_ asking, but if anyone knows someone interested in joining League C, let me know!
 
