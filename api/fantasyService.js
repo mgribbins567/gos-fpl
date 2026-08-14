@@ -1,6 +1,7 @@
 import testBootstrapData from "../data/test/bootstrap-static.between.json";
 import testLiveData1 from "../data/test/live-event-1.json";
 import testLiveData2 from "../data/test/live-event-2.json";
+import testLiveData3 from "../data/test/live-event-3.json";
 // import testLiveDataMD2 from "../data/test/live-event-2.mid-double.json";
 import fixturesData from "../data/test/fixtures-gameweek-2.json";
 // import fixturesData2 from "../data/test/fixtures-gameweek-2.mid-double.json";
@@ -46,8 +47,10 @@ export async function getBootstrapData() {
 export async function getLiveData(gameweek) {
   if (gameweek == 1) {
     return testLiveData1;
-  } else {
+  } else if (gameweek == 2) {
     return testLiveData2;
+  } else {
+    return testLiveData3;
   }
   // try {
   //   const liveRes = await fetch(

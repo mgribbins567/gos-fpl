@@ -32,7 +32,7 @@ export function useLeaguePreview(leagueId, supabase) {
   const previousLiveGameweek =
     context?.mode === "between" &&
     context.previousEvent &&
-    !context.previousEvent.data_checked
+    context.previousEvent.finished
       ? context.previousEvent.id
       : undefined;
   const { data: previousLive, error: previousLiveError } =
@@ -110,7 +110,8 @@ export function useLeaguePreview(leagueId, supabase) {
             featuredMatchups = getFeaturedMatchups(
               matchups.map((m) => toLeagueMatchupSummary(m)),
             );
-          } else if (previousLive) {
+          }
+          if (previousLive || !featuredMatchups) {
             previousWeekProvisional = true;
             const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
             const managersByName = await getManagersByNames(supabase, names);
@@ -121,7 +122,7 @@ export function useLeaguePreview(leagueId, supabase) {
               previousGameweekRow.id,
             );
 
-            const provisionalScoreByName = new Map();
+            scoreByName = new Map();
             for (const name of names) {
               const manager = managersByName.get(name);
               if (!manager)
@@ -134,13 +135,11 @@ export function useLeaguePreview(leagueId, supabase) {
                 bootstrap,
                 previousLive,
               );
-              provisionalScoreByName.set(name, getTotalStartingPoints(players));
+              scoreByName.set(name, getTotalStartingPoints(players));
             }
 
             featuredMatchups = getFeaturedMatchups(
-              matchups.map((m) =>
-                toLeagueMatchupSummary(m, provisionalScoreByName),
-              ),
+              matchups.map((m) => toLeagueMatchupSummary(m, scoreByName)),
             );
           }
         }

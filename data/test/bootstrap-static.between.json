@@ -13,12 +13,12 @@
       "is_current": false,
       "is_next": false,
       "finished": true,
-      "data_checked": false,
+      "data_checked": true,
       "deadline_time": "2026-08-07T01:00:00Z"
     },
     {
       "id": 3,
-      "is_current": false,
+      "is_current": true,
       "is_next": true,
       "finished": false,
       "data_checked": false,

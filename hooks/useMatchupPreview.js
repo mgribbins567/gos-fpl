@@ -17,6 +17,7 @@ import {
 } from "../lib/fplData";
 import { getManagersByNames } from "../lib/leagueData";
 import { getGameweekLineup } from "../lib/teamHistory";
+import { applyAutoSubstitutions } from "../lib/lineup";
 
 export function useMatchupPreview(manager, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -34,7 +35,7 @@ export function useMatchupPreview(manager, supabase) {
   const previousLiveGameweek =
     context?.mode === "between" &&
     context.previousEvent &&
-    !context.previousEvent.data_checked
+    context.previousEvent.finished
       ? context.previousEvent.id
       : undefined;
   const { data: previousLive, error: previousLiveError } = useLiveEvent(
@@ -132,7 +133,8 @@ export function useMatchupPreview(manager, supabase) {
       if (previousMatchup) {
         if (previousEvent.data_checked) {
           previousSummary = toMatchupSummary(previousMatchup, manager.name);
-        } else if (previousLive) {
+        }
+        if (previousLive || !previousSummary) {
           const isSelfManager1 = previousMatchup.manager_1 === manager.name;
           const selfName = isSelfManager1
             ? previousMatchup.manager_1
@@ -176,6 +178,7 @@ export function useMatchupPreview(manager, supabase) {
             selfPlayers,
             opponentName,
             opponentPlayers,
+            context.previousEvent.data_checked,
           );
         }
       }
