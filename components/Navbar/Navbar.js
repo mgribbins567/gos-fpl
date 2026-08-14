@@ -9,6 +9,7 @@ import {
   HiOutlineNewspaper,
   HiOutlineTrophy,
   HiOutlineCog,
+  HiOutlineBookOpen,
 } from "react-icons/hi2";
 
 import { VscJersey } from "react-icons/vsc";
@@ -17,19 +18,15 @@ export const siteTitle = "Game of Stones";
 
 const navLinks = [
   { name: "Home", path: "/", icon: <HiOutlineHome /> },
+  { name: "My Team", path: "/fantasy", icon: <VscJersey /> },
+  { name: "League", path: "/league", icon: <HiOutlineTrophy /> },
   { name: "Blog", path: "/blog", icon: <HiOutlineNewspaper /> },
-  { name: "History", path: "/history", icon: <HiOutlineTrophy /> },
-  { name: "Live", path: "/live", icon: <VscJersey /> },
-  {
-    name: "Players",
-    path: "/player-search",
-    icon: <HiOutlineUserGroup />,
-  },
-  {
-    name: "Kevin",
-    path: "https://www.fpl-dashboard.com/",
-    icon: <HiOutlineCog />,
-  },
+  { name: "History", path: "/history", icon: <HiOutlineBookOpen /> },
+  // {
+  //   name: "Players",
+  //   path: "/player-search",
+  //   icon: <HiOutlineUserGroup />,
+  // },
 ];
 
 export default function Navbar() {

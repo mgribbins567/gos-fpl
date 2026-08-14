@@ -52,7 +52,8 @@ a.navLinkInactive {
 }
 
 a.navLinkActive {
-  color: #3399ff;
+  /* color: #3399ff; */
+  color: rgb(197, 150, 255);
 }
 
 .icon {
