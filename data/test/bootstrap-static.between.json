@@ -18,11 +18,11 @@
     },
     {
       "id": 3,
-      "is_current": true,
+      "is_current": false,
       "is_next": true,
       "finished": false,
       "data_checked": false,
-      "deadline_time": "2026-08-15T01:00:00Z"
+      "deadline_time": "2026-08-16T01:00:00Z"
     }
   ],
   "teams": [
