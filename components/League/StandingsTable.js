@@ -72,7 +72,9 @@ export function StandingsTable({ standings }) {
         <Table.Thead>
           <Table.Tr>
             <Table.Th style={stickyStyle(0)}>Pos</Table.Th>
-            <Table.Th style={stickyStyle(40)}>Team</Table.Th>
+            <Table.Th maw="6ch" style={stickyStyle(40)}>
+              Team
+            </Table.Th>
             <Table.Th ta="center">W</Table.Th>
             <Table.Th ta="center">D</Table.Th>
             <Table.Th ta="center">L</Table.Th>
@@ -95,7 +97,9 @@ export function StandingsTable({ standings }) {
                   <RankChange change={row.rankChange} />
                 </Group>
               </Table.Td>
-              <Table.Td style={stickyStyle(25)}>{row.name}</Table.Td>
+              <Table.Td maw="6ch" style={stickyStyle(25)}>
+                {row.name}
+              </Table.Td>
               <Table.Td ta="center">{row.wins}</Table.Td>
               <Table.Td ta="center">{row.draws}</Table.Td>
               <Table.Td ta="center">{row.losses}</Table.Td>

@@ -8,6 +8,7 @@ import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
 import { MatchupViewer } from "../components/Matchups/MatchupViewer";
 import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
+import { useLeagueGameweekTeams } from "../hooks/useLeagueGameweekTeams";
 
 function LeagueTable({ data }) {
   return <Text>League Table</Text>;
@@ -23,11 +24,15 @@ function LeaguePageContent({}) {
     league?.id,
     supabase,
   );
+  const { data: teams, LeagueGameweekError } = useLeagueGameweekTeams(
+    league?.id,
+    navigator?.displayedGameweekNumber,
+    supabase,
+  );
 
   return (
     <Container px={4} fluid>
       <Stack align="center">
-        <Title ta="center">Game of Stones Season 5</Title>
         <FantasyAuth />
         <Text>{league?.name}</Text>
 
@@ -44,7 +49,11 @@ function LeaguePageContent({}) {
             onForward={navigator.goForward}
           />
         )}
-        <MatchupViewer matchups={matchups} standings={standings} />
+        <MatchupViewer
+          matchups={matchups}
+          standings={standings}
+          teams={teams}
+        />
         <StandingsTable standings={standings} />
       </Stack>
     </Container>

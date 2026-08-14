@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Stack,
   Paper,
@@ -9,7 +9,16 @@ import {
   Flex,
   Collapse,
   Box,
+  Divider,
+  Popover,
+  Button,
+  Table,
+  Image,
+  CloseButton,
+  ActionIcon,
 } from "@mantine/core";
+import { VscHistory } from "react-icons/vsc";
+import { getShirtUrl, orderPlayersForList } from "../../lib/fplData";
 
 const ranks = [
   "",
@@ -27,11 +36,177 @@ const ranks = [
   "12th",
 ];
 
+function colorForPositionMack(position) {
+  switch (position) {
+    case 1:
+      return "orange";
+    case 2:
+      return "blue";
+    case 3:
+      return "green";
+    case 4:
+      return "red";
+    default:
+      return "blue";
+  }
+}
+
+function colorForStatus(status) {
+  if (status === "a") {
+    return "#343a40";
+  } else if (status === "d") {
+    return "#ff840078";
+  } else {
+    return "#ff00006c";
+  }
+}
+
+function Player({ name, minutes, position, status, team, score, details }) {
+  const [opened, setOpened] = useState(false);
+  const color = colorForPositionMack(position);
+  const statusColor = colorForStatus(status);
+
+  return (
+    <Popover
+      width={200}
+      position="top"
+      shadow="md"
+      opened={opened}
+      onDismiss={() => setOpened(false)}
+    >
+      <Popover.Target>
+        <Button
+          //   variant="filled"
+          //   gradient={{ from: color, to: statusColor, deg: 90 }}
+          size="compact-xs"
+          color={color}
+          leftSection={
+            <Image
+              src={getShirtUrl(team, position)}
+              width={22}
+              height={22}
+              alt="Team Jersey"
+            />
+          }
+          justify="left"
+          fw={500}
+          c="black"
+          style={{ flex: 1, fontSize: "0.875rem" }}
+          onClick={() => setOpened((o) => !o)}
+        >
+          {name}
+        </Button>
+      </Popover.Target>
+      <Popover.Dropdown p="xs" bd="1px solid white">
+        {details && Object.keys(details).length > 0 ? (
+          <Stack gap="xs" spacing="xs">
+            <Group justify="space-between">
+              <Text size="sm" fw={700}>
+                {name}
+              </Text>
+              <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
+            </Group>
+            <Divider color="white" />
+            <Table tabularNums variant="vertical">
+              <Table.Tbody>
+                {Object.values(details).flatMap((match) =>
+                  match.stats.map((stat) => (
+                    <Table.Tr key={`${match.id}-${stat.identifier}`}>
+                      <Table.Td>
+                        {stat.identifier
+                          .replace(/_/g, " ")
+                          .split(" ")
+                          .map(
+                            (s) => s.charAt(0).toUpperCase() + s.substring(1),
+                          )
+                          .join(" ")}
+                      </Table.Td>
+                      <Table.Td ta="center">({stat.value})</Table.Td>
+                      <Table.Td ta="right">{stat.points}</Table.Td>
+                    </Table.Tr>
+                  )),
+                )}
+                <Table.Tr
+                  key="total"
+                  style={{
+                    backgroundColor: "#8080803c",
+                  }}
+                >
+                  <Table.Td>Total Points:</Table.Td>
+                  <Table.Td></Table.Td>
+                  <Table.Td ta="right">{score}</Table.Td>
+                </Table.Tr>
+              </Table.Tbody>
+            </Table>
+          </Stack>
+        ) : (
+          <Text size="xs">No details available</Text>
+        )}
+      </Popover.Dropdown>
+    </Popover>
+  );
+}
+
+function ExpandedMatchupCard({ team1Details, team2Details }) {
+  if (!team1Details || !team2Details) return;
+  return (
+    <div>
+      {orderPlayersForList(team1Details).map((team1, index) => {
+        const team2 = orderPlayersForList(team2Details)[index];
+        return (
+          <React.Fragment key={index}>
+            <Flex gap="md" mb={4}>
+              <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
+                <Player
+                  name={team1.name}
+                  position={team1.elementType}
+                  status={team1.status}
+                  team={team1.teamId}
+                  minutes={team1.minutes}
+                  score={team1.points}
+                  details={team1.explain}
+                />
+                <Text size="xs" fw={400} c="dimmed" w={25} ta="center">
+                  {team1.minutes}'
+                </Text>
+                <Text size="sm" c="deep-blue.2" w={20} ta="right">
+                  {team1.points}
+                </Text>
+              </Flex>
+
+              <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
+                <Player
+                  name={team2.name}
+                  position={team2.elementType}
+                  status={team2.status}
+                  team={team2.teamCode}
+                  minutes={team2.minutes}
+                  score={team2.points}
+                  details={team2.explain}
+                />
+                <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
+                  {team2.minutes}'
+                </Text>
+                <Text size="sm" c="deep-blue.2" w={20} ta="right">
+                  {team2.points}
+                </Text>
+              </Flex>
+            </Flex>
+            {index === 10 && <Divider my="sm" color="white" />}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
 export function Matchup({
   manager1,
   manager2,
   score1,
   score2,
+  manager1Team,
+  manager2Team,
   manager1Pos,
   manager2Pos,
   manager1P,
@@ -114,37 +289,36 @@ export function Matchup({
         transitionTimingFunction="ease"
       >
         <Box w="100%" style={{ display: "inline-block", cursor: "default" }}>
-          <Text>i'm workin on it</Text>
-          {/* {team1 && team2 && matchups && (
-                    <Group justify="center" mb="xs">
-                      <ActionIcon
-                        variant="subtle"
-                        onClick={() => setIsHeadToHeadOpen(true)}
-                        size="sm"
-                        title="View head-to-head history"
-                        mt={5}
-                      >
-                        <VscHistory />
-                      </ActionIcon>
-                    </Group>
-                  )}
-                  <Divider my="xs" color="gray.8" />
-                  <Box px="xs" pb="xs">
-                    <ExpandedMatchupCard
-                      team1Details={team1Details}
-                      team2Details={team2Details}
-                    />
-                  </Box> */}
+          {manager1Team && manager2Team && hasScores && (
+            <Group justify="center" mb="xs">
+              <ActionIcon
+                variant="subtle"
+                onClick={() => setIsHeadToHeadOpen(true)}
+                size="sm"
+                title="View head-to-head history"
+                mt={5}
+              >
+                <VscHistory />
+              </ActionIcon>
+            </Group>
+          )}
+          <Divider my="xs" color="gray.8" />
+          <Box px="xs" pb="xs">
+            <ExpandedMatchupCard
+              team1Details={manager1Team}
+              team2Details={manager2Team}
+            />
+          </Box>
         </Box>
       </Collapse>
       {/* {isHeadToHeadOpen && (
-                <HeadToHeadModal
-                  managerA={team1Name}
-                  managerB={team2Name}
-                  matchups={matchups}
-                  onClose={() => setIsHeadToHeadOpen(false)}
-                />
-              )} */}
+        <HeadToHeadModal
+          managerA={manager1}
+          managerB={manager2}
+          matchups={matchups}
+          onClose={() => setIsHeadToHeadOpen(false)}
+        />
+      )} */}
     </Card>
   );
 }

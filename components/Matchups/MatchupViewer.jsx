@@ -5,7 +5,7 @@ import { useManagerLeagues } from "../../hooks/useManagerLeagues";
 import { Matchup } from "./Matchup";
 import { GameweekNavigator } from "../Team/GameweekNavigator";
 
-export function MatchupViewer({ matchups, standings }) {
+export function MatchupViewer({ matchups, standings, teams }) {
   if (!matchups || !standings) return;
 
   return (
@@ -18,6 +18,14 @@ export function MatchupViewer({ matchups, standings }) {
               manager2={matchup.manager2.name}
               score1={matchup.manager1.score}
               score2={matchup.manager2.score}
+              manager1Team={
+                teams?.find((t) => t.managerName === matchup.manager1.name)
+                  .players
+              }
+              manager2Team={
+                teams?.find((t) => t.managerName === matchup.manager2.name)
+                  .players
+              }
               manager1Pos={
                 standings.find((s) => s.name === matchup.manager1.name)?.rank
               }
