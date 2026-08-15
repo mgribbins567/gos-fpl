@@ -10,8 +10,8 @@
     },
     {
       "id": 2,
-      "is_current": false,
-      "is_next": true,
+      "is_current": true,
+      "is_next": false,
       "finished": false,
       "data_checked": false,
       "deadline_time": "2026-08-15T04:25:00Z"
@@ -19,7 +19,7 @@
     {
       "id": 3,
       "is_current": false,
-      "is_next": false,
+      "is_next": true,
       "finished": false,
       "data_checked": false,
       "deadline_time": "2026-08-22T01:00:00Z"
