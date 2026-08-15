@@ -39,8 +39,8 @@
     "team_a": 3,
     "team_h_score": null,
     "team_a_score": null,
-    "started": false,
-    "finished": false,
+    "started": true,
+    "finished": true,
     "kickoff_time": "2026-08-13T14:00:00Z"
   },
   {
@@ -50,7 +50,7 @@
     "team_a": 4,
     "team_h_score": null,
     "team_a_score": null,
-    "started": false,
+    "started": true,
     "finished": false,
     "kickoff_time": "2026-08-13T16:30:00Z"
   },
