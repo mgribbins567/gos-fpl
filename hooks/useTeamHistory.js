@@ -1,10 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLiveEvent } from "./useFplData";
 import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
-import {
-  getGameweekLineup,
-  getEarliestRecordedGameweekNumber,
-} from "../lib/teamHistory";
+import { getGameweekLineup } from "../lib/teamHistory";
 import { mergeTeamWithLiveData } from "../lib/fplData";
 import {
   getForwardStates,
@@ -13,6 +10,7 @@ import {
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
 import { applyAutoSubstitutions } from "../lib/lineup";
+import { getEarliestLeagueGameweekNumber } from "../lib/leagueData";
 
 export function useTeamHistory(manager, supabase, bootstrap, context) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
@@ -25,9 +23,8 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
     let cancelled = false;
     async function loadBounds() {
       const season = await getCurrentSeason(supabase);
-      const earliest = await getEarliestRecordedGameweekNumber(
+      const earliest = await getEarliestLeagueGameweekNumber(
         supabase,
-        manager.id,
         season.id,
       );
       if (cancelled) return;
