@@ -14,7 +14,7 @@
       "is_next": true,
       "finished": false,
       "data_checked": false,
-      "deadline_time": "2026-08-16T04:15:00Z"
+      "deadline_time": "2026-08-15T04:25:00Z"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "is_next": false,
       "finished": false,
       "data_checked": false,
-      "deadline_time": "2026-08-16T01:00:00Z"
+      "deadline_time": "2026-08-22T01:00:00Z"
     }
   ],
   "teams": [
