@@ -26,11 +26,11 @@ function colorForPositionMack(position) {
 
 function colorForStatus(status) {
   if (status === "a") {
-    return "#343a40";
+    return "";
   } else if (status === "d") {
-    return "#ff840078";
+    return "#afa400f1";
   } else {
-    return "#ff00006c";
+    return "#ff0000c4";
   }
 }
 
@@ -38,6 +38,7 @@ function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
   const color = colorForPositionMack(player.elementType);
   const upcomingFixtures = player.fixtures?.filter((f) => !f.started) ?? [];
   const showOpponents = upcomingFixtures.length > 0;
+  const status = colorForStatus(player.seasonStats.status);
 
   return (
     <Box
@@ -78,7 +79,7 @@ function PlayerChip({ player, onClick, isSelected, isHighlighted }) {
       >
         {player.name}
       </Badge>
-      <Text size="xs" c="white">
+      <Text size="xs" c="white" bg={status}>
         {getFixtureDisplayText(player)}
       </Text>
     </Box>

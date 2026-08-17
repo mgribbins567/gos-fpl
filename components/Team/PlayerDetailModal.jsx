@@ -81,6 +81,11 @@ export function PlayerDetailModal({
       centered
     >
       <Stack gap="sm">
+        {player.seasonStats.news && (
+          <Paper withBorder fz="sm" p="xs" radius="md">
+            ⚠ {player.seasonStats.news}
+          </Paper>
+        )}
         {!canEdit &&
         player.explain &&
         Object.keys(player.explain).length > 0 ? (
