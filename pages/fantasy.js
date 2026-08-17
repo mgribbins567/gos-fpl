@@ -21,6 +21,7 @@ import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
 import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
 import { WaiverListPanel } from "../components/Team/WaiverListPanel";
+import { GameweekStatusCard } from "../components/Team/GameweekStatusCard";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
 import { useBootstrapStatic } from "../hooks/useFplData";
 import { useTransactionGameweeks } from "../hooks/useTransactionGameweeks";
@@ -36,6 +37,7 @@ import {
   respondToTradeAsReceiver,
   respondToTradeAsAdmin,
 } from "../lib/tradeData";
+import { useWaiverPriority } from "../hooks/useWaiverPriority";
 import { isAdmin, ADMIN_MANAGER_ID } from "../lib/tradeLogic";
 import { POSITION_LABELS } from "../lib/fplData";
 
@@ -104,6 +106,11 @@ function FantasyPageContent() {
     gameweekId: txGameweeks?.gameweekId,
     onSubmitted: () => waiverList.refresh(),
   });
+  const { data: waiverPriority } = useWaiverPriority(
+    league?.id,
+    manager?.id,
+    supabase,
+  );
 
   const [refreshKey, setRefreshKey] = useState(0);
   const incomingTrades = useIncomingTrades(
@@ -200,10 +207,16 @@ function FantasyPageContent() {
     <Container fluid align="center" p={0} w="100%">
       <Stack align="center" gap="xs">
         <FantasyAuth />
-
+        {context && (
+          <GameweekStatusCard
+            context={context}
+            waiverPriority={waiverPriority?.priority}
+            totalManagers={waiverPriority?.totalManagers}
+          />
+        )}
         {manager && league && isMobile && (
           <Button size="compact-xs" onClick={() => setSearchOpen(true)}>
-            {builder.isActive ? "Trade Builder" : "Player Search"}
+            {builder.isActive ? "Trade Builder" : "Make Transfers"}
           </Button>
         )}
 

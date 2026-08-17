@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import {
   getLeagueMatchupsForSeason,
   getManagersInLeague,
+  getDraftOrder,
 } from "../../../lib/leagueData";
 import { computeStandings } from "../../../lib/leagueLogic";
 import {
@@ -51,8 +52,8 @@ export default async function handler(req, res) {
   }
 
   const dueGameweeks = filterGameweeksDueForProcessing(gameweeks);
-
   const processed = {};
+
   for (const gameweek of dueGameweeks) {
     const { data: nextGameweek, error: nextGwError } = await supabase
       .from("Gameweek")
@@ -77,52 +78,60 @@ export default async function handler(req, res) {
     const leagueIds = [...new Set(leagueRows.map((r) => r.league_id))];
 
     for (const leagueId of leagueIds) {
-      const { data: claims, error: claimsError } = await supabase
-        .from("WaiverClaim")
-        .select("*")
-        .eq("league_id", leagueId)
-        .eq("gameweek_id", gameweek.id)
-        .eq("status", "pending")
-        .order("priority", { ascending: true });
-      if (claimsError) {
-        res.status(500).json({ error: claimsError.message });
-        return;
+      const key = `${gameweek.id}:${leagueId}`;
+      try {
+        const { data: claims, error: claimsError } = await supabase
+          .from("WaiverClaim")
+          .select("*")
+          .eq("league_id", leagueId)
+          .eq("gameweek_id", gameweek.id)
+          .eq("status", "pending")
+          .order("priority", { ascending: true });
+        if (claimsError) throw new Error(claimsError.message);
+
+        const matchups = await getLeagueMatchupsForSeason(
+          supabase,
+          leagueId,
+          gameweek.season_id,
+        );
+        const standings = computeStandings(matchups);
+        const managersInLeague = await getManagersInLeague(
+          supabase,
+          leagueId,
+          gameweek.season_id,
+        );
+        const draftOrderByManagerId = await getDraftOrder(
+          supabase,
+          leagueId,
+          gameweek.season_id,
+        );
+
+        const order = buildWaiverProcessingOrder(
+          claims,
+          standings,
+          managersInLeague,
+          draftOrderByManagerId,
+        );
+        const claimsByManagerId = groupClaimsByManager(claims);
+
+        const attemptClaim = async (claim) => {
+          const { data, error } = await supabase.rpc("process_waiver_claim", {
+            p_claim_id: claim.id,
+            p_gameweek_id: gameweek.id,
+            p_next_gameweek_id: nextGameweek?.id ?? gameweek.id,
+          });
+          if (error) throw new Error(error.message);
+          return data;
+        };
+
+        processed[key] = await processWaivers(
+          claimsByManagerId,
+          order,
+          attemptClaim,
+        );
+      } catch (err) {
+        processed[key] = { error: err.message };
       }
-
-      const matchups = await getLeagueMatchupsForSeason(
-        supabase,
-        leagueId,
-        gameweek.season_id,
-      );
-      const standings = computeStandings(matchups);
-      const managersInLeague = await getManagersInLeague(
-        supabase,
-        leagueId,
-        gameweek.season_id,
-      );
-
-      const order = buildWaiverProcessingOrder(
-        claims,
-        standings,
-        managersInLeague,
-      );
-      const claimsByManagerId = groupClaimsByManager(claims);
-
-      const attemptClaim = async (claim) => {
-        const { data, error } = await supabase.rpc("process_waiver_claim", {
-          p_claim_id: claim.id,
-          p_gameweek_id: gameweek.id,
-          p_next_gameweek_id: nextGameweek?.id ?? gameweek.id,
-        });
-        if (error) throw new Error(error.message);
-        return data;
-      };
-
-      processed[`${gameweek.id}:${leagueId}`] = await processWaivers(
-        claimsByManagerId,
-        order,
-        attemptClaim,
-      );
     }
   }
 

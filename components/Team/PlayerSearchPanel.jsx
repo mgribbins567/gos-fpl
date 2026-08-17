@@ -92,8 +92,9 @@ function PlayerRow({
                 textOverflow: "clip",
               },
             }}
+            disabled={!ownerShortName}
           >
-            {ownerShortName}
+            {ownerShortName ? ownerShortName : "✕"}
           </Button>
         )}
       </Table.Td>
