@@ -50,7 +50,11 @@ export function useLeaguePreview(leagueId, supabase) {
     async function load() {
       const season = await getCurrentSeason(supabase);
       const gameweekNumber =
-        context.mode === "live" ? context.event.id : context.previousEvent.id;
+        context.mode === "live"
+          ? context.event.id
+          : context.previousEvent
+            ? context.previousEvent.id
+            : 1;
 
       let scoreByName = new Map();
       let featuredMatchups = { highestScoring: null, closest: null };

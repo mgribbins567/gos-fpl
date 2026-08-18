@@ -9,6 +9,7 @@ import {
   getManagersByNames,
   getTeamsForManagers,
   getEarliestLeagueGameweekNumber,
+  getLatestLeagueGameweekNumber,
 } from "../lib/leagueData";
 import {
   toLeagueMatchupSummary,
@@ -27,6 +28,7 @@ export function useLeague(leagueId, supabase) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
   const [seasonId, setSeasonId] = useState(undefined);
   const [earliestGameweek, setEarliestGameweek] = useState(undefined);
+  const [latestGameweek, setLatestGameweek] = useState(undefined);
   const [boundsError, setBoundsError] = useState(null);
 
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -44,9 +46,11 @@ export function useLeague(leagueId, supabase) {
         supabase,
         season.id,
       );
+      const latest = await getLatestLeagueGameweekNumber(supabase, season.id);
       if (cancelled) return;
       setSeasonId(season.id);
       setEarliestGameweek(earliest);
+      setLatestGameweek(latest);
     }
     loadBounds().catch((err) => !cancelled && setBoundsError(err.message));
     return () => {
@@ -56,7 +60,12 @@ export function useLeague(leagueId, supabase) {
 
   const forwardStates = useMemo(() => getForwardStates(context), [context]);
   const { displayedGameweekNumber, kind, canGoBack, canGoForward } =
-    getNavigationState(viewedGameweek, forwardStates, earliestGameweek);
+    getNavigationState(
+      viewedGameweek,
+      forwardStates,
+      earliestGameweek,
+      latestGameweek,
+    );
 
   function goBack() {
     if (!canGoBack) return;
@@ -67,7 +76,11 @@ export function useLeague(leagueId, supabase) {
   function goForward() {
     if (!canGoForward) return;
     setViewedGameweek(
-      getNextViewedGameweek(displayedGameweekNumber, forwardStates),
+      getNextViewedGameweek(
+        displayedGameweekNumber,
+        forwardStates,
+        latestGameweek,
+      ),
     );
   }
 

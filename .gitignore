@@ -42,6 +42,7 @@ yarn-error.log*
 # local scripts
 /scripts/fetch_live_endpoints.py
 /scripts/fetch_script.py
+/scripts/generate_schedule.py
 
 # supabase
 supabase/

@@ -38,6 +38,22 @@ const hellos = [
   "Hallå", // Swedish
   "Merhaba", // Turkish
   "Helo", // Welsh
+  "👋", // Emoji
+  "( ⸝⸝•ᴗ•⸝⸝ )੭⁾⁾", // Emoticon
+  "G'day", // Australian
+  "Hiya", // English
+  "Yo", // English
+  "Privet", // Russian
+  "Kia ora", // Maori
+  "Cheers", // English
+  "Sali", // Swiss
+  "Talofa", // Samoan
+  "Dumela", // Sotho
+  "Szia", // Hungarian
+  "Zdrasti", // Bulgarian
+  "Azul", // Tachelhit
+  "Shwmae", // Welsh
+  "Sveikas", // Lithuanian
 ];
 
 function randomHello() {

@@ -149,46 +149,47 @@ function Player({ name, minutes, position, status, team, score, details }) {
 
 function ExpandedMatchupCard({ team1Details, team2Details }) {
   if (!team1Details || !team2Details) return;
+  const team2 = orderPlayersForList(team2Details);
   return (
     <div>
-      {orderPlayersForList(team1Details).map((team1, index) => {
-        const team2 = orderPlayersForList(team2Details)[index];
+      {orderPlayersForList(team1Details).map((player1, index) => {
+        const player2 = team2[index];
         return (
           <React.Fragment key={index}>
             <Flex gap="md" mb={4}>
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
                 <Player
-                  name={team1.name}
-                  position={team1.elementType}
-                  status={team1.status}
-                  team={team1.teamId}
-                  minutes={team1.minutes}
-                  score={team1.points}
-                  details={team1.explain}
+                  name={player1.name}
+                  position={player1.elementType}
+                  status={player1.status}
+                  team={player1.teamCode}
+                  minutes={player1.minutes}
+                  score={player1.points}
+                  details={player1.explain}
                 />
                 <Text size="xs" fw={400} c="dimmed" w={25} ta="center">
-                  {team1.minutes}'
+                  {player1.minutes || 0}'
                 </Text>
                 <Text size="sm" c="deep-blue.2" w={20} ta="right">
-                  {team1.points}
+                  {player1.points || 0}
                 </Text>
               </Flex>
 
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
                 <Player
-                  name={team2.name}
-                  position={team2.elementType}
-                  status={team2.status}
-                  team={team2.teamCode}
-                  minutes={team2.minutes}
-                  score={team2.points}
-                  details={team2.explain}
+                  name={player2.name}
+                  position={player2.elementType}
+                  status={player2.status}
+                  team={player2.teamCode}
+                  minutes={player2.minutes}
+                  score={player2.points}
+                  details={player2.explain}
                 />
                 <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
-                  {team2.minutes}'
+                  {player2.minutes || 0}'
                 </Text>
                 <Text size="sm" c="deep-blue.2" w={20} ta="right">
-                  {team2.points}
+                  {player2.points || 0}
                 </Text>
               </Flex>
             </Flex>
@@ -226,6 +227,7 @@ export function Matchup({
       w={400}
       maw="98vw"
       mx="auto"
+      py={4}
       style={{ cursor: "pointer" }}
     >
       <Flex
@@ -238,9 +240,11 @@ export function Matchup({
           <Text fw={700} c="white" size="sm" truncate>
             {manager1}
           </Text>
-          <Text c="dimmed" size="xs">
-            {ranks[manager1Pos]} • {manager1P} P • {manager1Pf} PF
-          </Text>
+          {manager1Pf && (
+            <Text c="dimmed" size="xs">
+              {ranks[manager1Pos]} • {manager1P} P • {manager1Pf} PF
+            </Text>
+          )}
         </Stack>
 
         <Flex align="center" gap="xs" style={{ flexShrink: 0 }}>
@@ -277,9 +281,11 @@ export function Matchup({
           <Text fw={700} c="white" size="sm" truncate ta="right">
             {manager2}
           </Text>
-          <Text c="dimmed" size="xs" ta="right">
-            {manager2Pf} PF • {manager2P} P • {ranks[manager2Pos]}
-          </Text>
+          {manager2Pf && (
+            <Text c="dimmed" size="xs" ta="right">
+              {manager2Pf} PF • {manager2P} P • {ranks[manager2Pos]}
+            </Text>
+          )}
         </Stack>
       </Flex>
 
