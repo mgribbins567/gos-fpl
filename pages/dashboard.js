@@ -75,10 +75,6 @@ export default function Dashboard({ allPostsData, featuredPost }) {
         <Container fluid px={0}>
           <Stack align="center">
             <Title ta="center">Game of Stones Season 5</Title>
-            <Text fw={700}>Draft Times</Text>
-            <Text>League A: Saturday, August 15th @ 11am PT</Text>
-            <Text>League B: Sunday, August 15th @ 4pm PT</Text>
-            <Text>League C: Saturday, August 15th @ 3pm PT</Text>
             <FantasyAuth />
             <SimpleGrid maw="100vw" cols={1} spacing="md" align="center">
               <TeamPreviewCard />
