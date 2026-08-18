@@ -1,17 +1,45 @@
-import { Container, Stack, Title, Skeleton, Text } from "@mantine/core";
+import { useState } from "react";
+import { Container, Stack, Text, Tabs } from "@mantine/core";
 import { ManagerProvider } from "../contexts/ManagerContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { useLeague } from "../hooks/useLeague";
 import { useManager } from "../contexts/ManagerContext";
-import { useManagerLeagues } from "../hooks/useManagerLeagues";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
 import { MatchupViewer } from "../components/Matchups/MatchupViewer";
 import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useLeagueGameweekTeams } from "../hooks/useLeagueGameweekTeams";
+import { useLeagues } from "../hooks/useLeagues";
 
-function LeagueTable({ data }) {
-  return <Text>League Table</Text>;
+function LeagueDashboard({ leagueId, supabase }) {
+  const { matchups, standings, navigator, error } = useLeague(
+    leagueId,
+    supabase,
+  );
+  const { data: teams, LeagueGameweekError } = useLeagueGameweekTeams(
+    leagueId,
+    navigator?.displayedGameweekNumber,
+    supabase,
+  );
+
+  return (
+    <>
+      {error && <Text c="red">{error}</Text>}
+
+      {navigator?.displayedGameweekNumber && (
+        <GameweekNavigator
+          gameweekNumber={navigator.displayedGameweekNumber}
+          kind={navigator.kind}
+          canGoBack={navigator.canGoBack}
+          canGoForward={navigator.canGoForward}
+          onBack={navigator.goBack}
+          onForward={navigator.goForward}
+        />
+      )}
+      <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
+      <StandingsTable standings={standings} />
+    </>
+  );
 }
 
 function LeaguePageContent({}) {
@@ -20,41 +48,48 @@ function LeaguePageContent({}) {
     manager,
     supabase,
   );
-  const { matchups, standings, navigator, error } = useLeague(
-    league?.id,
-    supabase,
-  );
-  const { data: teams, LeagueGameweekError } = useLeagueGameweekTeams(
-    league?.id,
-    navigator?.displayedGameweekNumber,
-    supabase,
+
+  const { data: leagues, error: leaguesError } = useLeagues(supabase);
+
+  const [selectedLeagueId, setSelectedLeagueId] = useState(null);
+  const activeLeagueId =
+    selectedLeagueId ?? (league?.id != null ? String(league.id) : undefined);
+  const activeLeague = leagues?.find(
+    (league) => String(league.id) === activeLeagueId,
   );
 
   return (
     <Container px={4} fluid>
       <Stack align="center">
         <FantasyAuth />
-        <Text>{league?.name}</Text>
+        {leagues && leagues.length > 0 && (
+          <Tabs
+            w={400}
+            maw="98vw"
+            radius="sm"
+            value={activeLeagueId ?? null}
+            onChange={setSelectedLeagueId}
+          >
+            <Tabs.List grow justify="space-between">
+              {leagues.map((league) => (
+                <Tabs.Tab key={league.id} value={String(league.id)}>
+                  {league.name}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+          </Tabs>
+        )}
 
         {leagueError && <Text c="red">{leagueError}</Text>}
-        {error && <Text c="red">{error}</Text>}
+        {leaguesError && <Text c="red">{leaguesError}</Text>}
 
-        {navigator.displayedGameweekNumber && (
-          <GameweekNavigator
-            gameweekNumber={navigator.displayedGameweekNumber}
-            kind={navigator.kind}
-            canGoBack={navigator.canGoBack}
-            canGoForward={navigator.canGoForward}
-            onBack={navigator.goBack}
-            onForward={navigator.goForward}
+        {activeLeague && (
+          <LeagueDashboard
+            key={activeLeague.id}
+            leagueId={activeLeague.id}
+            supabase={supabase}
           />
         )}
-        <MatchupViewer
-          matchups={matchups}
-          standings={standings}
-          teams={teams}
-        />
-        <StandingsTable standings={standings} />
       </Stack>
     </Container>
   );
@@ -65,70 +100,5 @@ export default function league() {
     <ManagerProvider>
       <LeaguePageContent />
     </ManagerProvider>
-  );
-}
-
-function LeaguePageContent2() {
-  const { manager, supabase } = useManager();
-  const { data: league, error: leagueError } = useSingleLeagueForManager(
-    manager,
-    supabase,
-  );
-  const { matchups, standings, navigator, error } = useLeague(
-    league?.id,
-    supabase,
-  );
-
-  return (
-    <Container fluid p={0} w="100%">
-      <Stack align="center">
-        <Title padding="sm" align="center">
-          {league?.name ?? "League"}
-        </Title>
-
-        {leagueError && <Text c="red">{leagueError}</Text>}
-        {error && <Text c="red">{error}</Text>}
-
-        {navigator.displayedGameweekNumber && (
-          <GameweekNavigator
-            gameweekNumber={navigator.displayedGameweekNumber}
-            kind={navigator.kind}
-            canGoBack={navigator.canGoBack}
-            canGoForward={navigator.canGoForward}
-            onBack={navigator.goBack}
-            onForward={navigator.goForward}
-          />
-        )}
-
-        <Grid gutter="md" w="100%">
-          <Grid.Col span={{ base: 12, sm: 7 }}>
-            <Card shadow="sm" padding="sm" radius="md" withBorder>
-              <Stack gap="xs">
-                <Text fw={700}>
-                  Matchups
-                  {matchups?.provisional
-                    ? " (provisional — bonus points pending)"
-                    : ""}
-                </Text>
-                {!matchups && !error && <Text size="sm">Loading...</Text>}
-                {matchups && (
-                  <MatchupList matchupSummaries={matchups.matchupSummaries} />
-                )}
-              </Stack>
-            </Card>
-          </Grid.Col>
-
-          <Grid.Col span={{ base: 12, sm: 5 }}>
-            <Card shadow="sm" padding="sm" radius="md" withBorder>
-              <Stack gap="xs">
-                <Text fw={700}>Standings</Text>
-                {!standings && !error && <Text size="sm">Loading...</Text>}
-                {standings && <StandingsTable standings={standings} />}
-              </Stack>
-            </Card>
-          </Grid.Col>
-        </Grid>
-      </Stack>
-    </Container>
   );
 }
