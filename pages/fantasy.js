@@ -15,8 +15,10 @@ import {
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
+import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { TeamCard } from "../components/Team/TeamCard";
+import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
 import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
@@ -50,6 +52,7 @@ function FantasyPageContent() {
   const { data: leagueManagersById } = useLeagueManagers(league, supabase);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [viewingPlayer, setViewingPlayer] = useState(null);
 
   const { data: bootstrap } = useBootstrapStatic();
   const context = useMemo(() => {
@@ -187,18 +190,27 @@ function FantasyPageContent() {
         : null;
 
   const searchPanel = league ? (
-    <PlayerSearchPanel
-      leagueId={league.id}
-      viewingManagerId={manager?.id}
-      supabase={supabase}
-      onSign={handleSign}
-      onTrade={handleTrade}
-      signButtonMode={signButtonMode}
-      waiverClaims={waiverList.claims}
-      waiverError={waiverList.error}
-      onReorderWaiverClaim={waiverList.reorder}
-      onRemoveWaiverClaim={waiverList.remove}
-    />
+    <>
+      <PlayerSearchPanel
+        leagueId={league.id}
+        viewingManagerId={manager?.id}
+        supabase={supabase}
+        onSign={handleSign}
+        onTrade={handleTrade}
+        onPlayerClick={setViewingPlayer}
+        signButtonMode={signButtonMode}
+        waiverClaims={waiverList.claims}
+        waiverError={waiverList.error}
+        onReorderWaiverClaim={waiverList.reorder}
+        onRemoveWaiverClaim={waiverList.remove}
+      />
+      <PlayerDetailModal
+        player={viewingPlayer}
+        opened={!!viewingPlayer}
+        onClose={() => setViewingPlayer(null)}
+        canEdit={false}
+      />
+    </>
   ) : (
     leagueError && <Text c="red">{leagueError}</Text>
   );
@@ -405,7 +417,9 @@ function FantasyPageContent() {
 export default function Fantasy() {
   return (
     <ManagerProvider>
-      <FantasyPageContent />
+      <PlayerDetailProvider>
+        <FantasyPageContent />
+      </PlayerDetailProvider>
     </ManagerProvider>
   );
 }

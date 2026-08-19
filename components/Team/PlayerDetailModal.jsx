@@ -11,13 +11,11 @@ import {
 import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
 
 function buildPlayerModalTitle(player) {
-  return (
-    player.name +
-    " • " +
-    player.teamName +
-    " • " +
-    getPlayerPositionName(player.elementType)
+  const name = player.name || player.web_name;
+  const position = getPlayerPositionName(
+    player.elementType || player.element_type,
   );
+  return name + " • " + player.teamName + " • " + position;
 }
 
 const getRelevantStats = (elementType) => {
@@ -72,6 +70,7 @@ export function PlayerDetailModal({
   if (!player) return null;
 
   const relevantStats = getRelevantStats(player.elementType);
+  const seasonStats = player.seasonStats ? player.seasonStats : player;
 
   return (
     <Modal
@@ -81,9 +80,9 @@ export function PlayerDetailModal({
       centered
     >
       <Stack gap="sm">
-        {player.seasonStats.news && (
+        {seasonStats.news && (
           <Paper withBorder fz="sm" p="xs" radius="md">
-            ⚠ {player.seasonStats.news}
+            ⚠ {seasonStats.news}
           </Paper>
         )}
         {!canEdit &&
@@ -130,9 +129,7 @@ export function PlayerDetailModal({
               </Table.Tbody>
             </Table>
           </Stack>
-        ) : canEdit &&
-          player.seasonStats &&
-          Object.keys(player.seasonStats).length > 0 ? (
+        ) : canEdit && seasonStats && Object.keys(seasonStats).length > 0 ? (
           <Stack gap="xs">
             <SimpleGrid cols={2} spacing="xs">
               <Paper withBorder p="xs" radius="md">
@@ -141,7 +138,7 @@ export function PlayerDetailModal({
                     Total Points
                   </Text>
                   <Text size="sm" fw={700}>
-                    {player.seasonStats?.total_points ?? 0}
+                    {seasonStats?.total_points ?? 0}
                   </Text>
                 </Group>
               </Paper>
@@ -151,7 +148,7 @@ export function PlayerDetailModal({
                     Form
                   </Text>
                   <Text size="sm" fw={700}>
-                    {player.seasonStats?.form ?? 0}
+                    {seasonStats?.form ?? 0}
                   </Text>
                 </Group>
               </Paper>
@@ -162,7 +159,7 @@ export function PlayerDetailModal({
                     {label}
                   </Text>
                   <Text size="sm" fw={700}>
-                    {player.seasonStats?.[key] ?? 0}
+                    {seasonStats?.[key] ?? 0}
                   </Text>
                 </Paper>
               ))}

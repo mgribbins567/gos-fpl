@@ -2,14 +2,10 @@ import { useState } from "react";
 import { Field } from "./Field";
 import { PlayerDetailModal } from "./PlayerDetailModal";
 import { getPositionMatchedPlayers } from "../../lib/lineup";
+import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 
 export function FieldViewer({ players, onTradeClick, fieldSelection }) {
-  const [viewingPlayer, setViewingPlayer] = useState(null);
-
-  function handleTradeClick(player) {
-    setViewingPlayer(null);
-    onTradeClick?.(player);
-  }
+  const openPlayerDetail = usePlayerDetail();
 
   if (fieldSelection) {
     const matchingIds = new Set(
@@ -29,15 +25,11 @@ export function FieldViewer({ players, onTradeClick, fieldSelection }) {
   }
 
   return (
-    <>
-      <Field players={players} onPlayerClick={setViewingPlayer} />
-      <PlayerDetailModal
-        player={viewingPlayer}
-        opened={!!viewingPlayer}
-        onClose={() => setViewingPlayer(null)}
-        onTradeClick={onTradeClick ? handleTradeClick : undefined}
-        canEdit={false}
-      />
-    </>
+    <Field
+      players={players}
+      onPlayerClick={(player) =>
+        openPlayerDetail(player, { onTradeClick, canEdit: false })
+      }
+    />
   );
 }

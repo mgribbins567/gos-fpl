@@ -20,7 +20,6 @@ import { FieldViewer } from "./FieldViewer";
 import { GameweekNavigator } from "./GameweekNavigator";
 import { useTeamHistory } from "../../hooks/useTeamHistory";
 import { useSingleLeagueForManager } from "../../hooks/useSingleLeagueForManager";
-import { PlayerSearchPanel } from "./PlayerSearchPanel";
 
 export async function getTeam(manager, supabase) {
   if (!manager) {
