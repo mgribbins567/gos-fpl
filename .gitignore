@@ -43,6 +43,7 @@ yarn-error.log*
 /scripts/fetch_live_endpoints.py
 /scripts/fetch_script.py
 /scripts/generate_schedule.py
+/scripts/generate_group_matchups.py
 
 # supabase
 supabase/
