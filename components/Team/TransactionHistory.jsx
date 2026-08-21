@@ -37,13 +37,16 @@ export function TransactionHistoryPanel({
   defaultLeagueId,
 }) {
   const { data: leagues } = useLeagues(supabase);
-  const [selectedLeagueId, setSelectedLeagueId] = useState(defaultLeagueId);
+  const [selectedLeagueId, setSelectedLeagueId] = useState(null);
 
   useEffect(() => {
-    if (!selectedLeagueId && leagues?.length) {
+    if (selectedLeagueId) return;
+    if (defaultLeagueId) {
+      setSelectedLeagueId(defaultLeagueId);
+    } else if (leagues?.length) {
       setSelectedLeagueId(leagues[0].id);
     }
-  }, [leagues, selectedLeagueId]);
+  }, [defaultLeagueId, leagues, selectedLeagueId]);
 
   const selectedLeague =
     leagues?.find((l) => l.id === selectedLeagueId) ?? null;
