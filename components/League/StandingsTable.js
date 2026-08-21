@@ -62,7 +62,7 @@ export function StandingsTable({ standings }) {
     >
       <Table
         verticalSpacing={4}
-        horizontalSpacing={4}
+        horizontalSpacing={2}
         fz="xs"
         bg="#2e2e2e"
         style={{
@@ -93,7 +93,9 @@ export function StandingsTable({ standings }) {
             <Table.Tr key={row.name}>
               <Table.Td style={stickyStyle(0)}>
                 <Group gap={4} wrap="nowrap">
-                  <Text size="xs">{row.rank}</Text>
+                  <Text size="xs" w="2ch">
+                    {row.rank}
+                  </Text>
                   <RankChange change={row.rankChange} />
                 </Group>
               </Table.Td>

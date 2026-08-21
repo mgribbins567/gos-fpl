@@ -240,7 +240,7 @@ export function Matchup({
           <Text fw={700} c="white" size="sm" truncate>
             {manager1}
           </Text>
-          {manager1Pf && (
+          {manager1Pf !== 0 && (
             <Text c="dimmed" size="xs">
               {ranks[manager1Pos]} • {manager1P} P • {manager1Pf} PF
             </Text>
@@ -281,7 +281,7 @@ export function Matchup({
           <Text fw={700} c="white" size="sm" truncate ta="right">
             {manager2}
           </Text>
-          {manager2Pf && (
+          {manager2Pf !== 0 && (
             <Text c="dimmed" size="xs" ta="right">
               {manager2Pf} PF • {manager2P} P • {ranks[manager2Pos]}
             </Text>
