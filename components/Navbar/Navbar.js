@@ -10,6 +10,7 @@ import {
   HiOutlineTrophy,
   HiOutlineCog,
   HiOutlineBookOpen,
+  HiOutlineTableCells,
 } from "react-icons/hi2";
 
 import { VscJersey } from "react-icons/vsc";
@@ -19,7 +20,8 @@ export const siteTitle = "Game of Stones";
 const navLinks = [
   { name: "Home", path: "/", icon: <HiOutlineHome /> },
   { name: "My Team", path: "/fantasy", icon: <VscJersey /> },
-  { name: "League", path: "/league", icon: <HiOutlineTrophy /> },
+  { name: "League", path: "/league", icon: <HiOutlineTableCells /> },
+  { name: "Cups", path: "/cup", icon: <HiOutlineTrophy /> },
   { name: "Blog", path: "/blog", icon: <HiOutlineNewspaper /> },
   { name: "History", path: "/history", icon: <HiOutlineBookOpen /> },
   // {
