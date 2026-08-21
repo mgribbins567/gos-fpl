@@ -1,4 +1,4 @@
-import { Group, ActionIcon, Text, Button, Badge, Box } from "@mantine/core";
+import { Group, Button, Badge, Box } from "@mantine/core";
 
 export function GameweekNavigator({
   gameweekNumber,

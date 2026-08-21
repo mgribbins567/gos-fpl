@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Text, Stack, Flex, Group, Badge } from "@mantine/core";
+import { Box, Text, Stack, Group, Badge } from "@mantine/core";
 import {
   groupPlayersByPosition,
   getShirtUrl,

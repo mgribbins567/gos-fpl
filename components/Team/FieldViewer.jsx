@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Field } from "./Field";
-import { PlayerDetailModal } from "./PlayerDetailModal";
 import { getPositionMatchedPlayers } from "../../lib/lineup";
 import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 

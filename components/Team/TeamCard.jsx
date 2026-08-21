@@ -1,5 +1,4 @@
 import { Card, Text, Stack, Group, Box } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { useManager } from "../../contexts/ManagerContext";
 import { useEffect, useState, useMemo } from "react";
 import {
@@ -13,13 +12,11 @@ import {
   attachFixtureStatus,
 } from "../../lib/fplData";
 import { canEditLineup } from "../../lib/gameweek";
-import { Field } from "./Field";
 import { LineupEditor } from "./LineupEditor";
 import { getActiveGameweekContext } from "../../lib/gameweek";
 import { FieldViewer } from "./FieldViewer";
 import { GameweekNavigator } from "./GameweekNavigator";
 import { useTeamHistory } from "../../hooks/useTeamHistory";
-import { useSingleLeagueForManager } from "../../hooks/useSingleLeagueForManager";
 
 export async function getTeam(manager, supabase) {
   if (!manager) {

@@ -1,9 +1,5 @@
-import { Paper, Stack, Text, Skeleton } from "@mantine/core";
-import { useManager } from "../../contexts/ManagerContext";
-import { useMatchups } from "../../hooks/useLeague";
-import { useManagerLeagues } from "../../hooks/useManagerLeagues";
+import { Stack } from "@mantine/core";
 import { Matchup } from "./Matchup";
-import { GameweekNavigator } from "../Team/GameweekNavigator";
 
 export function MatchupViewer({ matchups, standings, teams }) {
   if (!matchups || !standings) return;

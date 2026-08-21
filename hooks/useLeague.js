@@ -7,7 +7,6 @@ import {
   getLeagueMatchups,
   getLeagueMatchupsForSeason,
   getManagersByNames,
-  getTeamsForManagers,
   getEarliestLeagueGameweekNumber,
   getLatestLeagueGameweekNumber,
 } from "../lib/leagueData";
@@ -22,7 +21,6 @@ import {
   getPreviousViewedGameweek,
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
-import { mergeTeamWithLiveData } from "../lib/fplData";
 
 export function useLeague(leagueId, supabase) {
   const [viewedGameweek, setViewedGameweek] = useState(null);

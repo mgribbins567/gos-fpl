@@ -7,7 +7,6 @@ import {
   getLeagueMatchups,
   getLeagueMatchupsForSeason,
   getManagersByNames,
-  getTeamsForManagers,
   getTeamsForManagersByGameweek,
 } from "../lib/leagueData";
 import {

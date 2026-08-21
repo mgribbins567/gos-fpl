@@ -9,7 +9,6 @@ import {
   toMatchupSummary,
   buildLiveMatchupSummary,
 } from "../lib/matchupData";
-import { getTeam } from "../components/Team/TeamCard";
 import {
   mergeTeamWithLiveData,
   getTotalStartingPoints,
@@ -17,7 +16,6 @@ import {
 } from "../lib/fplData";
 import { getManagersByNames } from "../lib/leagueData";
 import { getGameweekLineup } from "../lib/teamHistory";
-import { applyAutoSubstitutions } from "../lib/lineup";
 
 export function useMatchupPreview(manager, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();

@@ -1,12 +1,4 @@
-import {
-  Card,
-  Stack,
-  Text,
-  Button,
-  Group,
-  Divider,
-  Paper,
-} from "@mantine/core";
+import { Card, Stack, Text, Button, Group, Paper } from "@mantine/core";
 import { useState } from "react";
 
 export function TradeApprovalQueue({

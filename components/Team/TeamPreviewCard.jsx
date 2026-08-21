@@ -6,13 +6,12 @@ import {
   Button,
   Skeleton,
   Badge,
-  Center,
   Paper,
 } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useManager } from "../../contexts/ManagerContext";
 import { useMatchupPreview } from "../../hooks/useMatchupPreview";
-import { formatDeadline, describeGameweekStatus } from "../../lib/gameweek";
+import { describeGameweekStatus } from "../../lib/gameweek";
 
 function CurrentMatch({
   manager1,

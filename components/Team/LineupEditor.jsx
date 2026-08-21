@@ -125,7 +125,6 @@ export function LineupEditor({
         opened={!!viewingPlayer}
         onClose={() => setViewingPlayer(null)}
         onMoveClick={handleMoveClick}
-        canEdit
         onTradeClick={onTradeClick ? handleTradeClick : undefined}
         canEdit
       />

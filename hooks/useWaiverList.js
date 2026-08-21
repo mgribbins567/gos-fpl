@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   getWaiverClaimsForManager,
   deleteWaiverClaim,
-  swapWaiverClaimPriorities,
   reorderWaiverClaim,
 } from "../lib/waiverData";
 import { resolveWaiverClaims } from "../lib/waiverDisplay";
