@@ -34,9 +34,10 @@ export function TransactionHistoryPanel({
   supabase,
   bootstrap,
   defaultGameweekId,
+  leagueId,
 }) {
   const { data: leagues } = useLeagues(supabase);
-  const [selectedLeagueId, setSelectedLeagueId] = useState(null);
+  const [selectedLeagueId, setSelectedLeagueId] = useState(leagueId);
 
   useEffect(() => {
     if (!selectedLeagueId && leagues?.length) {

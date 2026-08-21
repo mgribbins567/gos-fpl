@@ -333,6 +333,7 @@ function FantasyPageContent() {
           supabase={supabase}
           bootstrap={bootstrap}
           defaultGameweekId={txGameweeks?.gameweekId}
+          defaultLeagueId={league?.id}
         />
       </Stack>
 
