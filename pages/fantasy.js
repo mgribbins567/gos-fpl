@@ -24,6 +24,7 @@ import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
 import { WaiverListPanel } from "../components/Team/WaiverListPanel";
 import { GameweekStatusCard } from "../components/Team/GameweekStatusCard";
+import { TransactionHistoryPanel } from "../components/Team/TransactionHistory";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
 import { useBootstrapStatic } from "../hooks/useFplData";
 import { useTransactionGameweeks } from "../hooks/useTransactionGameweeks";
@@ -327,6 +328,13 @@ function FantasyPageContent() {
             </Grid.Col>
           </Grid>
         )}
+        <TransactionHistoryPanel
+          league={league}
+          supabase={supabase}
+          bootstrap={bootstrap}
+          leagueManagersById={leagueManagersById}
+          defaultGameweekId={txGameweeks?.gameweekId}
+        />
       </Stack>
 
       <Drawer
