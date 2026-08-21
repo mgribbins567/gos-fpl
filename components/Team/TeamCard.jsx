@@ -72,6 +72,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
       : undefined;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
   const { data: fixtures, error: fixturesError } = useFixtures(relevantEventId);
+  const gameUpdating = live === "The game is being updated.";
 
   if (!manager || team === undefined) {
     return null;
@@ -86,7 +87,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     history.error;
 
   let players;
-  if (history.kind === "upcoming") {
+  if (history.kind === "upcoming" && !gameUpdating) {
     if (relevantEventId && team && bootstrap && live && fixtures) {
       players = attachFixtureStatus(
         mergeTeamWithLiveData(team, bootstrap, live),
@@ -154,6 +155,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
             <Box style={{ flex: 1, textAlign: "right", minWidth: "6ch" }}></Box>
           )}
         </Group>
+        {gameUpdating && <Text>Game is updating, blame FPL</Text>}
         {loadError && <Text c="red">{loadError}</Text>}
 
         {history.kind !== "upcoming" &&

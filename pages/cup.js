@@ -1,4 +1,4 @@
-import { Container, Stack, Text } from "@mantine/core";
+import { Container, Stack, Text, Title } from "@mantine/core";
 import { ManagerProvider } from "../contexts/ManagerContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { useCup } from "../hooks/useCup";
@@ -9,8 +9,8 @@ import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useGameweekTeams } from "../hooks/useGameweekTeams";
 
 function CupDashboard({ supabase }) {
-  const { matchups, standings, navigator, error } = useCup(supabase);
-  const { data: teams, LeagueGameweekError } = useGameweekTeams(
+  const { name, matchups, standings, navigator, error } = useCup(supabase);
+  const { data: teams, gameweekTeamsError } = useGameweekTeams(
     navigator?.displayedGameweekNumber,
     supabase,
   );
@@ -18,6 +18,8 @@ function CupDashboard({ supabase }) {
   return (
     <>
       {error && <Text c="red">{error}</Text>}
+      {gameweekTeamsError && <Text c="red">{gameweekTeamsError}</Text>}
+      {name && <Title order={5}>{name}</Title>}
 
       {navigator?.displayedGameweekNumber && (
         <GameweekNavigator

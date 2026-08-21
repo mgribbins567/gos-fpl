@@ -294,6 +294,7 @@ export function useCup(supabase) {
   }, [bootstrap, seasonId, standingsGameweekNumber, isLive, standingsLive]);
 
   return {
+    name: CUP_NAME,
     matchups: matchupState.data,
     standings: standingsState.data,
     navigator: {
