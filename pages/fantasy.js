@@ -329,10 +329,9 @@ function FantasyPageContent() {
           </Grid>
         )}
         <TransactionHistoryPanel
-          league={league}
+          manager={manager}
           supabase={supabase}
           bootstrap={bootstrap}
-          leagueManagersById={leagueManagersById}
           defaultGameweekId={txGameweeks?.gameweekId}
         />
       </Stack>

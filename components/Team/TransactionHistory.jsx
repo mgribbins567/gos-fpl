@@ -14,6 +14,8 @@ import {
 import { useSeasonGameweeks } from "../../hooks/useSeasonGameweeks";
 import { useWaiverResults } from "../../hooks/useWaiverResults";
 import { useFreeAgentSignings } from "../../hooks/useFreeAgentSignings";
+import { useLeagues } from "../../hooks/useLeagues";
+import { useLeagueManagers } from "../../hooks/useLeagueManagers";
 
 function getPlayerName(bootstrap, playerId) {
   if (!bootstrap || playerId == null) return "—";
@@ -28,12 +30,27 @@ function getManagerShortName(leagueManagersById, managerId) {
 }
 
 export function TransactionHistoryPanel({
-  league,
+  manager,
   supabase,
   bootstrap,
-  leagueManagersById,
   defaultGameweekId,
 }) {
+  const { data: leagues } = useLeagues(supabase);
+  const [selectedLeagueId, setSelectedLeagueId] = useState(null);
+
+  useEffect(() => {
+    if (!selectedLeagueId && leagues?.length) {
+      setSelectedLeagueId(leagues[0].id);
+    }
+  }, [leagues, selectedLeagueId]);
+
+  const selectedLeague =
+    leagues?.find((l) => l.id === selectedLeagueId) ?? null;
+  const { data: leagueManagersById } = useLeagueManagers(
+    selectedLeague,
+    supabase,
+  );
+
   const { data: gameweeks } = useSeasonGameweeks(supabase);
   const [selectedGameweekId, setSelectedGameweekId] = useState(null);
   const [selectedManagerId, setSelectedManagerId] = useState(null);
@@ -45,9 +62,17 @@ export function TransactionHistoryPanel({
     }
   }, [defaultGameweekId, selectedGameweekId]);
 
-  const waiverResults = useWaiverResults(league, selectedGameweekId, supabase);
+  useEffect(() => {
+    setSelectedManagerId(null);
+  }, [selectedLeagueId]);
+
+  const waiverResults = useWaiverResults(
+    selectedLeague,
+    selectedGameweekId,
+    supabase,
+  );
   const freeAgentSignings = useFreeAgentSignings(
-    league,
+    selectedLeague,
     selectedGameweekId,
     supabase,
   );
@@ -67,7 +92,7 @@ export function TransactionHistoryPanel({
   );
 
   return (
-    <Card withBorder maw="98vw" p="xs">
+    <Card withBorder maw="98vw" w={500} p="xs">
       <Stack gap="xs">
         <UnstyledButton onClick={() => setOpened((o) => !o)}>
           <Group justify="space-between" wrap="wrap">
@@ -76,10 +101,10 @@ export function TransactionHistoryPanel({
           </Group>
         </UnstyledButton>
         <Collapse expanded={opened}>
-          <Group gap="xs">
+          <Group gap="xs" wrap="nowrap">
             <Select
               size="xs"
-              w={80}
+              maw="20vw"
               placeholder="Gameweek"
               data={(gameweeks ?? []).map((gw) => ({
                 value: gw.id,
@@ -90,19 +115,28 @@ export function TransactionHistoryPanel({
             />
             <Select
               size="xs"
-              w={120}
               placeholder="All managers"
               clearable
               data={managerOptions}
               value={selectedManagerId}
               onChange={setSelectedManagerId}
             />
+            <Select
+              size="xs"
+              placeholder="League"
+              data={(leagues ?? []).map((l) => ({
+                value: l.id,
+                label: l.name,
+              }))}
+              value={selectedLeagueId}
+              onChange={setSelectedLeagueId}
+            />
           </Group>
           <Divider label="Waivers" labelPosition="left" />
           {waiverResults.error && <Text c="red">{waiverResults.error}</Text>}
           {!waiverResults.error && filteredWaiverClaims.length === 0 && (
             <Text size="sm" c="dimmed">
-              No processed waiver claims for this gameweek.
+              No processed waivers this gameweek.
             </Text>
           )}
           {filteredWaiverClaims.length > 0 && (
@@ -147,7 +181,7 @@ export function TransactionHistoryPanel({
           )}
           {!freeAgentSignings.error && filteredSignings.length === 0 && (
             <Text size="sm" c="dimmed">
-              No free agent signings for this gameweek.
+              No free agents signed this gameweek.
             </Text>
           )}
           {filteredSignings.length > 0 && (
