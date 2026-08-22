@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 const cache = new Map();
 
@@ -95,4 +95,37 @@ export function useFixtures(gameweek) {
     };
   }, [gameweek]);
   return state;
+}
+
+export function useFixturesWithTeams(gameweek) {
+  const { data: fixtures, error: fixturesError } = useFixtures(gameweek);
+  const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
+
+  const data = useMemo(() => {
+    if (!fixtures || !bootstrap) return undefined;
+
+    const teamsById = new Map(bootstrap.teams.map((t) => [t.id, t]));
+    const elementsById = new Map(bootstrap.elements.map((e) => [e.id, e]));
+
+    return fixtures.map((fixture) => ({
+      ...fixture,
+      team_h_name: teamsById.get(fixture.team_h).name,
+      team_a_name: teamsById.get(fixture.team_a).name,
+      team_h_short_name: teamsById.get(fixture.team_h).short_name,
+      team_a_short_name: teamsById.get(fixture.team_a).short_name,
+      stats: fixture.stats.map(({ identifier, a, h }) => ({
+        identifier,
+        a: a.map(({ value, element }) => ({
+          value,
+          player: elementsById.get(element).web_name,
+        })),
+        h: h.map(({ value, element }) => ({
+          value,
+          player: elementsById.get(element).web_name,
+        })),
+      })),
+    }));
+  }, [fixtures, bootstrap]);
+
+  return { data, error: fixturesError ?? bootstrapError };
 }

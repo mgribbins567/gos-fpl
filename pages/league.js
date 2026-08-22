@@ -10,13 +10,18 @@ import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useLeagueGameweekTeams } from "../hooks/useLeagueGameweekTeams";
 import { useLeagues } from "../hooks/useLeagues";
+import { useFixturesWithTeams } from "../hooks/useFplData";
+import { FixturesViewer } from "../components/Fixtures/FixturesViewer";
 
 function LeagueDashboard({ leagueId, supabase }) {
   const { matchups, standings, navigator, error } = useLeague(
     leagueId,
     supabase,
   );
-  const { data: teams, LeagueGameweekError } = useLeagueGameweekTeams(
+  const { data: fixtures, error: fixturesError } = useFixturesWithTeams(
+    navigator?.displayedGameweekNumber,
+  );
+  const { data: teams, leagueGameweekError } = useLeagueGameweekTeams(
     leagueId,
     navigator?.displayedGameweekNumber,
     supabase,
@@ -25,6 +30,8 @@ function LeagueDashboard({ leagueId, supabase }) {
   return (
     <>
       {error && <Text c="red">{error}</Text>}
+      {leagueGameweekError && <Text c="red">{leagueGameweekError}</Text>}
+      {fixturesError && <Text c="red">{fixturesError}</Text>}
 
       {navigator?.displayedGameweekNumber && (
         <GameweekNavigator
@@ -38,6 +45,7 @@ function LeagueDashboard({ leagueId, supabase }) {
       )}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
       <StandingsTable standings={standings} />
+      <FixturesViewer fixtures={fixtures} />
     </>
   );
 }
