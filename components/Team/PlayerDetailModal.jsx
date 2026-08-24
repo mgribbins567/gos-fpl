@@ -79,12 +79,22 @@ export function PlayerDetailModal({
       title={buildPlayerModalTitle(player)}
       centered
     >
-      <Stack gap="sm">
+      <Stack gap="xs">
         {seasonStats.news && (
-          <Paper withBorder fz="sm" p="xs" radius="md">
+          <Paper withBorder fz="sm" p={4} radius="md">
             ⚠ {seasonStats.news}
           </Paper>
         )}
+        <Group gap={4}>
+          <Text fz="sm">Next 5:</Text>
+          {player.upcomingFixtures &&
+            player.upcomingFixtures.map((fixture) => (
+              <Paper p={4} fz="xs" withBorder>
+                {!fixture.isHome ? "@" : ""}
+                {fixture.opponentShortName}
+              </Paper>
+            ))}
+        </Group>
         {!canEdit &&
         player.explain &&
         Object.keys(player.explain).length > 0 ? (
@@ -99,22 +109,22 @@ export function PlayerDetailModal({
               <Stack>
                 {player.fixtures.map((fixture) => (
                   <Group gap={4}>
-                    <Text fw={fixture.isHome ? 700 : ""}>
+                    <Text fz="md" fw={fixture.isHome ? 700 : ""}>
                       {fixture.isHome
                         ? player.teamShortName
                         : fixture.opponentShortName}
                     </Text>
-                    <Text>
+                    <Text fz="md">
                       {fixture.isHome
                         ? fixture.teamScore + " - " + fixture.opponentScore
                         : fixture.opponentScore + " - " + fixture.opponentScore}
                     </Text>
-                    <Text fw={fixture.isHome ? 500 : 700}>
+                    <Text fz="md" fw={fixture.isHome ? 500 : 700}>
                       {fixture.isHome
                         ? fixture.opponentShortName
                         : player.teamShortName}
                     </Text>
-                    <Text fx="xs" c="dimmed">
+                    <Text fz="sm" c="dimmed">
                       {fixture.minutes}'
                     </Text>
                   </Group>

@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import {
   useBootstrapStatic,
   useLiveEvent,
-  useFixtures,
+  useUpcomingFixtures,
 } from "../../hooks/useFplData";
 import {
   mergeTeamWithLiveData,
@@ -68,7 +68,8 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
       ? history.displayedGameweekNumber
       : undefined;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
-  const { data: fixtures, error: fixturesError } = useFixtures(relevantEventId);
+  const { data: fixtures, error: fixturesError } =
+    useUpcomingFixtures(relevantEventId);
   const gameUpdating = live === "The game is being updated.";
 
   if (!manager || team === undefined) {

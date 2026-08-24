@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useBootstrapStatic } from "./useFplData";
+import { useBootstrapStatic, useUpcomingFixtures } from "./useFplData";
 import { getLeagueRoster, getPlayerAvailability } from "../lib/leagueData";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import {
@@ -10,6 +10,7 @@ import {
   excludeOwnRoster,
   DEFAULT_SORT_KEY,
 } from "../lib/playerSearch";
+import { attachFixtureStatus } from "../lib/fplData";
 
 export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -52,6 +53,9 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     }
   }, [bootstrap]);
   const currentGameweekNumber = context?.upcoming?.event.id;
+  const { data: fixtures, error: fixturesError } = useUpcomingFixtures(
+    currentGameweekNumber ? currentGameweekNumber : undefined,
+  );
 
   const ownershipMap = useMemo(
     () => (roster ? buildOwnershipMap(roster) : undefined),
@@ -66,7 +70,13 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
   );
 
   const results = useMemo(() => {
-    if (!bootstrap || !ownershipMap || !unavailablePlayerIds) {
+    if (
+      !bootstrap ||
+      !fixtures ||
+      !ownershipMap ||
+      !unavailablePlayerIds ||
+      !currentGameweekNumber
+    ) {
       return undefined;
     }
     const withoutOwnRoster = excludeOwnRoster(
@@ -74,17 +84,25 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       ownershipMap,
       viewingManagerId,
     );
+    const filteredPlayers = filterPlayers(
+      withoutOwnRoster,
+      filters,
+      ownershipMap,
+      unavailablePlayerIds,
+    );
     return sortPlayers(
-      filterPlayers(
-        withoutOwnRoster,
-        filters,
-        ownershipMap,
-        unavailablePlayerIds,
+      attachFixtureStatus(
+        filteredPlayers,
+        bootstrap,
+        fixtures,
+        currentGameweekNumber,
       ),
       sortKey,
     );
   }, [
     bootstrap,
+    currentGameweekNumber,
+    fixtures,
     ownershipMap,
     unavailablePlayerIds,
     viewingManagerId,
@@ -101,6 +119,6 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     ownershipMap,
     unavailablePlayerIds,
     bootstrap,
-    error: bootstrapError || dataError,
+    error: bootstrapError || dataError || fixturesError,
   };
 }
