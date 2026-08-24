@@ -24,6 +24,7 @@ function LeagueDashboard({ leagueId, supabase }) {
   const { data: teams, leagueGameweekError } = useLeagueGameweekTeams(
     leagueId,
     navigator?.displayedGameweekNumber,
+    fixtures,
     supabase,
   );
 

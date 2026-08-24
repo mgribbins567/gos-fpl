@@ -60,10 +60,10 @@ function colorForStatus(status) {
   }
 }
 
-function Player({ name, minutes, position, status, team, score, details }) {
+function Player({ player }) {
   const [opened, setOpened] = useState(false);
-  const color = colorForPositionMack(position);
-  const statusColor = colorForStatus(status);
+  const color = colorForPositionMack(player.elementType);
+  const statusColor = colorForStatus(player.status);
 
   return (
     <Popover
@@ -81,7 +81,7 @@ function Player({ name, minutes, position, status, team, score, details }) {
           color={color}
           leftSection={
             <Image
-              src={getShirtUrl(team, position)}
+              src={getShirtUrl(player.teamCode, player.elementType)}
               width={22}
               height={22}
               alt="Team Jersey"
@@ -93,22 +93,50 @@ function Player({ name, minutes, position, status, team, score, details }) {
           style={{ flex: 1, fontSize: "0.875rem" }}
           onClick={() => setOpened((o) => !o)}
         >
-          {name}
+          {player.name}
         </Button>
       </Popover.Target>
       <Popover.Dropdown p="xs" bd="1px solid white">
-        {details && Object.keys(details).length > 0 ? (
-          <Stack gap="xs" spacing="xs">
+        {player.explain && Object.keys(player.explain).length > 0 ? (
+          <Stack gap={0} spacing="xs">
             <Group justify="space-between">
               <Text size="sm" fw={700}>
-                {name}
+                {player.name}
               </Text>
               <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
+            </Group>
+            <Group gap={4}>
+              {player.fixtures.map((fixture) => (
+                <Group gap={4}>
+                  <Text fz="xs" fw={fixture.isHome ? 700 : ""}>
+                    {fixture.isHome
+                      ? player.teamShortName
+                      : fixture.opponentShortName}
+                  </Text>
+                  <Text fz="xs">
+                    {fixture.isHome
+                      ? (fixture.teamScore || "0") +
+                        " - " +
+                        (fixture.opponentScore || "0")
+                      : (fixture.opponentScore || "0") +
+                        " - " +
+                        (fixture.teamScore || "0")}
+                  </Text>
+                  <Text fz="xs" fw={fixture.isHome ? 500 : 700}>
+                    {fixture.isHome
+                      ? fixture.opponentShortName
+                      : player.teamShortName}
+                  </Text>
+                  <Text fz="xs" c="dimmed">
+                    {fixture.minutes}'
+                  </Text>
+                </Group>
+              ))}
             </Group>
             <Divider color="white" />
             <Table tabularNums variant="vertical">
               <Table.Tbody>
-                {Object.values(details).flatMap((match) =>
+                {Object.values(player.explain).flatMap((match) =>
                   match.stats.map((stat) => (
                     <Table.Tr key={`${match.id}-${stat.identifier}`}>
                       <Table.Td>
@@ -133,7 +161,7 @@ function Player({ name, minutes, position, status, team, score, details }) {
                 >
                   <Table.Td>Total Points:</Table.Td>
                   <Table.Td></Table.Td>
-                  <Table.Td ta="right">{score}</Table.Td>
+                  <Table.Td ta="right">{player.points}</Table.Td>
                 </Table.Tr>
               </Table.Tbody>
             </Table>
@@ -157,15 +185,7 @@ function ExpandedMatchupCard({ team1Details, team2Details }) {
           <React.Fragment key={index}>
             <Flex gap="md" mb={4}>
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
-                <Player
-                  name={player1.name}
-                  position={player1.elementType}
-                  status={player1.status}
-                  team={player1.teamCode}
-                  minutes={player1.minutes}
-                  score={player1.points}
-                  details={player1.explain}
-                />
+                <Player player={player1} />
                 <Text size="xs" fw={400} c="dimmed" w={25} ta="center">
                   {player1.minutes || 0}'
                 </Text>
@@ -175,15 +195,7 @@ function ExpandedMatchupCard({ team1Details, team2Details }) {
               </Flex>
 
               <Flex align="center" style={{ flex: 1, overflow: "hidden" }}>
-                <Player
-                  name={player2.name}
-                  position={player2.elementType}
-                  status={player2.status}
-                  team={player2.teamCode}
-                  minutes={player2.minutes}
-                  score={player2.points}
-                  details={player2.explain}
-                />
+                <Player player={player2} />
                 <Text size="xs" fw={400} c="dimmed" w={20} ta="right">
                   {player2.minutes || 0}'
                 </Text>

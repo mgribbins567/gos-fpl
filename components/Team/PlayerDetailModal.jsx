@@ -96,6 +96,30 @@ export function PlayerDetailModal({
                 width={48}
                 height={60}
               />
+              <Stack>
+                {player.fixtures.map((fixture) => (
+                  <Group gap={4}>
+                    <Text fw={fixture.isHome ? 700 : ""}>
+                      {fixture.isHome
+                        ? player.teamShortName
+                        : fixture.opponentShortName}
+                    </Text>
+                    <Text>
+                      {fixture.isHome
+                        ? fixture.teamScore + " - " + fixture.opponentScore
+                        : fixture.opponentScore + " - " + fixture.opponentScore}
+                    </Text>
+                    <Text fw={fixture.isHome ? 500 : 700}>
+                      {fixture.isHome
+                        ? fixture.opponentShortName
+                        : player.teamShortName}
+                    </Text>
+                    <Text fx="xs" c="dimmed">
+                      {fixture.minutes}'
+                    </Text>
+                  </Group>
+                ))}
+              </Stack>
             </Group>
             <Table tabularNums variant="vertical">
               <Table.Tbody>

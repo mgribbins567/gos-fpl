@@ -8,7 +8,12 @@ import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import { resolvePlayersForGameweek } from "../lib/lineup";
 import { attachFixtureStatus } from "../lib/fplData";
 
-export function useLeagueGameweekTeams(leagueId, gameweekNumber, supabase) {
+export function useLeagueGameweekTeams(
+  leagueId,
+  gameweekNumber,
+  fixtures,
+  supabase,
+) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
   const context = useMemo(
     () => (bootstrap ? getActiveGameweekContext(bootstrap) : undefined),
@@ -44,17 +49,11 @@ export function useLeagueGameweekTeams(leagueId, gameweekNumber, supabase) {
     poll: shouldPollLive,
   });
 
-  const needsFixtures = kind === "current" || kind === "upcoming";
-  const { data: fixtures, error: fixturesError } = useFixtures(
-    needsFixtures ? gameweekNumber : undefined,
-    { poll: kind === "current" },
-  );
-
   const [state, setState] = useState({ data: undefined, error: null });
 
   useEffect(() => {
-    if (!leagueId || !bootstrap || !gameweekRow || !kind || !live) return;
-    if (needsFixtures && !fixtures) return;
+    if (!leagueId || !bootstrap || !gameweekRow || !kind || !live || !fixtures)
+      return;
 
     let cancelled = false;
 
@@ -86,9 +85,12 @@ export function useLeagueGameweekTeams(leagueId, gameweekNumber, supabase) {
         let players = resolvePlayersForGameweek(rows, bootstrap, live, {
           autoSub,
         });
-        if (needsFixtures) {
-          players = attachFixtureStatus(players, bootstrap, fixtures);
-        }
+        players = attachFixtureStatus(
+          players,
+          bootstrap,
+          fixtures,
+          gameweekNumber,
+        );
         return {
           managerId,
           managerName:
@@ -116,14 +118,12 @@ export function useLeagueGameweekTeams(leagueId, gameweekNumber, supabase) {
     kind,
     live,
     fixtures,
-    needsFixtures,
     isPendingFinalization,
     supabase,
   ]);
 
   return {
     data: state.data,
-    error:
-      rowError || bootstrapError || liveError || fixturesError || state.error,
+    error: rowError || bootstrapError || liveError || state.error,
   };
 }
