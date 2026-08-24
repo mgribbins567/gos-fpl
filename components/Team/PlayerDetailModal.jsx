@@ -117,7 +117,7 @@ export function PlayerDetailModal({
                     <Text fz="md">
                       {fixture.isHome
                         ? fixture.teamScore + " - " + fixture.opponentScore
-                        : fixture.opponentScore + " - " + fixture.opponentScore}
+                        : fixture.opponentScore + " - " + fixture.teamScore}
                     </Text>
                     <Text fz="md" fw={fixture.isHome ? 500 : 700}>
                       {fixture.isHome
