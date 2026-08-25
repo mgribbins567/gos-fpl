@@ -44,17 +44,15 @@ export function useGameweekTeams(gameweekNumber, supabase) {
     poll: shouldPollLive,
   });
 
-  const needsFixtures = kind === "current" || kind === "upcoming";
-  const { data: fixtures, error: fixturesError } = useFixtures(
-    needsFixtures ? gameweekNumber : undefined,
-    { poll: kind === "current" },
-  );
+  const { data: fixtures, error: fixturesError } = useFixtures(gameweekNumber, {
+    poll: kind === "current",
+  });
 
   const [state, setState] = useState({ data: undefined, error: null });
 
   useEffect(() => {
     if (!bootstrap || !gameweekRow || !kind || !live) return;
-    if (needsFixtures && !fixtures) return;
+    if (!fixtures) return;
 
     let cancelled = false;
 
@@ -82,9 +80,7 @@ export function useGameweekTeams(gameweekNumber, supabase) {
         let players = resolvePlayersForGameweek(rows, bootstrap, live, {
           autoSub,
         });
-        if (needsFixtures) {
-          players = attachFixtureStatus(players, bootstrap, fixtures);
-        }
+        players = attachFixtureStatus(players, bootstrap, fixtures);
         return {
           managerId,
           managerName:
@@ -111,7 +107,6 @@ export function useGameweekTeams(gameweekNumber, supabase) {
     kind,
     live,
     fixtures,
-    needsFixtures,
     isPendingFinalization,
     supabase,
   ]);
