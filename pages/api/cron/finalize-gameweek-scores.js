@@ -37,10 +37,14 @@ export default async function handler(req, res) {
     let gameweekRow;
     try {
       gameweekRow = await getGameweekByNumber(supabase, season.id, event.id);
-    } catch {
+    } catch (err) {
+      results[event.id] = `error: no gameweek row (${err.message})`;
       continue;
     }
-    if (gameweekRow.scores_finalized) continue;
+    if (gameweekRow.scores_finalized) {
+      results[event.id] = "already finalized";
+      continue;
+    }
 
     try {
       const { data: matchups, error: matchupsError } = await supabase
