@@ -99,7 +99,10 @@ export default async function handler(req, res) {
             .eq("manager_id", manager.id)
             .eq("gameweek_id", gameweekRow.id)
             .eq("player_id", update.player_id);
-          if (lineupUpdateError) throw new Error(lineupUpdateError.message);
+          if (lineupUpdateError)
+            throw new Error(
+              `GameweekLineup update failed for manager ${manager.id}, player ${update.player_id}: ${lineupUpdateError.message}`,
+            );
         }
       }
 
