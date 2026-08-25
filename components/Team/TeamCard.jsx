@@ -63,10 +63,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     }
   }, [fieldSelection]);
 
-  const relevantEventId =
-    history.kind === "current" || history.kind === "upcoming"
-      ? history.displayedGameweekNumber
-      : undefined;
+  const relevantEventId = history.displayedGameweekNumber;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);
   const { data: fixtures, error: fixturesError } =
     useUpcomingFixtures(relevantEventId);
@@ -95,7 +92,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
       );
     }
   } else {
-    if (relevantEventId && history.historicalPlayers && bootstrap && fixtures) {
+    if (history.historicalPlayers && bootstrap && fixtures) {
       players = attachFixtureStatus(
         history.historicalPlayers,
         bootstrap,
@@ -165,10 +162,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
           )}
         {history.kind === "historical" &&
           history.historicalPlayers?.length > 0 && (
-            <FieldViewer
-              players={history.historicalPlayers}
-              onTradeClick={onTradeClick}
-            />
+            <FieldViewer players={players} onTradeClick={onTradeClick} />
           )}
 
         {history.kind === "upcoming" && players === undefined && !loadError && (
