@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
+import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import {
-  getCurrentSeason,
   getGameweekByNumber,
   getManagerByName,
   getMatchupForManager,
@@ -50,7 +50,7 @@ export function useMatchupPreview(manager, supabase) {
     let cancelled = false;
 
     async function load() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
 
       if (context.mode === "live") {
         const gameweekRow = await getGameweekByNumber(

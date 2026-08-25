@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
+import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
-import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
+import { getGameweekByNumber } from "../lib/matchupData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
   getManagersByNames,
@@ -40,7 +41,7 @@ export function useCup(supabase) {
     if (!supabase) return;
     let cancelled = false;
     async function loadBounds() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
       const { earliest, latest } = await getCupGameweekBounds(
         supabase,
         season.id,

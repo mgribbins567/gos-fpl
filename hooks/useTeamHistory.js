@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLiveEvent } from "./useFplData";
-import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
+import { currentSeasonQuery } from "./queries/season";
+import { getGameweekByNumber } from "../lib/matchupData";
 import { getGameweekLineup } from "../lib/teamHistory";
 import { mergeTeamWithLiveData } from "../lib/fplData";
 import {
@@ -22,7 +23,7 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
     if (!manager || !supabase) return;
     let cancelled = false;
     async function loadBounds() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
       const earliest = await getEarliestLeagueGameweekNumber(
         supabase,
         season.id,

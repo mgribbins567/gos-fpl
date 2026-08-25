@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCurrentSeason } from "../lib/matchupData";
+import { currentSeasonQuery } from "./queries/season";
 import {
   getManagersInLeague,
   getLeagueMatchupsForSeason,
@@ -16,7 +16,7 @@ export function useWaiverPriority(leagueId, managerId, supabase) {
     let cancelled = false;
 
     async function load() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
       const managersInLeague = await getManagersInLeague(
         supabase,
         leagueId,

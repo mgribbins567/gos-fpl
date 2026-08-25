@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent, useFixtures } from "./useFplData";
+import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import { resolveGameweekKind } from "../lib/gameweekNavigation";
-import { getCurrentSeason, getGameweekByNumber } from "../lib/matchupData";
+import { getGameweekByNumber } from "../lib/matchupData";
 import { getManagers, getTeamsForManagers } from "../lib/leagueData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import { resolvePlayersForGameweek } from "../lib/lineup";
@@ -26,7 +27,7 @@ export function useGameweekTeams(gameweekNumber, supabase) {
     if (!supabase || !gameweekNumber) return;
     let cancelled = false;
     async function loadRow() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
       return getGameweekByNumber(supabase, season.id, gameweekNumber);
     }
     loadRow()
@@ -57,7 +58,7 @@ export function useGameweekTeams(gameweekNumber, supabase) {
     let cancelled = false;
 
     async function load() {
-      const season = await getCurrentSeason(supabase);
+      const season = await currentSeasonQuery.fetch(supabase);
       const managersInLeague = await getManagers(supabase, season.id);
       const managerIds = [...managersInLeague.keys()];
 
