@@ -127,6 +127,7 @@ export function LineupEditor({
         onMoveClick={handleMoveClick}
         onTradeClick={onTradeClick ? handleTradeClick : undefined}
         canEdit
+        supabase={supabase}
       />
     </Stack>
   );

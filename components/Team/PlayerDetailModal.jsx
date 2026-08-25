@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
   Modal,
   Stack,
@@ -7,8 +8,10 @@ import {
   SimpleGrid,
   Table,
   Paper,
+  Divider,
 } from "@mantine/core";
 import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
+import { usePlayerGameweekHistory } from "../../hooks/usePlayerGameweekHistory";
 
 function buildPlayerModalTitle(player) {
   const name = player.name || player.web_name;
@@ -59,6 +62,25 @@ const getRelevantStats = (elementType) => {
   }
 };
 
+const HISTORY_COLUMNS = [
+  "GW",
+  "VS",
+  "PTS",
+  "MP",
+  "G",
+  "A",
+  "CS",
+  "GC",
+  "OG",
+  "YC",
+  "RC",
+  "B",
+  "BPS",
+  "DC",
+  "PS",
+  "PM",
+];
+
 export function PlayerDetailModal({
   player,
   opened,
@@ -66,11 +88,30 @@ export function PlayerDetailModal({
   onMoveClick,
   onTradeClick,
   canEdit,
+  supabase,
 }) {
+  const playerId = player?.player_id ?? player?.id;
+
+  const scrollRef = useRef(null);
+  const {
+    rows: gwHistory,
+    ownerColumns,
+    totals,
+    error: historyError,
+  } = usePlayerGameweekHistory(playerId, supabase);
+
+  useEffect(() => {
+    if (gwHistory?.length && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [gwHistory]);
+
   if (!player) return null;
 
   const relevantStats = getRelevantStats(player.elementType);
   const seasonStats = player.seasonStats ? player.seasonStats : player;
+
+  const hasLiveData = player.explain && Object.keys(player.explain).length > 0;
 
   return (
     <Modal
@@ -89,15 +130,14 @@ export function PlayerDetailModal({
           <Text fz="sm">Next 5:</Text>
           {player.upcomingFixtures &&
             player.upcomingFixtures.map((fixture) => (
-              <Paper p={4} fz="xs" withBorder>
+              <Paper p={4} fz="xs" radius="xs" withBorder>
                 {!fixture.isHome ? "@" : ""}
                 {fixture.opponentShortName}
               </Paper>
             ))}
         </Group>
-        {!canEdit &&
-        player.explain &&
-        Object.keys(player.explain).length > 0 ? (
+        <Divider my={0} color="gray.8" />
+        {hasLiveData ? (
           <Stack gap="xs" spacing="xs">
             <Group justify="center">
               <img
@@ -163,10 +203,20 @@ export function PlayerDetailModal({
               </Table.Tbody>
             </Table>
           </Stack>
-        ) : canEdit && seasonStats && Object.keys(seasonStats).length > 0 ? (
+        ) : seasonStats && Object.keys(seasonStats).length > 0 ? (
           <Stack gap="xs">
             <SimpleGrid cols={2} spacing="xs">
-              <Paper withBorder p="xs" radius="md">
+              <Paper
+                withBorder
+                p={6}
+                radius="sm"
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <Group justify="space-between">
                   <Text size="sm" fw={600}>
                     Total Points
@@ -176,7 +226,17 @@ export function PlayerDetailModal({
                   </Text>
                 </Group>
               </Paper>
-              <Paper withBorder p="xs" radius="md">
+              <Paper
+                withBorder
+                p={6}
+                radius="sm"
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <Group justify="space-between">
                   <Text size="sm" fw={600}>
                     Form
@@ -186,9 +246,21 @@ export function PlayerDetailModal({
                   </Text>
                 </Group>
               </Paper>
-
+            </SimpleGrid>
+            <SimpleGrid cols={4} spacing="xs">
               {relevantStats.map(({ key, label }) => (
-                <Paper key={key} withBorder p="xs" radius="md">
+                <Paper
+                  key={key}
+                  withBorder
+                  p={6}
+                  radius="sm"
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <Text size="xs" c="dimmed" fw={600}>
                     {label}
                   </Text>
@@ -198,6 +270,65 @@ export function PlayerDetailModal({
                 </Paper>
               ))}
             </SimpleGrid>
+            {historyError && (
+              <Text c="red" size="xs">
+                {historyError}
+              </Text>
+            )}
+            {gwHistory?.length > 0 && (
+              <Stack gap={4}>
+                <Divider my={0} color="gray.8" />
+                <div
+                  ref={scrollRef}
+                  style={{ maxHeight: 240, overflowY: "auto" }}
+                >
+                  <Table fz="xs" horizontalSpacing={5} verticalSpacing={4}>
+                    <Table.Thead>
+                      <Table.Tr>
+                        {HISTORY_COLUMNS.map((col) => (
+                          <Table.Th key={col}>{col}</Table.Th>
+                        ))}
+                        {ownerColumns.map((col) => (
+                          <Table.Th key={col.leagueId}>{col.label}</Table.Th>
+                        ))}
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {gwHistory.map((row) => (
+                        <Table.Tr key={row.GW}>
+                          {HISTORY_COLUMNS.map((col) => (
+                            <Table.Td key={col}>{row[col]}</Table.Td>
+                          ))}
+                          {ownerColumns.map((col) => (
+                            <Table.Td key={col.leagueId}>
+                              {row[col.label]}
+                            </Table.Td>
+                          ))}
+                        </Table.Tr>
+                      ))}
+                      {totals && (
+                        <Table.Tr
+                          style={{
+                            borderTop: "2px solid var(--mantine-color-gray-6)",
+                          }}
+                        >
+                          {HISTORY_COLUMNS.map((col) => (
+                            <Table.Td key={col} fw={700}>
+                              {totals[col]}
+                            </Table.Td>
+                          ))}
+                          {ownerColumns.map((col) => (
+                            <Table.Td key={col.leagueId} fw={700}>
+                              {totals[col.label]}
+                            </Table.Td>
+                          ))}
+                        </Table.Tr>
+                      )}
+                    </Table.Tbody>
+                  </Table>
+                </div>
+              </Stack>
+            )}
           </Stack>
         ) : (
           <Text size="xs">No details available</Text>

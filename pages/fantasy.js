@@ -210,6 +210,7 @@ function FantasyPageContent() {
         opened={!!viewingPlayer}
         onClose={() => setViewingPlayer(null)}
         canEdit={false}
+        supabase={supabase}
       />
     </>
   ) : (

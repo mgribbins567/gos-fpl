@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
+import { useManager } from "./ManagerContext";
 
 const PlayerDetailContext = createContext(null);
 
 export function PlayerDetailProvider({ children }) {
+  const { supabase } = useManager();
   const [viewingPlayer, setViewingPlayer] = useState(null);
   const [modalOptions, setModalOptions] = useState({});
 
@@ -33,6 +35,7 @@ export function PlayerDetailProvider({ children }) {
         onMoveClick={modalOptions.onMoveClick}
         onTradeClick={handleTradeClick}
         canEdit={modalOptions.canEdit ?? false}
+        supabase={supabase}
       />
     </PlayerDetailContext.Provider>
   );

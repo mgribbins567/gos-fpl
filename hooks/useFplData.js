@@ -174,3 +174,34 @@ export function useUpcomingFixturesWithTeams() {
 
   return { data, error: fixturesError ?? bootstrapError };
 }
+
+async function fetchElementSummary(playerId) {
+  const res = await fetch(`/api/fpl/element-summary/${playerId}`);
+  if (!res.ok)
+    throw new Error(
+      `Failed to load element summary ${playerId}: ${res.status}`,
+    );
+  return res.json();
+}
+
+export function usePlayerHistory(playerId) {
+  const [state, setState] = useState({ data: undefined, error: null });
+
+  useEffect(() => {
+    if (!playerId) return;
+    let cancelled = false;
+    getCached(`element-summary-${playerId}`, () =>
+      fetchElementSummary(playerId),
+    )
+      .then((data) => !cancelled && setState({ data, error: null }))
+      .catch(
+        (err) =>
+          !cancelled && setState({ data: undefined, error: err.message }),
+      );
+    return () => {
+      cancelled = true;
+    };
+  }, [playerId]);
+
+  return state;
+}

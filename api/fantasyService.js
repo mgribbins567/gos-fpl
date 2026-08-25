@@ -75,3 +75,15 @@ export async function getFixtures(gameweek) {
   return res.json();
   // return fixturesData;
 }
+
+export async function getElementSummary(playerId) {
+  const res = await fetch(
+    `https://fantasy.premierleague.com/api/element-summary/${playerId}/`,
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch element-summary ${playerId}: ${res.status}`,
+    );
+  }
+  return res.json();
+}
