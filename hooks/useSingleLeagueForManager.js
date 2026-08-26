@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { currentSeasonQuery } from "./queries/season";
-import { getLeaguesForManager } from "../lib/leagueData";
+import { leaguesForManagerQuery } from "./queries/leagueData";
 
 export function useSingleLeagueForManager(manager, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -11,7 +11,7 @@ export function useSingleLeagueForManager(manager, supabase) {
 
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const leagues = await getLeaguesForManager(
+      const leagues = await leaguesForManagerQuery.fetch(
         supabase,
         manager.id,
         season.id,

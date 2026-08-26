@@ -4,10 +4,13 @@ import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import { resolveGameweekKind } from "../lib/gameweekNavigation";
 import { getGameweekByNumber } from "../lib/matchupData";
-import { getManagersInLeague, getTeamsForManagers } from "../lib/leagueData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import { resolvePlayersForGameweek } from "../lib/lineup";
 import { attachFixtureStatus } from "../lib/fplData";
+import {
+  managersInLeagueQuery,
+  teamsForManagersQuery,
+} from "./queries/leagueData";
 
 export function useLeagueGameweekTeams(
   leagueId,
@@ -60,7 +63,7 @@ export function useLeagueGameweekTeams(
 
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const managersInLeague = await getManagersInLeague(
+      const managersInLeague = await managersInLeagueQuery.fetch(
         supabase,
         leagueId,
         season.id,
@@ -71,7 +74,10 @@ export function useLeagueGameweekTeams(
       let autoSub = false;
 
       if (kind === "upcoming") {
-        rosterRowsByManagerId = await getTeamsForManagers(supabase, managerIds);
+        rosterRowsByManagerId = await teamsForManagersQuery.fetch(
+          supabase,
+          managerIds,
+        );
       } else {
         rosterRowsByManagerId = await getGameweekLineupsForManagers(
           supabase,

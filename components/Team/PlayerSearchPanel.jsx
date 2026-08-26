@@ -171,10 +171,7 @@ export function PlayerSearchPanel({
     bootstrap,
     error,
   } = usePlayerSearch(leagueId, viewingManagerId, supabase);
-  const { data: leagueManagersById } = useLeagueManagers(
-    { id: leagueId },
-    supabase,
-  );
+  const { data: leagueManagersById } = useLeagueManagers(leagueId, supabase);
 
   const handleSearchTextChange = useCallback(
     (searchText) => setFilters((f) => ({ ...f, searchText })),

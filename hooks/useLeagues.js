@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { currentSeasonQuery } from "./queries/season";
-import { getLeagues } from "../lib/leagueData";
+import { leaguesQuery } from "./queries/leagueData";
 
 export function useLeagues(supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -9,8 +8,7 @@ export function useLeagues(supabase) {
     let cancelled = false;
 
     async function load() {
-      const season = await currentSeasonQuery.fetch(supabase);
-      return getLeagues(supabase, season.id);
+      return leaguesQuery.fetch(supabase);
     }
 
     load()

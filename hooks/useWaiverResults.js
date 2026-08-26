@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import {
-  getLeagueMatchupsForSeason,
-  getManagersInLeague,
-  getDraftOrder,
-} from "../lib/leagueData";
 import { computeStandings } from "../lib/leagueLogic";
 import {
   buildWaiverProcessingOrder,
   computeWaiverDisplayOrder,
 } from "../lib/waiverProcessing";
+import {
+  draftOrderQuery,
+  leagueMatchupsForSeasonQuery,
+  managersInLeagueQuery,
+} from "./queries/leagueData";
 
 export function useWaiverResults(league, gameweekId, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -38,9 +38,13 @@ export function useWaiverResults(league, gameweekId, supabase) {
 
       const [matchups, managersInLeague, draftOrderByManagerId] =
         await Promise.all([
-          getLeagueMatchupsForSeason(supabase, league.id, gameweek.season_id),
-          getManagersInLeague(supabase, league.id, gameweek.season_id),
-          getDraftOrder(supabase, league.id, gameweek.season_id),
+          leagueMatchupsForSeasonQuery.fetch(
+            supabase,
+            league.id,
+            gameweek.season_id,
+          ),
+          managersInLeagueQuery.fetch(supabase, league.id, gameweek.season_id),
+          draftOrderQuery.fetch(supabase, league.id, gameweek.season_id),
         ]);
       const standings = computeStandings(matchups);
 

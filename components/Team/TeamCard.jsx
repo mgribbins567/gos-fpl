@@ -61,7 +61,7 @@ export function TeamCard({ onTradeClick, fieldSelection }) {
     if (fieldSelection && history.kind && history.kind !== "upcoming") {
       history.jumpToUpcoming();
     }
-  }, [fieldSelection]);
+  }, [fieldSelection, history.kind, history.jumpToUpcoming]);
 
   const relevantEventId = history.displayedGameweekNumber;
   const { data: live, error: liveError } = useLiveEvent(relevantEventId);

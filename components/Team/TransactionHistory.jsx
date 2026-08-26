@@ -48,7 +48,7 @@ export function TransactionHistoryPanel({
   const selectedLeague =
     leagues?.find((l) => l.id === selectedLeagueId) ?? null;
   const { data: leagueManagersById } = useLeagueManagers(
-    selectedLeague,
+    selectedLeagueId,
     supabase,
   );
 

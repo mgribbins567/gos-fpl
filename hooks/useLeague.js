@@ -5,13 +5,6 @@ import { getActiveGameweekContext } from "../lib/gameweek";
 import { getGameweekByNumber } from "../lib/matchupData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
-  getLeagueMatchups,
-  getLeagueMatchupsForSeason,
-  getManagersByNames,
-  getEarliestLeagueGameweekNumber,
-  getLatestLeagueGameweekNumber,
-} from "../lib/leagueData";
-import {
   toLeagueMatchupSummary,
   computeStandingsWithRankChange,
   computeMatchupScores,
@@ -22,6 +15,13 @@ import {
   getPreviousViewedGameweek,
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
+import {
+  earliestLeagueGameweekNumberQuery,
+  latestLeagueGameweekNumberQuery,
+  leagueMatchupsForSeasonQuery,
+  leagueMatchupsQuery,
+  managersByNamesQuery,
+} from "./queries/leagueData";
 
 export function useLeague(leagueId, supabase) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
@@ -41,11 +41,14 @@ export function useLeague(leagueId, supabase) {
     let cancelled = false;
     async function loadBounds() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const earliest = await getEarliestLeagueGameweekNumber(
+      const earliest = await earliestLeagueGameweekNumberQuery.fetch(
         supabase,
         season.id,
       );
-      const latest = await getLatestLeagueGameweekNumber(supabase, season.id);
+      const latest = await latestLeagueGameweekNumberQuery.fetch(
+        supabase,
+        season.id,
+      );
       if (cancelled) return;
       setSeasonId(season.id);
       setEarliestGameweek(earliest);
@@ -146,7 +149,7 @@ export function useLeague(leagueId, supabase) {
               seasonId,
               displayedGameweekNumber,
             );
-      const matchups = await getLeagueMatchups(
+      const matchups = await leagueMatchupsQuery.fetch(
         supabase,
         leagueId,
         gameweekRow.id,
@@ -161,7 +164,10 @@ export function useLeague(leagueId, supabase) {
         } else if (kind === "historical" && !gameweekRow.data_checked) {
           provisional = true;
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -182,7 +188,10 @@ export function useLeague(leagueId, supabase) {
         } else if (kind === "current") {
           provisional = true;
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -265,14 +274,17 @@ export function useLeague(leagueId, supabase) {
           seasonId,
           standingsGameweekNumber,
         );
-        const matchups = await getLeagueMatchups(
+        const matchups = await leagueMatchupsQuery.fetch(
           supabase,
           leagueId,
           gameweekRow.id,
         );
         if (matchups.length > 0) {
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -290,7 +302,7 @@ export function useLeague(leagueId, supabase) {
         }
       }
 
-      const seasonMatchups = await getLeagueMatchupsForSeason(
+      const seasonMatchups = await leagueMatchupsForSeasonQuery.fetch(
         supabase,
         leagueId,
         seasonId,

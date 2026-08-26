@@ -11,7 +11,7 @@ import {
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
 import { applyAutoSubstitutions } from "../lib/lineup";
-import { getEarliestLeagueGameweekNumber } from "../lib/leagueData";
+import { earliestLeagueGameweekNumberQuery } from "./queries/leagueData";
 
 export function useTeamHistory(manager, supabase, bootstrap, context) {
   const [viewedGameweek, setViewedGameweek] = useState(null);
@@ -24,7 +24,7 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
     let cancelled = false;
     async function loadBounds() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const earliest = await getEarliestLeagueGameweekNumber(
+      const earliest = await earliestLeagueGameweekNumberQuery.fetch(
         supabase,
         season.id,
       );
@@ -112,7 +112,10 @@ export function useTeamHistory(manager, supabase, bootstrap, context) {
       .catch(
         (err) =>
           !cancelled &&
-          setHistoryState({ data: undefined, error: err.message }),
+          setHistoryState({
+            data: undefined,
+            error: err.message,
+          }),
       );
     return () => {
       cancelled = true;

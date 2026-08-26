@@ -14,8 +14,8 @@ import {
   getTotalStartingPoints,
   getTopPlayer,
 } from "../lib/fplData";
-import { getManagersByNames } from "../lib/leagueData";
 import { getGameweekLineup } from "../lib/teamHistory";
+import { managersByNamesQuery } from "./queries/leagueData";
 
 export function useMatchupPreview(manager, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -141,7 +141,7 @@ export function useMatchupPreview(manager, supabase) {
             ? previousMatchup.manager_2
             : previousMatchup.manager_1;
 
-          const managersByName = await getManagersByNames(supabase, [
+          const managersByName = await managersByNamesQuery.fetch(supabase, [
             selfName,
             opponentName,
           ]);

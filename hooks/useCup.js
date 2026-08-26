@@ -5,12 +5,6 @@ import { getActiveGameweekContext } from "../lib/gameweek";
 import { getGameweekByNumber } from "../lib/matchupData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
-  getManagersByNames,
-  getCupMatchups,
-  getCupMatchupsByCup,
-  getCupGameweekBounds,
-} from "../lib/leagueData";
-import {
   toLeagueMatchupSummary,
   computeStandingsWithRankChange,
   computeMatchupScores,
@@ -21,6 +15,12 @@ import {
   getPreviousViewedGameweek,
   getNextViewedGameweek,
 } from "../lib/gameweekNavigation";
+import {
+  cupGameweekBoundsQuery,
+  cupMatchupsByCupQuery,
+  cupMatchupsQuery,
+  managersByNamesQuery,
+} from "./queries/leagueData";
 
 const CUP_NAME = "League of Champions";
 
@@ -42,7 +42,7 @@ export function useCup(supabase) {
     let cancelled = false;
     async function loadBounds() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const { earliest, latest } = await getCupGameweekBounds(
+      const { earliest, latest } = await cupGameweekBoundsQuery.fetch(
         supabase,
         season.id,
         CUP_NAME,
@@ -140,7 +140,7 @@ export function useCup(supabase) {
               seasonId,
               displayedGameweekNumber,
             );
-      const matchups = await getCupMatchups(supabase, gameweekRow.id);
+      const matchups = await cupMatchupsQuery.fetch(supabase, gameweekRow.id);
 
       let matchupSummaries = [];
       let provisional = false;
@@ -151,7 +151,10 @@ export function useCup(supabase) {
         } else if (kind === "historical" && !gameweekRow.data_checked) {
           provisional = true;
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -172,7 +175,10 @@ export function useCup(supabase) {
         } else if (kind === "current") {
           provisional = true;
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -253,10 +259,13 @@ export function useCup(supabase) {
           seasonId,
           standingsGameweekNumber,
         );
-        const matchups = await getCupMatchups(supabase, gameweekRow.id);
+        const matchups = await cupMatchupsQuery.fetch(supabase, gameweekRow.id);
         if (matchups.length > 0) {
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
           const managerIds = [...managersByName.values()].map((m) => m.id);
           const lineupsByManagerId = await getGameweekLineupsForManagers(
             supabase,
@@ -274,7 +283,10 @@ export function useCup(supabase) {
         }
       }
 
-      const seasonMatchups = await getCupMatchupsByCup(supabase, CUP_NAME);
+      const seasonMatchups = await cupMatchupsByCupQuery.fetch(
+        supabase,
+        CUP_NAME,
+      );
       return computeStandingsWithRankChange(
         seasonMatchups,
         standingsGameweekNumber,

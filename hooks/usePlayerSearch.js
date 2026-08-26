@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useUpcomingFixtures } from "./useFplData";
-import { getLeagueRoster, getPlayerAvailability } from "../lib/leagueData";
 import { getActiveGameweekContext } from "../lib/gameweek";
 import {
   sortPlayers,
@@ -11,6 +10,10 @@ import {
   DEFAULT_SORT_KEY,
 } from "../lib/playerSearch";
 import { attachFixtureStatus } from "../lib/fplData";
+import {
+  leagueRosterQuery,
+  playerAvailabilityQuery,
+} from "./queries/leagueData";
 
 export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -22,8 +25,8 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     if (!leagueId) return;
     let cancelled = false;
     Promise.all([
-      getLeagueRoster(supabase, leagueId),
-      getPlayerAvailability(supabase, leagueId),
+      leagueRosterQuery.fetch(supabase, leagueId),
+      playerAvailabilityQuery.fetch(supabase, leagueId),
     ])
       .then(([rosterData, availabilityData]) => {
         if (cancelled) return;

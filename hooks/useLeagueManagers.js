@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { currentSeasonQuery } from "./queries/season";
-import { getManagersInLeague } from "../lib/leagueData";
+import { managersInLeagueQuery } from "./queries/leagueData";
 
-export function useLeagueManagers(league, supabase) {
+export function useLeagueManagers(leagueId, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
   useEffect(() => {
-    if (!league) return;
+    if (!leagueId) return;
     let cancelled = false;
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      return getManagersInLeague(supabase, league.id, season.id);
+      return managersInLeagueQuery.fetch(supabase, leagueId, season.id);
     }
     load()
       .then((data) => !cancelled && setState({ data, error: null }))
@@ -20,6 +20,6 @@ export function useLeagueManagers(league, supabase) {
     return () => {
       cancelled = true;
     };
-  }, [league, supabase]);
+  }, [leagueId, supabase]);
   return state;
 }

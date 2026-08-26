@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { currentSeasonQuery } from "./queries/season";
-import {
-  getManagersInLeague,
-  getLeagueMatchupsForSeason,
-  getDraftOrder,
-} from "../lib/leagueData";
 import { computeStandings } from "../lib/leagueLogic";
 import { getWaiverPriorityOrder } from "../lib/waiverProcessing";
+import {
+  draftOrderQuery,
+  leagueMatchupsForSeasonQuery,
+  managersInLeagueQuery,
+} from "./queries/leagueData";
 
 export function useWaiverPriority(leagueId, managerId, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -17,19 +17,19 @@ export function useWaiverPriority(leagueId, managerId, supabase) {
 
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const managersInLeague = await getManagersInLeague(
+      const managersInLeague = await managersInLeagueQuery.fetch(
         supabase,
         leagueId,
         season.id,
       );
       const managerIds = [...managersInLeague.keys()];
-      const matchups = await getLeagueMatchupsForSeason(
+      const matchups = await leagueMatchupsForSeasonQuery.fetch(
         supabase,
         leagueId,
         season.id,
       );
       const standings = computeStandings(matchups);
-      const draftOrderByManagerId = await getDraftOrder(
+      const draftOrderByManagerId = await draftOrderQuery.fetch(
         supabase,
         leagueId,
         season.id,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { currentSeasonQuery } from "./queries/season";
-import { getGameweeksForSeason } from "../lib/leagueData";
+import { gameweeksForSeasonQuery } from "./queries/leagueData";
 
 export function useSeasonGameweeks(supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -10,7 +10,7 @@ export function useSeasonGameweeks(supabase) {
 
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      return getGameweeksForSeason(supabase, season.id);
+      return gameweeksForSeasonQuery.fetch(supabase, season.id);
     }
 
     load()

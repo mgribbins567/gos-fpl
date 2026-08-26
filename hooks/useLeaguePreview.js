@@ -5,17 +5,17 @@ import { getActiveGameweekContext } from "../lib/gameweek";
 import { getGameweekByNumber } from "../lib/matchupData";
 import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
-  getLeagueMatchups,
-  getLeagueMatchupsForSeason,
-  getManagersByNames,
-  getTeamsForManagersByGameweek,
-} from "../lib/leagueData";
-import {
   toLeagueMatchupSummary,
   getFeaturedMatchups,
   computeStandingsWithRankChange,
 } from "../lib/leagueLogic";
 import { mergeTeamWithLiveData, getTotalStartingPoints } from "../lib/fplData";
+import {
+  leagueMatchupsForSeasonQuery,
+  leagueMatchupsQuery,
+  managersByNamesQuery,
+  teamsForManagersByGameweekQuery,
+} from "./queries/leagueData";
 
 export function useLeaguePreview(leagueId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -66,7 +66,7 @@ export function useLeaguePreview(leagueId, supabase) {
           season.id,
           gameweekNumber,
         );
-        const matchups = await getLeagueMatchups(
+        const matchups = await leagueMatchupsQuery.fetch(
           supabase,
           leagueId,
           gameweekRow.id,
@@ -74,8 +74,11 @@ export function useLeaguePreview(leagueId, supabase) {
 
         if (matchups.length > 0) {
           const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-          const managersByName = await getManagersByNames(supabase, names);
-          const teamsByManagerId = await getTeamsForManagersByGameweek(
+          const managersByName = await managersByNamesQuery.fetch(
+            supabase,
+            names,
+          );
+          const teamsByManagerId = await teamsForManagersByGameweekQuery.fetch(
             supabase,
             [...managersByName.values()].map((m) => m.id),
             gameweekRow.id,
@@ -104,7 +107,7 @@ export function useLeaguePreview(leagueId, supabase) {
           season.id,
           context.previousEvent.id,
         );
-        const matchups = await getLeagueMatchups(
+        const matchups = await leagueMatchupsQuery.fetch(
           supabase,
           leagueId,
           previousGameweekRow.id,
@@ -118,7 +121,10 @@ export function useLeaguePreview(leagueId, supabase) {
           if (previousLive || !featuredMatchups) {
             previousWeekProvisional = true;
             const names = matchups.flatMap((m) => [m.manager_1, m.manager_2]);
-            const managersByName = await getManagersByNames(supabase, names);
+            const managersByName = await managersByNamesQuery.fetch(
+              supabase,
+              names,
+            );
             const managerIds = [...managersByName.values()].map((m) => m.id);
             const lineupsByManagerId = await getGameweekLineupsForManagers(
               supabase,
@@ -149,7 +155,7 @@ export function useLeaguePreview(leagueId, supabase) {
         }
       }
 
-      const seasonMatchups = await getLeagueMatchupsForSeason(
+      const seasonMatchups = await leagueMatchupsForSeasonQuery.fetch(
         supabase,
         leagueId,
         season.id,

@@ -50,7 +50,7 @@ function FantasyPageContent() {
     manager,
     supabase,
   );
-  const { data: leagueManagersById } = useLeagueManagers(league, supabase);
+  const { data: leagueManagersById } = useLeagueManagers(league?.id, supabase);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [searchOpen, setSearchOpen] = useState(false);
   const [viewingPlayer, setViewingPlayer] = useState(null);
