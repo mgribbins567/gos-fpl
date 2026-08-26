@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
 import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
-import { getGameweekByNumber } from "../lib/matchupData";
-import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
   toLeagueMatchupSummary,
   computeStandingsWithRankChange,
@@ -21,6 +19,8 @@ import {
   cupMatchupsQuery,
   managersByNamesQuery,
 } from "./queries/leagueData";
+import { gameweekByNumberQuery } from "./queries/matchupData";
+import { gameweekLineupsForManagersQuery } from "./queries/teamHistory";
 
 const CUP_NAME = "League of Champions";
 
@@ -97,7 +97,8 @@ export function useCup(supabase) {
       return;
     }
     let cancelled = false;
-    getGameweekByNumber(supabase, seasonId, displayedGameweekNumber)
+    gameweekByNumberQuery
+      .fetch(supabase, seasonId, displayedGameweekNumber)
       .then((row) => !cancelled && setTargetGameweekRow(row))
       .catch(
         (err) =>
@@ -135,7 +136,7 @@ export function useCup(supabase) {
       const gameweekRow =
         kind === "historical"
           ? targetGameweekRow
-          : await getGameweekByNumber(
+          : await gameweekByNumberQuery.fetch(
               supabase,
               seasonId,
               displayedGameweekNumber,
@@ -156,11 +157,12 @@ export function useCup(supabase) {
             names,
           );
           const managerIds = [...managersByName.values()].map((m) => m.id);
-          const lineupsByManagerId = await getGameweekLineupsForManagers(
-            supabase,
-            managerIds,
-            gameweekRow.id,
-          );
+          const lineupsByManagerId =
+            await gameweekLineupsForManagersQuery.fetch(
+              supabase,
+              managerIds,
+              gameweekRow.id,
+            );
           const scoreByName = computeMatchupScores(
             matchups,
             bootstrap,
@@ -180,11 +182,12 @@ export function useCup(supabase) {
             names,
           );
           const managerIds = [...managersByName.values()].map((m) => m.id);
-          const lineupsByManagerId = await getGameweekLineupsForManagers(
-            supabase,
-            managerIds,
-            gameweekRow.id,
-          );
+          const lineupsByManagerId =
+            await gameweekLineupsForManagersQuery.fetch(
+              supabase,
+              managerIds,
+              gameweekRow.id,
+            );
           const scoreByName = computeMatchupScores(
             matchups,
             bootstrap,
@@ -254,7 +257,7 @@ export function useCup(supabase) {
       let scoreByName = new Map();
 
       if (isLive) {
-        const gameweekRow = await getGameweekByNumber(
+        const gameweekRow = await gameweekByNumberQuery.fetch(
           supabase,
           seasonId,
           standingsGameweekNumber,
@@ -267,11 +270,12 @@ export function useCup(supabase) {
             names,
           );
           const managerIds = [...managersByName.values()].map((m) => m.id);
-          const lineupsByManagerId = await getGameweekLineupsForManagers(
-            supabase,
-            managerIds,
-            gameweekRow.id,
-          );
+          const lineupsByManagerId =
+            await gameweekLineupsForManagersQuery.fetch(
+              supabase,
+              managerIds,
+              gameweekRow.id,
+            );
           scoreByName = computeMatchupScores(
             matchups,
             bootstrap,

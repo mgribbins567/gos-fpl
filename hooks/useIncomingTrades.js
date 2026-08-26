@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getPendingTradesForReceiver } from "../lib/tradeData";
 import { buildResolvedTrades } from "../lib/tradeLogic";
+import { pendingTradesForReceiverQuery } from "./queries/tradeData";
 
 export function useIncomingTrades(
   manager,
@@ -13,7 +13,8 @@ export function useIncomingTrades(
   useEffect(() => {
     if (!manager || !bootstrap || !leagueManagersById) return;
     let cancelled = false;
-    getPendingTradesForReceiver(supabase, manager.id)
+    pendingTradesForReceiverQuery
+      .fetch(supabase, manager.id)
       .then(
         ({ trades, pairings }) =>
           !cancelled &&

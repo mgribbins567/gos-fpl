@@ -2,20 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
 import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
-import {
-  getGameweekByNumber,
-  getManagerByName,
-  getMatchupForManager,
-  toMatchupSummary,
-  buildLiveMatchupSummary,
-} from "../lib/matchupData";
+import { toMatchupSummary, buildLiveMatchupSummary } from "../lib/matchupData";
 import {
   mergeTeamWithLiveData,
   getTotalStartingPoints,
   getTopPlayer,
 } from "../lib/fplData";
-import { getGameweekLineup } from "../lib/teamHistory";
 import { managersByNamesQuery } from "./queries/leagueData";
+import {
+  gameweekByNumberQuery,
+  managerByNameQuery,
+  matchupForManagerQuery,
+} from "./queries/matchupData";
+import { gameweekLineupQuery } from "./queries/teamHistory";
 
 export function useMatchupPreview(manager, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -53,12 +52,12 @@ export function useMatchupPreview(manager, supabase) {
       const season = await currentSeasonQuery.fetch(supabase);
 
       if (context.mode === "live") {
-        const gameweekRow = await getGameweekByNumber(
+        const gameweekRow = await gameweekByNumberQuery.fetch(
           supabase,
           season.id,
           context.event.id,
         );
-        const matchup = await getMatchupForManager(
+        const matchup = await matchupForManagerQuery.fetch(
           supabase,
           gameweekRow.id,
           manager.name,
@@ -77,11 +76,18 @@ export function useMatchupPreview(manager, supabase) {
           matchup.manager_1 === manager.name
             ? matchup.manager_2
             : matchup.manager_1;
-        const opponentManager = await getManagerByName(supabase, opponentName);
+        const opponentManager = await managerByNameQuery.fetch(
+          supabase,
+          opponentName,
+        );
 
         const [selfTeam, opponentTeam] = await Promise.all([
-          getGameweekLineup(supabase, manager.id, gameweekRow.id),
-          getGameweekLineup(supabase, opponentManager.id, gameweekRow.id),
+          gameweekLineupQuery.fetch(supabase, manager.id, gameweekRow.id),
+          gameweekLineupQuery.fetch(
+            supabase,
+            opponentManager.id,
+            gameweekRow.id,
+          ),
         ]);
 
         const selfPlayers = mergeTeamWithLiveData(selfTeam, bootstrap, live);
@@ -111,17 +117,21 @@ export function useMatchupPreview(manager, supabase) {
       }
 
       const { previousEvent, upcoming } = context;
-      const nextGameweekRow = await getGameweekByNumber(
+      const nextGameweekRow = await gameweekByNumberQuery.fetch(
         supabase,
         season.id,
         upcoming.event.id,
       );
 
       const previousGameweekRow = previousEvent
-        ? await getGameweekByNumber(supabase, season.id, previousEvent.id)
+        ? await gameweekByNumberQuery.fetch(
+            supabase,
+            season.id,
+            previousEvent.id,
+          )
         : null;
       const previousMatchup = previousGameweekRow
-        ? await getMatchupForManager(
+        ? await matchupForManagerQuery.fetch(
             supabase,
             previousGameweekRow.id,
             manager.name,
@@ -154,8 +164,12 @@ export function useMatchupPreview(manager, supabase) {
           }
 
           const [selfRows, opponentRows] = await Promise.all([
-            getGameweekLineup(supabase, selfManager.id, previousGameweekRow.id),
-            getGameweekLineup(
+            gameweekLineupQuery.fetch(
+              supabase,
+              selfManager.id,
+              previousGameweekRow.id,
+            ),
+            gameweekLineupQuery.fetch(
               supabase,
               opponentManager.id,
               previousGameweekRow.id,
@@ -181,7 +195,7 @@ export function useMatchupPreview(manager, supabase) {
         }
       }
 
-      const nextMatchup = await getMatchupForManager(
+      const nextMatchup = await matchupForManagerQuery.fetch(
         supabase,
         nextGameweekRow.id,
         manager.name,

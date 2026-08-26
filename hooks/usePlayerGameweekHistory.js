@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { usePlayerHistory, useBootstrapStatic } from "./useFplData";
 import { currentSeasonQuery } from "./queries/season";
-import { getPlayerOwnershipHistory } from "../lib/teamHistory";
 import { buildPlayerGameweekHistory } from "../lib/fplData";
 import { managerLeagueIdsQuery, managersQuery } from "./queries/leagueData";
+import { playerOwnershipHistoryQuery } from "./queries/teamHistory";
 
 export function usePlayerGameweekHistory(playerId, supabase) {
   const { data: summary, error: historyError } = usePlayerHistory(playerId);
@@ -21,7 +21,7 @@ export function usePlayerGameweekHistory(playerId, supabase) {
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
       const [rows, managers, managerLeagues] = await Promise.all([
-        getPlayerOwnershipHistory(supabase, season.id, playerId),
+        playerOwnershipHistoryQuery.fetch(supabase, season.id, playerId),
         managersQuery.fetch(supabase, season.id),
         managerLeagueIdsQuery.fetch(supabase, season.id),
       ]);

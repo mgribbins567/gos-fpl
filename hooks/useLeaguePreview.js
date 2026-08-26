@@ -2,8 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useBootstrapStatic, useLiveEvent } from "./useFplData";
 import { currentSeasonQuery } from "./queries/season";
 import { getActiveGameweekContext } from "../lib/gameweek";
-import { getGameweekByNumber } from "../lib/matchupData";
-import { getGameweekLineupsForManagers } from "../lib/teamHistory";
 import {
   toLeagueMatchupSummary,
   getFeaturedMatchups,
@@ -16,6 +14,8 @@ import {
   managersByNamesQuery,
   teamsForManagersByGameweekQuery,
 } from "./queries/leagueData";
+import { gameweekByNumberQuery } from "./queries/matchupData";
+import { gameweekLineupsForManagersQuery } from "./queries/teamHistory";
 
 export function useLeaguePreview(leagueId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -61,7 +61,7 @@ export function useLeaguePreview(leagueId, supabase) {
       let previousWeekProvisional = false;
 
       if (context.mode === "live") {
-        const gameweekRow = await getGameweekByNumber(
+        const gameweekRow = await gameweekByNumberQuery.fetch(
           supabase,
           season.id,
           gameweekNumber,
@@ -102,7 +102,7 @@ export function useLeaguePreview(leagueId, supabase) {
           );
         }
       } else if (context.previousEvent) {
-        const previousGameweekRow = await getGameweekByNumber(
+        const previousGameweekRow = await gameweekByNumberQuery.fetch(
           supabase,
           season.id,
           context.previousEvent.id,
@@ -126,11 +126,12 @@ export function useLeaguePreview(leagueId, supabase) {
               names,
             );
             const managerIds = [...managersByName.values()].map((m) => m.id);
-            const lineupsByManagerId = await getGameweekLineupsForManagers(
-              supabase,
-              managerIds,
-              previousGameweekRow.id,
-            );
+            const lineupsByManagerId =
+              await gameweekLineupsForManagersQuery.fetch(
+                supabase,
+                managerIds,
+                previousGameweekRow.id,
+              );
 
             scoreByName = new Map();
             for (const name of names) {

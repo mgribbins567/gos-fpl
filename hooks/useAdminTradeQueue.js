@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  getPendingTradesForAdmin,
-  getManagersByIds,
-  getLeaguesByIds,
-} from "../lib/tradeData";
 import { buildResolvedTrades } from "../lib/tradeLogic";
+import {
+  leaguesByIdsQuery,
+  managersByIdsQuery,
+  pendingTradesForAdminQuery,
+} from "./queries/tradeData";
 
 export function useAdminTradeQueue(
   isAdminUser,
@@ -17,7 +17,8 @@ export function useAdminTradeQueue(
     if (!isAdminUser || !bootstrap) return;
     let cancelled = false;
     async function load() {
-      const { trades, pairings } = await getPendingTradesForAdmin(supabase);
+      const { trades, pairings } =
+        await pendingTradesForAdminQuery.fetch(supabase);
       if (trades.length === 0) return [];
       const managerIds = [
         ...new Set(
@@ -29,8 +30,8 @@ export function useAdminTradeQueue(
       ];
       const leagueIds = [...new Set(trades.map((t) => t.league_id))];
       const [managersById, leaguesById] = await Promise.all([
-        getManagersByIds(supabase, managerIds),
-        getLeaguesByIds(supabase, leagueIds),
+        managersByIdsQuery.fetch(supabase, managerIds),
+        leaguesByIdsQuery.fetch(supabase, leagueIds),
       ]);
       return buildResolvedTrades(
         trades,

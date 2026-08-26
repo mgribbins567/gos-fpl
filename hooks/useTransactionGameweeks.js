@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { currentSeasonQuery } from "./queries/season";
-import { getGameweekByNumber } from "../lib/matchupData";
+import { gameweekByNumberQuery } from "./queries/matchupData";
 
 export function useTransactionGameweeks(bootstrap, context, supabase) {
   const [state, setState] = useState({ data: undefined, error: null });
@@ -11,12 +11,12 @@ export function useTransactionGameweeks(bootstrap, context, supabase) {
 
     async function load() {
       const season = await currentSeasonQuery.fetch(supabase);
-      const gameweek = await getGameweekByNumber(
+      const gameweek = await gameweekByNumberQuery.fetch(
         supabase,
         season.id,
         context.upcoming.event.id,
       );
-      const nextGameweek = await getGameweekByNumber(
+      const nextGameweek = await gameweekByNumberQuery.fetch(
         supabase,
         season.id,
         context.upcoming.event.id + 1,

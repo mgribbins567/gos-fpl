@@ -9,8 +9,8 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { getReceivingManagerRoster } from "../../lib/tradeData";
 import { POSITION_LABELS } from "../../lib/fplData";
+import { receivingManagerRosterQuery } from "../../hooks/queries/tradeData";
 
 export function TradeBuilderCard({
   builder,
@@ -26,7 +26,8 @@ export function TradeBuilderCard({
   useEffect(() => {
     if (!builder.receivingManagerId) return;
     let cancelled = false;
-    getReceivingManagerRoster(supabase, leagueId, builder.receivingManagerId)
+    receivingManagerRosterQuery
+      .fetch(supabase, leagueId, builder.receivingManagerId)
       .then((ids) => !cancelled && setRosterPlayerIds(ids))
       .catch((err) => !cancelled && setRosterError(err.message));
     return () => {
