@@ -129,7 +129,7 @@ And looking at the table, we have a whole slew of managers above that 50 PF mark
 <img src="/images/season-5/season-5-a-wu/2/group-stage-table.png" width="1200vh" height="auto">
 <br/>
 <p class="center-bold">League of Champions - Group Stage Matchups</p>
-<img src="/images/season-5/season-5-a-wu/2/group-stage-matchups.png" width="1200vh" height="auto">
+<img src="/images/season-5/season-5-a-wu/2/group-stage-matchups.png" width="600vh" height="auto">
 <br/>
 
 ---
