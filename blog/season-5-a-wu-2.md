@@ -1,6 +1,6 @@
 ---
 title: "Season 5 Weekly Update 2 - League A"
-date: "2026-08-25"
+date: "2026-08-26"
 summary: ""
 tags: ["season 5", "weekly update", "a league"]
 ---
