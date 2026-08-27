@@ -17,7 +17,9 @@ import {
   ActionIcon,
 } from "@mantine/core";
 import { VscHistory } from "react-icons/vsc";
+import { HiOutlineUser } from "react-icons/hi2";
 import { getShirtUrl, orderPlayersForList } from "../../lib/fplData";
+import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 
 const ranks = [
   "",
@@ -61,9 +63,15 @@ function colorForStatus(status) {
 }
 
 function Player({ player }) {
+  const openPlayerDetail = usePlayerDetail();
   const [opened, setOpened] = useState(false);
   const color = colorForPositionMack(player.elementType);
   const statusColor = colorForStatus(player.status);
+  let name =
+    player.seasonStats.first_name + " " + player.seasonStats.second_name;
+  if (name.length === 0 || name.length > 21) {
+    name = player.name;
+  }
 
   return (
     <Popover
@@ -72,6 +80,7 @@ function Player({ player }) {
       shadow="md"
       opened={opened}
       onDismiss={() => setOpened(false)}
+      px={0}
     >
       <Popover.Target>
         <Button
@@ -79,6 +88,7 @@ function Player({ player }) {
           //   gradient={{ from: color, to: statusColor, deg: 90 }}
           size="compact-xs"
           color={color}
+          justify="left"
           leftSection={
             <Image
               src={getShirtUrl(player.teamCode, player.elementType)}
@@ -87,7 +97,28 @@ function Player({ player }) {
               alt="Team Jersey"
             />
           }
-          justify="left"
+          rightSection={
+            player.seasonStats.status != "a" ? (
+              <Badge
+                size="compact-xs"
+                variant="filled"
+                color={
+                  player.seasonStats.status === "a"
+                    ? ""
+                    : player.seasonStats.status === "d"
+                      ? "yellow.5"
+                      : "red.8"
+                }
+                fz={12}
+                radius="xs"
+                style={{ cursor: "pointer" }}
+              >
+                {player.seasonStats.status != "a" ? "⚠" : ""}
+              </Badge>
+            ) : (
+              <span />
+            )
+          }
           fw={500}
           c="black"
           style={{ flex: 1, fontSize: "0.875rem" }}
@@ -99,10 +130,16 @@ function Player({ player }) {
       <Popover.Dropdown p="xs" bd="1px solid white">
         {player.explain && Object.keys(player.explain).length > 0 ? (
           <Stack gap={0} spacing="xs">
-            <Group justify="space-between">
-              <Text size="sm" fw={700}>
-                {player.name}
-              </Text>
+            <Group justify="space-between" wrap="nowrap" gap={0} maw="100%">
+              <Group gap={2} wrap="nowrap">
+                <HiOutlineUser
+                  cursor="pointer"
+                  onClick={() => openPlayerDetail(player, { canEdit: false })}
+                />
+                <Text size="sm" fw={700}>
+                  {name}
+                </Text>
+              </Group>
               <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
             </Group>
             <Group gap={4}>
@@ -134,7 +171,7 @@ function Player({ player }) {
               ))}
             </Group>
             <Divider color="white" />
-            <Table tabularNums variant="vertical">
+            <Table tabularNums variant="vertical" verticalSpacing={3}>
               <Table.Tbody>
                 {Object.values(player.explain).flatMap((match) =>
                   match.stats.map((stat) => (
@@ -161,7 +198,9 @@ function Player({ player }) {
                 >
                   <Table.Td>Total Points:</Table.Td>
                   <Table.Td></Table.Td>
-                  <Table.Td ta="right">{player.points}</Table.Td>
+                  <Table.Td ta="right" fw={700}>
+                    {player.points}
+                  </Table.Td>
                 </Table.Tr>
               </Table.Tbody>
             </Table>
@@ -316,7 +355,7 @@ export function Matchup({
             </Group>
           )}
           <Divider my="xs" color="gray.8" />
-          <Box px="xs" pb="xs">
+          <Box px={0} pb="xs">
             <ExpandedMatchupCard
               team1Details={manager1Team}
               team2Details={manager2Team}

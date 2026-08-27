@@ -14,7 +14,9 @@ import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
 import { usePlayerGameweekHistory } from "../../hooks/usePlayerGameweekHistory";
 
 function buildPlayerModalTitle(player) {
-  const name = player.name || player.web_name;
+  const name = player.seasonStats
+    ? player.seasonStats.first_name + " " + player.seasonStats.second_name
+    : player.name || player.web_name;
   const position = getPlayerPositionName(
     player.elementType || player.element_type,
   );
@@ -119,6 +121,7 @@ export function PlayerDetailModal({
       onClose={onClose}
       title={buildPlayerModalTitle(player)}
       centered
+      zIndex={500}
     >
       <Stack gap="xs">
         {seasonStats.news && (

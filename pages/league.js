@@ -12,8 +12,11 @@ import { useLeagueGameweekTeams } from "../hooks/useLeagueGameweekTeams";
 import { useLeagues } from "../hooks/useLeagues";
 import { useFixturesWithTeams } from "../hooks/useFplData";
 import { FixturesViewer } from "../components/Fixtures/FixturesViewer";
+import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
+import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 
 function LeagueDashboard({ leagueId, supabase }) {
+  const [viewingPlayer, setViewingPlayer] = useState(null);
   const { matchups, standings, navigator, error } = useLeague(
     leagueId,
     supabase,
@@ -47,6 +50,13 @@ function LeagueDashboard({ leagueId, supabase }) {
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
       <StandingsTable standings={standings} />
       <FixturesViewer fixtures={fixtures} />
+      <PlayerDetailModal
+        player={viewingPlayer}
+        opened={!!viewingPlayer}
+        onClose={() => setViewingPlayer(null)}
+        canEdit={false}
+        supabase={supabase}
+      />
     </>
   );
 }
@@ -107,7 +117,9 @@ function LeaguePageContent({}) {
 export default function league() {
   return (
     <ManagerProvider>
-      <LeaguePageContent />
+      <PlayerDetailProvider>
+        <LeaguePageContent />
+      </PlayerDetailProvider>
     </ManagerProvider>
   );
 }
