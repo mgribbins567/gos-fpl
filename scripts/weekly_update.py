@@ -5,8 +5,7 @@ import matplotlib.cm as cm
 import matplotlib.ticker as ticker
 import numpy as np
 
-def save_sheet_as_png(gc, sheet_id, tab_name, cell_range, filename, width, title_pad=20, title=None, color_cols=None, cmap_name='RdYlGn'):
-    sh = gc.open_by_key(sheet_id)
+def save_sheet_as_png(sh, tab_name, cell_range, filename, width, title_pad=20, title=None, color_cols=None, cmap_name='RdYlGn'):
     worksheet = sh.worksheet(tab_name)
     data = worksheet.get(cell_range)
 
@@ -120,8 +119,7 @@ def save_sheet_as_png(gc, sheet_id, tab_name, cell_range, filename, width, title
 
     plt.savefig(filename, bbox_inches='tight', dpi=300)
 
-def save_matchups_as_png(gc, sheet_id, tab_name, cell_range, filename, title=None):
-    sh = gc.open_by_key(sheet_id)
+def save_matchups_as_png(sh, tab_name, cell_range, filename, title=None):
     worksheet = sh.worksheet(tab_name)
     data = worksheet.get(cell_range)
 
@@ -186,8 +184,7 @@ def save_matchups_as_png(gc, sheet_id, tab_name, cell_range, filename, title=Non
 
     plt.savefig(filename, bbox_inches='tight', dpi=300)
 
-def save_chart_as_png(gc, sheet_id, tab_name, cell_range, filename, title=None, color='#37003c'):
-    sh = gc.open_by_key(sheet_id)
+def save_chart_as_png(sh, tab_name, cell_range, filename, title=None, color='#37003c'):
     worksheet = sh.worksheet(tab_name)
     data = worksheet.get(cell_range)
 
@@ -240,10 +237,10 @@ def save_chart_as_png(gc, sheet_id, tab_name, cell_range, filename, title=None, 
 
 
 
-def save_league_pngs(sheet_id, filename_base):
+def save_league_pngs(gc, sheet_id, filename_base):
+    sh = gc.open_by_key(sheet_id)
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="B3:Q15",
         filename=filename_base + "/league-table.png",
@@ -254,8 +251,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="A19:M31",
         filename=filename_base + "/performance-table.png",
@@ -266,8 +262,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="A35:M47",
         filename=filename_base + "/luck-table.png",
@@ -278,8 +273,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="B52:L64",
         filename=filename_base + "/form-table.png",
@@ -290,8 +284,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="B68:L80",
         filename=filename_base + "/xp-table.png",
@@ -302,8 +295,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Table",
         cell_range="B84:K96",
         filename=filename_base + "/am-table.png",
@@ -315,10 +307,9 @@ def save_league_pngs(sheet_id, filename_base):
 
     # CHANGE THIS ONE AT THE START OF EACH MONTH
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Manager of the Month",
-        cell_range="B147:L159",
+        cell_range="B3:L15",
         filename=filename_base + "/manager-of-the-month.png",
         width=0.02,
         title="May MotM",
@@ -328,16 +319,15 @@ def save_league_pngs(sheet_id, filename_base):
 
     # CHANGE THIS ONE AT THE START OF EACH WEEK
     # save_matchups_as_png(
-    #     gc=gc,
-    #     sheet_id=sheet_id,
+    #     sh=sh,
+    #  
     #     tab_name="Gameweeks",
     #     cell_range="B122:E127",
     #     filename=filename_base + "/gameweek.png",
     # )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Gameweek Breakdown",
         cell_range="B2:AP16",
         filename=filename_base + "/gameweek-breakdown.png",
@@ -349,8 +339,7 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     save_sheet_as_png(
-        gc=gc,
-        sheet_id=sheet_id,
+        sh=sh,
         tab_name="Manager Breakdown",
         cell_range="B2:N19",
         filename=filename_base + "/manager-breakdown.png",
@@ -362,8 +351,8 @@ def save_league_pngs(sheet_id, filename_base):
     )
 
     # save_chart_as_png(
-    #     gc=gc,
-    #     sheet_id=sheet_id,
+    #     sh=sh,
+    #  
     #     tab_name="Timelines",
     #     cell_range="A17:AM29",
     #     filename=filename_base + "/points-for-timeline.png",
@@ -374,14 +363,16 @@ def save_league_pngs(sheet_id, filename_base):
 if __name__ == "__main__":
     # gc = gspread.service_account(filename='game-of-stones-466323-5ab3af9d2d71.json')
     gc = gspread.service_account(filename='game-of-stones-466323-6776a1b39e8b.json')
-    SHEET_ID_A = "1AAGP--ACojOQXlIkQUMz87-stYaw_wJo0GFYo7J3zDM"
-    SHEET_ID_B = "1cY7Ub90e3siAfp0lE9-gYcHVkUVHwkk7cXNWLWAjFpo"
-    SHEET_ID_COMBINED = "1e-zqcbUTEf9mRVj8flpwe4YHfn3B8BQRbjqoc1idscA"
+    SHEET_ID_A = "1dbDwPs86QZqxwTvMTmCG0yrYgAY9gpgF-dfUx0LlJqI"
+    SHEET_ID_B = "1kamoR1m1UtzKSvTXD5El_0lmJbzQMExAxhuMlR-KxsI"
+    SHEET_ID_C = "17S1kUiUBYLdRl3tN50g5sC9L74ADVzzYm2GVQSyqSQE"
+    SHEET_ID_COMBINED = "1I3hmtsovtXngsYAPQBWk8rR0OGBzYN-6qA2vlQMKqE0"
 
-    gameweek = "39"
+    gameweek = "2"
 
-    save_league_pngs(SHEET_ID_A, "../public/images/season-4/season-4-a-wu/" + gameweek)
-    save_league_pngs(SHEET_ID_B, "../public/images/season-4/season-4-b-wu/" + gameweek)
+    save_league_pngs(gc, SHEET_ID_A, "../public/images/season-5/season-5-a-wu/" + gameweek)
+    save_league_pngs(gc, SHEET_ID_B, "../public/images/season-5/season-5-b-wu/" + gameweek)
+    save_league_pngs(gc, SHEET_ID_C, "../public/images/season-5/season-5-c-wu/" + gameweek)
 
     print("Done")
 
