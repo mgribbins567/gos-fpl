@@ -1,8 +1,8 @@
 import { Container, Stack, Text, Title } from "@mantine/core";
-import { ManagerProvider } from "../contexts/ManagerContext";
+import { ManagerProvider, useManager } from "../contexts/ManagerContext";
+import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { useCup } from "../hooks/useCup";
-import { useManager } from "../contexts/ManagerContext";
 import { MatchupViewer } from "../components/Matchups/MatchupViewer";
 import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
@@ -53,7 +53,9 @@ function LeaguePageContent({}) {
 export default function league() {
   return (
     <ManagerProvider>
-      <LeaguePageContent />
+      <PlayerDetailProvider>
+        <LeaguePageContent />
+      </PlayerDetailProvider>
     </ManagerProvider>
   );
 }
