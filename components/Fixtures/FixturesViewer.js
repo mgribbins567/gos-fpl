@@ -12,21 +12,23 @@ function formatTime(kickoffTime) {
   });
 }
 
-export function FixturesViewer({ fixtures }) {
+export function FixturesViewer({ gameweekNumber, fixtures }) {
   if (!fixtures) return;
 
   return (
     <Stack gap={0} align="center">
       {fixtures && (
         <Stack gap={0}>
-          {fixtures.map((fixture) => (
-            <>
-              <Text c="dimmed" fz="xs" ta="right">
-                {formatTime(fixture.kickoff_time)}
-              </Text>
-              <Fixture fixture={fixture} />
-            </>
-          ))}
+          {fixtures
+            .filter((fixture) => fixture.event === gameweekNumber)
+            .map((fixture) => (
+              <>
+                <Text c="dimmed" fz="xs" ta="right">
+                  {formatTime(fixture.kickoff_time)}
+                </Text>
+                <Fixture fixture={fixture} />
+              </>
+            ))}
         </Stack>
       )}
     </Stack>

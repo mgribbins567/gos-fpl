@@ -338,6 +338,7 @@ export function useLeague(leagueId, supabase) {
     standings: standingsState.data,
     navigator: {
       displayedGameweekNumber,
+      currentGameweekNumber: standingsGameweekNumber,
       kind,
       canGoBack,
       canGoForward,

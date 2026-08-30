@@ -10,7 +10,10 @@ import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useLeagueGameweekTeams } from "../hooks/useLeagueGameweekTeams";
 import { useLeagues } from "../hooks/useLeagues";
-import { useFixturesWithTeams } from "../hooks/useFplData";
+import {
+  useFixturesWithTeams,
+  useUpcomingFixturesWithTeams,
+} from "../hooks/useFplData";
 import { FixturesViewer } from "../components/Fixtures/FixturesViewer";
 import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
@@ -24,10 +27,12 @@ function LeagueDashboard({ leagueId, supabase }) {
   const { data: fixtures, error: fixturesError } = useFixturesWithTeams(
     navigator?.displayedGameweekNumber,
   );
+  const { data: upcomingFixtures, error: upcomingFixturesError } =
+    useUpcomingFixturesWithTeams(navigator?.currentGameweekNumber);
   const { data: teams, leagueGameweekError } = useLeagueGameweekTeams(
     leagueId,
     navigator?.displayedGameweekNumber,
-    fixtures,
+    upcomingFixtures,
     supabase,
   );
 
@@ -36,6 +41,7 @@ function LeagueDashboard({ leagueId, supabase }) {
       {error && <Text c="red">{error}</Text>}
       {leagueGameweekError && <Text c="red">{leagueGameweekError}</Text>}
       {fixturesError && <Text c="red">{fixturesError}</Text>}
+      {upcomingFixturesError && <Text c="red">{upcomingFixturesError}</Text>}
 
       {navigator?.displayedGameweekNumber && (
         <GameweekNavigator
@@ -49,12 +55,16 @@ function LeagueDashboard({ leagueId, supabase }) {
       )}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
       <StandingsTable standings={standings} />
-      <FixturesViewer fixtures={fixtures} />
+      <FixturesViewer
+        gameweekNumber={navigator.displayedGameweekNumber}
+        fixtures={fixtures}
+      />
       <PlayerDetailModal
         player={viewingPlayer}
         opened={!!viewingPlayer}
         onClose={() => setViewingPlayer(null)}
         canEdit={false}
+        isOverview={true}
         supabase={supabase}
       />
     </>

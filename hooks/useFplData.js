@@ -163,8 +163,9 @@ export function useFixturesWithTeams(gameweek) {
   return { data, error: fixturesError ?? bootstrapError };
 }
 
-export function useUpcomingFixturesWithTeams() {
-  const { data: fixtures, error: fixturesError } = useUpcomingFixtures();
+export function useUpcomingFixturesWithTeams(gameweek) {
+  const { data: fixtures, error: fixturesError } =
+    useUpcomingFixtures(gameweek);
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
 
   const data = useMemo(() => {

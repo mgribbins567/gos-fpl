@@ -21,21 +21,26 @@ import { HiOutlineUser } from "react-icons/hi2";
 import { getShirtUrl, orderPlayersForList } from "../../lib/fplData";
 import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 
-const ranks = [
-  "",
-  "1st",
-  "2nd",
-  "3rd",
-  "4th",
-  "5th",
-  "6th",
-  "7th",
-  "8th",
-  "9th",
-  "10th",
-  "11th",
-  "12th",
-];
+function getOrdinalRank(n) {
+  if (!n || n <= 0) return "";
+
+  const lastTwoDigits = n % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+    return n + "th";
+  }
+
+  switch (n % 10) {
+    case 1:
+      return n + "st";
+    case 2:
+      return n + "nd";
+    case 3:
+      return n + "rd";
+    default:
+      return n + "th";
+  }
+}
 
 function colorForPositionMack(position) {
   switch (position) {
@@ -134,7 +139,12 @@ function Player({ player }) {
               <Group gap={2} wrap="nowrap">
                 <HiOutlineUser
                   cursor="pointer"
-                  onClick={() => openPlayerDetail(player, { canEdit: false })}
+                  onClick={() =>
+                    openPlayerDetail(player, {
+                      canEdit: false,
+                      isOverview: true,
+                    })
+                  }
                 />
                 <Text size="sm" fw={700}>
                   {name}
@@ -291,11 +301,11 @@ export function Matchup({
             {manager1}
           </Text>
           <Text c="dimmed" size="xs">
-            {ranks[manager1Pos]} • {manager1P} P • {manager1Pf} PF
+            {getOrdinalRank(manager1Pos)} • {manager1P} P • {manager1Pf} PF
           </Text>
         </Stack>
 
-        <Flex align="center" gap="xs" style={{ flexShrink: 0 }}>
+        <Flex align="center" gap={4} style={{ flexShrink: 0 }}>
           {hasScores && (
             <>
               <Badge
@@ -308,9 +318,7 @@ export function Matchup({
               >
                 {score1}
               </Badge>
-              <Text fw={700} c="dimmed">
-                -
-              </Text>
+              <Text fw={500}>-</Text>
               <Badge
                 fw={800}
                 size="lg"
@@ -330,7 +338,7 @@ export function Matchup({
             {manager2}
           </Text>
           <Text c="dimmed" size="xs" ta="right">
-            {manager2Pf} PF • {manager2P} P • {ranks[manager2Pos]}
+            {manager2Pf} PF • {manager2P} P • {getOrdinalRank(manager2Pos)}
           </Text>
         </Stack>
       </Flex>

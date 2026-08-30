@@ -8,21 +8,24 @@ const stickyStyle = (left) => ({
 });
 
 function RankChange({ change }) {
-  if (change > 0)
-    return (
-      <Badge color="green" size="xs" variant="filled" w={25}>
-        +{change}
-      </Badge>
-    );
-  if (change < 0)
-    return (
-      <Badge color="red" size="xs" variant="filled" w={25}>
-        {change}
-      </Badge>
-    );
+  const isPositive = change > 0;
+  const isNegative = change < 0;
+
+  const color = isPositive ? "green" : isNegative ? "red" : "gray";
+  const displayValue = isPositive ? `+${change}` : isNegative ? change : "-";
+
   return (
-    <Badge color="gray" size="xs" variant="filled" w={25}>
-      -
+    <Badge
+      color={color}
+      size="xs"
+      variant="filled"
+      w={25}
+      styles={{
+        root: { height: "auto", overflow: "visible" },
+        label: { whiteSpace: "normal", overflow: "visible" },
+      }}
+    >
+      {displayValue}
     </Badge>
   );
 }

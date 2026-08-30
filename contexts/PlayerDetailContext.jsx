@@ -35,6 +35,7 @@ export function PlayerDetailProvider({ children }) {
         onMoveClick={modalOptions.onMoveClick}
         onTradeClick={handleTradeClick}
         canEdit={modalOptions.canEdit ?? false}
+        isOverview={modalOptions.isOverview ?? false}
         supabase={supabase}
       />
     </PlayerDetailContext.Provider>

@@ -9,7 +9,7 @@ import { resolvePlayersForGameweek } from "../lib/lineup";
 import { attachFixtureStatus } from "../lib/fplData";
 import { managersQuery, teamsForManagersQuery } from "./queries/leagueData";
 
-export function useGameweekTeams(gameweekNumber, supabase) {
+export function useGameweekTeams(gameweekNumber, fixtures, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
   const context = useMemo(
     () => (bootstrap ? getActiveGameweekContext(bootstrap) : undefined),
@@ -45,15 +45,10 @@ export function useGameweekTeams(gameweekNumber, supabase) {
     poll: shouldPollLive,
   });
 
-  const { data: fixtures, error: fixturesError } = useFixtures(gameweekNumber, {
-    poll: kind === "current",
-  });
-
   const [state, setState] = useState({ data: undefined, error: null });
 
   useEffect(() => {
-    if (!bootstrap || !gameweekRow || !kind || !live) return;
-    if (!fixtures) return;
+    if (!bootstrap || !gameweekRow || !kind || !live || !fixtures) return;
 
     let cancelled = false;
 
@@ -84,7 +79,12 @@ export function useGameweekTeams(gameweekNumber, supabase) {
         let players = resolvePlayersForGameweek(rows, bootstrap, live, {
           autoSub,
         });
-        players = attachFixtureStatus(players, bootstrap, fixtures);
+        players = attachFixtureStatus(
+          players,
+          bootstrap,
+          fixtures,
+          gameweekNumber,
+        );
         return {
           managerId,
           managerName:
@@ -117,7 +117,6 @@ export function useGameweekTeams(gameweekNumber, supabase) {
 
   return {
     data: state.data,
-    error:
-      rowError || bootstrapError || liveError || fixturesError || state.error,
+    error: rowError || bootstrapError || liveError || state.error,
   };
 }

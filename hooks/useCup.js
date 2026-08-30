@@ -316,6 +316,7 @@ export function useCup(supabase) {
     standings: standingsState.data,
     navigator: {
       displayedGameweekNumber,
+      currentGameweekNumber: standingsGameweekNumber,
       kind,
       canGoBack,
       canGoForward,

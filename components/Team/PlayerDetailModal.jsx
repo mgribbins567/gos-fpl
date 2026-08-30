@@ -90,6 +90,7 @@ export function PlayerDetailModal({
   onMoveClick,
   onTradeClick,
   canEdit,
+  isOverview,
   supabase,
 }) {
   const playerId = player?.player_id ?? player?.id;
@@ -113,7 +114,8 @@ export function PlayerDetailModal({
   const relevantStats = getRelevantStats(player.elementType);
   const seasonStats = player.seasonStats ? player.seasonStats : player;
 
-  const hasLiveData = player.explain && Object.keys(player.explain).length > 0;
+  const hasLiveData =
+    !isOverview && player.explain && Object.keys(player.explain).length > 0;
 
   return (
     <Modal

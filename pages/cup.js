@@ -7,11 +7,16 @@ import { MatchupViewer } from "../components/Matchups/MatchupViewer";
 import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useGameweekTeams } from "../hooks/useGameweekTeams";
+import { useUpcomingFixturesWithTeams } from "../hooks/useFplData";
 
 function CupDashboard({ supabase }) {
   const { name, matchups, standings, navigator, error } = useCup(supabase);
+  const { data: fixtures, error: fixturesError } = useUpcomingFixturesWithTeams(
+    navigator?.currentGameweekNumber,
+  );
   const { data: teams, gameweekTeamsError } = useGameweekTeams(
     navigator?.displayedGameweekNumber,
+    fixtures,
     supabase,
   );
 
@@ -19,6 +24,7 @@ function CupDashboard({ supabase }) {
     <>
       {error && <Text c="red">{error}</Text>}
       {gameweekTeamsError && <Text c="red">{gameweekTeamsError}</Text>}
+      {fixturesError && <Text c="red">{fixturesError}</Text>}
       {name && <Title order={5}>{name}</Title>}
 
       {navigator?.displayedGameweekNumber && (
