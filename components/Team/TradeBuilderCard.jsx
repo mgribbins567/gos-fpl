@@ -89,7 +89,7 @@ export function TradeBuilderCard({
               <Text size="xs" fw={600}>
                 {receivingManagerName}'s team
               </Text>
-              <ScrollArea h={{ sm: "420px" }}>
+              <ScrollArea type="never" h={{ sm: "420px" }}>
                 <Table
                   stickyHeader
                   stickyHeaderOffset={0}

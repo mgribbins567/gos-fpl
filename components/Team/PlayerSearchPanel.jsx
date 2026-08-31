@@ -301,6 +301,7 @@ export function PlayerSearchPanel({
             />
           </Group>
           <ScrollArea
+            type="never"
             h={{ base: "80vh", sm: "420px" }}
             viewportRef={scrollViewportRef}
           >
