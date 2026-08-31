@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Modal,
   Stack,
@@ -9,7 +9,9 @@ import {
   Table,
   Paper,
   Divider,
+  ActionIcon,
 } from "@mantine/core";
+import { HiOutlineUser, HiOutlineBolt } from "react-icons/hi2";
 import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
 import { usePlayerGameweekHistory } from "../../hooks/usePlayerGameweekHistory";
 
@@ -93,6 +95,8 @@ export function PlayerDetailModal({
   isOverview,
   supabase,
 }) {
+  const [overviewOverride, setOverviewOverride] = useState(null);
+  const showOverview = overviewOverride ?? isOverview;
   const playerId = player?.player_id ?? player?.id;
 
   const scrollRef = useRef(null);
@@ -109,21 +113,49 @@ export function PlayerDetailModal({
     }
   }, [gwHistory]);
 
+  useEffect(() => {
+    setOverviewOverride(null);
+  }, [player?.player_id]);
+
   if (!player) return null;
 
   const relevantStats = getRelevantStats(player.elementType);
   const seasonStats = player.seasonStats ? player.seasonStats : player;
 
   const hasLiveData =
-    !isOverview && player.explain && Object.keys(player.explain).length > 0;
+    !showOverview && player.explain && Object.keys(player.explain).length > 0;
 
   return (
     <Modal
       opened={opened}
       onClose={onClose}
-      title={buildPlayerModalTitle(player)}
       centered
       zIndex={500}
+      title={
+        <Group gap={4} wrap="nowrap">
+          {hasLiveData && !showOverview && (
+            <ActionIcon
+              variant="transparent"
+              onClick={() => setOverviewOverride(true)}
+              size={28}
+              aria-label="Season stats"
+            >
+              <HiOutlineUser cursor="pointer" />
+            </ActionIcon>
+          )}
+          {!hasLiveData && showOverview && (
+            <ActionIcon
+              variant="transparent"
+              onClick={() => setOverviewOverride(false)}
+              size={28}
+              aria-label="Live stats"
+            >
+              <HiOutlineBolt cursor="pointer" />
+            </ActionIcon>
+          )}
+          <Text fw={500}>{buildPlayerModalTitle(player)}</Text>
+        </Group>
+      }
     >
       <Stack gap="xs">
         {seasonStats.news && (
