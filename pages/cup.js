@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Container, Stack, Text, Title } from "@mantine/core";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
@@ -7,16 +8,25 @@ import { MatchupViewer } from "../components/Matchups/MatchupViewer";
 import { StandingsTable } from "../components/League/StandingsTable";
 import { GameweekNavigator } from "../components/Team/GameweekNavigator";
 import { useGameweekTeams } from "../hooks/useGameweekTeams";
-import { useUpcomingFixturesWithTeams } from "../hooks/useFplData";
+import {
+  useUpcomingFixturesWithTeams,
+  useFixturesWithTeams,
+} from "../hooks/useFplData";
+import { mergeFixturesById } from "../lib/fplData";
 
 function CupDashboard({ supabase }) {
   const { name, matchups, standings, navigator, error } = useCup(supabase);
-  const { data: fixtures, error: fixturesError } = useUpcomingFixturesWithTeams(
-    navigator?.currentGameweekNumber,
+  const { data: currentFixtures, error: currentFixturesError } =
+    useFixturesWithTeams(navigator?.displayedGameweekNumber);
+  const { data: upcomingFixtures, error: upcomingFixturesError } =
+    useUpcomingFixturesWithTeams(navigator?.currentGameweekNumber);
+  const allFixtures = useMemo(
+    () => mergeFixturesById(currentFixtures, upcomingFixtures),
+    [currentFixtures, upcomingFixtures],
   );
   const { data: teams, gameweekTeamsError } = useGameweekTeams(
     navigator?.displayedGameweekNumber,
-    fixtures,
+    allFixtures,
     supabase,
   );
 
@@ -24,7 +34,8 @@ function CupDashboard({ supabase }) {
     <>
       {error && <Text c="red">{error}</Text>}
       {gameweekTeamsError && <Text c="red">{gameweekTeamsError}</Text>}
-      {fixturesError && <Text c="red">{fixturesError}</Text>}
+      {currentFixturesError && <Text c="red">{currentFixturesError}</Text>}
+      {upcomingFixturesError && <Text c="red">{upcomingFixturesError}</Text>}
       {name && <Title order={5}>{name}</Title>}
 
       {navigator?.displayedGameweekNumber && (

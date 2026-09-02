@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Container, Stack, Text, Tabs } from "@mantine/core";
 import { ManagerProvider } from "../contexts/ManagerContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
@@ -17,6 +17,7 @@ import {
 import { FixturesViewer } from "../components/Fixtures/FixturesViewer";
 import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
+import { mergeFixturesById } from "../lib/fplData";
 
 function LeagueDashboard({ leagueId, supabase }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
@@ -24,15 +25,19 @@ function LeagueDashboard({ leagueId, supabase }) {
     leagueId,
     supabase,
   );
-  const { data: fixtures, error: fixturesError } = useFixturesWithTeams(
+  const { data: currentFixtures, error: fixturesError } = useFixturesWithTeams(
     navigator?.displayedGameweekNumber,
   );
   const { data: upcomingFixtures, error: upcomingFixturesError } =
     useUpcomingFixturesWithTeams(navigator?.currentGameweekNumber);
+  const allFixtures = useMemo(
+    () => mergeFixturesById(currentFixtures, upcomingFixtures),
+    [currentFixtures, upcomingFixtures],
+  );
   const { data: teams, leagueGameweekError } = useLeagueGameweekTeams(
     leagueId,
     navigator?.displayedGameweekNumber,
-    upcomingFixtures,
+    allFixtures,
     supabase,
   );
 
@@ -57,7 +62,7 @@ function LeagueDashboard({ leagueId, supabase }) {
       <StandingsTable standings={standings} />
       <FixturesViewer
         gameweekNumber={navigator.displayedGameweekNumber}
-        fixtures={fixtures}
+        fixtures={currentFixtures}
       />
       <PlayerDetailModal
         player={viewingPlayer}
