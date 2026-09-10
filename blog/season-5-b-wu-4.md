@@ -1,6 +1,6 @@
 ---
 title: "Season 5 Weekly Update 4 - League B"
-date: "2026-09-08"
+date: "2026-09-09"
 summary: ""
 tags: ["season 5", "weekly update", "b league"]
 ---
