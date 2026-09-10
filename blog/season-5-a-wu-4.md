@@ -48,6 +48,10 @@ Game changers! I promise I'll watch more matches next week so I can have more in
 
 And just 1 week into the 3 weeks of September, I take the top spot on PF! Kevin is the only manager to join me at 50+ PF!
 
+<p class="center-bold">Manager of the Month</p>
+<img src="/images/season-5/season-5-a-wu/4/manager-of-the-month.png" width="1200vh" height="auto">
+<br/>
+
 Next week will see some great matchups, headlined by a match between our top 2 scorers of last week: me vs Kevin! Elsewhere, a couple of "invitee vs inviter" matches happened to be scheduled this week as we'll see MatthewR taking on John and Chris facing off against Dylan in their first league matchups against one another! Full matchups are as follows:
 
 - Alex (12) vs Luke (2)

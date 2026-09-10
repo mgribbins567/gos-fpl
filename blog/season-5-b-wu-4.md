@@ -48,6 +48,10 @@ Game changers! I promise I'll watch more matches next week so I can have more in
 
 And just 1 week into the 3 weeks of September, Gavin (of course) takes the top spot on PF! Scott, Angus, and ChrisB join him at 40+ PF!
 
+<p class="center-bold">Manager of the Month</p>
+<img src="/images/season-5/season-5-b-wu/4/manager-of-the-month.png" width="1200vh" height="auto">
+<br/>
+
 Next week will see some great matchups, headlined by a top 5 match between ZachA and Delaney! Elsewhere, Amber faces off against Mack in what should be a good one and Andrew and Cole look to get their first win against each other! Full matchups are as follows:
 
 - Amber (7) vs Mack (6)

@@ -48,6 +48,10 @@ Game changers! I promise I'll watch more matches next week so I can have more in
 
 And just 1 week into the 3 weeks of September, Anthony takes the top spot on PF! Charlotte is the only other manager above 40 PF!
 
+<p class="center-bold">Manager of the Month</p>
+<img src="/images/season-5/season-5-b-wu/4/manager-of-the-month.png" width="1200vh" height="auto">
+<br/>
+
 Next week will see some great matchups, headlined by a match in which both managers will be looking to go up to 9 points between Travis and Jackson! Elsewhere, JohnM looks to put a stop to Tori's reign at the top and Maddie faces off against Aarushi! Full matchups are as follows:
 
 - Aarushi (4) vs Maddie (11)
