@@ -69,6 +69,7 @@ const getRelevantStats = (elementType) => {
 const HISTORY_COLUMNS = [
   "GW",
   "VS",
+  "OPP",
   "PTS",
   "MP",
   "G",
@@ -83,6 +84,9 @@ const HISTORY_COLUMNS = [
   "DC",
   "PS",
   "PM",
+  "XG",
+  "XA",
+  "XGI",
 ];
 
 export function PlayerDetailModal({
@@ -317,7 +321,11 @@ export function PlayerDetailModal({
                 <Divider my={0} color="gray.8" />
                 <div
                   ref={scrollRef}
-                  style={{ maxHeight: 240, overflowY: "auto" }}
+                  style={{
+                    maxHeight: 240,
+                    overflowY: "auto",
+                    overflowX: "auto",
+                  }}
                 >
                   <Table fz="xs" horizontalSpacing={5} verticalSpacing={4}>
                     <Table.Thead>
@@ -334,7 +342,12 @@ export function PlayerDetailModal({
                       {gwHistory.map((row) => (
                         <Table.Tr key={row.GW}>
                           {HISTORY_COLUMNS.map((col) => (
-                            <Table.Td key={col}>{row[col]}</Table.Td>
+                            <Table.Td
+                              key={col}
+                              style={{ whiteSpace: "nowrap" }}
+                            >
+                              {row[col]}
+                            </Table.Td>
                           ))}
                           {ownerColumns.map((col) => (
                             <Table.Td key={col.leagueId}>
