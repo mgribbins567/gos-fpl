@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Container, Stack, Text, Title } from "@mantine/core";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
+import { WatchlistProvider } from "../contexts/WatchlistContext";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { useCup } from "../hooks/useCup";
@@ -70,9 +71,11 @@ function LeaguePageContent({}) {
 export default function league() {
   return (
     <ManagerProvider>
-      <PlayerDetailProvider>
-        <LeaguePageContent />
-      </PlayerDetailProvider>
+      <WatchlistProvider>
+        <PlayerDetailProvider>
+          <LeaguePageContent />
+        </PlayerDetailProvider>
+      </WatchlistProvider>
     </ManagerProvider>
   );
 }
