@@ -14,12 +14,15 @@ import {
   leagueRosterQuery,
   playerAvailabilityQuery,
 } from "./queries/leagueData";
+import { useWatchlist } from "../contexts/WatchlistContext";
 
 export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
   const [roster, setRoster] = useState(undefined);
   const [availability, setAvailability] = useState(undefined);
   const [dataError, setDataError] = useState(null);
+
+  const { watchlistedPlayerIds, error: watchlistError } = useWatchlist();
 
   useEffect(() => {
     if (!leagueId) return;
@@ -45,6 +48,7 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     teamId: null,
     searchText: "",
     onlyAvailable: false,
+    onlyWatchlisted: false,
   });
 
   const context = useMemo(() => {
@@ -93,9 +97,12 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       ownershipMap,
       unavailablePlayerIds,
     );
+    const watchlistFiltered = filters.onlyWatchlisted
+      ? filteredPlayers.filter((p) => watchlistedPlayerIds.has(p.id))
+      : filteredPlayers;
     return sortPlayers(
       attachFixtureStatus(
-        filteredPlayers,
+        watchlistFiltered,
         bootstrap,
         fixtures,
         currentGameweekNumber,
@@ -111,6 +118,7 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     viewingManagerId,
     filters,
     sortKey,
+    watchlistedPlayerIds,
   ]);
 
   return {
@@ -122,6 +130,6 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     ownershipMap,
     unavailablePlayerIds,
     bootstrap,
-    error: bootstrapError || dataError || fixturesError,
+    error: bootstrapError || dataError || fixturesError || watchlistError,
   };
 }

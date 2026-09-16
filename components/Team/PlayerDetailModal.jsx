@@ -11,7 +11,12 @@ import {
   Divider,
   ActionIcon,
 } from "@mantine/core";
-import { HiOutlineUser, HiOutlineBolt } from "react-icons/hi2";
+import {
+  HiOutlineUser,
+  HiOutlineBolt,
+  HiOutlineStar,
+  HiStar,
+} from "react-icons/hi2";
 import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
 import { usePlayerGameweekHistory } from "../../hooks/usePlayerGameweekHistory";
 
@@ -98,6 +103,8 @@ export function PlayerDetailModal({
   canEdit,
   isOverview,
   supabase,
+  isWatchlisted,
+  onToggleWatchlist,
 }) {
   const [overviewOverride, setOverviewOverride] = useState(null);
   const showOverview = overviewOverride ?? isOverview;
@@ -158,6 +165,22 @@ export function PlayerDetailModal({
             </ActionIcon>
           )}
           <Text fw={500}>{buildPlayerModalTitle(player)}</Text>
+          {onToggleWatchlist && (
+            <ActionIcon
+              variant="transparent"
+              size={28}
+              aria-label={
+                isWatchlisted ? "Remove from watchlist" : "Add to watchlist"
+              }
+              onClick={() => onToggleWatchlist(playerId)}
+            >
+              {isWatchlisted ? (
+                <HiStar color="var(--mantine-color-yellow-5)" />
+              ) : (
+                <HiOutlineStar />
+              )}
+            </ActionIcon>
+          )}
         </Group>
       }
     >

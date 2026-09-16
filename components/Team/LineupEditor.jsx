@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { Stack, Alert, Button, Group } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { Field } from "./Field";
-import { PlayerDetailModal } from "./PlayerDetailModal";
 import {
   swapLineupSlots,
   validateLineup,
@@ -10,6 +9,7 @@ import {
   getPositionMatchedPlayers,
 } from "../../lib/lineup";
 import { updateLineup } from "../../lib/lineupData";
+import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 
 export function LineupEditor({
   players,
@@ -19,7 +19,7 @@ export function LineupEditor({
   onTradeClick,
   fieldSelection,
 }) {
-  const [viewingPlayer, setViewingPlayer] = useState(null);
+  const openPlayerDetail = usePlayerDetail();
   const [sourcePlayer, setSourcePlayer] = useState(null);
   const [saving, setSaving] = useState(false);
 
@@ -57,16 +57,18 @@ export function LineupEditor({
       handleSelectDestination(player);
       return;
     }
-    setViewingPlayer(player);
+    openPlayerDetail(player, {
+      canEdit: true,
+      onMoveClick: handleMoveClick,
+      onTradeClick: onTradeClick ? handleTradeClick : undefined,
+    });
   }
 
-  function handleMoveClick() {
-    setSourcePlayer(viewingPlayer);
-    setViewingPlayer(null);
+  function handleMoveClick(player) {
+    setSourcePlayer(player);
   }
 
   function handleTradeClick(player) {
-    setViewingPlayer(null);
     onTradeClick?.(player);
   }
 
@@ -118,16 +120,6 @@ export function LineupEditor({
         onPlayerClick={saving ? undefined : handlePlayerClick}
         selectedPlayerId={sourcePlayer?.player_id}
         highlightedPlayerIds={validTargetIds}
-      />
-
-      <PlayerDetailModal
-        player={viewingPlayer}
-        opened={!!viewingPlayer}
-        onClose={() => setViewingPlayer(null)}
-        onMoveClick={handleMoveClick}
-        onTradeClick={onTradeClick ? handleTradeClick : undefined}
-        canEdit
-        supabase={supabase}
       />
     </Stack>
   );

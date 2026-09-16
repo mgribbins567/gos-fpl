@@ -18,6 +18,7 @@ import { FixturesViewer } from "../components/Fixtures/FixturesViewer";
 import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { mergeFixturesById } from "../lib/fplData";
+import { WatchlistProvider } from "../contexts/WatchlistContext";
 
 function LeagueDashboard({ leagueId, supabase }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
@@ -132,9 +133,11 @@ function LeaguePageContent({}) {
 export default function league() {
   return (
     <ManagerProvider>
-      <PlayerDetailProvider>
-        <LeaguePageContent />
-      </PlayerDetailProvider>
+      <WatchlistProvider>
+        <PlayerDetailProvider>
+          <LeaguePageContent />
+        </PlayerDetailProvider>
+      </WatchlistProvider>
     </ManagerProvider>
   );
 }

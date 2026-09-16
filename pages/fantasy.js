@@ -1,28 +1,23 @@
 import { useMemo, useState } from "react";
 import {
   Container,
-  Title,
   Stack,
   Grid,
   Button,
   Drawer,
   Text,
-  Card,
   Modal,
   Alert,
   Group,
-  Divider,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { TeamCard } from "../components/Team/TeamCard";
-import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
 import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
-import { WaiverListPanel } from "../components/Team/WaiverListPanel";
 import { GameweekStatusCard } from "../components/Team/GameweekStatusCard";
 import { TransactionHistoryPanel } from "../components/Team/TransactionHistory";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
@@ -36,6 +31,7 @@ import { useIncomingTrades } from "../hooks/useIncomingTrades";
 import { useAdminTradeQueue } from "../hooks/useAdminTradeQueue";
 import { useWaiverList } from "../hooks/useWaiverList";
 import { useWaiverClaimBuilder } from "../hooks/useWaiverClaimBuilder";
+import { WatchlistProvider } from "../contexts/WatchlistContext";
 import {
   respondToTradeAsReceiver,
   respondToTradeAsAdmin,
@@ -204,13 +200,6 @@ function FantasyPageContent() {
         waiverError={waiverList.error}
         onReorderWaiverClaim={waiverList.reorder}
         onRemoveWaiverClaim={waiverList.remove}
-      />
-      <PlayerDetailModal
-        player={viewingPlayer}
-        opened={!!viewingPlayer}
-        onClose={() => setViewingPlayer(null)}
-        canEdit={false}
-        supabase={supabase}
       />
     </>
   ) : (
@@ -426,9 +415,11 @@ function FantasyPageContent() {
 export default function Fantasy() {
   return (
     <ManagerProvider>
-      <PlayerDetailProvider>
-        <FantasyPageContent />
-      </PlayerDetailProvider>
+      <WatchlistProvider>
+        <PlayerDetailProvider>
+          <FantasyPageContent />
+        </PlayerDetailProvider>
+      </WatchlistProvider>
     </ManagerProvider>
   );
 }

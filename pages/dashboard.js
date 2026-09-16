@@ -41,7 +41,6 @@ function LeagueCards() {
         width="100%"
         slideGap="md"
         align="center"
-        withIndicators={false}
         controlsOffset={4}
         controlSize={14}
         initialSlide={initialSlideIndex}

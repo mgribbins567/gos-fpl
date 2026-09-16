@@ -53,6 +53,7 @@ function PlayerSearchInput({ onDebouncedChange }) {
       placeholder="Search players..."
       value={value}
       onChange={(e) => setValue(e.currentTarget.value)}
+      size="xs"
     />
   );
 }
@@ -250,8 +251,8 @@ export function PlayerSearchPanel({
         </>
       ) : (
         <>
-          <Group gap="xs" justify="space-between" wrap="nowrap">
-            <PlayerSearchInput onDebouncedChange={handleSearchTextChange} />
+          <PlayerSearchInput onDebouncedChange={handleSearchTextChange} />
+          <Group gap="xs" justify="space-around" wrap="nowrap">
             <Switch
               size="sm"
               withThumbIndicator={false}
@@ -262,6 +263,20 @@ export function PlayerSearchPanel({
                 setFilters((f) => ({
                   ...f,
                   onlyAvailable: event.target.checked,
+                }))
+              }
+              styles={{ label: { whiteSpace: "nowrap" } }}
+            />
+            <Switch
+              size="sm"
+              withThumbIndicator={false}
+              labelPosition="left"
+              label="Only Watchlisted"
+              checked={filters.onlyWatchlisted}
+              onChange={(event) =>
+                setFilters((f) => ({
+                  ...f,
+                  onlyWatchlisted: event.target.checked,
                 }))
               }
               styles={{ label: { whiteSpace: "nowrap" } }}
@@ -279,6 +294,7 @@ export function PlayerSearchPanel({
               }
               placeholder="Position"
               allowDeselect={false}
+              size="xs"
             />
             <Select
               data={teamFilterOptions}
@@ -291,6 +307,7 @@ export function PlayerSearchPanel({
               }
               placeholder="Team"
               allowDeselect={false}
+              size="xs"
             />
             <Select
               data={SORT_SELECT_OPTIONS}
@@ -298,6 +315,7 @@ export function PlayerSearchPanel({
               onChange={setSortKey}
               placeholder="Sort by"
               allowDeselect={false}
+              size="xs"
             />
           </Group>
           <ScrollArea
