@@ -36,7 +36,7 @@ function LeagueCards() {
   return (
     <Box maw={380} w="98vw">
       <Carousel
-        withIndicators
+        withIndicators={false}
         height="100%"
         width="100%"
         slideGap="md"
