@@ -17,7 +17,7 @@ function ExpandedFixture({ stats }) {
     <>
       {visibleStats.map(({ identifier, a, h }, index) => (
         <Stack gap={0} key={identifier}>
-          <Text ta="center" fz="sm">
+          <Text ta="center" fz="sm" fw={700}>
             {identifier
               .replace(/_/g, " ")
               .split(" ")

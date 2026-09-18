@@ -133,54 +133,54 @@ function Player({ player }) {
         </Button>
       </Popover.Target>
       <Popover.Dropdown p="xs" bd="1px solid white">
-        {player.explain && Object.keys(player.explain).length > 0 ? (
-          <Stack gap={0} spacing="xs">
-            <Group justify="space-between" wrap="nowrap" gap={0} maw="100%">
-              <Group gap={2} wrap="nowrap">
-                <HiOutlineUser
-                  cursor="pointer"
-                  onClick={() =>
-                    openPlayerDetail(player, {
-                      canEdit: false,
-                      isOverview: true,
-                    })
-                  }
-                />
-                <Text size="sm" fw={700}>
-                  {name}
+        <Stack gap={0} spacing="xs">
+          <Group justify="space-between" wrap="nowrap" gap={0} maw="100%">
+            <Group gap={2} wrap="nowrap">
+              <HiOutlineUser
+                cursor="pointer"
+                onClick={() =>
+                  openPlayerDetail(player, {
+                    canEdit: false,
+                    isOverview: true,
+                  })
+                }
+              />
+              <Text size="sm" fw={700}>
+                {name}
+              </Text>
+            </Group>
+            <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
+          </Group>
+          <Group gap={4}>
+            {player.fixtures.map((fixture) => (
+              <Group gap={4}>
+                <Text fz="xs" fw={fixture.isHome ? 700 : ""}>
+                  {fixture.isHome
+                    ? player.teamShortName
+                    : fixture.opponentShortName}
+                </Text>
+                <Text fz="xs">
+                  {fixture.isHome
+                    ? (fixture.teamScore || "0") +
+                      " - " +
+                      (fixture.opponentScore || "0")
+                    : (fixture.opponentScore || "0") +
+                      " - " +
+                      (fixture.teamScore || "0")}
+                </Text>
+                <Text fz="xs" fw={fixture.isHome ? 500 : 700}>
+                  {fixture.isHome
+                    ? fixture.opponentShortName
+                    : player.teamShortName}
+                </Text>
+                <Text fz="xs" c="dimmed">
+                  {fixture.minutes}'
                 </Text>
               </Group>
-              <CloseButton size="xs" onClick={() => setOpened((o) => !o)} />
-            </Group>
-            <Group gap={4}>
-              {player.fixtures.map((fixture) => (
-                <Group gap={4}>
-                  <Text fz="xs" fw={fixture.isHome ? 700 : ""}>
-                    {fixture.isHome
-                      ? player.teamShortName
-                      : fixture.opponentShortName}
-                  </Text>
-                  <Text fz="xs">
-                    {fixture.isHome
-                      ? (fixture.teamScore || "0") +
-                        " - " +
-                        (fixture.opponentScore || "0")
-                      : (fixture.opponentScore || "0") +
-                        " - " +
-                        (fixture.teamScore || "0")}
-                  </Text>
-                  <Text fz="xs" fw={fixture.isHome ? 500 : 700}>
-                    {fixture.isHome
-                      ? fixture.opponentShortName
-                      : player.teamShortName}
-                  </Text>
-                  <Text fz="xs" c="dimmed">
-                    {fixture.minutes}'
-                  </Text>
-                </Group>
-              ))}
-            </Group>
-            <Divider color="white" />
+            ))}
+          </Group>
+          <Divider color="white" />
+          {player.explain && Object.keys(player.explain).length > 0 ? (
             <Table tabularNums variant="vertical" verticalSpacing={3}>
               <Table.Tbody>
                 {Object.values(player.explain).flatMap((match) =>
@@ -214,10 +214,10 @@ function Player({ player }) {
                 </Table.Tr>
               </Table.Tbody>
             </Table>
-          </Stack>
-        ) : (
-          <Text size="xs">No details available</Text>
-        )}
+          ) : (
+            <Text size="xs">Gameweek hasn't started</Text>
+          )}
+        </Stack>
       </Popover.Dropdown>
     </Popover>
   );
