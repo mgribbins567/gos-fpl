@@ -50,7 +50,7 @@ function CupDashboard({ supabase }) {
         />
       )}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
-      <StandingsTable standings={standings} />
+      <StandingsTable standings={standings} format="cup" />
     </>
   );
 }

@@ -30,24 +30,108 @@ function RankChange({ change }) {
   );
 }
 
-function RankChangeIndicator({ change }) {
-  if (change === null || change === 0) {
-    return (
-      <Text size="xs" fw={700} ta="center">
-        -
-      </Text>
-    );
+function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
+  if (format === "cup") {
+    if (rank < 8) {
+      const blue = "rgba(51, 154, 240, 0.15)";
+      return {
+        rowStyle: { backgroundColor: blue },
+        zoneStickyStyle: {
+          background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
+        },
+      };
+    }
+    if (rank === 8) {
+      const blue = "rgba(51, 154, 240, 0.15)";
+      const border = {
+        borderBottom: "1px solid var(--mantine-color-yellow-6)",
+      };
+      return {
+        rowStyle: { backgroundColor: blue, ...border },
+        zoneStickyStyle: {
+          background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
+          ...border,
+        },
+      };
+    }
+    if (rank < 24) {
+      const green = "rgba(64, 192, 87, 0.15)";
+      return {
+        rowStyle: { backgroundColor: green },
+        zoneStickyStyle: {
+          background: `linear-gradient(${green}, ${green}), #2e2e2e`,
+        },
+      };
+    }
+    if (rank === 24) {
+      const green = "rgba(64, 192, 87, 0.15)";
+      const border = { borderBottom: "1px solid var(--mantine-color-red-6)" };
+      return {
+        rowStyle: { backgroundColor: green, ...border },
+        zoneStickyStyle: {
+          background: `linear-gradient(${green}, ${green}), #2e2e2e`,
+          ...border,
+        },
+      };
+    }
   }
-  const isUp = change > 0;
-  return (
-    <Text size="xs" fw={700} c={isUp ? "teal" : "red"} ta="center">
-      {isUp ? "▲" : "▼"}
-      {Math.abs(change)}
-    </Text>
-  );
+
+  if (format === "league") {
+    let bgColor = null;
+    let borderBottom = null;
+
+    // 1. Champion
+    if (rank === 1) {
+      bgColor = "rgba(255, 215, 0, 0.15)"; // Gold
+    }
+    // 2. Automatic Promotion
+    else if (rank === 2 && !isTopLeague) {
+      bgColor = "rgba(64, 192, 87, 0.15)"; // Standard Green
+      borderBottom = "1px solid var(--mantine-color-green-6)";
+    }
+    // 3. Promotion Playoff
+    else if (rank === 3 && !isTopLeague) {
+      bgColor = "rgba(148, 216, 45, 0.15)"; // Lime / Lighter Green
+    }
+    // 10. Relegation Playoff
+    else if (rank === 10) {
+      if (!isBottomLeague) {
+        bgColor = "rgba(255, 135, 135, 0.15)"; // Lighter/Faded Red
+      }
+      borderBottom = "1px solid var(--mantine-color-red-6)";
+    }
+    // 11, 12. Relegation
+    else if (rank === 11 || rank === 12) {
+      bgColor = "rgba(224, 49, 49, 0.15)"; // Dark/Standard Red
+    }
+
+    if (bgColor || borderBottom) {
+      const rowStyle = {};
+      const zoneStickyStyle = {};
+
+      if (bgColor) {
+        rowStyle.backgroundColor = bgColor;
+        zoneStickyStyle.background = `linear-gradient(${bgColor}, ${bgColor}), #2e2e2e`;
+      }
+
+      if (borderBottom) {
+        rowStyle.borderBottom = borderBottom;
+        zoneStickyStyle.borderBottom = borderBottom;
+      }
+
+      return { rowStyle, zoneStickyStyle };
+    }
+  }
+
+  return { rowStyle: {}, zoneStickyStyle: {} };
 }
 
-export function StandingsTable({ standings }) {
+export function StandingsTable({
+  standings,
+  format = "league",
+  isTopLeague = false,
+  isBottomLeague = false,
+}) {
   if (!standings) return;
 
   return (
@@ -92,48 +176,65 @@ export function StandingsTable({ standings }) {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {standings.map((row) => (
-            <Table.Tr key={row.name}>
-              <Table.Td style={stickyStyle(0)}>
-                <Group gap={4} wrap="nowrap">
-                  <Text size="xs" w="2ch">
-                    {row.rank}
-                  </Text>
-                  <RankChange change={row.rankChange} />
-                </Group>
-              </Table.Td>
-              <Table.Td maw="6ch" style={stickyStyle(25)}>
-                {row.name}
-              </Table.Td>
-              <Table.Td ta="center">{row.wins}</Table.Td>
-              <Table.Td ta="center">{row.draws}</Table.Td>
-              <Table.Td ta="center">{row.losses}</Table.Td>
-              <Table.Td ta="center">{row.pointsFor}</Table.Td>
-              <Table.Td ta="center">{row.pointsAgainst}</Table.Td>
-              <Table.Td ta="center">
-                {row.pointsFor - row.pointsAgainst > 0 ? "+" : ""}
-                {row.pointsFor - row.pointsAgainst}
-              </Table.Td>
-              <Table.Td ta="center" fw={700}>
-                {row.leaguePoints}
-              </Table.Td>
-              <Table.Td ta="center">
-                {parseFloat(
-                  (row.pointsFor / (row.wins + row.draws + row.losses)).toFixed(
-                    2,
-                  ),
-                )}
-              </Table.Td>
-              <Table.Td ta="center">
-                {parseFloat(
-                  (
-                    row.leaguePoints /
-                    (row.wins + row.draws + row.losses)
-                  ).toFixed(2),
-                )}
-              </Table.Td>
-            </Table.Tr>
-          ))}
+          {standings.map((row) => {
+            const { rowStyle, zoneStickyStyle } = getZoneStyle(
+              row.rank,
+              format,
+              isTopLeague,
+              isBottomLeague,
+            );
+            return (
+              <Table.Tr key={row.name} style={rowStyle}>
+                <Table.Td
+                  style={{
+                    ...stickyStyle(0),
+                    ...zoneStickyStyle,
+                  }}
+                >
+                  <Group gap={4} wrap="nowrap">
+                    <Text size="xs" w="2ch">
+                      {row.rank}
+                    </Text>
+                    <RankChange change={row.rankChange} />
+                  </Group>
+                </Table.Td>
+                <Table.Td
+                  maw="6ch"
+                  style={{ ...stickyStyle(25), ...zoneStickyStyle }}
+                >
+                  {row.name}
+                </Table.Td>
+                <Table.Td ta="center">{row.wins}</Table.Td>
+                <Table.Td ta="center">{row.draws}</Table.Td>
+                <Table.Td ta="center">{row.losses}</Table.Td>
+                <Table.Td ta="center">{row.pointsFor}</Table.Td>
+                <Table.Td ta="center">{row.pointsAgainst}</Table.Td>
+                <Table.Td ta="center">
+                  {row.pointsFor - row.pointsAgainst > 0 ? "+" : ""}
+                  {row.pointsFor - row.pointsAgainst}
+                </Table.Td>
+                <Table.Td ta="center" fw={700}>
+                  {row.leaguePoints}
+                </Table.Td>
+                <Table.Td ta="center">
+                  {parseFloat(
+                    (
+                      row.pointsFor /
+                      (row.wins + row.draws + row.losses)
+                    ).toFixed(2),
+                  )}
+                </Table.Td>
+                <Table.Td ta="center">
+                  {parseFloat(
+                    (
+                      row.leaguePoints /
+                      (row.wins + row.draws + row.losses)
+                    ).toFixed(2),
+                  )}
+                </Table.Td>
+              </Table.Tr>
+            );
+          })}
         </Table.Tbody>
       </Table>
     </Box>

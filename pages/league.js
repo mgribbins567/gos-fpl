@@ -60,7 +60,12 @@ function LeagueDashboard({ leagueId, supabase }) {
         />
       )}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
-      <StandingsTable standings={standings} />
+      <StandingsTable
+        standings={standings}
+        format="league"
+        isTopLeague={leagueId === "a"}
+        isBottomLeague={leagueId === "c"}
+      />
       <FixturesViewer
         gameweekNumber={navigator.displayedGameweekNumber}
         fixtures={currentFixtures}
