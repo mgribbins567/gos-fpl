@@ -23,6 +23,7 @@ import { usePlayerSearch } from "../../hooks/usePlayerSearch";
 import { SORT_OPTIONS, isFreeAgent } from "../../lib/playerSearch";
 import { POSITION_LABELS, ELEMENT_TYPE, getShirtUrl } from "../../lib/fplData";
 import { WaiverListPanel } from "./WaiverListPanel";
+import { WatchlistPanel } from "./WatchlistPanel";
 import { useLeagueManagers } from "../../hooks/useLeagueManagers";
 import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
 
@@ -158,7 +159,7 @@ export function PlayerSearchPanel({
   onRemoveWaiverClaim,
 }) {
   const openPlayerDetail = usePlayerDetail();
-  const [showWaiverList, setShowWaiverList] = useState(false);
+  const [activeTab, setActiveTab] = useState("search");
   const scrollViewportRef = useRef(null);
 
   const {
@@ -170,6 +171,8 @@ export function PlayerSearchPanel({
     ownershipMap,
     unavailablePlayerIds,
     bootstrap,
+    teamsById,
+    enrichedPlayersById,
     error,
   } = usePlayerSearch(leagueId, viewingManagerId, supabase);
   const { data: leagueManagersById } = useLeagueManagers(leagueId, supabase);
@@ -177,11 +180,6 @@ export function PlayerSearchPanel({
   const handleSearchTextChange = useCallback(
     (searchText) => setFilters((f) => ({ ...f, searchText })),
     [setFilters],
-  );
-
-  const teamsById = useMemo(
-    () => new Map((bootstrap?.teams ?? []).map((t) => [t.id, t])),
-    [bootstrap],
   );
 
   const teamFilterOptions = useMemo(
@@ -195,17 +193,8 @@ export function PlayerSearchPanel({
     [bootstrap],
   );
 
-  const enrichedResults = useMemo(
-    () =>
-      (results ?? []).map((player) => ({
-        ...player,
-        teamName: teamsById.get(player.team)?.name,
-      })),
-    [results, teamsById],
-  );
-
   const rowVirtualizer = useVirtualizer({
-    count: enrichedResults.length,
+    count: (results ?? []).length,
     getScrollElement: () => scrollViewportRef.current,
     estimateSize: () => ROW_HEIGHT,
     overscan: 8,
@@ -226,17 +215,18 @@ export function PlayerSearchPanel({
     <Stack gap="xs">
       <SegmentedControl
         fullWidth
-        value={showWaiverList ? "waivers" : "search"}
-        onChange={(value) => setShowWaiverList(value === "waivers")}
+        value={activeTab}
+        onChange={setActiveTab}
         data={[
           { label: "Players", value: "search" },
+          { label: "Watchlist", value: "watchlist" },
           {
             label: `Waivers${waiverClaims ? ` (${waiverClaims.length})` : ""}`,
             value: "waivers",
           },
         ]}
       />
-      {showWaiverList ? (
+      {activeTab === "waivers" ? (
         <>
           {waiverError && (
             <Text c="red" size="sm">
@@ -249,6 +239,17 @@ export function PlayerSearchPanel({
             onRemove={onRemoveWaiverClaim}
           />
         </>
+      ) : activeTab === "watchlist" ? (
+        <WatchlistPanel
+          enrichedPlayersById={enrichedPlayersById}
+          teamsById={teamsById}
+          ownershipMap={ownershipMap}
+          unavailablePlayerIds={unavailablePlayerIds}
+          leagueManagersById={leagueManagersById}
+          signButtonMode={signButtonMode}
+          onSign={onSign}
+          onTrade={onTrade}
+        />
       ) : (
         <>
           <PlayerSearchInput onDebouncedChange={handleSearchTextChange} />
@@ -358,7 +359,7 @@ export function PlayerSearchPanel({
                   </tr>
                 )}
                 {virtualRows.map((virtualRow) => {
-                  const player = enrichedResults[virtualRow.index];
+                  const player = results[virtualRow.index];
                   const ownerId = ownershipMap.get(player.id);
                   const isFree = isFreeAgent(
                     player.id,

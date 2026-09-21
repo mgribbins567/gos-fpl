@@ -1,62 +1,52 @@
-import { useCallback, useEffect, useState } from "react";
-import { addToWatchlist, removeFromWatchlist } from "../lib/watchlistData";
-import { watchlistQuery } from "./queries/watchlistData";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import {
+  addToWatchlist,
+  removeWatchlistEntry,
+  reorderWatchlistEntry,
+  getWatchlist,
+} from "../lib/watchlistData";
 
 export function useWatchlistData({ leagueId, seasonId, managerId, supabase }) {
-  const [playerIds, setPlayerIds] = useState(() => new Set());
+  const [entries, setEntries] = useState(undefined);
   const [error, setError] = useState(null);
   const ready = Boolean(leagueId && seasonId && managerId);
 
-  useEffect(() => {
+  const refresh = useCallback(async () => {
     if (!ready) return;
-    let cancelled = false;
-
-    async function load() {
-      try {
-        const data = await watchlistQuery.fetch(
-          supabase,
-          leagueId,
-          seasonId,
-          managerId,
-        );
-        if (cancelled) return;
-        setPlayerIds(new Set(data.map((id) => Number(id))));
-      } catch (err) {
-        if (!cancelled) setError(err.message);
-      }
+    try {
+      const data = await getWatchlist(supabase, {
+        leagueId,
+        seasonId,
+        managerId,
+      });
+      setEntries(data);
+    } catch (err) {
+      setError(err.message);
     }
+  }, [ready, supabase, leagueId, seasonId, managerId]);
 
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, [ready, leagueId, seasonId, managerId, supabase]);
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  const watchlistedPlayerIds = useMemo(
+    () => new Set((entries ?? []).map((e) => Number(e.player_id))),
+    [entries],
+  );
 
   const isWatchlisted = useCallback(
-    (playerId) => playerIds.has(Number(playerId)),
-    [playerIds],
+    (playerId) => watchlistedPlayerIds.has(Number(playerId)),
+    [watchlistedPlayerIds],
   );
 
   const toggle = useCallback(
     async (rawPlayerId) => {
       if (!ready) return;
       const playerId = Number(rawPlayerId);
-      const wasWatched = playerIds.has(playerId);
-
-      setPlayerIds((prev) => {
-        const next = new Set(prev);
-        wasWatched ? next.delete(playerId) : next.add(playerId);
-        return next;
-      });
-
+      const existing = entries?.find((e) => Number(e.player_id) === playerId);
       try {
-        if (wasWatched) {
-          await removeFromWatchlist(supabase, {
-            leagueId,
-            seasonId,
-            managerId,
-            playerId,
-          });
+        if (existing) {
+          await removeWatchlistEntry(supabase, existing.id);
         } else {
           await addToWatchlist(supabase, {
             leagueId,
@@ -65,17 +55,45 @@ export function useWatchlistData({ leagueId, seasonId, managerId, supabase }) {
             playerId,
           });
         }
+        await refresh();
       } catch (err) {
-        setPlayerIds((prev) => {
-          const reverted = new Set(prev);
-          wasWatched ? reverted.add(playerId) : reverted.delete(playerId);
-          return reverted;
-        });
         setError(err.message);
       }
     },
-    [ready, playerIds, leagueId, seasonId, managerId, supabase],
+    [ready, entries, supabase, leagueId, seasonId, managerId, refresh],
   );
 
-  return { isWatchlisted, toggle, error, watchlistedPlayerIds: playerIds };
+  const reorder = useCallback(
+    async (entry, newRank) => {
+      try {
+        await reorderWatchlistEntry(supabase, entry.id, newRank);
+        await refresh();
+      } catch (err) {
+        setError(err.message);
+      }
+    },
+    [supabase, refresh],
+  );
+
+  const remove = useCallback(
+    async (entry) => {
+      try {
+        await removeWatchlistEntry(supabase, entry.id);
+        await refresh();
+      } catch (err) {
+        setError(err.message);
+      }
+    },
+    [supabase, refresh],
+  );
+
+  return {
+    entries,
+    watchlistedPlayerIds,
+    isWatchlisted,
+    toggle,
+    reorder,
+    remove,
+    error,
+  };
 }

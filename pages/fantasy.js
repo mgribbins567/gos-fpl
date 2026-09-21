@@ -49,7 +49,6 @@ function FantasyPageContent() {
   const { data: leagueManagersById } = useLeagueManagers(league?.id, supabase);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [searchOpen, setSearchOpen] = useState(false);
-  const [viewingPlayer, setViewingPlayer] = useState(null);
 
   const { data: bootstrap } = useBootstrapStatic();
   const context = useMemo(() => {
@@ -194,7 +193,6 @@ function FantasyPageContent() {
         supabase={supabase}
         onSign={handleSign}
         onTrade={handleTrade}
-        onPlayerClick={setViewingPlayer}
         signButtonMode={signButtonMode}
         waiverClaims={waiverList.claims}
         waiverError={waiverList.error}

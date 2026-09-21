@@ -76,18 +76,34 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     [availability, currentGameweekNumber],
   );
 
+  const teamsById = useMemo(
+    () => new Map((bootstrap?.teams ?? []).map((t) => [t.id, t])),
+    [bootstrap],
+  );
+
+  const enrichedPlayersById = useMemo(() => {
+    if (!bootstrap || !fixtures || !currentGameweekNumber) return undefined;
+    const enriched = attachFixtureStatus(
+      bootstrap.elements,
+      bootstrap,
+      fixtures,
+      currentGameweekNumber,
+    );
+    return new Map(
+      enriched.map((player) => [
+        player.id,
+        { ...player, teamName: teamsById.get(player.team)?.name },
+      ]),
+    );
+  }, [bootstrap, fixtures, currentGameweekNumber, teamsById]);
+
   const results = useMemo(() => {
-    if (
-      !bootstrap ||
-      !fixtures ||
-      !ownershipMap ||
-      !unavailablePlayerIds ||
-      !currentGameweekNumber
-    ) {
+    if (!enrichedPlayersById || !ownershipMap || !unavailablePlayerIds) {
       return undefined;
     }
+    const allEnriched = Array.from(enrichedPlayersById.values());
     const withoutOwnRoster = excludeOwnRoster(
-      bootstrap.elements,
+      allEnriched,
       ownershipMap,
       viewingManagerId,
     );
@@ -100,19 +116,9 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     const watchlistFiltered = filters.onlyWatchlisted
       ? filteredPlayers.filter((p) => watchlistedPlayerIds.has(p.id))
       : filteredPlayers;
-    return sortPlayers(
-      attachFixtureStatus(
-        watchlistFiltered,
-        bootstrap,
-        fixtures,
-        currentGameweekNumber,
-      ),
-      sortKey,
-    );
+    return sortPlayers(watchlistFiltered, sortKey);
   }, [
-    bootstrap,
-    currentGameweekNumber,
-    fixtures,
+    enrichedPlayersById,
     ownershipMap,
     unavailablePlayerIds,
     viewingManagerId,
@@ -130,6 +136,8 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     ownershipMap,
     unavailablePlayerIds,
     bootstrap,
+    teamsById,
+    enrichedPlayersById,
     error: bootstrapError || dataError || fixturesError || watchlistError,
   };
 }
