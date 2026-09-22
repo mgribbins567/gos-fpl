@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
       await supabase
         .from("Gameweek")
-        .update({ scores_finalized: true })
+        .update({ finished: true, scores_finalized: true })
         .eq("id", gameweekRow.id);
       results[event.id] = `finalized ${updates.length} matchups`;
     } catch (err) {
