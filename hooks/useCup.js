@@ -234,11 +234,16 @@ export function useCup(supabase) {
   ]);
 
   const isLive = context?.mode === "live";
-  const standingsGameweekNumber = isLive
+  const upcomingGameweekNumber = isLive
     ? context.event.id
     : context?.upcoming?.event.id;
+  const standingsGameweekNumber = isLive
+    ? context.event.id
+    : context?.previousEvent
+      ? context.previousEvent.id
+      : 1;
   const { data: standingsLive, error: standingsLiveError } = useLiveEvent(
-    isLive ? standingsGameweekNumber : undefined,
+    standingsGameweekNumber,
     { poll: isLive },
   );
 
@@ -256,7 +261,7 @@ export function useCup(supabase) {
     async function load() {
       let scoreByName = new Map();
 
-      if (isLive) {
+      if (isLive || context?.previousEvent) {
         const gameweekRow = await gameweekByNumberQuery.fetch(
           supabase,
           seasonId,
@@ -316,7 +321,7 @@ export function useCup(supabase) {
     standings: standingsState.data,
     navigator: {
       displayedGameweekNumber,
-      currentGameweekNumber: standingsGameweekNumber,
+      currentGameweekNumber: upcomingGameweekNumber,
       kind,
       canGoBack,
       canGoForward,
