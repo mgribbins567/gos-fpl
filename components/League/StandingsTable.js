@@ -39,6 +39,9 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
         zoneStickyStyle: {
           background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
         },
+        posColumnStyle: {
+          background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
+        },
       };
     }
     if (rank === 8) {
@@ -52,6 +55,10 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
           background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
           ...border,
         },
+        posColumnStyle: {
+          background: `linear-gradient(${blue}, ${blue}), #2e2e2e`,
+          ...border,
+        },
       };
     }
     if (rank < 24) {
@@ -59,6 +66,9 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
       return {
         rowStyle: { backgroundColor: green },
         zoneStickyStyle: {
+          background: `linear-gradient(${green}, ${green}), #2e2e2e`,
+        },
+        posColumnStyle: {
           background: `linear-gradient(${green}, ${green}), #2e2e2e`,
         },
       };
@@ -69,6 +79,10 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
       return {
         rowStyle: { backgroundColor: green, ...border },
         zoneStickyStyle: {
+          background: `linear-gradient(${green}, ${green}), #2e2e2e`,
+          ...border,
+        },
+        posColumnStyle: {
           background: `linear-gradient(${green}, ${green}), #2e2e2e`,
           ...border,
         },
