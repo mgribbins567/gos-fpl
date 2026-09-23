@@ -94,12 +94,14 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
     let bgColor = null;
     let borderBottom = null;
     let borderLeft = null;
+    let boxShadow = null;
 
     // 1. Champion
     if (rank === 1) {
       bgColor = "rgba(255, 215, 0, 0.15)"; // Gold
       if (isTopLeague) {
         borderLeft = "1px solid var(--mantine-color-blue-6)"; // Standard Blue
+        boxShadow = "inset 1px 0 0 0 #099CFF";
       }
     }
     // 2. Automatic Promotion & Champions League
@@ -108,8 +110,8 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
         bgColor = "rgba(64, 192, 87, 0.15)"; // Standard Green
         borderBottom = "1px solid var(--mantine-color-green-6)";
       } else {
-        // bgColor = "rgba(51, 154, 240, 0.15)"; // Standard Blue
         borderLeft = "1px solid var(--mantine-color-blue-6)"; // Standard Blue
+        boxShadow = "inset 1px 0 0 0 #099CFF";
       }
     }
     // 3. Promotion Playoff & Champions League
@@ -117,17 +119,19 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
       if (!isTopLeague) {
         bgColor = "rgba(148, 216, 45, 0.15)"; // Lime / Lighter Green
       } else {
-        // bgColor = "rgba(51, 154, 240, 0.15)"; // Standard Blue
         borderLeft = "1px solid var(--mantine-color-blue-6)"; // Standard Blue
+        boxShadow = "inset 1px 0 0 0 #099CFF";
       }
     }
     // 4, 5. Europa League
     else if ((rank === 4 || rank === 5) && isTopLeague) {
       borderLeft = "1px solid rgb(243, 113, 20)"; // Light Orange
+      boxShadow = "inset 1px 0 0 0 #f37114";
     }
     // 6. Conference League
     else if (rank === 6 && isTopLeague) {
       borderLeft = "1px solid rgb(148, 216, 45)"; // Lime / Lighter Green
+      boxShadow = "inset 1px 0 0 0 #94d82d";
     }
     // 10. Relegation Playoff
     else if (rank === 10) {
@@ -157,6 +161,7 @@ function getZoneStyle(rank, format, isTopLeague, isBottomLeague) {
 
       const posColumnStyle = { ...zoneStickyStyle };
       if (borderLeft) {
+        posColumnStyle.boxShadow = boxShadow;
         posColumnStyle.borderLeft = borderLeft;
       }
 
