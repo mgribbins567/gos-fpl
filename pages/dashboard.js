@@ -12,9 +12,10 @@ import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
 import { TeamPreviewCard } from "../components/Team/TeamPreviewCard";
 import { LeaguePreviewCard } from "../components/League/LeaguePreviewCard";
-import { useManagerLeagues } from "../hooks/useManagerLeagues";
+import { getSortedPostsData } from "../lib/posts";
 import { useLeagues } from "../hooks/useLeagues";
 import { useSingleLeagueForManager } from "../hooks/useSingleLeagueForManager";
+import { BlogPreviewCard } from "../components/Blog/BlogPreviewCard";
 
 function LeagueCards() {
   const { manager, supabase } = useManager();
@@ -67,7 +68,17 @@ function LeagueCards() {
   );
 }
 
-export default function Dashboard({ allPostsData, featuredPost }) {
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  allPostsData.length = 3;
+  return {
+    props: {
+      allPostsData,
+    },
+  };
+}
+
+export default function Dashboard({ allPostsData }) {
   return (
     <>
       <ManagerProvider>
@@ -78,6 +89,7 @@ export default function Dashboard({ allPostsData, featuredPost }) {
             <SimpleGrid maw="100vw" cols={1} spacing="md" align="center">
               <TeamPreviewCard />
               <LeagueCards />
+              <BlogPreviewCard posts={allPostsData} />
             </SimpleGrid>
           </Stack>
         </Container>

@@ -95,6 +95,6 @@ export async function getStaticProps() {
 //   );
 // }
 
-export default function Home({}) {
-  return <Dashboard />;
+export default function Home({ allPostsData }) {
+  return <Dashboard allPostsData={allPostsData} />;
 }
