@@ -1,16 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from "react";
-import { useDebouncedValue } from "@mantine/hooks";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   Stack,
   Group,
-  TextInput,
   Select,
   Table,
   Button,
@@ -19,17 +11,15 @@ import {
   Switch,
   SegmentedControl,
 } from "@mantine/core";
-import { usePlayerSearch } from "../../hooks/usePlayerSearch";
 import { SORT_OPTIONS, isFreeAgent } from "../../lib/playerSearch";
 import { POSITION_LABELS, ELEMENT_TYPE, getShirtUrl } from "../../lib/fplData";
-import { WaiverListPanel } from "./WaiverListPanel";
 import { WatchlistPanel } from "./WatchlistPanel";
-import { useLeagueManagers } from "../../hooks/useLeagueManagers";
 import { usePlayerDetail } from "../../contexts/PlayerDetailContext";
+import { PlayerSearchInput } from "./PlayerSearchInput";
 
-const ROW_HEIGHT = 32;
+export const ROW_HEIGHT = 32;
 
-const POSITION_FILTER_OPTIONS = [
+export const POSITION_FILTER_OPTIONS = [
   { value: "", label: "Position" },
   { value: String(ELEMENT_TYPE.GOALKEEPER), label: "GKP" },
   { value: String(ELEMENT_TYPE.DEFENDER), label: "DEF" },
@@ -41,24 +31,6 @@ const SORT_SELECT_OPTIONS = Object.entries(SORT_OPTIONS).map(
   ([value, { label }]) => ({ value, label }),
 );
 
-function PlayerSearchInput({ onDebouncedChange }) {
-  const [value, setValue] = useState("");
-  const [debounced] = useDebouncedValue(value, 300);
-
-  useEffect(() => {
-    onDebouncedChange(debounced);
-  }, [debounced, onDebouncedChange]);
-
-  return (
-    <TextInput
-      placeholder="Search players..."
-      value={value}
-      onChange={(e) => setValue(e.currentTarget.value)}
-      size="xs"
-    />
-  );
-}
-
 const PlayerRow = React.memo(function PlayerRow({
   player,
   team,
@@ -68,6 +40,7 @@ const PlayerRow = React.memo(function PlayerRow({
   signButtonMode,
   ownerId,
   ownerShortName,
+  isOwn,
   onSign,
   onTrade,
   onPlayerClick,
@@ -116,6 +89,9 @@ const PlayerRow = React.memo(function PlayerRow({
             size="compact-xs"
             disabled={signButtonMode === "closed"}
             onClick={() => onSign(player)}
+            styles={{
+              root: { outline: "1px solid grey" },
+            }}
           >
             {signButtonMode === "waiver"
               ? "＋"
@@ -135,8 +111,9 @@ const PlayerRow = React.memo(function PlayerRow({
                 overflow: "visible",
                 textOverflow: "clip",
               },
+              root: { outline: "1px solid grey" },
             }}
-            disabled={!ownerShortName}
+            disabled={!ownerShortName || isOwn}
           >
             {ownerShortName ? ownerShortName : "✕"}
           </Button>
@@ -147,35 +124,25 @@ const PlayerRow = React.memo(function PlayerRow({
 });
 
 export function PlayerSearchPanel({
-  leagueId,
+  results,
+  sortKey,
+  setSortKey,
+  filters,
+  setFilters,
+  ownershipMap,
+  unavailablePlayerIds,
+  teamsById,
+  enrichedPlayersById,
+  leagueManagersById,
   viewingManagerId,
-  supabase,
+  error,
   onSign,
   onTrade,
   signButtonMode,
-  waiverClaims,
-  waiverError,
-  onReorderWaiverClaim,
-  onRemoveWaiverClaim,
 }) {
   const openPlayerDetail = usePlayerDetail();
   const [activeTab, setActiveTab] = useState("search");
   const scrollViewportRef = useRef(null);
-
-  const {
-    results,
-    sortKey,
-    setSortKey,
-    filters,
-    setFilters,
-    ownershipMap,
-    unavailablePlayerIds,
-    bootstrap,
-    teamsById,
-    enrichedPlayersById,
-    error,
-  } = usePlayerSearch(leagueId, viewingManagerId, supabase);
-  const { data: leagueManagersById } = useLeagueManagers(leagueId, supabase);
 
   const handleSearchTextChange = useCallback(
     (searchText) => setFilters((f) => ({ ...f, searchText })),
@@ -185,12 +152,12 @@ export function PlayerSearchPanel({
   const teamFilterOptions = useMemo(
     () => [
       { value: "", label: "Team" },
-      ...(bootstrap?.teams ?? []).map((t) => ({
+      ...Array.from(teamsById?.values() ?? []).map((t) => ({
         value: String(t.id),
         label: t.name,
       })),
     ],
-    [bootstrap],
+    [teamsById],
   );
 
   const rowVirtualizer = useVirtualizer({
@@ -201,7 +168,7 @@ export function PlayerSearchPanel({
   });
 
   if (error) return <Text c="red">{error}</Text>;
-  if (!results || !bootstrap) return <Text>Loading players...</Text>;
+  if (!results) return <Text>Loading players...</Text>;
 
   const virtualRows = rowVirtualizer.getVirtualItems();
   const totalHeight = rowVirtualizer.getTotalSize();
@@ -212,34 +179,18 @@ export function PlayerSearchPanel({
       : 0;
 
   return (
-    <Stack gap="xs">
+    <Stack gap="xs" style={{ flex: 1, minHeight: 0 }}>
       <SegmentedControl
         fullWidth
+        size="xs"
         value={activeTab}
         onChange={setActiveTab}
         data={[
-          { label: "Players", value: "search" },
+          { label: "Player Search", value: "search" },
           { label: "Watchlist", value: "watchlist" },
-          {
-            label: `Waivers${waiverClaims ? ` (${waiverClaims.length})` : ""}`,
-            value: "waivers",
-          },
         ]}
       />
-      {activeTab === "waivers" ? (
-        <>
-          {waiverError && (
-            <Text c="red" size="sm">
-              {waiverError}
-            </Text>
-          )}
-          <WaiverListPanel
-            claims={waiverClaims}
-            onReorder={onReorderWaiverClaim}
-            onRemove={onRemoveWaiverClaim}
-          />
-        </>
-      ) : activeTab === "watchlist" ? (
+      {activeTab === "watchlist" ? (
         <WatchlistPanel
           enrichedPlayersById={enrichedPlayersById}
           teamsById={teamsById}
@@ -252,10 +203,10 @@ export function PlayerSearchPanel({
         />
       ) : (
         <>
-          <PlayerSearchInput onDebouncedChange={handleSearchTextChange} />
           <Group gap="xs" justify="space-around" wrap="nowrap">
+            <PlayerSearchInput onDebouncedChange={handleSearchTextChange} />
             <Switch
-              size="sm"
+              size="xs"
               withThumbIndicator={false}
               labelPosition="left"
               label="Only FAs"
@@ -269,10 +220,10 @@ export function PlayerSearchPanel({
               styles={{ label: { whiteSpace: "nowrap" } }}
             />
             <Switch
-              size="sm"
+              size="xs"
               withThumbIndicator={false}
               labelPosition="left"
-              label="Only Watchlisted"
+              label="Only ☆"
               checked={filters.onlyWatchlisted}
               onChange={(event) =>
                 setFilters((f) => ({
@@ -321,7 +272,8 @@ export function PlayerSearchPanel({
           </Group>
           <ScrollArea
             type="never"
-            h={{ base: "80vh", sm: "420px" }}
+            h={{ base: "80vh", sm: "auto" }}
+            style={{ flex: 1, minHeight: 0 }}
             viewportRef={scrollViewportRef}
           >
             <Table
@@ -345,7 +297,11 @@ export function PlayerSearchPanel({
                   <Table.Th>Player</Table.Th>
                   <Table.Th>Team</Table.Th>
                   <Table.Th>Pos</Table.Th>
-                  <Table.Th ta="center">{SORT_OPTIONS[sortKey].label}</Table.Th>
+                  <Table.Th ta="center">
+                    {SORT_OPTIONS[sortKey].label === "Total Pts"
+                      ? "Total"
+                      : SORT_OPTIONS[sortKey].label}
+                  </Table.Th>
                   <Table.Th></Table.Th>
                 </Table.Tr>
               </Table.Thead>
@@ -378,6 +334,7 @@ export function PlayerSearchPanel({
                           ?.name.slice(0, 3)
                           .toUpperCase()
                       }
+                      isOwn={ownerId === viewingManagerId}
                       team={teamsById.get(player.team)}
                       statValue={SORT_OPTIONS[sortKey].getValue(player)}
                       isFree={isFree}

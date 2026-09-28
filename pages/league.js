@@ -19,6 +19,7 @@ import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { mergeFixturesById } from "../lib/fplData";
 import { WatchlistProvider } from "../contexts/WatchlistContext";
+import { TradeBlockProvider } from "../contexts/TradeBlockContext";
 
 function LeagueDashboard({ leagueId, supabase }) {
   const [viewingPlayer, setViewingPlayer] = useState(null);
@@ -139,9 +140,11 @@ export default function league() {
   return (
     <ManagerProvider>
       <WatchlistProvider>
-        <PlayerDetailProvider>
-          <LeaguePageContent />
-        </PlayerDetailProvider>
+        <TradeBlockProvider>
+          <PlayerDetailProvider>
+            <LeaguePageContent />
+          </PlayerDetailProvider>
+        </TradeBlockProvider>
       </WatchlistProvider>
     </ManagerProvider>
   );

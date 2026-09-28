@@ -182,7 +182,8 @@ export function WatchlistPanel({
   if (entries.length === 0)
     return (
       <Text size="sm" c="dimmed">
-        Add players to your watchlist via detailed player view to see them here.
+        Add players to your watchlist via the ☆ in the detailed player view to
+        see them here.
       </Text>
     );
 

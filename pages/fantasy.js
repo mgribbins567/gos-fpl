@@ -9,13 +9,15 @@ import {
   Modal,
   Alert,
   Group,
+  Card,
+  Tabs,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { ManagerProvider, useManager } from "../contexts/ManagerContext";
 import { PlayerDetailProvider } from "../contexts/PlayerDetailContext";
 import { FantasyAuth } from "../components/Auth/FantasyAuth";
 import { TeamCard } from "../components/Team/TeamCard";
-import { PlayerSearchPanel } from "../components/Team/PlayerSearchPanel";
+import { TradingPanel } from "../components/Team/TradingPanel";
 import { TradeBuilderCard } from "../components/Team/TradeBuilderCard";
 import { TradeApprovalQueue } from "../components/Team/TradeApprovalQueue";
 import { GameweekStatusCard } from "../components/Team/GameweekStatusCard";
@@ -32,6 +34,7 @@ import { useAdminTradeQueue } from "../hooks/useAdminTradeQueue";
 import { useWaiverList } from "../hooks/useWaiverList";
 import { useWaiverClaimBuilder } from "../hooks/useWaiverClaimBuilder";
 import { WatchlistProvider } from "../contexts/WatchlistContext";
+import { TradeBlockProvider } from "../contexts/TradeBlockContext";
 import {
   respondToTradeAsReceiver,
   respondToTradeAsAdmin,
@@ -49,6 +52,7 @@ function FantasyPageContent() {
   const { data: leagueManagersById } = useLeagueManagers(league?.id, supabase);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [tradingTab, setTradingTab] = useState("playerSearch");
 
   const { data: bootstrap } = useBootstrapStatic();
   const context = useMemo(() => {
@@ -185,21 +189,22 @@ function FantasyPageContent() {
           }
         : null;
 
-  const searchPanel = league ? (
-    <>
-      <PlayerSearchPanel
-        leagueId={league.id}
-        viewingManagerId={manager?.id}
-        supabase={supabase}
-        onSign={handleSign}
-        onTrade={handleTrade}
-        signButtonMode={signButtonMode}
-        waiverClaims={waiverList.claims}
-        waiverError={waiverList.error}
-        onReorderWaiverClaim={waiverList.reorder}
-        onRemoveWaiverClaim={waiverList.remove}
-      />
-    </>
+  const tradingPanel = league ? (
+    <TradingPanel
+      leagueId={league.id}
+      viewingManagerId={manager?.id}
+      supabase={supabase}
+      onSign={handleSign}
+      onTrade={handleTrade}
+      signButtonMode={signButtonMode}
+      waiverClaims={waiverList.claims}
+      waiverError={waiverList.error}
+      onReorderWaiverClaim={waiverList.reorder}
+      onRemoveWaiverClaim={waiverList.remove}
+      activeTab={tradingTab}
+      onActiveTabChange={setTradingTab}
+      showTabSwitcher={!isMobile}
+    />
   ) : (
     leagueError && <Text c="red">{leagueError}</Text>
   );
@@ -311,7 +316,9 @@ function FantasyPageContent() {
                   onAddPlayer={handleAddTradePlayer}
                 />
               ) : (
-                searchPanel
+                <Card shadow="sm" padding="sm" radius="md" withBorder h="100%">
+                  {tradingPanel}
+                </Card>
               )}
             </Grid.Col>
           </Grid>
@@ -325,28 +332,59 @@ function FantasyPageContent() {
         />
       </Stack>
 
-      <Drawer
+      <Drawer.Root
         opened={isMobile && searchOpen}
         onClose={() => setSearchOpen(false)}
         position="right"
-        title="Player Search"
         size="90%"
       >
-        {builder.isActive ? (
-          <TradeBuilderCard
-            builder={builder}
-            leagueId={league?.id}
-            supabase={supabase}
-            bootstrap={bootstrap}
-            receivingManagerName={
-              leagueManagersById?.get(builder.receivingManagerId)?.name ?? "..."
-            }
-            onAddPlayer={handleAddTradePlayer}
-          />
-        ) : (
-          searchPanel
-        )}
-      </Drawer>
+        <Drawer.Overlay />
+        <Drawer.Content>
+          <Drawer.Header
+            style={{ flexDirection: "column", alignItems: "stretch", gap: 0 }}
+          >
+            <Group justify="space-between" wrap="nowrap">
+              <Text fw={500} size="sm">
+                {builder.isActive ? "Trade Builder" : ""}
+              </Text>
+              <Drawer.CloseButton />
+            </Group>
+            {!builder.isActive && (
+              <Tabs value={tradingTab} onChange={setTradingTab} size="xs">
+                <Tabs.List
+                  justify="space-between"
+                  style={{ flexWrap: "nowrap", overflowX: "auto" }}
+                  grow
+                >
+                  <Tabs.Tab value="playerSearch">Players</Tabs.Tab>
+                  <Tabs.Tab value="waivers">
+                    Waivers
+                    {waiverList.claims ? ` (${waiverList.claims.length})` : ""}
+                  </Tabs.Tab>
+                  <Tabs.Tab value="tradeBlock">Trade Block</Tabs.Tab>
+                </Tabs.List>
+              </Tabs>
+            )}
+          </Drawer.Header>
+          <Drawer.Body>
+            {builder.isActive ? (
+              <TradeBuilderCard
+                builder={builder}
+                leagueId={league?.id}
+                supabase={supabase}
+                bootstrap={bootstrap}
+                receivingManagerName={
+                  leagueManagersById?.get(builder.receivingManagerId)?.name ??
+                  "..."
+                }
+                onAddPlayer={handleAddTradePlayer}
+              />
+            ) : (
+              tradingPanel
+            )}
+          </Drawer.Body>
+        </Drawer.Content>
+      </Drawer.Root>
 
       <Modal
         opened={signing.isConfirming}
@@ -414,9 +452,11 @@ export default function Fantasy() {
   return (
     <ManagerProvider>
       <WatchlistProvider>
-        <PlayerDetailProvider>
-          <FantasyPageContent />
-        </PlayerDetailProvider>
+        <TradeBlockProvider>
+          <PlayerDetailProvider>
+            <FantasyPageContent />
+          </PlayerDetailProvider>
+        </TradeBlockProvider>
       </WatchlistProvider>
     </ManagerProvider>
   );

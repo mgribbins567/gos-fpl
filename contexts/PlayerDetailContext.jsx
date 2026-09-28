@@ -2,12 +2,14 @@ import { createContext, useContext, useState, useCallback } from "react";
 import { PlayerDetailModal } from "../components/Team/PlayerDetailModal";
 import { useManager } from "./ManagerContext";
 import { useWatchlist } from "./WatchlistContext";
+import { useTradeBlock } from "./TradeBlockContext";
 
 const PlayerDetailContext = createContext(null);
 
 export function PlayerDetailProvider({ children }) {
   const { supabase } = useManager();
   const watchlist = useWatchlist();
+  const tradeBlock = useTradeBlock();
 
   const [viewingPlayer, setViewingPlayer] = useState(null);
   const [modalOptions, setModalOptions] = useState({});
@@ -53,6 +55,11 @@ export function PlayerDetailProvider({ children }) {
           viewingPlayer ? watchlist.isWatchlisted(playerId) : false
         }
         onToggleWatchlist={watchlist.toggle}
+        tradeBlockEntry={
+          viewingPlayer ? tradeBlock.getEntry(playerId) : undefined
+        }
+        onSetTradeBlockWillingness={tradeBlock.setWillingness}
+        onRemoveFromTradeBlock={tradeBlock.removeEntry}
       />
     </PlayerDetailContext.Provider>
   );

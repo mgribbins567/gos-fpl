@@ -102,13 +102,8 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
       return undefined;
     }
     const allEnriched = Array.from(enrichedPlayersById.values());
-    const withoutOwnRoster = excludeOwnRoster(
-      allEnriched,
-      ownershipMap,
-      viewingManagerId,
-    );
     const filteredPlayers = filterPlayers(
-      withoutOwnRoster,
+      allEnriched,
       filters,
       ownershipMap,
       unavailablePlayerIds,
@@ -121,7 +116,6 @@ export function usePlayerSearch(leagueId, viewingManagerId, supabase) {
     enrichedPlayersById,
     ownershipMap,
     unavailablePlayerIds,
-    viewingManagerId,
     filters,
     sortKey,
     watchlistedPlayerIds,

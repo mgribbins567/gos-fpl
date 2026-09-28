@@ -10,7 +10,9 @@ import {
   Paper,
   Divider,
   ActionIcon,
+  SegmentedControl,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import {
   HiOutlineUser,
   HiOutlineBolt,
@@ -19,6 +21,7 @@ import {
 } from "react-icons/hi2";
 import { getShirtUrl, getPlayerPositionName } from "../../lib/fplData";
 import { usePlayerGameweekHistory } from "../../hooks/usePlayerGameweekHistory";
+import { WILLINGNESS_COLOR } from "./TradeBlockPanel";
 
 function buildPlayerModalTitle(player) {
   const name = player.seasonStats
@@ -105,10 +108,45 @@ export function PlayerDetailModal({
   supabase,
   isWatchlisted,
   onToggleWatchlist,
+  tradeBlockEntry,
+  onSetTradeBlockWillingness,
+  onRemoveFromTradeBlock,
 }) {
   const [overviewOverride, setOverviewOverride] = useState(null);
   const showOverview = overviewOverride ?? isOverview;
   const playerId = player?.player_id ?? player?.id;
+  const [tradeBlockModalOpen, setTradeBlockModalOpen] = useState(false);
+  const [selectedWillingness, setSelectedWillingness] = useState("medium");
+  const [tradeBlockSubmitting, setTradeBlockSubmitting] = useState(false);
+
+  function openTradeBlockModal() {
+    setSelectedWillingness(tradeBlockEntry?.willingness ?? "medium");
+    setTradeBlockModalOpen(true);
+  }
+
+  async function handleConfirmTradeBlock() {
+    setTradeBlockSubmitting(true);
+    try {
+      await onSetTradeBlockWillingness(playerId, selectedWillingness);
+      setTradeBlockModalOpen(false);
+    } catch (err) {
+      notifications.show({ color: "red", message: err.message });
+    } finally {
+      setTradeBlockSubmitting(false);
+    }
+  }
+
+  async function handleRemoveFromTradeBlock() {
+    setTradeBlockSubmitting(true);
+    try {
+      await onRemoveFromTradeBlock(playerId);
+      setTradeBlockModalOpen(false);
+    } catch (err) {
+      notifications.show({ color: "red", message: err.message });
+    } finally {
+      setTradeBlockSubmitting(false);
+    }
+  }
 
   const scrollRef = useRef(null);
   const {
@@ -410,17 +448,103 @@ export function PlayerDetailModal({
         ) : (
           <Text size="xs">No details available</Text>
         )}
-        <Group grow>
-          {canEdit && onTradeClick && (
-            <>
-              <Button onClick={() => onMoveClick(player)}>Move / Sub</Button>
-              <Button color="blue.6" onClick={() => onTradeClick(player)}>
-                Trade
-              </Button>
-            </>
+        <Group gap="xs" grow>
+          {canEdit && (
+            <Button
+              size="compact-sm"
+              px={0}
+              onClick={() => onMoveClick(player)}
+              fw={500}
+            >
+              Move / Sub
+            </Button>
+          )}
+          {onTradeClick && (
+            <Button
+              size="compact-sm"
+              px={0}
+              color="blue.6"
+              onClick={() => onTradeClick(player)}
+              fw={500}
+            >
+              Trade
+            </Button>
+          )}
+          {canEdit && onSetTradeBlockWillingness && (
+            <Button
+              size="compact-sm"
+              px={0}
+              tt="capitalize"
+              color={
+                WILLINGNESS_COLOR[tradeBlockEntry?.willingness] ?? "blue.9"
+              }
+              onClick={openTradeBlockModal}
+              fw={500}
+            >
+              {tradeBlockEntry ? tradeBlockEntry.willingness : "Add to Block"}
+            </Button>
           )}
         </Group>
       </Stack>
+
+      <Modal
+        opened={tradeBlockModalOpen}
+        onClose={() => setTradeBlockModalOpen(false)}
+        title={
+          tradeBlockEntry ? "Update Trade Block Listing" : "Add to Trade Block"
+        }
+        centered
+        zIndex={600}
+      >
+        <Stack gap="sm">
+          <Text size="sm">
+            {tradeBlockEntry
+              ? `Update willingness to trade: ${player.web_name ?? player.name}`
+              : `Set willingness to trade: ${player.web_name ?? player.name}`}
+          </Text>
+          <SegmentedControl
+            fullWidth
+            value={selectedWillingness}
+            onChange={setSelectedWillingness}
+            data={[
+              { label: "Low", value: "low" },
+              { label: "Medium", value: "medium" },
+              { label: "High", value: "high" },
+            ]}
+          />
+          <Group grow>
+            <Button
+              size="compact-sm"
+              px={0}
+              variant="default"
+              onClick={() => setTradeBlockModalOpen(false)}
+              disabled={tradeBlockSubmitting}
+            >
+              Cancel
+            </Button>
+            {tradeBlockEntry && (
+              <Button
+                size="compact-sm"
+                px={0}
+                color="red"
+                variant="outline"
+                onClick={handleRemoveFromTradeBlock}
+                loading={tradeBlockSubmitting}
+              >
+                Remove
+              </Button>
+            )}
+            <Button
+              size="compact-sm"
+              px={0}
+              onClick={handleConfirmTradeBlock}
+              loading={tradeBlockSubmitting}
+            >
+              {tradeBlockEntry ? "Update" : "Add"}
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </Modal>
   );
 }
