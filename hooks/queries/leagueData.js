@@ -6,6 +6,7 @@ import {
   getLeagueMatchups,
   getCupMatchups,
   getCupMatchupsByCup,
+  getGroupStageCupMatchupsByCup,
   getCupMatchupsByRound,
   getLeagueMatchupsForSeason,
   getManagersByNames,
@@ -99,6 +100,22 @@ export function useCupMatchupsByCup(supabase, cupName) {
 export const cupMatchupsByCupQuery = defineQuery(
   (supabase, cupName) => ["cupMatchupsByCup", cupName],
   (supabase, cupName) => getCupMatchupsByCup(supabase, cupName),
+  STALE_TIME.STATIC,
+);
+
+export function useGroupStageCupMatchupsByCup(supabase, cupName) {
+  return useSupabaseQuery(
+    ["groupStageCupMatchupsByCup", cupName],
+    () => getGroupStageCupMatchupsByCup(supabase, cupName),
+    {
+      staleTime: STALE_TIME.STATIC,
+    },
+  );
+}
+
+export const groupStageCupMatchupsByCupQuery = defineQuery(
+  (supabase, cupName) => ["groupStageCupMatchupsByCup", cupName],
+  (supabase, cupName) => getGroupStageCupMatchupsByCup(supabase, cupName),
   STALE_TIME.STATIC,
 );
 

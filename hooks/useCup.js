@@ -15,7 +15,7 @@ import {
 } from "../lib/gameweekNavigation";
 import {
   cupGameweekBoundsQuery,
-  cupMatchupsByCupQuery,
+  groupStageCupMatchupsByCupQuery,
   cupMatchupsQuery,
   managersByNamesQuery,
 } from "./queries/leagueData";
@@ -292,12 +292,12 @@ export function useCup(supabase) {
         }
       }
 
-      const seasonMatchups = await cupMatchupsByCupQuery.fetch(
+      const groupStageMatchups = await groupStageCupMatchupsByCupQuery.fetch(
         supabase,
         CUP_NAME,
       );
       return computeStandingsWithRankChange(
-        seasonMatchups,
+        groupStageMatchups,
         standingsGameweekNumber,
         scoreByName,
       );
