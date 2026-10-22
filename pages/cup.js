@@ -39,7 +39,6 @@ function CupDashboard({ supabase }) {
       {currentFixturesError && <Text c="red">{currentFixturesError}</Text>}
       {upcomingFixturesError && <Text c="red">{upcomingFixturesError}</Text>}
       {name && <Title order={5}>{name}</Title>}
-
       {navigator?.displayedGameweekNumber && (
         <GameweekNavigator
           gameweekNumber={navigator.displayedGameweekNumber}
@@ -51,6 +50,7 @@ function CupDashboard({ supabase }) {
         />
       )}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
+      <Title order={6}>Group Stage Standings</Title>
       <StandingsTable standings={standings} format="cup" />
     </>
   );

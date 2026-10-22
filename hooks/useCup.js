@@ -45,7 +45,7 @@ export function useCup(supabase) {
       const { earliest, latest } = await cupGameweekBoundsQuery.fetch(
         supabase,
         season.id,
-        CUP_NAME,
+        cupName,
       );
       if (cancelled) return;
       setSeasonId(season.id);
@@ -233,6 +233,8 @@ export function useCup(supabase) {
     targetGameweekRow,
   ]);
 
+  const cupName = matchupState.data?.cup?.name;
+
   const isLive = context?.mode === "live";
   const upcomingGameweekNumber = isLive
     ? context.event.id
@@ -294,7 +296,7 @@ export function useCup(supabase) {
 
       const groupStageMatchups = await groupStageCupMatchupsByCupQuery.fetch(
         supabase,
-        CUP_NAME,
+        cupName,
       );
       return computeStandingsWithRankChange(
         groupStageMatchups,
@@ -316,7 +318,7 @@ export function useCup(supabase) {
   }, [bootstrap, seasonId, standingsGameweekNumber, isLive, standingsLive]);
 
   return {
-    name: CUP_NAME,
+    name: cupName,
     matchups: matchupState.data,
     standings: standingsState.data,
     navigator: {
