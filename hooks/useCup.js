@@ -29,6 +29,7 @@ export function useCup(supabase) {
   const [seasonId, setSeasonId] = useState(undefined);
   const [earliestGameweek, setEarliestGameweek] = useState(undefined);
   const [latestGameweek, setLatestGameweek] = useState(undefined);
+  const [cupName, setCupName] = useState(undefined);
   const [boundsError, setBoundsError] = useState(null);
 
   const { data: bootstrap, error: bootstrapError } = useBootstrapStatic();
@@ -37,18 +38,39 @@ export function useCup(supabase) {
     [bootstrap],
   );
 
+  const isLive = context?.mode === "live";
+  const upcomingGameweekNumber = isLive
+    ? context.event.id
+    : context?.upcoming?.event.id;
+  const standingsGameweekNumber = isLive
+    ? context.event.id
+    : context?.previousEvent
+      ? context.previousEvent.id
+      : 1;
+
   useEffect(() => {
-    if (!supabase) return;
+    if (!supabase || !upcomingGameweekNumber) return;
     let cancelled = false;
     async function loadBounds() {
       const season = await currentSeasonQuery.fetch(supabase);
+      const activeGameweek = await gameweekByNumberQuery.fetch(
+        supabase,
+        season.id,
+        upcomingGameweekNumber,
+      );
+      const activeMatchups = await cupMatchupsQuery.fetch(
+        supabase,
+        activeGameweek.id,
+      );
+      const name = activeMatchups[0]?.cup_name || "";
       const { earliest, latest } = await cupGameweekBoundsQuery.fetch(
         supabase,
         season.id,
-        cupName,
+        name,
       );
       if (cancelled) return;
       setSeasonId(season.id);
+      setCupName(name);
       setEarliestGameweek(earliest);
       setLatestGameweek(latest);
     }
@@ -56,7 +78,7 @@ export function useCup(supabase) {
     return () => {
       cancelled = true;
     };
-  }, [supabase]);
+  }, [supabase, upcomingGameweekNumber]);
 
   const forwardStates = useMemo(() => getForwardStates(context), [context]);
   const { displayedGameweekNumber, kind, canGoBack, canGoForward } =
@@ -145,7 +167,7 @@ export function useCup(supabase) {
 
       let matchupSummaries = [];
       let provisional = false;
-
+      let cup = matchups[0];
       if (matchups.length > 0) {
         if (kind === "historical" && gameweekRow.data_checked) {
           matchupSummaries = matchups.map((m) => toLeagueMatchupSummary(m));
@@ -209,6 +231,7 @@ export function useCup(supabase) {
         kind,
         provisional,
         matchupSummaries,
+        cup,
       };
     }
 
@@ -233,17 +256,6 @@ export function useCup(supabase) {
     targetGameweekRow,
   ]);
 
-  const cupName = matchupState.data?.cup?.name;
-
-  const isLive = context?.mode === "live";
-  const upcomingGameweekNumber = isLive
-    ? context.event.id
-    : context?.upcoming?.event.id;
-  const standingsGameweekNumber = isLive
-    ? context.event.id
-    : context?.previousEvent
-      ? context.previousEvent.id
-      : 1;
   const { data: standingsLive, error: standingsLiveError } = useLiveEvent(
     standingsGameweekNumber,
     { poll: isLive },
@@ -255,7 +267,7 @@ export function useCup(supabase) {
   });
 
   useEffect(() => {
-    if (!bootstrap || !seasonId || !standingsGameweekNumber) return;
+    if (!bootstrap || !seasonId || !standingsGameweekNumber || !cupName) return;
     if (isLive && !standingsLive) return;
 
     let cancelled = false;
@@ -315,10 +327,17 @@ export function useCup(supabase) {
     return () => {
       cancelled = true;
     };
-  }, [bootstrap, seasonId, standingsGameweekNumber, isLive, standingsLive]);
+  }, [
+    bootstrap,
+    seasonId,
+    standingsGameweekNumber,
+    isLive,
+    standingsLive,
+    cupName,
+  ]);
 
   return {
-    name: cupName,
+    cup: matchupState.data?.cup,
     matchups: matchupState.data,
     standings: standingsState.data,
     navigator: {

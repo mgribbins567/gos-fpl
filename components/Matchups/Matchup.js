@@ -312,7 +312,8 @@ export function Matchup({
                 fw={800}
                 size="lg"
                 c="white"
-                w={45}
+                w={38}
+                p="xs"
                 variant="filled"
                 radius="sm"
               >
@@ -323,7 +324,8 @@ export function Matchup({
                 fw={800}
                 size="lg"
                 c="white"
-                w={45}
+                w={38}
+                p="xs"
                 variant="filled"
                 radius="sm"
               >

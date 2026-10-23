@@ -17,7 +17,7 @@ import {
 import { mergeFixturesById } from "../lib/fplData";
 
 function CupDashboard({ supabase }) {
-  const { name, matchups, standings, navigator, error } = useCup(supabase);
+  const { cup, matchups, standings, navigator, error } = useCup(supabase);
   const { data: currentFixtures, error: currentFixturesError } =
     useFixturesWithTeams(navigator?.displayedGameweekNumber);
   const { data: upcomingFixtures, error: upcomingFixturesError } =
@@ -38,7 +38,7 @@ function CupDashboard({ supabase }) {
       {gameweekTeamsError && <Text c="red">{gameweekTeamsError}</Text>}
       {currentFixturesError && <Text c="red">{currentFixturesError}</Text>}
       {upcomingFixturesError && <Text c="red">{upcomingFixturesError}</Text>}
-      {name && <Title order={5}>{name}</Title>}
+      {cup?.cup_name && <Title order={5}>{cup.cup_name}</Title>}
       {navigator?.displayedGameweekNumber && (
         <GameweekNavigator
           gameweekNumber={navigator.displayedGameweekNumber}
@@ -49,6 +49,7 @@ function CupDashboard({ supabase }) {
           onForward={navigator.goForward}
         />
       )}
+      {cup?.round_label && <Title order={6}>{cup.round_label}</Title>}
       <MatchupViewer matchups={matchups} standings={standings} teams={teams} />
       <Title order={6}>Group Stage Standings</Title>
       <StandingsTable standings={standings} format="cup" />
