@@ -258,12 +258,12 @@ export function PlayerDetailModal({
                     </Text>
                     <Text fz="md">
                       {fixture.isHome
-                        ? fixture.teamScore ||
-                          "0" + " - " + fixture.opponentScore ||
-                          "0"
-                        : fixture.opponentScore ||
-                          "0" + " - " + fixture.teamScore ||
-                          "0"}
+                        ? (fixture.teamScore || "0") +
+                          " - " +
+                          (fixture.opponentScore || "0")
+                        : (fixture.opponentScore || "0") +
+                          " - " +
+                          (fixture.teamScore || "0")}
                     </Text>
                     <Text fz="md" fw={fixture.isHome ? 500 : 700}>
                       {fixture.isHome
