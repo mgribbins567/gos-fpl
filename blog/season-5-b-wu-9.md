@@ -131,7 +131,7 @@ And these results have set up what should be some great quarterfinal matchups, l
 - Gavin vs Tori
 
 <p class="center-bold">League of Champions - Knockout Stage Matchups</p>
-<img src="/images/season-5/season-5-b-wu/9/knockout-stage-matchups.png" width="600vh" height="auto">
+<img src="/images/season-5/season-5-a-wu/9/knockout-stage-matchups.png" width="600vh" height="auto">
 <br/>
 
 ---
