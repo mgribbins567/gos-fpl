@@ -309,7 +309,7 @@ export function Matchup({
           {hasScores && (
             <>
               <Badge
-                fw={800}
+                fw={700}
                 size="lg"
                 c="white"
                 w={38}
@@ -321,7 +321,7 @@ export function Matchup({
               </Badge>
               <Text fw={500}>-</Text>
               <Badge
-                fw={800}
+                fw={700}
                 size="lg"
                 c="white"
                 w={38}
